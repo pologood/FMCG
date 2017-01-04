@@ -1,0 +1,246 @@
+/*
+ * Copyright 2005-2013 rsico. All rights reserved.
+ * Support: http://www.rsico.cn
+ * License: http://www.rsico.cn/license
+ */
+package net.wit.controller.pos;
+
+import java.util.List;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import net.wit.Message;
+import net.wit.controller.app.BaseController;
+import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.app.model.ProductCategoryTenantModel;
+import net.wit.entity.Member;
+import net.wit.entity.Product;
+import net.wit.entity.ProductCategoryTenant;
+import net.wit.entity.Tenant;
+import net.wit.entity.Tag.Type;
+import net.wit.service.MemberService;
+import net.wit.service.ProductCategoryTenantService;
+import net.wit.service.ProductService;
+import net.wit.service.TagService;
+import net.wit.service.TenantService;
+
+/**
+ * Controller - 商品分类
+ * @author rsico Team
+ * @version 3.0
+ */
+@Controller("posProductCategoryTenantController")
+@RequestMapping("/pos/product_category_tenant")
+public class ProductCategoryTenantController extends BaseController {
+
+	@Resource(name = "productCategoryTenantServiceImpl")
+	private ProductCategoryTenantService productCategoryTenantService;
+
+	@Resource(name = "tenantServiceImpl")
+	private TenantService tenantService;
+
+	@Resource(name = "productServiceImpl")
+	private ProductService productService;
+
+	@Resource(name = "tagServiceImpl")
+	private TagService tagService;
+
+	@Resource(name = "memberServiceImpl")
+	private MemberService memberService;
+
+	/**
+	 * 获取根结点
+	 */
+	@RequestMapping(value = "/roots", method = RequestMethod.GET)
+	@ResponseBody
+	public DataBlock roots(Long tenantId,String key) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		List<ProductCategoryTenant> productCategories;
+		productCategories = productCategoryTenantService.findRoots(tenant);
+		return DataBlock.success(ProductCategoryTenantModel.bindData(productCategories),"success");
+	}
+
+	/**
+	 * 获取子结点
+	 */
+	@RequestMapping(value = "/childrens", method = RequestMethod.GET)
+	@ResponseBody
+	public DataBlock childrens(Long tenantId,String key,Long id) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+id.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		ProductCategoryTenant productCategoryTenant = productCategoryTenantService.find(id);
+		if (productCategoryTenant == null) {
+			return DataBlock.error("传入的上级结点ID无效");
+		}
+		List<ProductCategoryTenant> childrens = productCategoryTenantService.findChildren(productCategoryTenant,tenant);
+		return DataBlock.success(ProductCategoryTenantModel.bindData(childrens),"success");
+	}
+
+	/**
+	 * 返回父结点
+	 */
+	@RequestMapping(value = "/parents", method = RequestMethod.GET)
+	@ResponseBody
+	public DataBlock parents(Long tenantId,String key,Long id) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+id.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		ProductCategoryTenant productCategoryTenant = productCategoryTenantService.find(id);
+		if (productCategoryTenant == null) {
+			return DataBlock.error("传入的上级结点ID无效");
+		}
+		List<ProductCategoryTenant> parents = productCategoryTenantService.findParents(productCategoryTenant,tenant);
+		return DataBlock.success(ProductCategoryTenantModel.bindData(parents),"success");
+	}
+
+	/**
+	 * 保存
+	 */
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@ResponseBody
+	public DataBlock save(Long tenantId,String key,ProductCategoryTenant productCategoryTenant, Long parentId,Long[] tagIds, Long[] brandIds, RedirectAttributes redirectAttributes) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		productCategoryTenant.setParent(productCategoryTenantService.find(parentId));
+		if (!isValid(productCategoryTenant)) {
+			return DataBlock.error("无效参数");
+		}
+		productCategoryTenant.setTreePath(null);
+		productCategoryTenant.setGrade(null);
+		productCategoryTenant.setChildren(null);
+		productCategoryTenant.setProducts(null);
+		productCategoryTenant.setTenant(tenant);
+		productCategoryTenantService.save(productCategoryTenant);
+		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
+		return DataBlock.success("success","保存成功");
+	}
+
+	/**
+	 * 更新
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public DataBlock update(Long tenantId,String key,ProductCategoryTenant productCategoryTenant, Long parentId, Long[] tagIds, Long[] brandIds, RedirectAttributes redirectAttributes) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		productCategoryTenant.setParent(productCategoryTenantService.find(parentId));
+		if (!isValid(productCategoryTenant)) {
+			return DataBlock.error("无效参数");
+		}
+		if (productCategoryTenant.getParent() != null) {
+			ProductCategoryTenant parent = productCategoryTenant.getParent();
+			if (parent.equals(productCategoryTenant)) {
+				return DataBlock.error("无效参数");
+			}
+			List<ProductCategoryTenant> children = productCategoryTenantService.findChildren(parent,tenant);
+			if (children != null && children.contains(parent)) {
+				return DataBlock.error("无效参数");
+			}
+		}
+		productCategoryTenantService.update(productCategoryTenant, "treePath", "grade", "children", "products", "parameterGroups", "attributes", "promotions","tenant");
+		addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
+		return DataBlock.success("success","保存成功");
+	}
+
+	/**
+	 * 删除
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public @ResponseBody
+	DataBlock delete(Long tenantId,String key,Long[] ids) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		List<ProductCategoryTenant> productCategories = productCategoryTenantService.findList(ids);
+		for (ProductCategoryTenant productCategoryTenant:productCategories) {
+		   if (productCategoryTenant == null) {
+			  return DataBlock.error("无效id");
+		   }
+		   Set<ProductCategoryTenant> children = productCategoryTenant.getChildren();
+		   if (children != null && !children.isEmpty()) {
+			  return DataBlock.error("有下级分类不能删除");
+		   }
+		   Set<Product> products = productCategoryTenant.getProducts();
+		   if (products != null && !products.isEmpty()) {
+			  return DataBlock.error("有商品的分类不能删除");
+		   }
+		   productCategoryTenantService.delete(productCategoryTenant);
+		}
+		return DataBlock.success("success","删除成功");
+	}
+	/**
+	 * 分类移动
+	 */
+	@RequestMapping(value = "/move", method = RequestMethod.POST)
+	public @ResponseBody
+	DataBlock move(Long tenantId,String key,Long[] ids,Long id) {
+        Tenant tenant = tenantService.find(tenantId);
+        if (tenant==null) {
+        	return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+		ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
+		String myKey = DigestUtils.md5Hex(tenantId.toString()+bundle.getString("appKey"));
+		if (!myKey.equals(key)) {
+			return DataBlock.error("通讯密码无效");
+		}
+		List<Product> products = productService.findList(ids);
+		ProductCategoryTenant productCategoryTenant = productCategoryTenantService.find(id);
+		for (Product product:products) {
+		   product.setProductCategoryTenant(productCategoryTenant);
+		   productService.update(product);
+		}
+		return DataBlock.success("success","更新成功");
+	}
+}

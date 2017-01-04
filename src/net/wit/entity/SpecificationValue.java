@@ -1,0 +1,124 @@
+/*
+ * Copyright 2005-2013 rsico. All rights reserved.
+ * Support: http://www.rsico.cn
+ * License: http://www.rsico.cn/license
+ */
+package net.wit.entity;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
+
+/**
+ * Entity - 规格值
+ * @author rsico Team
+ * @version 3.0
+ */
+@Entity
+@Table(name = "xx_specification_value")
+@SequenceGenerator(name = "sequenceGenerator", sequenceName = "xx_specification_val_sequence")
+public class SpecificationValue extends OrderEntity {
+
+	private static final long serialVersionUID = -8624741017444123488L;
+
+	/** 名称 */
+	@Expose
+	@JsonProperty
+	@NotEmpty
+	@Length(max = 200)
+	@Column(nullable = false)
+	private String name;
+
+	/** 图片 */
+	@Length(max = 200)
+	private String image;
+
+	/** 规格 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
+	private Specification specification;
+
+	/** 商品 */
+	@ManyToMany(mappedBy = "specificationValues", fetch = FetchType.LAZY)
+	private Set<Product> products = new HashSet<Product>();
+
+	// ===========================================getter/setter===========================================//
+	/**
+	 * 获取名称
+	 * @return 名称
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * 设置名称
+	 * @param name 名称
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * 获取图片
+	 * @return 图片
+	 */
+	public String getImage() {
+		return image;
+	}
+
+	/**
+	 * 设置图片
+	 * @param image 图片
+	 */
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	/**
+	 * 获取规格
+	 * @return 规格
+	 */
+	public Specification getSpecification() {
+		return specification;
+	}
+
+	/**
+	 * 设置规格
+	 * @param specification 规格
+	 */
+	public void setSpecification(Specification specification) {
+		this.specification = specification;
+	}
+
+	/**
+	 * 获取商品
+	 * @return 商品
+	 */
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	/**
+	 * 设置商品
+	 * @param products 商品
+	 */
+	public void setProducts(Set<Product> products) {
+		this.products = products;
+	}
+
+}
