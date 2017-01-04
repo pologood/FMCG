@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
+	default-lazy-init="true">
+
+	<context:property-placeholder location="classpath*:/wit.properties"
+		ignore-resource-not-found="true" ignore-unresolvable="true" />
+	<context:component-scan base-package="net.wit"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<mvc:annotation-driven validator="validator" />
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="openSessionInViewInterceptor"
+				class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+				<property name="entityManagerFactory" ref="entityManagerFactory" />
+			</bean>
+		</mvc:interceptor>
+
+
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/wap/payment/**" />
+			<mvc:exclude-mapping path="/box/payment/**" />
+			<mvc:exclude-mapping path="/b2b/payment/**" />
+			<mvc:exclude-mapping path="/b2c/payment/**" />
+			<mvc:exclude-mapping path="/mobile/payment/**" />
+			<mvc:exclude-mapping path="/weixin/payment/**" />
+			<bean id="tokenInterceptor" class="net.wit.interceptor.TokenInterceptor" />
+		</mvc:interceptor>
+
+		<!-- 设置单点登陆拦截路径 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/b2b/member/**" />
+			<mvc:mapping path="/b2b/{tid}/member/**" />
+			<bean id="b2bInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
+				<property name="loginUrl" value="/b2b/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+        <!--20161111为b2b商场登录的店铺类型必须为零售商，才可以下单购物，否则清除session的member-->
+		<mvc:interceptor>
+			<mvc:mapping path="/b2b/**" />
+			<mvc:exclude-mapping path="/b2b/member/supplier/**" />
+			<bean id="b2bMebmerInterceptor" class="net.wit.interceptor.B2bMebmerInterceptor">
+				<property name="loginUrl" value="/b2b/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/helper/member/**" />-->
+			<!--<bean id="helperInterceptor" class="net.wit.interceptor.UCTokenInterceptor">-->
+				<!--<property name="loginUrl" value="/helper/login.jhtml" />-->
+			<!--</bean>-->
+		<!--</mvc:interceptor>-->
+		<mvc:interceptor>
+			<mvc:mapping path="/store/member/**" />
+			<bean id="helperInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
+				<property name="loginUrl" value="/store/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/b2c/member/**" />
+			<mvc:exclude-mapping path="/b2c/member/supplier/**" />
+			<bean id="b2cInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
+				<property name="loginUrl" value="/b2c/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/b2c/member/supplier/**" />
+			<bean id="b2cSupplierInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
+				<property name="loginUrl" value="/b2c/supplier/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/app/member/**" />
+			<bean id="appMemberInterceptor" class="net.wit.interceptor.MemberInterceptor">
+				<property name="loginUrl" value="/app/common/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/assistant/member/**" />
+			<bean id="assistantMemberInterceptor" class="net.wit.interceptor.MemberInterceptor">
+				<property name="loginUrl" value="/assistant/common/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/app/member/**" />-->
+			<!--<bean id="memberInterceptor2" class="net.wit.interceptor.UCAuthorityInterceptor">-->
+			<!--</bean>-->
+		<!--</mvc:interceptor>-->
+
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/mobile/member/**" />
+			<mvc:mapping path="/mobile/favorite/**" />
+			<mvc:mapping path="/ajax/member/**" />
+			<mvc:mapping path="/mobile/payment/submit.jhtml" />
+			<bean id="mobileInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
+				<property name="loginUrl" value="/mobile/login.jhtml" />
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/weixin/**" />
+			<mvc:exclude-mapping path="/weixin/common/**" />
+			<mvc:exclude-mapping path="/weixin/core.jhtml " />
+			<bean id="WeiXinOpenIdInterceptor" class="net.wit.interceptor.WeiXinOpenIdInterceptor" />
+		</mvc:interceptor>
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/weixin/member/**" />-->
+			<!--<mvc:exclude-mapping path="/weixin/bound/index.jhtml" />-->
+			<!--<bean id="WeiXinMemberInterceptor" class="net.wit.interceptor.WeiXinMemberInterceptor" />-->
+		<!--</mvc:interceptor>-->
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/wap/**" />
+			<mvc:exclude-mapping path="/wap/common/**" />
+			<mvc:exclude-mapping path="/wap/core.jhtml " />
+			<mvc:exclude-mapping path="/wap/payment/**" />
+			<bean id="wapOpenIdInterceptor"  class="net.wit.interceptor.WeiXinOpenIdInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/wap/member/**" />
+			<mvc:exclude-mapping path="/wap/bound/index.jhtml" />
+			<mvc:exclude-mapping path="/wap/member/html/**" />
+			<bean id="WapMemberInterceptor" class="net.wit.interceptor.WapMemberInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean id="webContentInterceptor"
+				class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<property name="cacheSeconds" value="0" />
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean id="listInterceptor" class="net.wit.interceptor.ListInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean id="logInterceptor" class="net.wit.interceptor.LogInterceptor" />
+		</mvc:interceptor>
+
+	</mvc:interceptors>
+
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="suffix" value="${template.suffix}" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="requestContextAttribute" value="rc" />
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="exceptionResolver"
+		class="net.wit.interceptor.ExceptionInterceptor">
+		<property name="defaultErrorView" value="common/error" />
+	</bean>
+
+</beans>
