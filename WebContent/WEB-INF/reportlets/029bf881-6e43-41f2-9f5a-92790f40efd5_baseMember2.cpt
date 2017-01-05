@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<WorkBook>
+<Version>6.2</Version>
+<Report class="com.fr.report.WorkSheet" name="sheet1">
+<TableDataMap>
+<NameTableData name="ds1">
+<TableData class="com.fr.data.impl.DBTableData">
+<Parameters>
+</Parameters>
+<Attributes isCache="true" isDiskCache="true" />
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName><![CDATA[shopxx]]></DatabaseName>
+</Connection><Query><![CDATA[SELECT * FROM `shopxx`.`v_deposit_stat`]]></Query>
+</TableData>
+</NameTableData>
+<NameTableData name="type">
+<TableData class="com.fr.data.impl.DBTableData">
+<Parameters>
+</Parameters>
+<Attributes isCache="true" isDiskCache="true" />
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName><![CDATA[shopxx]]></DatabaseName>
+</Connection><Query><![CDATA[SELECT d.Moneytype as money,d.Moneytype as type FROM `shopxx`.`v_deposit_stat` d GROUP BY d.Moneytype]]></Query>
+</TableData>
+</NameTableData>
+</TableDataMap>
+<ReportSettings shrinkToFit="true" isHorizontalCenterOnPage="true" headerHeight="0.0" footerHeight="0.0">
+<PaperSize width="17.866574803149607" height="20.003188976377956" />
+<Margin top="0.11251968503937008" left="0.35629921259842523" bottom="0.11251968503937008" right="0.35629921259842523" />
+</ReportSettings>
+<ReportPageAttr>
+<HR F="0" T="3" /></ReportPageAttr>
+<ReportParameterAttr>
+<Parameters>
+<Parameter>
+<Attributes name="start"
+ displayName="开始时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="end"
+ displayName="结束时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="username"
+ displayName="用户名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="name"
+ displayName="用户姓名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="tenant"
+ displayName="店家"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="type"
+ displayName="付款类型"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.ComboBoxCellEditorDef"><Attributes allowBlank="true" />
+<Dict class="com.fr.data.impl.TableDataDictionary">
+<TableDataDictAttr keyColumnIndex="1" valueColumnIndex="2">
+<TableData class="com.fr.data.impl.NameTableData">
+<Name><![CDATA[type]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dict></CellEditorDef>
+</Parameter>
+<Parameter>
+<Attributes name="sn"
+ displayName="订单号"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+</Parameters>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" userDefineWindow="true" />
+<PWTitle><![CDATA[参数]]></PWTitle>
+<WorkSheet>
+<ReportSettings shrinkToFit="false" headerHeight="0.0" footerHeight="0.0">
+<Margin top="0.27" left="0.75" bottom="0.27" right="0.75" />
+</ReportSettings>
+<ReportParameterAttr>
+<Parameters>
+</Parameters>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="0" userDefineWindow="false" />
+<PWTitle><![CDATA[参数]]></PWTitle>
+</ReportParameterAttr>
+<AutoRecalculate>false</AutoRecalculate>
+<DesignAttributes>
+</DesignAttributes>
+<ReportWebAttr>
+<EmailManager mailHost="" password="___" user="" fromEmailAddress="" />
+<ServerPrinter>
+</ServerPrinter>
+</ReportWebAttr>
+<ReportWriteAttr>
+</ReportWriteAttr>
+<Header reportPageType="0">
+<Background name="NullBackground" />
+<LeftList>
+</LeftList>
+<CenterList>
+</CenterList>
+<RightList>
+</RightList>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground" />
+<LeftList>
+</LeftList>
+<CenterList>
+</CenterList>
+<RightList>
+</RightList>
+</Footer>
+<RowHeight defaultValue="19">
+<![CDATA[22,22]]>
+</RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[72,119,109,72,109,79,109,72,107,30]]>
+</ColumnWidth>
+<CellElementList>
+<C c="1" r="0" s="0"><O t="S"><![CDATA[出账日期（开始）：]]></O>
+</C>
+<C c="2" r="0"><O t="Parameter"><Attributes name="start"
+ displayName="开始时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</O>
+</C>
+<C c="3" r="0" s="0"><O t="S"><![CDATA[用户名：]]></O>
+</C>
+<C c="4" r="0"><O t="Parameter"><Attributes name="username"
+ displayName="用户名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</O>
+</C>
+<C c="5" r="0" s="0"><O t="S"><![CDATA[用户姓名：]]></O>
+</C>
+<C c="6" r="0"><O t="Parameter"><Attributes name="name"
+ displayName="用户姓名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</O>
+</C>
+<C c="7" r="0" s="0"><O t="S"><![CDATA[店铺名称：]]></O>
+</C>
+<C c="8" r="0"><O t="Parameter"><Attributes name="tenant"
+ displayName="店家"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</O>
+</C>
+<C c="10" r="0" rs="2" s="0"><O t="PB" >
+<ParameterButton name="查询" type="0" />
+</O>
+</C>
+<C c="1" r="1" s="0"><O t="S"><![CDATA[出账日期（结束）：]]></O>
+</C>
+<C c="2" r="1"><O t="Parameter"><Attributes name="end"
+ displayName="结束时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</O>
+</C>
+<C c="3" r="1" s="0"><O t="S"><![CDATA[订单号：]]></O>
+</C>
+<C c="4" r="1"><O t="Parameter"><Attributes name="sn"
+ displayName="订单号"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</O>
+</C>
+<C c="5" r="1" s="0"><O t="S"><![CDATA[付款类型：]]></O>
+</C>
+<C c="6" r="1"><O t="Parameter"><Attributes name="type"
+ displayName="付款类型"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.ComboBoxCellEditorDef"><Attributes allowBlank="true" />
+<Dict class="com.fr.data.impl.TableDataDictionary">
+<TableDataDictAttr keyColumnIndex="1" valueColumnIndex="2">
+<TableData class="com.fr.data.impl.NameTableData">
+<Name><![CDATA[type]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dict></CellEditorDef>
+</O>
+</C>
+</CellElementList>
+</WorkSheet>
+<PP class="com.fr.report.parameter.CustomParameterProcessor">
+<UnitProcessorMap>
+<ParameterUnitProcessor parameter="sn">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($sn=='',nofilter,$sn)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="username">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($username=='',NOFILTER,$username)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="tenant">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($tenant=='',nofilter,$tenant)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="start">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($start=='',nofilter,$start)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="name">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($name=='',nofilter,$name)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="type">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($type=='',NOFILTER,$type)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+<ParameterUnitProcessor parameter="end">
+<UP class="com.fr.report.parameter.UnitProcessor.FormulaUnitProcessor">
+<Formula><Attributes><![CDATA[=if($end=='',nofilter,$end+1)]]></Attributes></Formula></UP>
+</ParameterUnitProcessor>
+</UnitProcessorMap>
+</PP>
+</ReportParameterAttr>
+<AutoRecalculate>false</AutoRecalculate>
+<DesignAttributes>
+</DesignAttributes>
+<ReportWebAttr>
+<EmailManager mailHost="" password="___" user="" fromEmailAddress="" />
+<ServerPrinter>
+</ServerPrinter>
+</ReportWebAttr>
+<ReportWriteAttr>
+</ReportWriteAttr>
+<RowHeight defaultValue="19">
+<![CDATA[19,19,19,34,27,27]]>
+</RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[66,109,90,94,80,147,146,72,89,86,84,238,115,127]]>
+</ColumnWidth>
+<CellElementList>
+<C c="0" r="0" s="0"><O t="S"><![CDATA[总共：]]></O>
+</C>
+<C c="1" r="0"><O t="Formula" class="Formula" ><Attributes><![CDATA[=count(B5)+"条数据"]]></Attributes></O>
+</C>
+<C c="0" r="1" cs="14" rs="2" s="1"><O t="S"><![CDATA[用户出账记录表]]></O>
+</C>
+<C c="14" r="1"></C>
+<C c="0" r="3" s="2"><O t="S"><![CDATA[序号]]></O>
+</C>
+<C c="1" r="3" s="2"><O t="S"><![CDATA[用户名]]></O>
+</C>
+<C c="2" r="3" s="2"><O t="S"><![CDATA[用户姓名]]></O>
+</C>
+<C c="3" r="3" s="2"><O t="S"><![CDATA[当前余额]]></O>
+</C>
+<C c="4" r="3" s="2"><O t="S"><![CDATA[冻结余额]]></O>
+</C>
+<C c="5" r="3" s="2"><O t="S"><![CDATA[店铺名称]]></O>
+</C>
+<C c="6" r="3" s="2"><O t="S"><![CDATA[出账日期]]></O>
+</C>
+<C c="7" r="3" s="2"><O t="S"><![CDATA[付款类型]]></O>
+</C>
+<C c="8" r="3" s="2"><O t="S"><![CDATA[记录余额]]></O>
+</C>
+<C c="9" r="3" s="2"><O t="S"><![CDATA[收入金额]]></O>
+</C>
+<C c="10" r="3" s="2"><O t="S"><![CDATA[支出金额]]></O>
+</C>
+<C c="11" r="3" s="2"><O t="S"><![CDATA[备注]]></O>
+</C>
+<C c="12" r="3" s="2"><O t="S"><![CDATA[订单号]]></O>
+</C>
+<C c="13" r="3" s="2"><O t="S"><![CDATA[卖家店铺]]></O>
+</C>
+<C c="0" r="4" s="3"><O t="Formula" class="Formula" ><Attributes><![CDATA[=&B5]]></Attributes></O>
+<Expand leftParentDefault="false" left="B5" />
+</C>
+<C c="1" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="memberusername" />
+<Condition class="com.fr.data.condition.ListCondition"><JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[paydate]]></CNAME><Compare op="3">
+<Parameter>
+<Attributes name="start"
+ displayName="开始时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[paydate]]></CNAME><Compare op="5">
+<Parameter>
+<Attributes name="end"
+ displayName="结束时间"
+ type="5"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.DateCellEditorDef"><Attributes allowBlank="true" />
+<Attribute format="yyyy-MM-dd" />
+</CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[memberusername]]></CNAME><Compare op="10">
+<Parameter>
+<Attributes name="username"
+ displayName="用户名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[membername]]></CNAME><Compare op="10">
+<Parameter>
+<Attributes name="name"
+ displayName="用户姓名"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[tenantname]]></CNAME><Compare op="10">
+<Parameter>
+<Attributes name="tenant"
+ displayName="店家"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[Moneytype]]></CNAME><Compare op="0">
+<Parameter>
+<Attributes name="type"
+ displayName="付款类型"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.ComboBoxCellEditorDef"><Attributes allowBlank="true" />
+<Dict class="com.fr.data.impl.TableDataDictionary">
+<TableDataDictAttr keyColumnIndex="1" valueColumnIndex="2">
+<TableData class="com.fr.data.impl.NameTableData">
+<Name><![CDATA[type]]></Name>
+</TableData>
+</TableDataDictAttr>
+</Dict></CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+<JoinCondition join="0">
+<Condition class="com.fr.data.condition.CommonCondition"><CNAME><![CDATA[sn]]></CNAME><Compare op="10">
+<Parameter>
+<Attributes name="sn"
+ displayName="订单号"
+ type="0"
+ shown="true" />
+<O t="S"><![CDATA[]]></O>
+<CellEditorDef class="com.fr.report.cellElement.TextCellEditorDef"><Attributes allowBlank="true" />
+<Attr multiLine="false" /></CellEditorDef>
+</Parameter>
+</Compare>
+</Condition>
+</JoinCondition>
+</Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" leftParentDefault="false" />
+</C>
+<C c="2" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="membername" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="3" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="memberbalance" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.SummaryGrouper"><FN><![CDATA[com.fr.data.util.function.SumFunction]]></FN></RG><Result><![CDATA[$$$]]></Result></O>
+</C>
+<C c="4" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="memberfreezebalance" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.SummaryGrouper"><FN><![CDATA[com.fr.data.util.function.SumFunction]]></FN></RG><Result><![CDATA[$$$]]></Result></O>
+</C>
+<C c="5" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="tenantname" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<CellGUIAttr autoAdjustRowHeight="1" ></CellGUIAttr><Expand dir="0" />
+</C>
+<C c="6" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="paydate" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="7" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="Moneytype" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="8" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="Accountbalance" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.SummaryGrouper"><FN><![CDATA[com.fr.data.util.function.SumFunction]]></FN></RG><Result><![CDATA[$$$]]></Result></O>
+</C>
+<C c="9" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="Accountcredit" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.SummaryGrouper"><FN><![CDATA[com.fr.data.util.function.SumFunction]]></FN></RG><Result><![CDATA[$$$]]></Result></O>
+</C>
+<C c="10" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="Accountdebit" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.SummaryGrouper"><FN><![CDATA[com.fr.data.util.function.SumFunction]]></FN></RG><Result><![CDATA[$$$]]></Result></O>
+</C>
+<C c="11" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="memo" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="12" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="sn" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="13" r="4" s="3"><O t="DSColumn"><Attributes dsName="ds1" columnName="selltenant" />
+<Condition class="com.fr.data.condition.ListCondition"></Condition>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper"><Attr divideMode="1" /></RG><Result><![CDATA[$$$]]></Result></O>
+<Expand dir="0" />
+</C>
+<C c="14" r="4" s="4"></C>
+<C c="0" r="5" s="5"></C>
+<C c="1" r="5" s="5"></C>
+<C c="2" r="5" s="5"></C>
+<C c="3" r="5" s="5"><O t="Formula" class="Formula" ><Attributes><![CDATA[=sum(D5)]]></Attributes></O>
+</C>
+<C c="4" r="5" s="5"><O t="Formula" class="Formula" ><Attributes><![CDATA[=sum(E5)]]></Attributes></O>
+</C>
+<C c="5" r="5" s="5"></C>
+<C c="6" r="5" s="5"></C>
+<C c="7" r="5" s="5"></C>
+<C c="8" r="5" s="5"><O t="Formula" class="Formula" ><Attributes><![CDATA[=sum(I5)]]></Attributes></O>
+</C>
+<C c="9" r="5" s="5"><O t="Formula" class="Formula" ><Attributes><![CDATA[=sum(J5)]]></Attributes></O>
+</C>
+<C c="10" r="5" s="5"><O t="Formula" class="Formula" ><Attributes><![CDATA[=sum(K5)]]></Attributes></O>
+</C>
+<C c="11" r="5" s="5"></C>
+<C c="12" r="5" s="5"></C>
+<C c="13" r="5" s="5"></C>
+<C c="14" r="5" s="6"></C>
+</CellElementList>
+</Report>
+<StyleList>
+<Style horizontal_alignment="4">
+<FRFont name="SimSun" style="0" size="12" />
+<Background name="NullBackground" />
+<Border></Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="1" size="14" />
+<Background name="ImageBackground"
+ specifiedImageWidth="-1.0"
+ specifiedImageHeight="-1.0"
+ layout="2">
+<Image width="71" height="19">
+<![CDATA[mDI<Y5VN1mdJ&,P-?8-6=KC,V;5E.Wrd,I=WKXOVAs+Eh3p[AGQO?6ODMhpd.1Z?MfXXDT[?
+72gJRUL='^IbU1eXXsfSuVL4iIp
+~
+
+]]>
+</Image>
+</Background>
+<Border><Top style="1" color="-3876137"
+ /><Bottom style="1" color="-3876137"
+ /><Left style="1" color="-3876137"
+ /><Right style="1" color="-3876137"
+ /></Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="1" size="13" />
+<Background name="ImageBackground"
+ specifiedImageWidth="-1.0"
+ specifiedImageHeight="-1.0"
+ layout="2">
+<Image width="71" height="19">
+<![CDATA[mDI<Y5VN1mdJ&,P-?8-6=KC,V;5E.Wrd,I=WKXOVAs+Eh3p[AGQO?6ODMhpd.1Z?MfXXDT[?
+72gJRUL='^IbU1eXXsfSuVL4iIp
+~
+
+]]>
+</Image>
+</Background>
+<Border><Top style="1" color="-3876137"
+ /><Bottom style="1" color="-3876137"
+ /><Left style="1" color="-3876137"
+ /><Right style="1" color="-3876137"
+ /></Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="13" />
+<Background name="NullBackground" />
+<Border><Top style="1" color="-3876137"
+ /><Bottom style="1" color="-3876137"
+ /><Left style="1" color="-3876137"
+ /><Right style="1" color="-3876137"
+ /></Border>
+</Style>
+<Style>
+<FRFont name="SimSun" style="0" size="13" />
+<Background name="NullBackground" />
+<Border></Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12" />
+<Background name="NullBackground" />
+<Border><Top style="1" color="-3876137"
+ /><Bottom style="1" color="-3876137"
+ /><Left style="1" color="-3876137"
+ /><Right style="1" color="-3876137"
+ /></Border>
+</Style>
+<Style horizontal_alignment="0">
+<FRFont name="SimSun" style="0" size="12" />
+<Background name="NullBackground" />
+<Border></Border>
+</Style>
+</StyleList>
+</WorkBook>

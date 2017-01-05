@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DatasourceManager>
+    <ConnectionMap>
+        <Connection name="shopxx" class="com.fr.data.impl.JDBCDatabaseConnection">
+            <DatabaseAttr/>
+            <JDBCDatabaseAttr url="jdbc:mysql://www.ruishangquan.com:3306/shopxx" driver="com.mysql.jdbc.Driver"
+                              user="root" password="___007e00370079007e00080095001a00240023007b0038003e"
+                              encryptPassword="true"/>
+        </Connection>
+    </ConnectionMap>
+    <DictMap>
+    </DictMap>
+    <Relations>
+    </Relations>
+</DatasourceManager>
