@@ -1,0 +1,34 @@
+// -------------------------------------
+// common:通用数字角标样式
+// -------------------------------------
+@mixin C-cornernum($dimension-rate: 1.5, $color: #fff, $bgcolor: #ff0000) {
+    text-decoration: none;
+
+    //重置形状标签
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    //margin-left: 15px;
+    transform: translate(50%, -50%);
+    -webkit-transform: translate(50%, -50%);
+    width: $dimension-rate * 1em;
+    height: $dimension-rate * 1em;
+    line-height: $dimension-rate * 1em;
+
+    // z-index: 80;
+    border-radius: 50%;
+    color: $color;
+    background-color: $bgcolor;
+    text-align: center;
+
+    @extend %ellipsis;
+
+    b {
+        font-weight: normal;
+        font-size: 10px;
+        vertical-align: middle;
+    }
+
+    @content;
+}

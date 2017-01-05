@@ -1,0 +1,80 @@
+/// namespace: STC-TS-8
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\008.html*/
+$page_ns: "STC-TS-8";
+
+//style here
+//技术支持008页面
+
+.advantage {
+    &.STC-TS-5 {
+        &.STC-TS-8 {
+
+            //页面banner图
+            .adv_banner {
+                width: dimension-to-vw(640px);
+                height: dimension-to-vw(320px);
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            //商家联盟的优点
+            .adv-1 {
+                width: dimension-to-vw(420px);
+                margin: dimension-to-vw(94px) 0 0 dimension-to-vw(130px);
+
+                li {
+                    list-style: none;
+                    margin-bottom: dimension-to-vw(49px);
+
+                    i {
+                        width: dimension-to-vw(74px);
+                        height: dimension-to-vw(74px);
+                        display: table-cell;
+                        border-radius: .5em;
+                        border: 1px dashed #e0e0e0;
+                        text-align: center;
+                        vertical-align: middle;
+                        float: left;
+                        margin-right: dimension-to-vw(29px);
+
+                        .icon {
+                            width: dimension-to-vw(42px);
+                            height: dimension-to-vw(39px);
+                            vertical-align: middle;
+                            margin: dimension-to-vw(14px) auto;
+
+                            img {
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    p {
+                        width: dimension-to-vw(315px);
+                        float: right;
+                    }
+                }
+            }
+
+            .clearfix {
+                zoom: 1;
+            }
+
+            .clearfix:after {
+                visibility: hidden;
+                display: block;
+                font-size: 0;
+                content: " ";
+                clear: both;
+                height: 0;
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

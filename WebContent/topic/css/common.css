@@ -1,0 +1,227 @@
+
+
+/*----------------主导航mainNav--------------*/
+div.header .mainNav {
+	overflow: hidden;
+	background-color: #eb3341;
+}
+div.header .mainNav .title i {
+	position:absolute;
+	width:24px;
+	height:17px;
+	top:12px;
+	_top: 5px;
+	*top: 5px;
+	top: 5px\9;
+	cursor: pointer;
+	background:url(../images/all_nav_01.png) 0 0 no-repeat;
+}
+div.header .mainNav .title a {
+	font-size: 18px;
+	line-height:40px;
+	color: #ffffff;
+	padding:0 40px;
+}
+div.header .mainNav .navItems a {
+	color:#ffffff;
+	padding:0 40px;
+}
+div.header .mainNav .navItems li {
+	font-size:18px;
+	line-height:40px;
+	float: left;
+	text-align:center;
+}
+div.header .mainNav .navItems li:hover {
+	background-color: #f4ecec;
+}
+div.header .mainNav .navItems li:hover a {
+	color: #eb3341;
+}
+div.header .mainNav .navItems li.on {
+	background-color: #cfcfcf;
+}
+div.header .mainNav .navItems li.on a {
+	color: #eb3341;
+}
+
+/* ------- menuNav分类导航菜单(left) ------- */
+div.mainNav .allCategorys {
+	position: absolute;
+	z-index: 99;
+}
+div.menuNav {
+	width: 200px;
+	position: absolute;
+	left: 0px;
+	top: 40px;
+	z-index: 999;
+	background-color: #e2e2e2;
+	border:none;
+	height:530px;
+}
+div.menuNav ul {
+	margin-top:15px;
+}
+div.menuNav ul li {
+	height:45px;
+	text-align:left;
+}
+div.menuNav ul li h1 {
+	font-weight: normal;
+	position:relative;
+	overflow: hidden;
+}
+div.menuNav ul li h1 a {
+	font-size:18px;
+	line-height:45px;
+	color:#333333;
+	padding-left: 75px;
+}
+div.menuNav ul li h1 a span {
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	top: 10px;
+	left: 30px;
+	overflow: hidden;
+}
+div.menuNav ul li h1 a img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 48px;
+	height: 24px;
+}
+div.menuNavTiaohuo {
+	width: 200px;
+	position: absolute;
+	left: 0px;
+	top: 40px;
+	z-index: 999;
+	background-color: #e2e2e2;
+	border:none;
+	height:530px;
+}
+div.menuNavTiaohuo ul {
+	margin-top:5px;
+}
+div.menuNavTiaohuo ul li {
+	height:40px;
+	text-align:left;
+}
+div.menuNavTiaohuo ul li h1 {
+	font-weight: normal;
+	position:relative;
+	overflow: hidden;
+}
+div.menuNavTiaohuo ul li h1 a {
+	font-size:16px;
+	line-height:40px;
+	color:#333333;
+	padding-left: 50px;
+}
+div.menuNavTiaohuo ul li h1 a span {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 10px;
+	left: 15px;
+	overflow: hidden;
+}
+div.menuNavTiaohuo ul li h1 a img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 40px;
+	height: 20px;
+}
+/*------隐藏的子分类------*/
+div.menuNavList {
+	position:absolute;
+	z-index:9;
+	left: 200px;
+	top: -15px;
+	width: 998px;
+	max-height: 530px;
+	background-color: #ffffff;
+	border-left: 2px solid #eb3341;
+	overflow: hidden;
+	display: none;
+	/*opacity: 0;
+	height:0px;*/
+}
+div.menuNavList div {
+	overflow: hidden;
+}
+div.menuNavList .menuNavListCont {
+	float: left;
+	width: 690px;
+	padding: 10px 0px 10px 10px;
+}
+div.menuNavList .menuNavListCont dl {
+	overflow: hidden;
+	width: 45%;
+	float: left;
+	padding: 5% 0px 0px 5%;
+}
+div.menuNavList .menuNavListCont dl dt {
+	width:100%;
+	border-bottom: 1px solid #eb3341;
+	padding:0 0 10px 0;
+	text-align: left;
+	font-size: 14px;
+}
+div.menuNavList .menuNavListCont dl dt a {
+	color: #333333;
+}
+div.menuNavList .menuNavListCont dl dt a:hover {
+	color:#333333;
+}
+div.menuNavList .menuNavListCont dl dd {
+	padding: 5px 0px;
+	width: 100%;
+	overflow:hidden;
+}
+div.menuNavList .menuNavListCont dl dd a {
+	float: left;
+	margin: 8px 0px;
+	line-height: 16px;
+	height: 16px;
+	white-space: nowrap;
+	padding: 0px 10px;
+}
+div.menuNavList .menuNavListCont dl dd a:hover {
+	color:#eb3341;
+}
+div.menuNavList .menuNavListImg {
+	float:right;
+	width:240px;
+	max-height: 510px;
+	padding:10px;
+	background-color:#fffdf4;
+}
+div.menuNavList .menuNavListImg img {
+	width:240px;
+	height:510px;
+}
+/*menNav鼠标滑过 li*/
+div.menuNav ul li.now {
+	 background-color:#eb3341;
+ }
+div.menuNav ul li.now h1 a {
+	color:#ffffff;
+}
+div.menuNav ul li.now h1 a img {
+	left:-24px;
+}
+div.menuNavTiaohuo ul li.now {
+	background-color:#eb3341;
+}
+div.menuNavTiaohuo ul li.now h1 a {
+	color:#ffffff;
+}
+div.menuNavTiaohuo ul li.now h1 a img {
+	left:-20px;
+}
+/* ----------      wallpaper 主屏区    ---------- */

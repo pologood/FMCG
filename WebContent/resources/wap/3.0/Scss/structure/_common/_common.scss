@@ -1,0 +1,52 @@
+// -------------------------------------
+// 页面 common itself，未独立common存放处
+// -------------------------------------
+///全局使用border-box
+*, *:before, *:after {
+    @include box-sizing(inherit);
+
+    -webkit-text-size-adjust: none;
+}
+
+html {
+    @include box-sizing(border-box);
+
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+//去除点击元素默认点击效果3
+//3w333
+a, button, input, optgroup, select, textarea {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+//common:活动浮标
+@import "thw/activity/buoy";
+//common:商家列表
+@import "thw/list/tenant";
+//common:导购联系列表
+@import "thw/list/contactlist";
+//common:店铺图形化标签
+@import "thw/promotiontag/tags";
+//common:商品图形化标签
+@import "thw/producttag/tags";
+//common:自定义展示大图数字角标样式
+//@import "thw/cornermark/cornermark";
+//common:自定义优惠券锯齿样式
+@import "thw/coupon-serration/coupon-serration";
+//common:选择颜色和尺寸
+@import "thw/choose-colorsize/choose-colorsize";
+//common:店铺星级
+@import "thw/starlevels/starlevels";
+//common:通用数字角标样式
+@import "thw/superscript/corner-number";
+//common:微信端回到顶部按钮
+@import "thw/backtotop/backtotop";

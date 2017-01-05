@@ -1,0 +1,173 @@
+// -------------------------------------
+// common:选择颜色和尺寸
+// -------------------------------------
+.clrsize {
+    //仪表盘
+    @at-root .clrsize-board {
+        @include align-items(flex-start);
+
+        @include flexbox;
+
+        @include flex-direction(row);
+
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        -webkit-box-align: center;
+        align-items: center;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        .weui_cell_hd {
+            .imgrap {
+                width: dimension-to-vw(160px);
+                height: dimension-to-vw(160px);
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                @include no-flicker;
+
+                transform: translateY(dimension-to-vw(-20px));
+                -webkit-transform: translateY(dimension-to-vw(-20px));
+            }
+        }
+
+        .weui_cell_bd {
+            & > p {
+                line-height: 1.5;
+            }
+
+            -webkit-box-flex: 1;
+            -moz-box-flex: 1;
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            padding: dimension-to-vw(20px);
+
+            @include flexbox;
+
+            @include flex-direction(column);
+
+            @include justify-content(space-around);
+
+            @include align-items(flex-start);
+        }
+    }
+
+    //操作区
+    @at-root .clrsize-opera {
+        $father_clrsize_opera: #{&};
+
+        .quantity {
+            @include flexbox;
+
+            @include flex-direction(row);
+
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            align-items: center;
+
+            & > .weui_cell_bd {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+            }
+        }
+
+        //筛选条件
+        .condn {
+            position: relative;
+            padding: dimension-to-vw(10px) dimension-to-vw(30px);
+
+            //颜色
+            &.colors {}
+
+            //规格
+            &.specs {}
+
+            &:before {
+                @include dividingline;
+            }
+
+            @at-root #{$father_clrsize_opera} {
+                .condn-hd {
+                    line-height: 2;
+                }
+
+                .condn-bd {
+                    @at-root #{$father_clrsize_opera} .condn-btn {
+                        border-width: 0;
+                        display: inline-block;
+                        margin: 0.2em 0.2em;
+                        background-color: #f5f5f5;
+                        outline: none;
+                        color: #666666;
+                        padding: 0.5em 1em;
+                        border-radius: 0.6em;
+
+                        &.chosen {
+                            background-color: #ff6d06;
+                            color: #fff;
+                        }
+
+                        &.sorry_no {
+                            color: #b3b3b3;
+                        }
+                    }
+                }
+            }
+        }
+
+        //数量
+        .quantity {
+            &:before {
+                left: 0;
+            }
+
+            @at-root #{$father_clrsize_opera} .addminus {
+                //加减器
+                span, b {
+                    display: inline-block;
+                    text-align: center;
+                    vertical-align: middle;
+                    background-color: #f5f5f5;
+                }
+
+                span {
+                    width: 2.4em;
+                    height: 2.4em;
+                    line-height: 2.4em;
+                    font-size: 1em;
+                }
+
+                b {
+                    width: 4em;
+                    height: 2.4em;
+                    line-height: 2.4em;
+                    font-size: 1.2em;
+                    font-weight: normal;
+                }
+            }
+        }
+
+        //确定按钮
+
+        .sureR {
+            padding: 15px;
+            position: relative;
+
+            &:before {
+                @include dividingline;
+            }
+
+            @at-root #{$father_clrsize_opera} .sure {
+                line-height: 2.8;
+            }
+        }
+    }
+}

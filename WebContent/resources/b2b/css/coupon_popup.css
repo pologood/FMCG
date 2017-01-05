@@ -1,0 +1,230 @@
+@charset "UTF-8";
+/*------优惠劵 领取框--------*/
+
+div.ks-overlay {
+
+}
+div.cart-tips {
+    border:1px solid #ccc;
+    -webkit-border-radius:1px;
+    -moz-border-radius:1px;
+    -ms-border-radius:1px;
+    border-radius:1px;
+    padding:5px 8px;
+    background:#fff;
+    -webkit-box-shadow:0 2px 1px rgba(0,0,0,.06);
+    -moz-box-shadow:0 2px 1px rgba(0,0,0,.06);
+    -ms-box-shadow:0 2px 1px rgba(0,0,0,.06);
+    box-shadow:0 2px 1px rgba(0,0,0,.06);
+    float:left;
+    color:#9c9c9c;
+    overflow:visible;
+    z-index:99997;
+}
+div.coupon-popup {
+    border-color:#f40;
+    top: 50px;
+    position: fixed;
+    right: 0px;
+    display: block;
+    z-index: 9999;
+}
+div.coupon-popup .ks-overlay-content {
+    width:320px;
+    padding:0;
+}
+div.coupon-popup .arrow {
+    top:-6px;
+    left:35px;
+    background-position:-80px -20px;
+    width:11px;
+    height:6px;
+    display:block;
+    position:absolute;
+    z-index:99998;
+}
+div.coupon-popup .ks-overlay-close {
+    background-position:-88px -115px;
+    display:block;
+    width:12px;
+    height:11px;
+    line-height:200px;
+    overflow:hidden;
+    position:absolute;
+    right:10px;
+    top:13px;
+}
+div.cart-tips .arrow {
+    display:none;
+}
+div.coupon-popup .ks-overlay-content .coupon-summary {
+    color:#666;
+    padding:5px 10px 10px 6px;
+    border-bottom:1px solid #EFEFEF;
+}
+div.coupon-popup .ks-overlay-content .coupon-summary .icon-announcement {
+    /*! margin:-2px 8px 0 0; */
+    _margin-top:0;
+    width: 10px;
+    height: 12px;
+    background-position: -45px 2px;
+}
+
+div.coupon-popup .coupon-list {
+    max-height: 580px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+div.coupon-popup .cart-container {
+    position: relative;
+    overflow: hidden;
+    width: 320px;
+    height: auto;
+    outline: medium none;
+    z-index:12001;
+    right:-2px;
+    bottom:-2px;
+}
+
+div.coupon-popup .coupon-list-hidden ul {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    overflow: hidden;
+    height: 580px;
+}
+div.coupon-popup .coupon-list li {
+    overflow:hidden;
+    padding-left:65px;
+    position:relative;
+    margin:15px 20px 20px 8px;
+    *zoom:1;
+}
+div.coupon-popup .coupon-amount {
+    position:absolute;
+    left:0;
+    top:0;
+    width:40px;
+    height:25px;
+    line-height:25px;
+    background-position:-125px -25px;
+    font-size:14px;
+    font-weight:700;
+    color:#fff;
+    font-family:Arial;
+    padding-left:4px;
+}
+div.coupon-popup .coupon-youhuijuan .coupon-amount {
+        width:46px;
+}
+div.coupon-popup .coupon-amount .rmb {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 42px;
+    display: block;
+    font-weight:600;
+    padding-right:0px;
+    font-size:14px;
+}
+div.coupon-popup .coupon-detail {
+    overflow:hidden;
+}
+div.coupon-popup .coupon-detail .coupon-info {
+    float:left;
+    width:166px;
+    line-height:1;
+}
+div.coupon-popup .coupon-detail .coupon-info .coupon-title {
+    margin-bottom:5px;
+    color:#6D6D6D;
+}
+div.coupon-popup .coupon-detail .coupon-info .coupon-time {
+    color:#A5A5A5;
+    font-family:Tahoma;
+}
+div.coupon-popup .coupon-detail .coupon-op {
+    float:left;
+}
+div.coupon-popup .coupon-detail .coupon-op a {
+    display:block;
+    width:47px;
+    height:23px;
+    border:1px solid #E9E9E9;
+    line-height:23px;
+    text-align:center;
+}
+div.coupon-popup .coupon-detail .coupon-op .coupon-received {
+    color:#C9C9C9;
+    border-color:transparent;
+    _border-color:#fff;
+    width:50px;
+    border-width:1px 0;
+}
+div.coupon-popup .coupon-detail .coupon-op .coupon-unreceived {
+    color:#666;
+    cursor:pointer;
+    box-shadow: 1px 1px 2px rgb(204, 204, 204);
+}
+div.coupon-popup .coupon-detail .coupon-op .coupon-unreceived:hover {
+    background-color: rgb(235, 51, 65);
+    color: rgb(255, 255, 255);
+    box-shadow: 1px 1px 2px rgb(234, 76, 76);
+    border-color: rgb(235, 51, 65);
+}
+div.coupon-popup .coupon-detail .coupon-op .coupon-unreceived.select {
+    background-color: rgb(235, 51, 65);
+    color: rgb(255, 255, 255);
+    cursor: inherit;
+    box-shadow: 1px 1px 2px rgb(234, 76, 76);
+    border-color: rgb(235, 51, 65);
+}
+
+#coupon-trigger {
+    position: fixed;
+    right: 0;
+    top: 50px;
+    z-index: 9999;
+}
+
+#coupon-trigger .shop-coupon-trigger {
+    display: inline-block;
+    width: 57px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 0 0 11px;
+    color: #f40;
+    background-position: -20px -75px;
+    position: relative;
+    cursor: pointer;
+}
+
+#coupon-trigger .shop-coupon-trigger em {
+    position: absolute;
+    left: 6px;
+}
+
+#coupon-trigger .shop-coupon-trigger .arrow {
+    position: absolute;
+    display: block;
+    width: 5px;
+    height: 3px;
+    right: 9px;
+    top: 11px;
+    background-position: 0 -65px;
+}
+
+#coupon-trigger .shop-coupon-trigger span.on {
+    background-position: 0 -75px;
+}
+
+
+
+
+
+
+
+

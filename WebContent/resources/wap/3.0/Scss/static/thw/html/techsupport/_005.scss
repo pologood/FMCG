@@ -1,0 +1,156 @@
+/// namespace: STC-TS-5
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\005.html*/
+$page_ns: "STC-TS-5";
+
+//style her
+.business {
+    position: relative;
+    height: 100%;
+    padding: dimension-to-vw(85px) 0 dimension-to-vw(90px);
+
+    &.#{$page_ns} {
+        h1, h2, div {
+            text-align: center;
+        }
+
+        //页面头部
+        .head {
+            width: 100%;
+            height: dimension-to-vw(85px);
+            margin-top: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+
+            &:before {
+                border-top: none;
+                height: 0;
+            }
+
+            .weui_cell {
+                padding: dimension-to-vw(15px) dimension-to-vw(20px);
+
+                @include flexbox;
+
+            @include flex-direction(row);
+
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            align-items: center;
+
+                .weui_cell_hd {
+                    padding-right: dimension-to-vw(19px);
+                    width: dimension-to-vw(139px);
+                    height: dimension-to-vw(56px);
+
+                    p {
+                        img {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                .weui_cell_bd {
+                    text-align: left;
+                    border-left: 1px solid #e4e4e4;
+                    padding-left: dimension-to-vw(20px);
+
+                    -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                    .drop_down_menu{
+                        height: dimension-to-vw(40px);
+                    }
+
+                    img {
+                        width: dimension-to-vw(17px);
+                        height: dimension-to-vw(13px);
+                    }
+                }
+            }
+        }
+        //滑动元素
+        .excellence {
+            position: relative;
+            height: 100%;
+            
+
+            .islider-outer {
+                position: static;
+                height: 100%;
+
+                & > li {
+                    height: 100%;
+                    padding: 13.28vw 0 14.06vw;
+                    position: fixed;
+                }
+            }
+
+            .excellence_APP {
+                width: 100%;
+                height: 100%;
+                padding-top: dimension-to-vw(50px);
+            }
+
+            .excellence_img {
+                width: dimension-to-vw(600px);
+                margin: 0 auto;
+                img{
+                    width: 100%;
+                }
+            }
+        }
+
+        //滑动元素底部小点
+        .small_icon {
+            width: 100%;
+            text-align: center;
+            position: absolute;
+            bottom: dimension-to-vw(140px);
+            left: 0;
+            display: none;
+
+            li {
+                width: 10px;
+                height: 10px;
+                display: inline-block;
+                border-radius: 50%;
+                background: #c9c9c9;
+                list-style: none;
+
+                &.selected {
+                    background: #ff6d06;
+                }
+
+                margin: 0 .2em;
+            }
+        }
+        
+        //页面底部下载APP按钮
+        .APP-open {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            height: dimension-to-vw(90px);
+            line-height: dimension-to-vw(90px);
+            text-align: center;
+
+            img {
+                width: dimension-to-vw(34px);
+                width: dimension-to-vw(40px);
+                margin-right: dimension-to-vw(13px);
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

@@ -1,0 +1,48 @@
+// *************************************
+//
+//   Function,辅助函数
+//
+// *************************************
+
+// ----- Em ----- //
+// -> 转换像素单位到em
+//
+// $target - the target pixel size
+// $context - the context font-size
+
+@function em($target, $context: $b-fontSize) {
+    @if $target == 0 {
+        @return 0;
+    }
+    @else {
+        @return $target / $context * 1em;
+    }
+}
+
+@function strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+// ----- pxToEm ----- //
+// -> 转换像素单位到em，版本2.0
+// -> 度量单位使用时，必须在当前作用域内有font-size定义(没有请自行随意设置)
+@function pxToEm($target-size, $context: $b-fontSize) {
+    @if not unitless($target-size) {
+        $target-size: strip-units($target-size);
+    }
+
+    @if not unitless($context) {
+        $context: strip-units($context);
+    }
+
+    @return $target-size / $context * 1em;
+}
+
+// ----- 尺寸值转为视窗单位 ----- //
+@function dimension-to-vw($size, $viewportbase: 640) {
+    @if not unitless($size) {
+        $size: strip-units($size);
+    }
+
+    @return to-fixed($size / $viewportbase * 100) * 1vw;
+}

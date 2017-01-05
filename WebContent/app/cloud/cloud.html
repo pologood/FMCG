@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>云看店</title>
+    
+<link rel="stylesheet" href="/app/style/wap.min.css"/>
+<script src="/app/js/zepto.min.js"></script>
+<script src="/app/js/handlebars.min.js"></script>
+<script src="/app/js/lazyload.min.js"></script>
+<script src="/app/js/iSlider.min.js"></script>
+<script src="/app/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+    <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+    <script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+    <script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+    <div class="container" id="container"></div>
+
+    <script type="text/html" id="tpl_cloud">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+                
+<!--BEGIN area-->
+<div class="cloud">
+    <div class="section1">
+        <h3 class="center">你还在为这些烦恼？</h3>
+        <p class="p1 center">店铺被盗？夜间无人管？</p>
+        <p class="p1 center">无法监控导购？不知店铺实时情况？实体店铺一手掌握！</p>
+        <div class="img">
+            <img src="../images/static/cloud_control.png">
+        </div>
+    </div>
+    <div class="section2">
+        <h3 class="center">远程实况 实时直播</h3>
+        <p class="p1 center">挑货网携手大华乐橙，打造智慧门店，移动信息时代，</p>
+        <p class="p1 center">你想要的，我来实现！</p>
+        <div class="img2">
+            <div class="img01">
+                <img src="../images/static/cloud_remote1.png">
+            </div>
+            <div class="img02">
+                <img src="../images/static/cloud_remote2.png">
+            </div>
+            <div class="img03">
+                <img src="../images/static/cloud_remote3.png">
+            </div>
+            <div class="img04">
+                <img src="../images/static/cloud_remote4.png">
+            </div>
+            <div class="txt center">
+                <p class="p3">想开通？</p>
+                <p>我们来给您推荐！</p>
+            </div>
+        </div>
+    </div>
+    <div class="section3">
+        <ul class="weui-flex">
+            <li class="weui-flex__item"><div class="placeholder">
+                <a>
+                <div class="shop_img"><img src="../images/static/cloud_control.png"></div>
+                <p>讯空安防</p>
+                <p class="star"><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-l-star"></i><i class="iconfont icon-l-star"></i></p>
+                    <p class="p2"><i class="iconfont icon-tel"></i>15155133966</p></a>
+            </div></li>
+            <li class="weui-flex__item"><div class="placeholder">
+                <a>
+                    <div class="shop_img"><img src="../images/static/cloud_control.png"></div>
+                    <p>讯空安防</p>
+                    <p class="star"><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-l-star"></i><i class="iconfont icon-l-star"></i></p>
+                    <p class="p2"><i class="iconfont icon-tel"></i>15155133966</p></a>
+            </div></li>
+            <li class="weui-flex__item"><div class="placeholder">
+                <a>
+                    <div class="shop_img"><img src="../images/static/cloud_control.png"></div>
+                    <p>讯空安防</p>
+                    <p class="star"><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-s-star"></i><i class="iconfont icon-l-star"></i><i class="iconfont icon-l-star"></i></p>
+                    <p class="p2"><i class="iconfont icon-tel"></i>15155133966</p></a>
+            </div></li>
+        </ul>
+    </div>
+</div>
+<!--END area-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</script>
+
+    
+<script src="/app/js/wap.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(function () {
+            pageManager.show("cloud");
+        });
+    </script>
+
+
+</body>
+</html>
+
+

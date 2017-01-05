@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>分类</title>
+    
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--分类首页-->
+<script type="text/html" id="tpl_category">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd pagescroll-rap" style="height: 100%;">
+        <div class="weui-tab" >
+            <!-- search-->
+            <div class="weui-search-bar" id="searchBar">
+                <form class="weui-search-bar__form">
+                    <div class="weui-search-bar__box">
+                        <i class="weui-icon-search"></i>
+                        <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                        <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                    </div>
+                    <label class="weui-search-bar__label" id="searchText">
+                        <i class="weui-icon-search"></i>
+                        <span>搜索</span>
+                    </label>
+                </form>
+                <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+            </div>
+            <!-- search end-->
+            <div class="weui-tab__panel" style="background:#fff">
+
+                <div class="category">
+                    <div class="category-ctn-left" id="silder-left" style="visibility: visible;">
+                    </div>
+                    <div class="category-ctn-right" id="silder-right">
+                        <ul class="am-list" id="subProductCategory">
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            
+
+    <div class="weui-tabbar foot_menu" style="position: fixed;">
+        <a href="../home/index.html" class="weui-tabbar__item weui-bar__item_on" id="nav1">
+            <i class="weui-tabbar__icon iconfont icon-l-home"></i>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="../productCategory/category.html" class="weui-tabbar__item" id="nav2">
+            <i class="weui-tabbar__icon iconfont icon-l-classify"></i>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="../nearby/nearby.html" class="weui-tabbar__item" id="nav3">
+            <i class="weui-tabbar__icon iconfont icon-l-location"></i>
+            <p class="weui-tabbar__label">附近</p>
+        </a>
+        <a href="../carts/cart.html" class="weui-tabbar__item" id="nav4">
+            <i class="weui-tabbar__icon iconfont icon-l-sc"></i>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+            <i class="weui-tabbar__icon iconfont icon-l-me"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+    </div>
+    <script type="text/javascript" class="tabbar js_show">
+        $(function(){
+            /*$('.weui-tabbar__item').on('click', function () {
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            });*/
+            var str = window.location.href;
+            var index = str .lastIndexOf("\/");
+            str  = str .substring(index + 1, str .length);
+            if(str=="index.html"){
+                $("#nav1").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="category.html"){
+                $("#nav2").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="nearby.html"){
+                $("#nav3").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="cart.html"){
+                $("#nav4").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="member-home.html"){
+                $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+        });
+    </script>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!--右边分类模版-->
+<script type="text/x-handlebars-template" id="wap-list-item">
+    {{#each this}}
+    {{#if childrens}}
+    <li>
+        <ul class="category-product">
+            <p class="category-title Ftext">{{name}}</p>
+            {{#each childrens}}
+            <li>
+                <a href="javascript:;" class="aproductReasult">
+                    <p><img src="{{image}}"></p>
+                    <p class="f12">{{name}}</p>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
+    </li>
+    {{else}}
+    <li class="category-title Ftext">
+        <a href="productReasult.html?category={{id}}">
+            <p class="f12">{{name}}</p>
+        </a>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
+
+
+<!--左边分类模版-->
+<script type="text/x-handlebars-template" id="Categorys">
+    <ul class="am-lists class-items"  id="rootProductCategory">
+        {{#each this}}
+        <li data-id="{{id}}" class="cage" >
+            <a>{{name}}</a>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+
+</script>
+<!--分类点进去的产品列表页-->
+<script type="text/html" id="tpl_productReasult">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd product_style" style="height: 100%;">
+        
+<!--BEGIN dropmenu-->
+
+<div class="dropmenu">
+    <div class="weui-navbar hd " id="navbar">
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar1">全城</span>  <i class="iconfont icon-xiajiantou"></i></span>
+        </div>
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar2">全部类别</span> <i class="iconfont icon-xiajiantou"></i></span>
+        </div>
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar3">智能排序</span> <i class="iconfont icon-xiajiantou"></i></span>
+        </div>
+    </div>
+    <div id="style">
+        <i class="iconfont icon-details style col-1" id="goods_style"></i>
+    </div>
+    <div class="bd" id="nav_menu">
+        <div class="weui-flex menu aread" style="display:none">
+
+        </div>
+        <div class="weui-flex menu categoryd" style="display:none">
+        </div>
+        <div class="weui-flex menu orderd" style="display:none;margin-top:0; text-align: center;">
+        </div>
+    </div>
+</div>
+<div id="mask" style=""></div>
+<!--END dropmenu-->
+
+        <div class="weui-tab pageable" style="margin-top: 44px;">
+            <div class="product-list product_search hot_product weui-cells product" style="margin-top:0;"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var jsonsData={
+            pageSize:20,
+            pageNumber:1
+        };
+        dropmenu.init("全城",pageManager.GetQueryString("categoryName"),"智能排序");
+        var ar=new area(function (data) {
+            dropmenu.bindCity(data,function (data) {
+                console.log(data);
+                jsonsData.areaId=data.areaId;
+                jsonsData.communityId=data.communityId;
+                loadUpFn();
+            });
+        });
+        ar.community();
+        var rp=new redPacket(function (data) {
+            dropmenu.bindCategory(data,function (data) {
+                console.log(data);
+                jsonsData.categoryId=data.categoryId;
+                loadUpFn();
+            });
+        });
+        rp.category();
+        dropmenu.bindOrder(["智能排序","价格由低到高","价格由高到低","销量优先","评论最高"],function (data) {
+            console.log(data);
+            var orderType="";
+            if(data==0){
+                orderType="weight";
+            }
+            if(data==1){
+                orderType="priceDesc";
+            }
+            if(data==2){
+                orderType="priceAsc";
+            }
+            if(data==3){
+                orderType="salesDesc";
+            }
+            if(data==4){
+                orderType="scoreDesc";
+            }
+            jsonsData.orderType=orderType;
+            loadUpFn();
+        });
+
+
+        var loadUpFn=function () {
+            var tu = new product(function (data) {
+                jsonsData.pageNumber += 1;
+                var h = render.fill($("#tpl_productList"), data);
+                $(".pageable .product-list").html(h);
+                pged.unlock();
+                pged.noData(false);
+                pged.resetload();
+            });
+            jsonsData.pageNumber = 1;
+            tu.list(data);
+        };
+
+        var pged = $(".pageable").pageable({
+                    loadUpFn: function (me) {
+                        loadUpFn();
+                    },
+                    loadDownFn: function (me) {
+                        var td = new product(function (data) {
+                            jsonsData.pageNumber += 1;
+                            var h = render.fill($("#tpl_productList"), data);
+                            $(".pageable .product-list").append(h);
+                            if (data.length<jsonsData.pageSize) {
+                                me.lock();
+                                me.noData();
+                            }
+                            me.resetload();
+                        });
+                        td.list(jsonsData);
+                    }
+                }
+        );
+
+        //搜索结果页点击切换商品样式
+        $('#goods_style').on('click', function () {
+            $(this).toggleClass('col-2');
+            if ($('#goods_style').hasClass('col-2')) {
+                $('.product').addClass('product-grid').removeClass('product-list');
+            }
+            else {
+                $('.product').addClass('product-list').removeClass('product-grid');
+            }
+        });
+
+    });
+
+</script>
+</script>
+
+
+<!--模版-->
+<!--分类点进去的产品列表页模版页-->
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+    {{#each this}}
+<div class="position">
+    <a class="weui-cell" href="../tenant/product-details.html?id={{id}}" data-id="{{id}}" >
+        <div id="fly_img" class="weui-cell__hd">
+            {{#compare thumbnail '!=' null}}
+                <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+                <img src="../images/placeholder/product.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{fullName}}</p>
+            <p class="tag_list">
+                {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}} <i class="marketPrice">￥{{marketPrice}}</i></span></p>
+            <p class="Fauxiliary">人气 {{favoriteCount}} /月销量 {{monthSales}}</p>
+            <span class="pingjia f12 orange">好评 {{positivePercent}}%</span>
+        </div>
+
+    </a>
+    <span class="cart fly_cart_start" data-id="{{id}}"><i class="icon iconfont"></i></span>
+</div>
+
+    {{/each}}
+<!-- product_list end -->
+<script>
+    $(function(){
+        //点击加入购物车
+        $(document).off("click").on('click','.cart',function(event){
+            var flycart = $(this);
+            var productCart;
+            productCart =$(this).attr('data-id');
+            var productCart1= new cart(function(data){
+                var img = flycart.parent().find('#fly_img img').attr('src');
+                var flyer = $('<img class="u-flyer" src="' + img + '">');
+                flyer.fly({
+                    start: {
+                        left: event.pageX - 20, //开始位置（必填）#fly元素会被设置成position: fixed
+                        top: event.pageY - 20 //开始位置（必填）
+                    },
+                    end: {
+                        left: event.pageX - 10, //结束位置（必填）
+                       // left:10,
+                        top:0,
+                        //top: offset.top + 10, //结束位置（必填）
+                        width: 0, //结束时宽度
+                        height: 0 //结束时高度
+                    },
+                    onEnd: function () { //结束回调
+                        this.destory(); //移除dom
+                    }
+                });
+                $(".weui-badge")[0].innerText=Number($(".weui-badge")[0].innerText)+1;
+            });
+            productCart1.add({id:productCart,quantity:1});
+        });
+    });
+</script>
+</script>
+
+
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("category");
+
+        //点击搜索框跳转页面
+        $("#searchBar").on('click', function () {
+            window.location.href="../search/searchProduct.html?id=2";
+        });
+
+        initCategory();
+
+        //填充左边导航内容
+        var cageList = Handlebars.compile($("#Categorys").html());
+
+        $("#silder-left").html(cageList(categorys));
+        console.log(categorys);
+
+
+        //监听左边导航菜单获取右边分类
+        $('.cage').on('click', function () {
+            $("#rootProductCategory").find("li").removeClass("active");
+            $(this).siblings('li').removeClass("active");
+            $(this).addClass("active");
+            var rootId = $(this).attr("data-id");
+            var data = getCategoryChildRens(rootId);
+            var compiler = Handlebars.compile($("#wap-list-item").html());
+            $("#subProductCategory").html(compiler(getCategoryChildRens(rootId)));
+        });
+        //获取第一个点击事件然后默认加载第一个
+        function getcage(id) {
+            var obj = $("#rootProductCategory li").first("data-id");
+            $("#rootProductCategory").find("li").removeClass("active");
+            $(obj).siblings('li').removeClass("active");
+            $(obj).addClass("active");
+            var rootId = $(obj).attr("data-id");
+            var data = getCategoryChildRens(rootId);
+            var compiler = Handlebars.compile($("#wap-list-item").html());
+            $("#subProductCategory").html(compiler(getCategoryChildRens(rootId)));
+        }
+
+        //调取第一次加载
+        getcage();
+        $(document).on("click",".aproductReasult",function () {
+            var first=$(this).parents(".category-ctn-right").prev().find("li.active");
+            location.href='category.html?categoryId='+first.attr("data-id")+'&categoryName='+escape($(this).find(".f12").text())+'#productReasult';
+        });
+
+        //滚动高度固定
+        var viewHeight = window.innerHeight || document.documentElement.clientHeight;
+        var topHeight = $(".weui-search-bar").height();
+        var bottomHeight = viewHeight - topHeight - 51;
+        document.getElementById("silder-left").style.height = bottomHeight + "px";
+        document.getElementById("silder-right").style.height = bottomHeight + "px";
+
+    });
+</script>
+</body>
+</html>
+

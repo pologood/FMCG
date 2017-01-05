@@ -1,0 +1,8 @@
+///固定页面底部的linkbutton，适用于页面内容较少时
+@at-root %fixed-bottom-linkbtn-T1 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: pxToEm(8, 14) pxToEm(10, 14);
+}

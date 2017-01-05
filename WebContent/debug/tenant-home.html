@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>商家首页</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_tenant-home">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    
+<!--BEGIN actionSheet-->
+<div id="actionSheet_wrap">
+    <div class="weui-mask_transparent actionsheet__mask" style="opacity: 0;display: none;"></div>
+    <div class="weui-actionsheet actionsheet">
+        <div class="weui-cells shop">
+            <div class="weui-cell">
+                <div class="weui-cell__hd shop_logo">
+                    <img src="images/single-ad1.png"/>
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="Ftitle">沃特体育</p>
+                    <p class="Ftext">营业时间：<span>无</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells address">
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd col-20">
+                    <p class="Ftext">蜀山区0</p>
+                    <p class="Fauxiliary">沃特大唐店</p>
+                    <p class="Ftext">安徽合肥蜀山望江西路与潜山路交叉路大唐国际购物广场</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd col-20">
+                    <p class="Ftext">蜀山区1</p>
+                    <p class="Fauxiliary">沃特大唐店</p>
+                    <p class="Ftext">安徽合肥蜀山望江西路与潜山路交叉路大唐国际购物广场</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd col-20">
+                    <p class="Ftext">蜀山区2</p>
+                    <p class="Fauxiliary">沃特大唐店</p>
+                    <p class="Ftext">安徽合肥蜀山望江西路与潜山路交叉路大唐国际购物广场</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+                <div class="weui-cell__bd col-20">
+                    <p class="Ftext">蜀山区3</p>
+                    <p class="Fauxiliary">沃特大唐店</p>
+                    <p class="Ftext">安徽合肥蜀山望江西路与潜山路交叉路大唐国际购物广场</p>
+                </div>
+                <div class="weui-cell__ft">
+                </div>
+            </a>
+        </div>
+        <div class="weui-actionsheet__action cancel">
+            <i class="iconfont icon-remove-02"></i>
+        </div>
+    </div>
+</div>
+
+<!--END actionSheet-->
+
+
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel" style="padding-bottom: 10vw;">
+                
+<!--BEGIN top-nav-->
+
+<div class="topNav topNav_shop row" page="1">
+    <div class="col-5 position">合肥<i class="iconfont icon-bottom"></i></div>
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
+    <div class="col-5 scan">
+        <i class="iconfont icon-carto">
+            <span class="badge">10</span>
+        </i>
+
+    </div>
+</div>
+
+
+
+
+<!--END top-nav-->
+
+                <div class="banner banner-tenant">
+                    
+<!--BEGIN gallery-slider-->
+<div id="iSlider-wrapper" class="mask">
+    <img src="http://localhost:8080/app/images/pic_article.png" alt="">
+    <div class="mask-bg"></div>
+</div>
+<!--END gallery-slider-->
+
+                    
+<!-- BEGIN tenant-banner-info -->
+<div class="banner-info weui-cell">
+    <div class="weui-cell__hd">
+        <img src="http://cdn.tiaohuo.com/upload/image/201605/16caa988-d8c0-4bd0-9e1d-34ee11cfc865.png">
+    </div>
+    <div class="weui-cell__bd weui-cell_primary">
+        <h2>菲小姐的店</h2>
+        <div class="stars">
+            <i class="iconfont icon-s-star"></i>
+            <i class="iconfont icon-s-star"></i>
+            <i class="iconfont icon-s-star"></i>
+            <i class="iconfont icon-s-star"></i>
+            <i class="iconfont icon-l-star"></i>
+            <span>3.5分</span>
+        </div>
+    </div>
+    <div class="weui-cell__ft">
+        <span class="save">
+            <i class="iconfont icon-l-heart-01"></i>
+        </span>
+        <div class="favorite">
+            <span>粉丝&nbsp;99</span>
+            <span>访问&nbsp;9999</span>
+        </div>
+    </div>
+</div>
+<!-- END tenant-banner-info -->
+
+                </div>
+                
+<!-- BEGIN tenant-nav -->
+<div class="tenant-nav weui-navbar">
+    <a href="http://localhost:8080/app/tenant/index.html" class="weui-navbar__item active">
+        <i class="iconfont icon-index"></i>
+        店铺首页
+    </a>
+    <a href="http://localhost:8080/app/tenant/all.html" class="weui-navbar__item">
+        <i class="iconfont icon-good"></i>
+        全部好货
+    </a>
+    <a href="http://localhost:8080/app/tenant/new.html" class="weui-navbar__item">
+        <i class="iconfont icon-new1"></i>
+        新品
+    </a>
+    <a href="http://localhost:8080/app/tenant/hot.html" class="weui-navbar__item">
+        <i class="iconfont icon-SecKill"></i>
+        促销
+    </a>
+</div>
+<!-- END tenant-nav -->
+
+                
+
+<!-- BEGIN tenantHomeCoupon -->
+<div class="coupon_booth">
+
+
+    <div class="hd">
+        <P>先领券  再购物</P>
+        <P>first get coupons and then shopping</P>
+    </div>
+    <div class="bd">
+        <div class="items">
+            <a href="javascript:;">
+                <div class="up">
+                    <div class="amount">
+                        <span>￥12</span>
+                    </div>
+                    <div class="desc">
+                        <h5>优惠券</h5>
+                        <span>满80元可用</span>
+                    </div>
+                </div>
+                <div class="down">
+                    <span>点击领取</span>
+                </div>
+            </a>
+            <a href="javascript:;">
+                <div class="up">
+                    <div class="amount">
+                        <span>￥5</span>
+                    </div>
+                    <div class="desc">
+                        <h5>优惠券</h5>
+                        <span>满28元可用</span>
+                    </div>
+                </div>
+                <div class="down">
+                    <span>点击领取</span>
+                </div>
+            </a>
+            <a href="javascript:;">
+                <div class="up">
+                    <div class="amount">
+                        <span>￥8</span>
+                    </div>
+                    <div class="desc">
+                        <h5>优惠券</h5>
+                        <span>满50元可用</span>
+                    </div>
+                </div>
+                <div class="down">
+                    <span>点击领取</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+<!-- END tenantHomeCoupon -->
+
+                
+<!-- BEGIN tenant-pic -->
+<div id="tenant_pic">
+
+</div>
+<!-- BEGIN tenant-pic end-->
+
+                
+<!-- product_list -->
+<div class="product-list weui-cells ">
+    <a class="weui-cell" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/tfscom/TB1S6u.OXXXXXbFXXXXSutbFXXX_120x120.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+            <p class="Fauxiliary">人气 2 /月销量 0</p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="weui-cell" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/tps/TB1yfPqKFXXXXXZXXXXXXXXXXXX-300-300.jpg_120x120.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+            <p class="Fauxiliary">人气 2 /月销量 0</p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+</div>
+
+<!-- product_list end -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="sell-hd">
+                    <span>店铺热销</span>
+                </div>
+                
+<!-- product_grid -->
+
+<div class="product-grid weui-cells ">
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+</div>
+
+<!-- product_grid end -->
+
+                
+<!-- BEGIN offerToPay-img -->
+<a class="offerToPay-img" href="http://localhost:8080/debug/offerToPay.html">
+    <img src="http://localhost:8080/app/images/offer_to _pay.png" />
+</a>
+<!-- BEGIN offerToPay-img end-->
+
+
+            </div>
+            <div class="footNav weui-tabbar">
+                <a href="javascript:;" class="weui-tabbar__item f14 goods">宝贝分类</a>
+                <a href="javascript:;" class="weui-tabbar__item f14">扫码</a>
+                <a href="javascript:;" class="weui-tabbar__item f14" id="lianxi">联系商家</a>
+                <a href="http://localhost:8080/debug/union_tenant.html" class="weui-tabbar__item f14">联盟商家</a>
+            </div>
+            <div class="classify none">
+                <a href="javascript:;" class="weui-cell">
+                    <div class="weui-cell__bd">全部好货</div>
+                </a>
+                <a href="javascript:;" class="weui-cell">
+                    <div class="weui-cell__bd">板鞋</div>
+                </a>
+                <a href="javascript:;" class="weui-cell">
+                    <div class="weui-cell__bd">板鞋</div>
+                </a>
+                <a href="javascript:;" class="weui-cell">
+                    <div class="weui-cell__bd">板鞋</div>
+                </a>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('.weui-navbar .weui-navbar__item').on('click', function () {
+                        $(this).addClass('active').siblings('.active').removeClass('active');
+                    });
+                });
+                $(function () {
+                    $('.goods').on('click', function () {
+                        $('.classify').toggle();
+                    });
+                });
+                $(function(){
+                    var $searchBar = $('#searchBar'),
+                            $searchResult = $('#searchResult'),
+                            $searchText = $('#searchText'),
+                            $searchInput = $('#searchInput'),
+                            $searchClear = $('#searchClear'),
+                            $searchCancel = $('#searchCancel');
+
+                    function hideSearchResult(){
+                        $searchResult.hide();
+                        $searchInput.val('');
+                    }
+                    function cancelSearch(){
+                        hideSearchResult();
+                        $searchBar.removeClass('weui-search-bar_focusing');
+                        $searchText.show();
+                    }
+
+                    $searchText.on('click', function(){
+                        $searchBar.addClass('weui-search-bar_focusing');
+                        $searchInput.focus();
+                    });
+                    $searchInput
+                            .on('blur', function () {
+                                if(!this.value.length) cancelSearch();
+                            })
+                            .on('input', function(){
+                                if(this.value.length) {
+                                    $searchResult.show();
+                                } else {
+                                    $searchResult.hide();
+                                }
+                            })
+                    ;
+                    $searchClear.on('click', function(){
+                        hideSearchResult();
+                        $searchInput.focus();
+                    });
+                    $searchCancel.on('click', function(){
+                        cancelSearch();
+                        $searchInput.blur();
+                    });
+                });
+
+            </script>
+        </div>
+    </div>
+</div>
+
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("tenant-home");
+        var ads = new ad(
+                function (data) {
+                    $("#iSlider-wrapper").silder(data,1800,'zoomout');
+                }
+        );
+        ads.doT(70,pageManager.GetQueryString("tenantId"));
+        var pl = new productChannel(
+                function (data) {
+                    $("#tenant_pic").silderProductChannel(data,1,2);
+                }
+        );
+        pl.list();
+        $('#lianxi').on('click', function () {
+            console.log("show");
+            $("#actionSheet_wrap").actionsheet();
+        });
+    });
+//    $(function () {
+//        /**
+//         *倒计时调用
+//         */
+////        var endTime = "${(activityPlanning.endDate?string("yyyy-MM-dd HH:mm:ss"))!}";
+//        var endTime = "2016-11-11 23:59:59";
+//        endTime = endTime.replace(/-/g, ",").replace(/:/g, ",").replace(/ /g, ",");
+//        var d = endTime.split(",");
+//        var obj = {
+//            sec: document.getElementById("sec"),//秒
+//            mini: document.getElementById("mini"),//分
+//            hour: document.getElementById("hour"),//时
+//            day: document.getElementById("day")//天
+//        };
+//        fnTimeCountDown(d, obj);//启用方法
+//    });
+</script>
+
+
+</body>
+</html>
+
+

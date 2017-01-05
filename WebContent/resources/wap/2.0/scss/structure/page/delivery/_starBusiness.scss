@@ -1,0 +1,516 @@
+/// namespace: DSB
+/* >>delivery\_starBusiness*/
+$page_ns: "DSB";
+$page_base-height: 1056px;
+
+//设计图页面高度
+$page_base-width: 640px;
+
+.flex0 {
+    @include flex(0 !important);
+}
+
+.visible-hidden {
+    visibility: hidden;
+}
+
+//设计图页面宽度
+body {
+    &.#{$page_ns} {
+        background: #efefef;
+    }
+}
+
+.box_starR {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 0 2vw;
+
+    @include flexbox;
+
+    @include flex-direction(column);
+
+    @include flex-wrap;
+
+    @include align-items(center);
+
+    @include justify-content(space-between);
+
+    background: #efefef;
+
+    @for $i from 1 through 4 {
+        &:nth-child(#{$i}) {
+            z-index: #{$i * 10};
+        }
+    }
+
+    ///box_starR-hd,好店就在挑货网
+    @at-root .box_starR-hd {
+        $box_starR-hd-height: 96px;
+
+        width: 100%;
+
+        @include flex(strip-units($box_starR-hd-height));
+
+        @include flexbox;
+
+        @include flex-direction(column);
+
+        @include flex-wrap;
+
+        @include align-items(center);
+
+        @include justify-content(center);
+
+        font-family: "微软雅黑";
+        font-size: 26px / $page_base-width * 100vw;
+    }
+
+    ///box_starR-bd,页面主体
+    @at-root .box_starR-bd {
+        $box_starR-bd: 872px;
+        $father_box_starR-bd: #{&};
+
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+
+        @include flex(strip-units($box_starR-bd));
+
+        @at-root .box_starR-bd-main {
+            z-index: 50;
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            background-color: transparent;
+
+            @include flexbox;
+
+            @include flex-direction(column);
+
+            @include flex-wrap;
+
+            @include align-items;
+
+            @include justify-content(center);
+
+            ///店铺标识
+            .store_symbol2 {
+                @include flex(3, 1, 0);
+
+                position: relative;
+
+                //overflow: hidden;
+                & > div {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    overflow: hidden;
+                    border-bottom: 2vw solid #fff;
+                    background-color: #fff;
+                    transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                    -webikit-transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                }
+                ///链接
+                @at-root #{$father_box_starR-bd} {
+                    .store_symbol2-main {
+                        display: block;
+                        line-height: 0;
+                        background-image: url(../upload/no-store.png);
+                        background-color: #fff;
+                        background-position: center center;
+                        background-size: cover;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        bottom: 0;
+
+                        & > img {
+                            ///使用元素背景代替image标签功能
+                            display: none;
+                            width: 100%;
+                            height: auto;
+                        }
+                    }
+                    ///虚化遮罩
+                    .store_symbol-mask{
+                        background-image: url(../upload/no-store.png);
+                        background-color: #fff;
+                        background-position: center center;
+                        background-size: cover;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+                        bottom: 0;
+                        filter: blur(2px) brightness(0.9);
+                        -webkit-filter: blur(2px) brightness(0.9);
+                    }
+                }
+
+                ///store_symbol-info
+                @at-root .store_symbol-info {
+                    &.#{$page_ns} {
+                        padding: 2vh 0;
+                        font-family: "微软雅黑";
+
+                        .ft {
+                            & > a {
+                                display: block;
+                                background-color: #cf011b;
+                                color: #fff;
+                                padding: 0.3em 0.7em;
+                                font-size: 18px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            ///商品展示
+            .model_display2 {
+                //height: pxToEm(354 / 2, 12);
+                position: relative;
+
+                //background-color: #efefef;
+                //padding-top: 2vw;
+                //border-top: 2vw solid #fff;
+
+                %common_inner_img {
+                    width: 100%;
+                    vertical-align: middle;
+                }
+
+                .A-R {
+                    width: 65vw;
+                    height: 63.5vw;
+
+                    
+                    padding-right: 1.5vw;
+                    background-color: #fff;
+                    //border-right: 1.5vw solid #fff;
+                    display: block;
+                    transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                    -webikit-transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+
+                    img {
+                        @extend %common_inner_img;
+                    }
+                }
+
+                .B-R {
+                    width: 31vw;
+
+                    .b1R {
+                        display: block;
+                        height: 31vw;
+                    }
+
+                    .b2R {
+                        display: block;
+                        height: 31vw;
+
+                        //margin-top: 1.5vw;
+                        border-top: 1.5vw solid #fff;
+                    }
+
+                    .b1R, .b2R {
+                        transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                        -webikit-transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                    }
+
+                    img {
+                        @extend %common_inner_img;
+                    }
+                }
+            }
+
+            //全部，新品，促销
+            .startags2 {
+                padding: 0 (8px / $page_base-width * 100vw);
+
+                @include flex(2, 1, 0);
+
+                @include flexbox;
+
+                @include flex-direction;
+
+                @include flex-wrap;
+
+                @include align-items;
+
+                @include justify-content(space-between);
+
+                background-color: #fff;
+                transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+                -webikit-transition: all 0.4s cubic-bezier(0.2, 1, 0.22, 1);
+
+                ///优惠券个体
+                @at-root .startags2-couponR {
+                    color: #fff;
+
+                    //$page_base-width
+                    margin: (30px / $page_base-width * 100vw) (8px / $page_base-width * 100vw);
+                    background: red;
+                    position: relative;
+
+                    @include flex(1);
+
+                    ///优惠券主体色值集合
+                    $arr-startags2-couponR-bg-color: #ff5f6a #ffa459 #ffd24c;
+                    $coupon-serration-circle-size: 10px;
+                    $coupon-serration-circle-color: #ff0000;
+                    $coupon-serration-space-color: #fff;
+
+                    ///特殊化
+                    @for $n from 1 through 3 {
+                        &:nth-child(#{$n}) {
+                            ///优惠券背景色修正
+                            background: nth($arr-startags2-couponR-bg-color, $n);
+
+                            ///锯齿颜色修正
+                            &:before, &:after {
+                                @include patch-coupon-serration-main-color($circle-size: $coupon-serration-circle-size, $circle-color: nth($arr-startags2-couponR-bg-color, $n));
+                            }
+                        }
+                    }
+
+                    ///上方锯齿
+                    &:before {
+                        $coupon-serration-direction: top;
+
+                        @include coupon-serration($direction: $coupon-serration-direction, $circle-size: $coupon-serration-circle-size) {
+                            content: "";
+                            height: $coupon-serration-circle-size / 2;
+                            top: -($coupon-serration-circle-size / 2 - 1px);
+                            width: 100%;
+                        }
+
+
+                        //background-color: #e3393c;
+                   
+                    }
+
+                    ///下方锯齿
+                    &:after {
+                        $coupon-serration-direction: bottom;
+
+                        @include coupon-serration($direction: $coupon-serration-direction, $circle-size: $coupon-serration-circle-size) {
+                            content: "";
+                            height: $coupon-serration-circle-size / 2;
+                            bottom: -($coupon-serration-circle-size / 2 - 1px);
+                            width: 100%;
+                        }
+
+
+                        //background-color: #e3393c;
+                        //@include background(radial-gradient(10px 10px, #fff 0px, #fff 4px, #e3393c 4px) left top repeat-x #e3393c);
+
+                        //background-size: 12px 12px;
+                        //background-position: 0px -1px;
+                   
+                    }
+
+                    & > div {
+                        line-height: 1.4;
+                        font-family: "微软雅黑";
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        margin: 0.2em;
+                        text-align: center;
+                        border: 1px solid rgba(255, 255, 255, 0.6);
+                        font-size: 30px / $page_base-width * 100vw;
+
+                        @include flexbox;
+
+                        @include flex-direction(column);
+
+                        @include flex-wrap;
+
+                        @include align-items(center);
+
+                        @include justify-content(center);
+
+                        & * {
+                            font-weight: normal;
+                            width: 100%;
+
+                            @extend %ellipsis;
+                        }
+                    }
+                }
+            }
+
+            //动画定义
+            &.come-in {
+                //定义其子元素入场时的动态效果,暂时不设置入场效果
+           
+            }
+
+            &.come-out {
+                ///定义其子元素出场时的动态效果
+                ///店铺标识(图片背景)
+                .store_symbol2 {
+                    perspective-origin: 50% 100%;
+                    perspective: 200px;
+
+                    & > div {
+                        opacity: 0.4;
+                        transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                        -webikit-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                        transform: translateY(-105%) scaleX(1.2) rotateX(-110deg);
+                        -webkit-transform: translateY(-105%) scaleX(1.2) rotateX(-110deg);
+                    }
+                }
+
+                ///三大块
+                .model_display2 {
+                    perspective-origin: 0% 50%;
+                    perspective: 200px;
+
+                    a.A-R {
+                        opacity: 0;
+                        transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                        -webikit-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+
+                        //transform: translateX(-105%);
+                        //-webkit-transform: translateX(-105%);
+                        //
+                        transform: translateX(-105%) scaleX(1) skew(-30deg, 20deg) rotateX(-200deg);
+                        -webkit-transform: translateX(-105%) scaleX(1) skew(-30deg, 20deg) rotateX(-200deg);
+                    }
+
+                    //小块父层重置视角
+                    div.B-R {
+                        perspective-origin: 100% 50%;
+                        perspective: 200px;
+                    }
+
+                    a.b1R, a.b2R {
+                        opacity: 0;
+                        transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                        -webikit-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+
+                        //transform: translateX(105%);
+                        //-webkit-transform: translateX(105%);
+                        //
+                   
+                    }
+
+                    a.b1R {
+                        transform: translateX(105%) scaleX(1) skew(-30deg, 20deg) rotateX(190deg);
+                        -webkit-transform: translateX(105%) scaleX(1) skew(-30deg, 20deg) rotateX(190deg);
+                    }
+
+                    a.b2R {
+                        transform: translateX(105%) scaleX(1) skew(20deg, -30deg) rotateX(280deg);
+                        -webkit-transform: translateX(105%) scaleX(1) skew(20deg, -30deg) rotateX(280deg);
+                    }
+                }
+
+                ///优惠券
+                .startags2 {
+                    opacity: 0.4;
+                    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                    -webikit-transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+                    transform: translateY(105%);
+                    -webkit-transform: translateY(105%);
+                }
+            }
+        }
+    }
+
+    ///box_starR-ft,底部页码
+    @at-root .box_starR-ft {
+        width: 100%;
+
+        $box_starR-ft-height: 88px;
+
+        @include flexbox;
+
+        @include flex-direction(column);
+
+        @include flex-wrap;
+
+        @include align-items(center);
+
+        @include justify-content(center);
+
+        @include flex(strip-units($box_starR-ft-height));
+
+        ///索引值(页码)
+        .pageindexR {
+            @include flexbox;
+
+            @include flex-direction(row);
+
+            @include flex-wrap;
+
+            @include align-items(center);
+
+            @include justify-content(center);
+
+            font-size: 24px / $page_base-width * 100vw;
+            color: #333;
+
+            span {
+                display: block;
+
+                &.page_total {
+                    position: relative;
+                    margin-left: 12px;
+                    background-color: #ccc;
+                    height: 1.5em;
+                    width: 1em;
+                    text-align: center;
+                    line-height: 1.5em;
+
+                    @at-root %page_total-before-and-after {
+                        content: '';
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        top: 0;
+                        position: absolute;
+                        background-color: transparent;
+                    }
+
+                    &:before {
+                        @extend %page_total-before-and-after;
+
+                        left: -1em;
+                        border-width: 1.5em 1em 0 0;
+                        border-color: transparent #ccc transparent transparent;
+                        border-style: solid;
+                    }
+
+                    &:after {
+                        @extend %page_total-before-and-after;
+
+                        right: -1em;
+                        border-style: solid;
+                        border-width: 1.5em 1em 0 0;
+                        border-color: #ccc transparent transparent transparent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>delivery\_starBusiness,end*/

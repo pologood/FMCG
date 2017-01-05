@@ -1,0 +1,391 @@
+/**
+ * Created by Administrator on 2016/3/13.
+ */
+/*-------------twoCategory-h-------------*/
+div.twoCategory-h {
+    line-height: 60px;
+    border-bottom: 1px solid #eb3341;
+    font-size: 16px;
+}
+div.twoCategory-h .selected {
+    background-color: #fff;
+    padding: 2px 0 2px 5px;
+    margin: 0 10px;
+}
+div.twoCategory-h a {
+    color: #333;
+    font-size: 14px;
+}
+div.twoCategory-h a.on {
+    color: #eb3341;
+}
+div.twoCategory-h .color {
+    color: #eb3341;
+    padding:0 5px;
+}
+div.twoCategory-h .twoCategory-h-right {
+    font-size: 14px;
+    padding-right: 35px;
+    position: relative;
+}
+div.twoCategory-h i {
+    position: absolute;
+    right: 0;
+    top: 20px;
+    *top: 0;
+    _top: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 50%;
+    color: #eb3341;
+    border: 1px solid #eb3341;
+}
+/*-----------twoCategory-option-----------*/
+div.twoCategory-option {
+    /*border: 1px solid #e4e4e4;*/
+    border-top: 1px solid #e4e4e4;
+    border-right: 1px solid #e4e4e4;
+    border-left: 1px solid #e4e4e4;
+    margin-top: 20px;
+}
+div.twoCategory-option h5 {
+    display: inline-block;
+    padding: 10px 0px;
+}
+div.twoCategory-option span {
+    display: inline-block;
+    cursor: pointer;
+    /*float: left;*/
+    padding: 10px 40px;
+}
+div.twoCategory-option span.on {
+    color: #eb3341;
+}
+div.twoCategory-option span:hover {
+    color: #eb3341;
+}
+div.twoCategory-option .more {
+     position: absolute;
+     top: 10px;
+     right: 30px;
+     width: 60px;
+     height: auto;
+     line-height: 22px;
+     overflow: hidden;
+     zoom: 1;
+    cursor: pointer;
+ }
+div.twoCategory-option .extend {
+    min-height: 88px;
+}
+div.twoCategory-option .extend .right {
+    min-height: 78px;
+}
+div.twoCategory-option .more:hover {
+    color:#eb3341;
+}
+div.twoCategory-option .more i {
+    font-size: 18px;
+    border: 1px solid #e4e4e4;
+    display: inline-block;
+    text-align: center;
+    padding: 0px 6px 2px 6px;
+}
+div.twoCategory-option .more:hover a {
+    color:#eb3341;
+}
+div.twoCategory-option .more:hover i {
+    border-color:#eb3341;
+}
+div.brand,div.price,div.classes {
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    min-height: 48px;
+    position: relative;
+    padding-left: 70px;
+}
+div.brand .left,div.price .left,div.classes .left {
+    position: absolute;
+    left: 20px;
+    width: 40px;
+    padding-top: 5px;
+}
+div.brand .right,div.price .right,div.classes .right {
+    padding-right: 130px;
+    padding-left: 10px;
+    overflow: hidden;
+    zoom: 1;
+    background-color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-height: 38px;
+}
+div.brand .height,div.price .height,div.classes .height {
+    height: 38px;
+}
+div.sort {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e4e4e4;
+    height: 28px;
+    overflow: hidden;
+}
+div.sort .li {
+    float: left;
+    line-height: 28px;
+    border: 1px solid #e4e4e4;
+    padding: 0 30px 0 10px;
+    position: relative;
+    background: #fff;
+    color: #999;
+    margin-left: -1px;
+}
+div.sort .ul .li:hover {
+    color: #e4393c;
+}
+div.sort .ul .li.curr:hover {
+    color: #fff;
+}
+div.sort .ul .li.curr {
+    background: #e4393c;
+    color: #FFF;
+}
+div.sort .li i {
+    position: absolute;
+    display: block;
+    right: 6px;
+    top: 0px;
+    width: 18px;
+    height: 18px;
+    font-family: "\5b8b\4f53";
+    cursor: pointer;
+}
+div.sort .sort-synthesis {
+    padding: 0 15px;
+}
+div.sort .sort-num {
+    line-height: 28px;
+}
+div.sort .sort-num .up,div.sort .sort-num .down {
+    width: 23px;
+    height: 26px;
+    border: 1px solid #DDD;
+    background: #FFF;
+    line-height: 26px;
+    font-family: "\5b8b\4f53";
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #AAA;
+    margin-right: 10px;
+    float: left;
+}
+div.sort .sort-num .up.disabled,div.sort .sort-num .down.disabled {
+    padding: 0;
+    background: #F1F1F1;
+    color: #CCC;
+    cursor: default;
+}
+div.sort .sort-num .text {
+    float: left;
+}
+div.sort .f-right span {
+    padding:0px 2px;
+    margin: 0;
+    float: none;
+}
+/*------------ list-show -------------*/
+div.list-show {
+     overflow: hidden;
+     width: 1200px;
+     margin: 0 auto;
+ }
+div.list-show ul {
+    margin-top: 20px;
+    display: inline-block;
+    margin-left: 1px;
+}
+div.list-show ul li {
+    float: left;
+    width: 218px;
+    background-color: #ffffff;
+    padding: 0 10px;
+    margin-left: -1px;
+    border: 1px solid #e4e4e4;
+    height: 400px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+div.list-show ul li:hover {
+    position: relative;
+    border:1px solid #eb3341;
+    z-index: 99;
+}
+div.list-show ul li h2 {
+    font-size: 14px;
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+    font-weight: normal;
+}
+div.list-show ul li dl {
+    padding-bottom: 10px;
+}
+div.list-show ul li dl dd {
+    padding-top: 5px;
+    font-size: 14px;
+    width: 218px;
+    height: 28px;
+    position: relative;
+}
+div.list-show ul li dl dd div {
+    padding-right: 0;
+    height: 26px;
+    width: 26px;
+    line-height: 26px;
+    background-color: #F1F1F1;
+    border: 1px solid #E4E4E4;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+}
+div.list-show ul li dl dd input {
+    float: left;
+    border: 1px solid #e4e4e4;
+    margin: 0px -1px;
+    width: 30px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    text-align: center;
+}
+div.list-show ul li dl dd i {
+    position: absolute;
+    width: 35px;
+    height: 28px;
+    background: url("../images/icon02.png") -1px -1px no-repeat;
+    left: 125px;
+    cursor: pointer;
+}
+
+div.list-show ul li dl dd i:hover {
+    position: absolute;
+    width: 35px;
+    height: 28px;
+    background: url("../images/icon02.png") -84px -1px no-repeat;
+    left: 125px;
+    cursor: pointer;
+}
+
+.favorite{
+    position: absolute;
+    width: 35px;
+    height: 28px;
+    background: url("../images/icon02.png") -84px -1px no-repeat;
+    left: 125px;
+    cursor: pointer;
+}
+
+div.list-show ul li dl dd span {
+    font-size: 18px;
+    color: #de0010;
+    margin-left: 10px;
+    font-weight: bold;
+}
+div.list-show ul li div {
+    float: left;
+    font-size: 14px;
+    padding-right: 20px;
+    position: relative;
+}
+div.list-show ul li div i {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background: url(../images/icon02.png) -40px -6px no-repeat;
+}
+div.list-show ul li div i.save_product{
+    background: url(../images/icon02.png) -64px -6px no-repeat;
+}
+div.list-show ul li div i:hover {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    background: url(../images/icon02.png) -64px -6px no-repeat;
+}
+div.list-show ul li img {
+    width: 218px;
+    height: 218px;
+    display: block;
+    padding: 10px 0;
+}
+/*----- page-wrap -----*/
+div.page-wrap {
+    margin: 60px 10%;
+}
+div.page-wrap .p-num {
+    float: left;
+}
+div.page-wrap .p-skip {
+    float: left;
+    margin-left: 30px;
+}
+div.page-wrap .p-num .pn-next.disabled,div.page-wrap .p-num .pn-prev.disabled {
+    background: 0 0;
+    background: #fff;
+    cursor: no-drop;
+}
+div.page-wrap .p-num a,div.page-wrap .p-num b {
+    float: left;
+    height: 24px;
+    line-height: 24px;
+    padding: 0 14px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+div.page-wrap .p-num a {
+    color: #333;
+    border: 1px solid #e4e4e4;
+    background-color: #fff;
+}
+div.page-wrap .p-skip em {
+    float: left;
+    line-height: 24px;
+    font-size: 14px;
+}
+div.page-wrap .p-skip .input-txt {
+    float: left;
+    width: 36px;
+    height: 16px;
+    margin: 0 3px;
+    line-height: 16px;
+    font-size: 14px;
+    text-align: center;
+    padding: 3px;
+}
+div.page-wrap .p-skip .btn {
+    float: left;
+    height: 24px;
+    margin-left: 10px;
+    padding: 0 10px;
+    font-size: 14px;
+    line-height: 24px;
+    border: 1px solid #e4e4e4;
+    color: #333;
+}
+div.page-wrap .p-num a.curr {
+    /* border: 0 none; */
+    padding: 0px 15px;
+    background: #777;
+    filter: none;
+    color: #fff;
+    cursor: default;
+}

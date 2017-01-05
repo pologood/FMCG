@@ -1,0 +1,672 @@
+@charset "utf-8";
+
+
+/*---------- pay-order-head -------------*/
+div.pay-order-head {
+    padding: 15px 0;
+    border: 1px solid #cccccc;
+    background-color: #fcfcfc;
+}
+div.pay-order-head .tit {
+    padding-left: 90px;
+    color: #333333;
+    background: url(//s10.mogucdn.com/p1/150806/upload_iezwkztegrqtkolegizdambqgyyde_320x260.png) -240px 4px no-repeat;
+    font-size: 18px;
+    float: left;
+}
+div.pay-order-head .tit .color {
+    color: #f36!important;
+}
+div.pay-order-head .tit .tit-alert {
+    font-size: 12px;
+}
+div.pay-order-head .mon {
+    padding-right: 60px;
+    float: right;
+    line-height: 24px;
+}
+div.pay-order-head .mon .mon-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: #f36;
+}
+
+/*---------- pay-tab --------------*/
+div.pay-tab {
+    *zoom:1;
+    margin-top: 1px;
+}
+div.pay-tab .txt {
+    height:12px;
+    padding:9px 10px;
+    line-height:12px;
+    background:#fff;
+    border:1px solid #ececec;
+}
+div.pay-tab .icon-fastpay {
+    margin-right: 4px;
+    display: inline-block;
+    width: 58px;
+    height: 16px;
+    vertical-align: middle;
+    background: url(//s10.mogucdn.com/p1/150806/upload_iezwkztegrqtkolegizdambqgyyde_320x260.png) 0 0 no-repeat;
+}
+/*----- slide-tab ------*/
+div.slide-tab {
+    background: #fcfcfc;
+    transition: background .3s;
+    /*border-bottom: 1px dashed #ddd;*/
+}
+/*---- pay-tab-hd ----*/
+div.pay-tab-hd {
+    position: relative;
+    background: #fcfcfc;
+    /*margin-top: -1px;*/
+    padding: 0 60px;
+    font-size: 0;
+    letter-spacing: 0;
+    *zoom:1;
+    transition: background .3s;
+}
+div.pay-tab-hd span {
+    display: inline-block;
+    vertical-align: middle;
+}
+div.pay-tab-hd .tit {
+    margin-right: 10px;
+    font: 400 20px/84px 'Microsoft YaHei';
+}
+div.pay-tab-hd .pay-tab-hd-alert {
+    margin-right: 10px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 84px;
+    /*font: 400 12px/84px helvetica;*/
+}
+div.pay-tab-hd .icon-folder {
+    display: none;
+}
+div.pay-tab-hd .link {
+    color: #2290e5;
+    font: 400 14px/14px helvetica;
+    vertical-align: middle;
+    cursor: pointer;
+}
+div.pay-tab-hd .link span {
+    display: inline-block;
+    vertical-align: middle;
+}
+div.pay-tab-hd .link:hover span {
+    text-decoration: underline;
+}
+
+div.pay-method-hd .icon-fastpay {
+    display: none;
+}
+
+div.pay-method-hd .pay-tab-hd-alert {
+    display: none;
+}
+/*-------------- pay-tab-main -------------*/
+div.pay-tab-main {
+    display: none;
+    border-bottom: 1px dashed #ddd;
+    background: #fcfcfc;
+    padding: 0 60px 48px;
+    overflow: hidden;
+    *zoom:1;transition: background .3s;
+}
+div.pay-tab-main .card-txt {
+    position: relative;
+    cursor: text;
+    float: left;
+}
+div.pay-tab-main .card-txt input {
+    float: left;
+    width: 290px;
+    height: 18px;
+    padding: 6px;
+    overflow: hidden;
+    border: 1px solid #e4e4e4;
+}
+div.pay-tab-main .card-numtip {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 42px;
+    text-indent: 14px;
+    left: -1px;
+    bottom: -44px;
+    background: #ddd;
+    border: 1px solid #ccc;
+    border-top: none;
+    font: 400 22px/42px 'Microsoft YaHei';
+}
+div.pay-tab-main .btn-confirm {
+    float: left;
+    width: 80px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    overflow: hidden;
+    margin-left: 10px;
+    color: #999;
+    background: #f2f2f2;
+}
+/*----------bank-list-line -----------*/
+div.bank-list-line {
+    *zoom:1;
+}
+div.bank-list-line .bank-list-item {
+    display: block;
+    position: relative;
+    margin-bottom: 20px;
+    background: #fff;
+    border: 2px solid #ececec;
+    cursor: pointer;
+    transition: border-color .1s;
+    *zoom:1;
+}
+div.bank-list-line .bank-list-item:hover {
+    border: 2px solid #277ecd;
+}
+div.bank-list-line .bank-list-item:hover .payhover {
+    display: block!important;
+}
+div.bank-list-line .bank-list-item span {
+    vertical-align: middle;
+}
+div.bank-list-line .bank-list-item .red-bag {
+    vertical-align: baseline;
+}
+div.bank-list-line .bank-list-item .red-bag .num {
+    font-weight: 400;
+}
+div.bank-list-line .bank-list-item-disable {
+    cursor: default;
+}
+div.bank-list-line .bank-list-item-disable .earn-name,div.bank-list-line .bank-list-item-disable .earn-tip {
+    color: #bcbcbc;
+}
+div.bank-list-line .bank-list-item-disable:hover {
+    border: 2px solid #ececec;
+}
+div.bank-list-line .bank-list-item-disable:hover .payhover {
+    display: none!important;
+}
+div.bank-list-line .checkbox {
+    margin: 0 14px 0 20px;
+}
+div.bank-list-line .logo {
+    width: 150px;
+    padding-left: 48px;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .logo img {
+    vertical-align: middle;
+}
+div.bank-list-line .card-no,.bank-list-line .method-tip {
+    width: 120px;
+    color: #666;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .card-type {
+    width: 42px;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .limit {
+    margin-left: 16px;
+    width: 190px;
+    color: #999;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .earn-name {
+    width: 110px;
+    font-weight: 700;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .earn-tip {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .earn-tip .num {
+    padding: 0 2px;
+    font-weight: 700;
+    vertical-align: baseline;
+}
+div.bank-list-line .paynum {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-right: 18px;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+}
+div.bank-list-line .paynum .num {
+    padding: 0 2px;
+    font-weight: 700;
+    color: #f36;
+    vertical-align: baseline;
+}
+div.bank-list-line .payhover {
+    display: none;
+}
+div.bank-list-line .bank-list-item-select {
+    border: 2px solid #277ecd;
+}
+div.bank-list-line .bank-list-item-select .paynum {
+    display: inline-block;
+}
+/*------ pay-tab-close -------*/
+div.pay-tab-close .pay-tab-hd {
+    background: #fff;
+    border-bottom: 1px dashed #ddd;
+    cursor: pointer;
+}
+div.pay-tab-close .pay-tab-hd .icon-folder {
+    display: block;
+    position: absolute;
+    right: 66px;
+    top: 32px;
+    width: 24px;
+    height: 24px;
+    background: url(//s10.mogucdn.com/p1/150806/upload_iezwkztegrqtkolegizdambqgyyde_320x260.png) -2px -54px no-repeat;
+}
+div.pay-tab-close .pay-tab-main {
+    background: #fff;
+}
+/*----------- bank-list-list -------------*/
+div.bank-list-list .bank-list-item {
+    float: left;
+    position: relative;
+    margin: 0 12px 10px 0;
+    background: #fff;
+    border: 2px solid #ececec;
+    cursor: pointer;
+    transition: border-color .1s;
+}
+div.bank-list-list .bank-list-item:hover {
+    border: 2px solid #277ecd;
+}
+div.bank-list-list .logo {
+    width: 145px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px 0 0;
+    height: 45px;
+}
+div.bank-list-list .s-banklist-item-select {
+    border: 2px solid #277ecd;
+}
+/*--------- pay-method -----------*/
+div.pay-method {
+    display: none;
+    *zoom:1
+}
+.icon-ankr {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    background: url(//s10.mogucdn.com/p1/150806/upload_iezwkztegrqtkolegizdambqgyyde_320x260.png) -8px -85px no-repeat;
+}
+/*------------支付- pay-form --------*/
+div.pay-form {
+    display:none;
+}
+div.pay-form .form {
+    position:relative;
+}
+div.pay-form .form dt {
+    position:absolute;
+    width:88px;
+    padding-right:12px;
+    height:48px;
+    line-height:48px;
+    text-align:right;
+    color:#666;
+    left:0;
+}
+div.pay-form .form dd {
+    padding-left:100px;
+    line-height:48px;
+    min-height:48px;
+}
+
+div.pay-form .form dd .bank-info {
+    position:relative;
+    width:280px;
+    padding:0 10px;
+    height:46px;
+    line-height:46px;
+    border:1px solid #ececec;
+    text-align:right;
+    letter-spacing:0;
+}
+div.pay-form .form dd .bank-info .bank-icon {
+    position:absolute;
+    left:10px;
+    top:3px;
+}
+div.pay-form .form dd .bank-info .card-no {
+    color:#999;
+    padding-right:8px;
+    font-size:12px;
+}
+div.pay-form .form dd .bank-info .type {
+    padding-right:8px;
+    font-size:12px;
+    vertical-align:middle;
+}
+div.pay-form .form dd .bank-info img {
+    vertical-align:middle;
+}
+div.pay-form .form .txt {
+    width:280px;
+}
+div.pay-form .form .txt-small {
+    width:74px;
+    vertical-align:middle;
+}
+div.pay-form .form .btn-sms {
+    display:inline-block;
+    margin-left:10px;
+    padding:0 16px;
+    color:#999;
+    height:32px;
+    line-height:32px;
+    vertical-align:middle;
+    background:#f2f2f2;
+    cursor:default;
+}
+div.pay-form .form .btn-sms span {
+    vertical-align:baseline;
+}
+div.pay-form .form .notice {
+    color:#999;
+    /*max-height:24px;*/
+    line-height:24px;
+    padding-bottom:6px;
+}
+div.pay-form .form .s-notice-error {
+    color:#f36;
+}
+div.pay-form .form .agree {
+    color:#999;
+    height:14px;
+    line-height:14px;
+    padding-bottom:14px;
+}
+div.pay-form .form .agree input,.pay-form .form .agree label {
+    vertical-align:middle;
+}
+div.pay-form .form .agree input a,.pay-form .form .agree label a {
+    color:#277ecd;
+}
+div.pay-form .form .agree input a:hover,.pay-form .form .agree label a:hover {
+    text-decoration:underline;
+}
+div.pay-form .form .btn-sms-enable {
+    color:#fff;
+    background:#277ECD;
+    cursor:pointer;
+}
+div.pay-form .form .btn-pay {
+    display:inline-block;
+    padding:0 24px;
+    color:#fff;
+    background:#ffa700;
+    border-radius:2px;
+    font:400 16px/46px 'Microsoft YaHei';
+}
+div.pay-form .form .s-btn-pay-disable {
+    color:#999;
+    background:#f2f2f2;
+    cursor:default;
+}
+div.pay-form-credit {
+    background:url(//s10.mogucdn.com/pic/141204/ubzlo_ieydsmzzmzrday3fmqytambqgiyde_420x340.jpg) right top no-repeat;
+}
+/*快捷支付*/
+div.theme-light .pay-tab-hd,div.theme-light .pay-tab-main {
+    background: #fff;
+    border: 0;
+}
+div.fn-paymethodLine {
+    display:none;
+}
+/*首次快捷支付*/
+div.fn-fastpay_1st .fn-paymethodLine {
+    display: block;
+}
+div.fn-fastpay_1st .fn-fastpay_1st-detail {
+    display: block;
+}
+div.pay-form .pay-form-credit {
+    background: url(//s10.mogucdn.com/pic/141204/ubzlo_ieydsmzzmzrday3fmqytambqgiyde_420x340.jpg) right top no-repeat;
+}
+/*二次快捷支付*/
+div.fn-fastpay_2nd .fn-paymethodLine {
+    display:block;
+}
+div.fn-fastpay_2nd .fn-fastpay_2nd-detail {
+    display: block;
+}
+/*网银支付*/
+div.fn-banking .fn-paymethodLine {
+    display: block;
+}
+/*银联支付*/
+div.fn-unionpay .fn-paymethodLine {
+    display: block;
+}
+/*微信支付*/
+div.fn-wechat .fn-paymethodLine {
+    display: block;
+}
+div.fn-wechat .fn-wechat-detail {
+    display: block;
+}
+div.code2-wechat {
+    display: none;
+}
+div.code2-wechat .code-wrap {
+    float: left;
+    width: 45%;
+    height: 230px;
+    padding: 32px 0;
+    text-align: center;
+    background: #fff;
+}
+div.code2-wechat .code-wrap .code {
+    border: 1px solid #ececec;
+}
+div.code2-wechat .tip {
+    float: left;
+    position: relative;
+    padding: 61px 0;
+    width: 55%;
+    height: 172px;
+    background: #f4f4f4;
+    *zoom:1;
+}
+div.code2-wechat .tip h5 {
+    padding: 30px 0;
+    text-align: center;
+    color: #999;
+    font: 700 20px/1.4 'Microsoft YaHei';
+}
+div.code2-wechat .tip p {
+    color: #999;
+    text-align: center;
+}
+div.code2-wechat .tip .link {
+    padding: 0 2px;
+    color: #277ecd;
+}
+div.code2-wechat .tip .link:hover {
+    text-decoration: underline;
+}
+div.code2-wechat .tip:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -64px;
+    margin-top: -48px;
+    height: 0;
+    overflow: hidden;
+    border-top: 48px solid #fff;
+    border-right: 32px solid #f4f4f4;
+    border-bottom: 48px solid #fff;
+    border-left: 32px solid #fff;
+    z-index: 9999;
+}
+/*支付宝支付*/
+div.fn-alipay .fn-paymethodLine {
+    display: block;
+}
+div.fn-alipay .fn-alipay-detail {
+    display: block;
+}
+div.code2-alipay {
+    display: none;
+    position: relative;
+    *zoom: 1;
+}
+div.code2-alipay .fence-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -4px;
+    width: 8px;
+    height: 340px;
+    background: #f8f8f8;
+    z-index: 10;
+    *zoom:1}
+div.code2-alipay .fence-line .fence {
+    position: absolute;
+    top: 50%;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    margin-top: 16px;
+    right: -12px;
+    background: #f8f8f8;
+    z-index: 10;
+    font: 700 16px/2 'Microsoft YaHei';
+    border-radius: 1em
+}
+div.code2-alipay .bx {
+    float: left;
+    width: 50%
+}
+div.code2-alipay .bx h5 {
+    text-align: center;
+    color: #999;
+    background: #f4f4f4;
+    font: 400 20px/64px 'Microsoft YaHei'
+}
+div.code2-alipay .bx .bx-cnt {
+    position: relative;
+    background: #fff;
+    height: 276px;
+    text-align: center;
+    *zoom:1;*z-index: 10
+}
+div.code2-alipay .bx .bx-cnt .code {
+    margin-right: 24px;
+    margin-bottom: 18px;
+    vertical-align: middle
+}
+div.code2-alipay .bx .bx-cnt .payicon {
+    margin: 0 auto 18px;
+    width: 188px;
+    height: 100px;
+    background: url(//s10.mogucdn.com/p1/150806/upload_iezwkztegrqtkolegizdambqgyyde_320x260.png) -132px -100px no-repeat
+}
+div.code2-alipay .bx .bx-cnt .btn-pay {
+    display: block;
+    width: 188px;
+    height: 54px;
+    margin: 0 auto;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+    background: #f36;
+    font: 400 20px/54px 'Microsoft YaHei'
+}
+div.code2-alipay .bx .bx-cnt1 {
+    line-height: 276px
+}
+div.code2-alipay .bx .bx-cnt2 {
+    padding-top: 57px;
+    height: 219px
+}
+
+/*---------- pay-order-foot ----------*/
+div.pay-order-foot {
+    padding: 20px 60px 40px;
+}
+div.pay-order-foot .mon {
+    padding-right: 20px;
+    float: right;
+    line-height: 54px;
+}
+div.pay-order-foot .mon span {
+    vertical-align: middle;
+    display: inline-block;
+}
+div.pay-order-foot .mon-num {
+    color: #f36;
+    font-weight: 700;
+    font-size: 24px;
+}
+div.pay-order-foot .mon-num span {
+    vertical-align: top;
+}
+div.pay-order-foot .btn-comfirm {
+    float: right;
+    color: #fff;
+    background: #f36;
+    font-weight: 400;
+    font-size: 20px;
+    padding: 14px 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>个人资料</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_mydata">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel" style="padding-bottom:0">
+                
+
+<!--BEGIN persondata-->
+<div class="persondata">
+    <div class="weui-cells weui-cells——_access section1">
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>头像</p>
+            </div>
+            <div class="weui-cell__ft">
+                <div class="item-charter-wrap">
+                    <div class="form-item">
+                        <div style="float:right;" id="background">
+                            <img src="" id="img1" style="display: block;">
+                        </div>
+                        <form id="dateform" enctype ="multipart/form-data">
+                            <input type="file" class="upload_img" name="file" id="myimg" style="padding:8vw 0;position: absolute;top:3vw;opacity:0" onchange="getFullPath()">
+                        </form>
+                        <i class="i-status"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="weui-cells weui-cells——_access section2">
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>昵称</p>
+            </div>
+            <div class="weui-cell__ft f14" id="nickname">--</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>姓名(不可修改)</p>
+            </div>
+            <div class="weui-cell__ft f14" id="username">--</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+        <a class="weui-cell" href="javascript:;">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>性别</p>
+            </div>
+            <div class="weui-cell__ft f14" id="usersex">--</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+        <a class="weui-cell showma" href="javascript:;">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>二维码</p>
+            </div>
+            <div class="weui-cell__ft"><i class="icon iconfont icon-orc"></i></div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="weui-cells weui-cells——_access section3">
+        <a class="weui-cell ifspread" href="certification.html" id="certi">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>实名认证</p>
+            </div>
+            <div class="weui-cell__ft f14" id="spread">未认证</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+        <a class="weui-cell" href="myloginpassword.html">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>登录密码</p>
+            </div>
+            <div class="weui-cell__ft orange f14" id="resetlogin">重置密码</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+        <a class="weui-cell" href="mypaypassword.html">
+            <div class="weui-cell__bd weui-cell__mary f14">
+                <p>支付密码</p>
+            </div>
+            <div class="weui-cell__ft f14 orange" id="resetpay">重置密码</div>
+            <div class="weui-cell__ft">
+                <i class="icon iconfont"></i>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="saoma">
+        <div class="lineone">
+            <div class="uphoto"><img src="" alt="" id="img2"></div>
+            <span id="username2 f14">用户姓名</span>
+            <i class="icon iconfont icon-remove-02"></i>
+        </div>
+        <div class="erwei">
+            <img src="http://dev.ruishangquan.com/weixin/member/qrcode.jhtml" alt="" id="myewm">
+        </div>
+        <p class="f14">扫一扫，关注我</p>
+    </div>
+
+    <div class="persondata_name f14">
+        <div>
+            <input type="text" placeholder="请输入姓名">
+        </div>
+        <div>
+            <button type="button">确认修改</button>
+        </div>
+    </div>
+
+    <div class="persondata_sex">
+        <p class="f14" style="text-align: center">请选择性别</p>
+        <div class="weui-cells_radio">
+            <label class="weui-cell weui-check__label" for="x09">
+                <div class="weui-cell__bd weui_cell_primary f14">
+                    <p data-id="0">男</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio2" id="x09" checked="checked">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="x10">
+                <div class="weui-cell__bd weui_cell_primary f14">
+                    <p data-id="1">女</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" name="radio2" class="weui-check" id="x10">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+        </div>
+    </div>
+</div>
+<script>
+    function getFullPath() {
+        var file=document.getElementById('myimg');
+        var fileList = file.files;
+        var img=document.getElementById("img1");
+        for(var i=0;i<fileList.length;i++){
+            if(file.files[0]){
+                img.style.display = 'block';
+                img.style.width = '10vw';
+                img.style.height = '10vw';
+                if (window.createObjectURL!=undefined) { // basic
+                    img.src = window.createObjectURL(file.files[0]);
+                } else if (window.URL!=undefined) { // mozilla(firefox)
+                    img.src = window.URL.createObjectURL(file.files[0]);
+                } else if (window.webkitURL!=undefined) { // webkit or chrome
+                    img.src = window.webkitURL.createObjectURL(file.files[0]);
+                }
+            }
+            var f_i= new FormData();
+            f_i.append("file",fileList[i])
+        }
+    }
+
+</script>
+
+<!--END persondata-->
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("mydata");
+
+        //显示会员基本信息
+       var mem1=new member(function(data){
+           $("#username").html(data.name);
+           $("#username2").html(data.name);   //二维码界面姓名
+           $("#nickname").html(data.nickName);
+           $("#img1").attr('src',data.headImg); //二维码界面头像
+           $("#img2").attr('src',data.headImg);
+           if(data.gender=="female"){
+               $("#usersex").html("女");
+           }else{
+               $("#usersex").html("男");
+           };
+           if(data.authStatus=='success'){
+               $('#spread').html("已认证");
+               $('.ifspread').removeAttr("href");
+           }else if(data.authStatus=='wait'){
+               $('.ifspread').removeAttr("href");
+               $('#spread').html("认证中");
+           }else{
+               $('#spread').html("未认证");
+
+           }
+           $("#certi").click(function(){
+               if(data.authStatus=='success'){
+                   $('#spread').html("已认证");
+                   $('.ifspread').removeAttr("href");
+                  toast.show("您已经实名认证");
+               }else if(data.authStatus=='wait'){
+                   $('.ifspread').removeAttr("href");
+                   $('#spread').html("认证中");
+                   toast.show("正在审核，请耐心等待");
+               }else{
+                   $('#spread').html("未认证");
+
+               }
+           });
+       });
+        mem1.view();
+
+
+
+        //上传头像，接口返回图片地址src
+        $("#myimg").change(function () {
+            var f2 = new file(function (a) {
+
+                //修改头像
+                var mem=new member(function(data){
+                    console.log(data);
+                    toast.show("修改成功");
+                });
+                mem.update({headImg:a});   //头像的地址设为刚上传的图片
+
+
+            });
+            f2.uploadImage(new FormData($("#dateform")[0]));
+        });
+
+
+
+
+
+
+        //打开修改昵称窗口
+        $(".section2 a").eq(0).click(function(){
+            $(".persondata_name").css("display","block");
+        });
+        //进行昵称修改
+        $(".persondata_name button").click(function(){
+//          $(".section2 #nickname").html($(".persondata_name input").val());
+            $(this).parent().parent().css("display","none");
+            var newnick=$(".persondata_name input").val();
+            var mem2=new member(function(data){
+                console.log(data);
+            });
+            mem2.update({nickName:newnick});
+        });
+
+
+
+        //打开修改性别窗口
+        $(".section2 a").eq(2).click(function(){
+            $(".persondata_sex").css("display","block");
+        });
+
+        //进行性别修改
+        $(".persondata_sex label").click(function(){
+            $(".section2 #usersex").html($(this).find('p').html());
+            $('.persondata_sex').css("display","none");
+            var sex=$(this).find('p').attr('data-id');
+            var mem3=new member(function(data){
+                console.log(data);
+                toast.show("修改成功");
+            });
+            mem3.update({sex:sex})
+        });
+
+
+
+        //查看二维码
+        $('.persondata .showma').click(function(){
+            $(".saoma").css("display","block");
+//            var mem4=new member(function(data){
+//                console.log(data);
+//            });
+//            mem4.qrcode();
+        });
+
+
+
+        //关闭二维码窗口
+        $(".persondata .icon-remove-02").click(function(){
+            $(".saoma").css("display","none");
+        });
+
+
+
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
+
+

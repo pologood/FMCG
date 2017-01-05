@@ -1,0 +1,115 @@
+/// namespace: WHT
+/* >>page\whostrap\test\positionscroller*/
+$page_ns: "WHT";
+
+///占位
+.pagectn {
+    &:nth-child(1) {
+        height: 400px;
+        background-color: #932513;
+    }
+
+    &:nth-child(2) {
+        height: 600px;
+        background-color: #8BC76F;
+    }
+
+    &:nth-child(3) {
+        height: 250px;
+        background-color: #EFFB74;
+    }
+
+    &:nth-child(4) {
+        height: 380px;
+        background-color: #2BD1BB;
+    }
+
+    &:nth-child(5) {
+        height: 500px;
+        background-color: #E75DDA;
+    }
+
+    &:nth-child(6) {
+        height: 200px;
+        background-color: #6360EF;
+    }
+
+    &:nth-child(7) {
+        height: 340px;
+        background-color: #7D96AA;
+    }
+}
+
+///立即注册按钮区域
+.btns-pss {
+    &.#{$page_ns} {
+        padding: 2em;
+        background-color: #fff;
+
+        a {
+            display: block;
+            width: 90%;
+            margin: 0 auto;
+            background-color: #A2E346;
+            color: #fff;
+            text-align: center;
+            line-height: 2.5;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+}
+
+///pagectn2
+.pagectn2 {
+    &.name1 {
+        height: 240px;
+        background-color: #952572;
+    }
+}
+
+///回到顶部
+.backtotop {
+    &.#{$page_ns} {
+        .weui_positionscroller-hd {
+            //position: fixed;
+            width: 2em;
+            height: 2em;
+
+            //right: 10px;
+            //bottom: 10%;
+            background-color: #fff;
+
+            //display: none;
+            //text-align: center;
+            line-height: 2em;
+            border-radius: 50%;
+
+            //color: #666;
+            border: 1px solid #666;
+            opacity: 0.7;
+        }
+    }
+}
+
+///立即注册浮标
+.downtoregister {
+    &.#{$page_ns} {
+        top: 15%;
+        bottom: auto;
+        //background: #fff;
+        font-family: "微软雅黑";
+
+        .weui_positionscroller-bd {
+            a {
+                color: #666;
+                font-weight: bold;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>page\whostrap\test\positionscroller,end*/

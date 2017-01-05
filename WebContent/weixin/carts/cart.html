@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>购物车</title>
+    
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<!--购物车-->
+<script type="text/html" id="tpl_cart">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel" style="background: #e8e8e8;">
+                <div class="weui-cells_checkbox shopCart" style="padding-bottom: 49px;"></div>
+
+                <div class="cart_bar">
+                    <ul>
+                        <li>
+                            <div class=" weui-cells_checkbox" >
+                                <label class="weui-check__label" >
+                                    <p class="checkboxs" >
+                                        <input type="checkbox" class="weui-check" name="checkbox1" id="chkall" >
+                                        <i class="weui-icon-checked"></i>
+                                    </p>
+                                    <p class="all f16">全选</p>
+                                </label>
+                            </div>
+                        </li>
+                        <li class="f16">合计:￥<span id="span_sum">0</span></li>
+
+                        <li class="f16" id="paycart"><a>结算</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var td = new cart(function (data) {
+            var h = render.fill($("#tpl_carts"),data);
+            $(".shopCart").append(h);
+            console.log();
+        });
+        td.list();
+
+
+        $("#paycart").click(function(){
+            if($("#span_sum").text()==0){
+                dialog.show("请选择结算商品");
+            }else{
+                location.href="../carts/cart.html"+'#orderPay';
+                location.reload();
+            }
+        })
+    });
+
+
+</script>
+
+</script>
+<script type="text/html" id="tpl_orderPay">
+<div class="page confirmOrder ">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    
+<div class="chooseWidget weui-tab__panel" style="width:100%;background: #FFFFFF;position: fixed;z-index: 1000;display: none;">
+</div>
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel" >
+                <div class="accordion">
+                    <div class="weui-flex  weui-cell_access" >
+                        <input type="hidden" name="" value="x09">
+                        <p class="weui-flex__item Ftitle">支付方式</p>
+                        <p class="weui-flex__item changestyle f14" styleid="1" id="paymentMethodId">立即付款</p>
+                        <span class="weui-cell__ft"></span>
+                    </div>
+                    <div class="erji f14">
+                        <div class="weui-cells_radio">
+                            <label class="weui-cell weui-check__label" for="x09">
+                                <div class="weui-cell__bd weui_cell_primary">
+                                    <p data-id="1">立即付款</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" class="weui-check" name="radio2" id="x09" checked="checked">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="weui-cells_radio">
+                            <label class="weui-cell weui-check__label" for="x01">
+                                <div class="weui-cell__bd weui_cell_primary">
+                                    <p data-id="7">货到付款</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" class="weui-check" name="radio2" id="x01">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="weui-flex  weui-cell_access" >
+                        <input type="hidden" name="" value="x10">
+                        <p class="weui-flex__item Ftitle">配送方式：</p>
+                        <p class="weui-flex__item changestyle f14" styleid="1" id="shippingMethodId">同城快递</p>
+                        <span class="weui-cell__ft"></span>
+                    </div>
+                    <div class="erji f14">
+                        <div class="weui-cells_radio">
+                            <label class="weui-cell weui-check__label" for="x10">
+                                <div class="weui-cell__bd weui_cell_primary">
+                                    <p data-id="1">同城快递</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" class="weui-check" name="radio2" id="x10" checked="checked">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="weui-cells_radio">
+                            <label class="weui-cell weui-check__label" for="x11">
+                                <div class="weui-cell__bd weui_cell_primary">
+                                    <p data-id="7">到店提货</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <input type="radio" class="weui-check" name="radio2" id="x11">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-text">
+                        <input class="weui-input" type="text" placeholder="订单补充说明" id="memo">
+                    </div>
+                </div>
+                <div class="weui-cells receipt" id="myad">
+                    <a class="weui-cell weui-cell_access" href="javascript:;" id="adBtn">
+                        <div class="weui-cell__bd">
+                            <p class="f14">
+                                收货人：<span class="orange" id="consignee">宛明</span>,&nbsp;<span class="orange" id="phone">13691061201</span>
+                            </p>
+                            <p class="f12">
+                                <i class="icon iconfont icon-s-location"></i><span id="fullName">安徽合肥蜀山区</span>,<span id="address">紫云路292号15店12好楼15201sds是否废话上午师</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="paysdetail"></div>
+
+                <div class="weui-cells">
+
+                    <p class="Subtotal f14" style="text-align: right;    padding: 10px 15px 10px 10px">实付款￥<span class="totalamount">21.6</span></p>
+                </div>
+
+                <div class="weui-cell code">
+                    <div class="weui-cell__hd"><label class="weui-label f14">邀请码：</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input f14" type="number"  placeholder="请输入邀请码" id="ordercode">
+                    </div>
+                </div>
+
+                <div class="sub">
+                    <li>总计：￥<span class="totalamount">305.51</span></li>
+                    <li id="sendorder"><a href="javascript:;" >确认下单</a></li>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        //显示默认地址以及总金额
+        var od=new order(function(data){
+            $('#phone').html(data.receiver.phone);                  //收货人手机
+            $("#consignee").html(data.receiver.consignee);          //收货人姓名
+            $('#fullName').html(data.receiver.area.fullName);       //收货地址省市区名
+            $('#adBtn').attr('adid',data.receiver.id);              //收货地址id
+            $('#address').html(data.receiver.address);              //收货地址详情
+            $('.totalamount').html(data.order.amount);              //总价格
+
+        });
+        od.confirmOrder();
+
+
+        //确认下单里面订单内容
+
+        var td = new order(function (data) {
+            var h = render.fill($("#tpl_paydetail"),data);
+            $(".paysdetail").append(h);
+            console.log(data);
+        });
+        td.confirmOrder();
+
+
+        //选择我的收货地址
+        $("#myad").click(function(){
+            choosead.bank();
+            choosead.callBack=function (bank) {
+                $("#myad").html(bank.html);
+            };
+        });
+
+
+        //检测下单邀请码是否合法
+        $('#ordercode').change(function(){
+            var code=$('#ordercode').val();
+            var od=new order(function(data){
+                console.log(data)
+            });
+            od.inviteCode({code:code});
+        })
+
+        //确认下单
+        $('#sendorder').click(function(){
+            var receiverId=$('#myad').find('a').attr('adid');                 //收货地址编号
+            var paymentMethodId=$('#paymentMethodId').attr('styleid');      //付款方式编号
+            var shippingMethodId=$('#shippingMethodId').attr('styleid');    //配送方式编号
+            var memo=$("#memo").val();                                      //买家留言
+            //提交后获取订单号
+            var od=new order(function(data){
+                console.log(data);
+
+                //订单号转为支付编号
+                var o=new order(function(a){
+                    console.log(a)
+                    location.href=location.origin+'/weixin/payment/pay.html?sn='+a;
+                });
+                o.payment({sn:data})
+
+
+            });
+            od.create({receiverId:receiverId,paymentMethodId:paymentMethodId,shippingMethodId:shippingMethodId,memo:memo})
+        })
+
+    });
+
+
+</script>
+</script>
+
+
+
+<!--购物车模版-->
+<script type="text/html" id="tpl_carts">
+{{#if tenants}}
+{{!购物车不为空时加载数据}}
+{{#each tenants}}
+<div class="cart-tenant" data-tenant-id="{{id}}">
+    <div class="weui-cell">
+        <label class="weui-cell__hd weui-check__label" >
+            <input type="checkbox" class="weui-check parent_check" name="checkbox" data-id="'+i+'">
+            <i class="weui-icon-checked"></i>
+        </label>
+        <div class="weui-cell__bd" onclick="location.href='tenant-home.html?tenantId={{id}}'">
+            <p class="f14">{{name}}</p>
+        </div>
+    </div>
+
+    {{#with cartItems}}
+    {{#each this}}
+    <div class="cart-product weui-cell" cart-product-id="{{id}}" product-id="{{productId}}">
+        <label class="weui-check__label">
+            <p class="checkboxs">
+                {{#if selected}}
+                 <input type="checkbox" class="weui-check child_check sub'+i+' " name="checkbox" data-id="{{id}}" checked>
+                {{else}}
+                    <input type="checkbox" class="weui-check child_check sub'+i+' " name="checkbox" data-id="{{id}}">
+                {{/if}}
+                <i class="weui-icon-checked"></i>
+
+            </p>
+        </label>
+        <div class="weui-cell__hd" onclick="location.href='product_details.html?id={{productId}}'">
+            <img src="{{thumbnail}}" alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{fullName}}</p>
+            <p class="size Ftext">
+                {{#each specification}}
+                <span>{{title}}:<i class="orange">{{name}}</i></span>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}}<i>￥{{marketPrice}}</i></span></p>
+            <div class="actv">
+
+                <div class="weui_cell_ft" style="width:80%">
+                    <a class="vux-number-selector vux-number-selector-sub">-</a>
+                    {{#if selected}}
+                    <input class="vux-number-input input-number-int" data-checked="1" data-value={{price}} pattern="[1-100]*" name="listen" value="{{quantity}}" style="width: 40px;">
+                    {{else}}
+                    <input class="vux-number-input input-number-int" data-checked="0" data-value={{price}} pattern="[1-100]*" name="listen" value="{{quantity}}" style="width: 40px;">
+                    {{/if}}
+                    <a class="vux-number-selector vux-number-selector-plus">+</a>
+                </div>
+                <span class="detal" data-del-product="{{id}}"><i class="icon iconfont icon-delete-01"></i></span>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/with}}
+</div>
+{{/each}}
+
+{{else}}
+{{!购物车为空时}}
+<div class="cartEmpty">
+    <i class="icon iconfont icon-s-sc"></i>
+    <p>购物车快饿瘪了T.T</p>
+    <p style="padding-top: 10px"><a href="index.html" class="weui-btn weui-btn_mini weui-btn_warn">去逛逛</a></p>
+</div>
+{{/if}}
+
+<script>
+    $(function(){
+
+        // 购物车基类
+        var cartobj = {
+            init: function(){
+                this.cart_calc();
+                this.cart_check();
+            },// 计算
+            cart_check: function(){
+                var obj = this;
+                // 全选
+                $('#chkall').click(function(){
+                    if ( this.checked ) {
+
+                        $('.parent_check').prop('checked', true);
+                        $('.child_check').prop('checked', true);
+
+                        $('.input-number-int').attr('data-checked', 1);
+                    } else {
+
+                        $('.parent_check').prop('checked', false);
+                        $('.child_check').prop("checked", false);
+                        $('.input-number-int').attr('data-checked', 0);
+
+                    }
+                    obj.total_calc();
+
+                });
+
+                // 店铺选择
+                $('.parent_check').click(function(){
+                    var parent_obj = $(this).parent().parent().parent();
+
+                    if ( this.checked ) {
+
+                        parent_obj.find('.child_check').each(function(){
+
+                            $(this).prop('checked', true);
+                            $(this).parent().parent().next().next().find('.input-number-int').attr('data-checked', 1);
+                        });
+                    } else {
+                        parent_obj.find('.child_check').each(function(){
+
+                            $(this).prop('checked', false);
+                            $(this).parent().parent().next().next().find('.input-number-int').attr('data-checked', 0);
+                        });
+                    }
+                    obj.total_calc();
+                });
+
+                // 商品选择
+
+                $('.child_check').click(function(){
+//                    if($(this).parent().parent().parent().nextAll('div').find('.child_check').prop('checked')==false&&$(this).parent().parent().parent().prevAll('div').find('.child_check').prop('checked')==false){
+//                        $(this).parent().parent().parent().parent().children().eq(0).find('input').prop('check','false');
+//                    }
+                    if ( $(this).prop('checked')==true){
+                        $(this).parent().parent().next().next().find('.input-number-int').attr('data-checked', 1);
+                    } else {
+
+                        $(this).parent().parent().next().next().find('.input-number-int').attr('data-checked', 0);
+                        $(this).parent().parent().parent().parent().children().find('.parent_check').prop('checked',false);
+                    }
+                    obj.total_calc();
+                });
+            },
+
+            // 加减
+            cart_calc: function(){
+                var obj = this;
+                // 加
+                $('.vux-number-selector-plus').on('click', function(){
+                    var cartpid=$(this).parent().parent().parent().parent().attr('cart-product-id');
+                    var valm=$(this).prev('.input-number-int').val();
+                    valm =parseFloat(valm)+ 1;
+                    $(this).prev('.input-number-int').val(valm);
+                    obj.total_calc();
+                    var ca=new cart(function(data){
+                        console.log(data)
+                    });
+                    ca.edit({id:cartpid,quantity:valm});
+                });
+                // 减
+                $('.vux-number-selector-sub').on('click', function(){
+                    var cartpid=$(this).parent().parent().parent().parent().attr('cart-product-id');
+                    var valm= $(this).next('.input-number-int').val();
+                    valm = parseInt(valm) - 1;
+                    if ( valm < 1) {
+                        valm = 1;
+                    }
+                    $(this).next('.input-number-int').val(valm);
+                    obj.total_calc();
+                    var ca=new cart(function(data){
+                        console.log(data)
+                    });
+                    ca.edit({id:cartpid,quantity:valm});
+                });
+            },
+            // 计算总价
+            total_calc: function(){
+                var total = 0;
+                $('input.input-number-int').each(function(){
+                    //console.log($(this).attr('data-checked'));
+                    if ( parseFloat($(this).attr('data-checked')) ) {
+                        total += parseFloat($(this).attr('data-value')) *　parseFloat( $(this).val() );
+                    }
+                });
+                //console.log(total);
+                $('#span_sum').html(total);
+                if ( total <= 0 ) {
+                    //alert('请勾选所需商品');
+                    $("#paycart").css("background","e4393c");
+                    return ;
+                }else{
+                    $("#paycart").css("background","#e4393c");
+                }
+            }
+        };
+
+        cartobj.init();
+        cartobj.total_calc();
+
+
+
+        //编辑购物车数量
+        $('.input-number-int').change(function(){
+            var cartpid=$(this).parent().parent().parent().parent().attr('cart-product-id');
+            var valm=$(this).val();
+            var ca=new cart(function(data){
+                console.log(data)
+            });
+            ca.edit({id:cartpid,quantity:valm});
+        });
+
+
+        //删除当前购物车商品
+        $('.detal').click(function(){
+            var productid=$(this).parent().parent().parent().attr('cart-product-id');  //商品id
+            var ca=new cart(function(data){
+                console.log(data);
+                setTimeout(function () {
+                    location.reload();
+                },1000);
+            });
+            ca.delete({ids:productid})
+        });
+
+
+
+        //选择购物车商品
+        $('.input-number-int').each(function(){
+            if($(this).attr('data-checked')==1){
+                $(this).parent().parent().parent().parent().parent().children().eq(0).find('input').prop('checked',true);
+            }
+        });
+        $('.child_check').each(function(){
+            if($(this).prop('checked')==false){
+                $(this).parent().parent().parent().parent().children().eq(0).find('input').prop('checked',false);
+            }
+        });
+        $('.weui-check').change(function(){
+            var car;     //car为选定商品购物项id数组
+            car=[];
+            var car2;    //car2为未选定商品购物项id数组
+            car2=[];
+            $('.input-number-int').each(function(){
+                if($(this).attr('data-checked')==1){
+                    $(this).parent().parent().parent().parent().parent().children().eq(0).find('input').prop('checked','true');
+                    var id=$(this).parent().parent().parent().parent().attr('cart-product-id');   //购物项id
+                    car.push(id)
+                }else if($(this).attr('data-checked')==0){
+                    var id2=$(this).parent().parent().parent().parent().attr('cart-product-id');
+                    car2.push(id2)
+                }
+            });
+            var ca=new cart(function(data){
+                console.log(data);
+            });
+            console.log(JSON.stringify(car));
+            console.log(JSON.stringify(car2));
+            ca.selected({ids:car});
+//            ca.selected({ids:car2,flag:false});
+        });
+
+
+
+    })
+</script>
+
+
+</script>
+<!--支付模版-->
+<script type="text/html" id="tpl_paydetail">
+    {{#each order.trades}}
+    <div class="weui-cells store">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd f14">
+                <i class="icon iconfont icon-store-02"></i>{{tenantName}}
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="product-list weui-cells">
+            {{#with orderItems}}
+            {{#each this}}
+            <a class=" weui-cell_access" href="javascript:;">
+                <div class="weui-cell__hd">
+                    <img src="{{thumbnail}}"
+                         alt="">
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="Ftitle">{{fullName}}</p>
+                    <p class="size Ftext"><span><i class="orange">{{spec}}</i></span></p>
+                    <p class="price f14"><span>￥{{originalPrice}}</span></p>
+                    <span class="num f12">x{{quantity}}</span>
+                </div>
+            </a>
+            {{/each}}
+            {{/with}}
+            <div class="weui-cells delivery">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__bd">
+                        <p class="f14">提货地址</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <p class="f14">提货时间</p>
+                    </div>
+                    <div class="weui-cell__ft orange f14">等待商家确认时间</div>
+                </div>
+                <div class="input-text" >
+                    <input class="weui-input f14" style="border:1px solid #ececec;padding:5px; width: 95%" type="text" placeholder="留言">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p class="f14">快递运费</p>
+                </div>
+                <div class="weui-cell__ft f14">￥{{freight}}</div>
+            </div>
+        </div>
+        <p class="Subtotal f14">小计:<span >￥{{amount}}</span></p>
+    </div>
+    {{/each}}
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("cart");
+    });
+
+</script>
+
+</body>
+</html>
+
+
+

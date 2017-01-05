@@ -1,0 +1,33 @@
+/// namespace: STC-TS-2
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\002.html*/
+$page_ns: "STC-TS-2";
+
+//style here
+body {
+    font-family: "微软雅黑";
+    .why {
+        &.#{$page_ns} {
+            width: 100%;
+            text-align: center;
+
+            img {
+                width: 100%;
+            }
+
+            .APP-open {
+                width: 100%;
+                height: dimension-to-vw(98px);
+                line-height: dimension-to-vw(98px);
+                display: block;
+                
+            }
+        }
+    }
+}
+
+
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

@@ -1,0 +1,42 @@
+// -------------------------------------
+// 自定义优惠券锯齿样式
+// -------------------------------------
+@mixin coupon-serration($direction: top,$circle-size:10px,$circle-color:#ff0000,$space-color:#fff) {
+    //$circle-size:圆圈直径
+    $whole_size:round($circle-size * 1.2);//整个元素的尺寸(高度)
+    //$whole_size:$circle-size * 1.2;//整个元素的尺寸(高度)
+    //$circle-size-half:
+    @content;
+    position: absolute;
+    width: 100%;
+    display: block;
+    //@include background(radial-gradient($circle-size $circle-size, #fff 0px, #fff 4px, $circle-color 4px) left top repeat-x $circle-color);
+    //@include background-image();
+    background-image: radial-gradient($circle-size $circle-size, $space-color 0px, $space-color round($circle-size / 2 - 1px), $circle-color round($circle-size / 2));
+    //background-color: $circle-color;
+    background-color: transparent;
+    background-repeat: repeat-x;
+    background-size: $whole_size $whole_size;
+    @if $direction == top {//如果方向在上方
+        $position-there:-(0.6 * $circle-size);
+        @debug $position-there;
+        background-position: 0px $position-there;
+    } @else {
+        $position-there:-(0.1 * $circle-size);
+        @debug $position-there;
+        //@debug $circle-size;
+        background-position: 0px $position-there;
+        background-position: 0px -2px;
+    }
+    
+}
+
+@mixin patch-coupon-serration-main-color($circle-size:10px,$circle-color:#ff0000,$space-color:#fff) {
+    $whole_size:round($circle-size * 1.2);//整个元素的尺寸(高度)
+    //$whole_size:$circle-size + 2px;//整个元素的尺寸(高度)
+    //@include background-image();
+    background-image: radial-gradient($circle-size $circle-size, $space-color 0px, $space-color round($circle-size / 2 - 1px), $circle-color round($circle-size / 2));
+    //background-color: $circle-color;
+    //compass 引入多余的样式修正
+    background-size: $whole_size $whole_size;
+}

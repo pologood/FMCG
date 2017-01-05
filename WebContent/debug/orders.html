@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>我的订单</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_orders">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd tabBer row" style="height: 100%;">
+            <div class="vux-tab">
+                <div class="vux-tab-item vux-center f14 selected" onclick="load_order_content('all')"><span class="tab_nav">全部<span class="badge" id="oall">9</span></span></div>
+                <div class="vux-tab-item vux-center f14"  onclick="load_order_content('unpaid')"><span class="tab_nav">待支付<span class="badge" id="ounpaid">···</span></span></div>
+                <div class="vux-tab-item vux-center f14"  onclick="load_order_content('unshipped')"><span class="tab_nav">待发货<span class="badge" id="ounshipped">···</span></span></div>
+                <div class="vux-tab-item vux-center f14"  onclick="load_order_content('unreciver')"><span class="tab_nav">待收货<span class="badge" id="ounreciver">···</span></span></div>
+                <div class="vux-tab-item vux-center f14" onclick="load_order_content('unreview')"><span class="tab_nav">待评价<span class="badge" id="ounreview">···</span></span></div>
+
+                <div class="vux-tab-ink-bar vux-tab-ink-bar-transition-forward" id="bor" style=" left: 0; right: 80%;"></div>
+            </div>
+            <div class="weui-tab">
+                <div class="weui-tab__panel pageable">
+                    <div class="vux-slider">
+
+                        <div class="vux-swiper " style="background:#f8f8f8;">
+                            <div class="vux-swiper-item orderd"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+</script>
+<script type="text/html" id="tpl_orderst">
+{{#each this}}
+<div class="weui-cells ">
+
+        <a class="weui-cell" href="orderdetail.html?orderId={{id}}"">
+            <div class="weui-cell__hd shop_icon"><img src="{{tenantThumbnail}}" alt=""></div>
+            <div class="weui-cell__bd Ftitle">{{tenantName}}</div>
+            <div class="weui-cell__ft state f14">{{finalOrderStatus.desc}}</div>
+        </a>
+        <a class="weui-cell" href="orderdetail.html?orderId={{id}}"">
+            <div class="weui-cell__hd  product_img"><img src="{{orderItem.thumbnail}}"/></div>
+            <div class="weui-cell__bd product-txt">
+                <p class="Ftitle">{{orderItem.fullName}}</p>
+                <p class="Fauxiliary">订单号:{{sn}}</p>
+                <p  class="price f14">￥{{orderItem.price}}</p>
+            </div>
+            <div class="weui-cell__ft f12 qty">X{{orderItem.quantity}}</div>
+        </a>
+
+        <div class="tr f14">
+            <span>共<span class="orange">{{quantity}}</span>件商品</span> <span class="ml20">实付款<span class="orange">￥{{amount}}</span></span>
+        </div>
+
+
+
+    {{#if finalOrderStatus}}
+    <div class="btns" order-id="{{id}}">
+        {{#compare finalOrderStatus.status '==' 'waitPay'}}
+        <a href="javascript:;" class="btn-gray closeod">取消订单</a>
+        <a href="paystyle.html?orderId={{id}}&sn={{sn}}&price={{amount}}" class="btn-actvie payod">立即支付</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'waitShipping'}}
+        <a href="javascript:;" class="btn-gray backod">退货申请</a>
+        <a href="javascript:;" class="btn-actvie alertod">提醒商家发货</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'sign'}}
+        <a href="javascript:;" class="btn-gray backod">退货申请</a>
+        <a href="javascript:;" class="btn-actvie signod">立即签收</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'partialShipment'}}
+        <a href="javascript:;" class="btn-gray backod">退货申请</a>
+        <a href="javascript:;" class="btn-actvie signod">立即签收</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'toReview'}}
+        <a href="evaluateorder.html?orderId={{id}}" class="btn-actvie reviewod">立即评价</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'waitReturn'}}
+        <a href="javascript:;" class="btn-gray getmoneyod">提醒商家退款</a>
+        {{/compare}}
+        {{#compare finalOrderStatus.status '==' 'unconfirmed'}}
+        <a href="evaluateorder.html?orderId={{id}}" class="btn-actvie reviewod">立即评价</a>
+        {{/compare}}
+    </div>
+    {{/if}}
+    <div class="kong"></div>
+</div>
+
+{{/each}}
+
+<script>
+    $(function(){
+
+        //取消订单
+        $('.closeod').click(function(){
+            var od_id;
+            od_id=$(this).parent().attr('order-id');
+            dialog.query("您确认取消该订单吗？",function () {
+                var or=new order(function(data){
+                    console.log(data);
+                    setTimeout(function () {
+                        location.reload();
+                    },1000);
+                });
+                or.refund({id:od_id})
+
+            })
+
+        });
+
+
+
+
+
+        //提醒卖家发货
+        $('.alertod').click(function(){
+            var od_id=$(this).parent().attr('order-id');
+            var or=new order(function(data){
+                console.log(data);
+                dialog.show("提醒成功")
+            });
+            or.remind({id:od_id})
+        });
+
+        //签收订单
+        $('.signod').click(function(){
+            var od_id;
+            od_id=$(this).parent().attr('order-id');
+            dialog.query("您确认签收该订单吗？",function () {
+                var or=new order(function(data){
+                    console.log(data);
+                    dialog.show("签收成功");
+                    setTimeout(function () {
+                        location.reload();
+                    },1000);
+                });
+                or.confirm({id:od_id})
+            })
+
+        });
+
+        //申请退货
+        $('.backod').click(function(){
+            var od_id;
+            od_id=$(this).parent().attr('order-id');
+            dialog.query("您确认申请退货吗？",function () {
+                var or=new order(function(data){
+                    console.log(data);
+                    dialog.show("申请成功");
+                    setTimeout(function () {
+                        location.reload();
+                    },1000);
+                });
+                or.return({id:od_id});
+            })
+        });
+
+
+        //立即支付订单
+        $('.payod').click(function(){
+            var order_id;
+            order_id=$(this).parent().attr('order-id');
+            var od=new order(function(data){
+                console.log(data);
+            });
+            od.tradePayment({id:order_id});
+        })
+
+
+
+    })
+</script>
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+
+        function load_order_content(type) {
+            //清空每次加载
+            $(".pageable .orderd").html('');
+            var pge = $(".pageable").pageable({
+                        loadUpFn: function (me) {
+                            var tu = new order(function (data) {
+                                var h = render.fill($("#tpl_orderst"), data);
+                                $(".pageable .orderd").html(h);
+                                me.unlock();
+                                me.noData(false);
+                                pge.resetload();
+                            });
+                            tu.list({pageNumber: 1,type:type});
+                        },
+                        loadDownFn: function (me) {
+                            var td = new order(function (data) {
+                                pge.pageNumber=me.pageNumber+1;
+                                var h = render.fill($("#tpl_orderst"), data);
+                                $(".pageable .orderd").append(h);
+
+                                if (data.length < 20) {
+                                    pge.lock();
+                                    pge.noData();
+                                }
+                                pge.resetload();
+                            });
+                            td.list({pageNumber:me.pageNumber,type:type});
+                        }
+                    }
+                );
+         }
+
+    $(function () {
+        pageManager.show("orders");
+        //切换加载数据
+        tabBar.bind();
+        $("div.vux-tab .vux-tab-item").on('click', function () {
+            var downlist=document.getElementsByClassName("pageable-down");
+            for(var i=0;i<downlist.length;i++){
+                if(i>0){
+                    downlist[i].remove();
+                }
+            }
+        });
+        //调用全部
+        load_order_content(pageManager.GetQueryString('type'));
+
+
+//        点击链接跳转到对应选项卡位置及页面内容
+        if(pageManager.GetQueryString('type')=="unpaid"){
+            $("div.vux-tab .vux-tab-item").eq(1).addClass("selected").siblings().removeClass("selected");
+            $("div.vux-swiper-item").eq(1).show().siblings().hide();
+            document.getElementById("bor").style.left = 20 + "%";
+            document.getElementById("bor").style.right = 60 + "%";
+        }else if(pageManager.GetQueryString('type')=="unshipped"){
+            $("div.vux-tab .vux-tab-item").eq(2).addClass("selected").siblings().removeClass("selected");
+            $("div.vux-swiper-item").eq(2).show().siblings().hide();
+            document.getElementById("bor").style.left = 40 + "%";
+            document.getElementById("bor").style.right = 40 + "%";
+        }else if(pageManager.GetQueryString('type')=="unreciver"){
+            $("div.vux-tab .vux-tab-item").eq(3).addClass("selected").siblings().removeClass("selected");
+            $("div.vux-swiper-item").eq(3).show().siblings().hide();
+            document.getElementById("bor").style.left = 60 + "%";
+            document.getElementById("bor").style.right = 20 + "%";
+        }else if(pageManager.GetQueryString('type')=="unreview"){
+            $("div.vux-tab .vux-tab-item").eq(4).addClass("selected").siblings().removeClass("selected");
+            $("div.vux-swiper-item").eq(4).show().siblings().hide();
+            document.getElementById("bor").style.left = 80 + "%";
+            document.getElementById("bor").style.right = 0 + "%";
+        };
+
+
+
+
+        //角标数量显示
+        var mem = new member(function (data) {
+            var all=data.unpaid+data.unpaid+data.unshipped+data.unreciver+data.unreview;
+            if(all<99){
+
+                $("#oall").html(all);
+            }else{
+                $("#oall").html('···');
+            }
+            $("#ounpaid").html(data.unpaid);
+            $("#ounshipped").html(data.unshipped);
+            $("#ounreciver").html(data.unreciver);
+            $("#ounreview").html(data.unreview);
+        });
+        mem.index();
+
+
+
+
+
+    });
+
+
+</script>
+
+</body>
+</html>
+
+

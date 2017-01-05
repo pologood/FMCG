@@ -1,0 +1,197 @@
+// *************************************
+//
+//   Mixin,辅助宏
+//
+// *************************************
+
+// ----- Font Face ----- //
+// -> https://github.com/thoughtbot/bourbon/edit/master/app/assets/stylesheets/css3/_font-face.scss#
+//
+// $family - 字体类型
+// $path - 字体路径
+// $weight - 字重
+// $style - 字体样式
+// $asset-pipeline - use the Rails asset pipeline (boolean)
+
+@mixin font-face($family, $path, $weight: normal, $style: normal, $asset-pipeline: true) {
+    @font-face {
+        font-family: $family;
+        font-style: $style;
+        font-weight: $weight;
+
+        @if $asset-pipeline == true {
+            src: font-url("#{$path}.eot");
+            src: font-url("#{$path}.eot?#iefix") format("embedded-opentype"), font-url("#{$path}.woff") format("woff"), font-url("#{$path}.ttf") format("truetype"), font-url("#{$path}.svg##{$family}") format("svg");
+        }
+        @else {
+            src: url("#{$path}.eot");
+            src: url("#{$path}.eot?#iefix") format("embedded-opentype"), url("#{$path}.woff") format("woff"), url("#{$path}.ttf") format("truetype"), url("#{$path}.svg##{$family}") format("svg");
+        }
+    }
+}
+
+// ----- Respond-to ----- //
+// -> Generates a media query
+//
+// $val - the breakpoint size
+// $query - the type of query ('min-width', 'max-width')
+// $media - the media type ('screen', 'print', etc.)
+// @content - the generated content within the mixin
+
+@mixin respond-to($val, $query: min-width, $media: screen) {
+    @media #{$media} and ($query: $val) {
+        @content;
+    }
+}
+
+// ----- compass-singleimg-multistate ----- //
+// -> compass精灵地图修改->将指定文件夹中的图标合成为一个sprite map
+// !!仅适用于一个图标的不同状态(button或者其他)
+// 注：
+// 1.图标布局方式采用垂直方式，则针对精灵设置的百分比偏移量无效(同理水平布局)
+// 2.注意布局方式和对齐方式的不同
+//
+// $img-folder-name : 图标文件夹名称
+// $imgname : 图标名称
+// $cursor : 鼠标经过鼠标样式(默认:default)
+// $G_offset-x : 指定某个精灵的偏移量(如果是百分比)
+// $sprite-base-class : 精灵需要继承的基类(默认:无)
+// $spacing : 精灵布局间距(默认:20px)
+// $layout : 精灵布局方式(默认:水平)
+// $percent : 最后生成的position换算成百分比
+// $map-align : map(整体)的默认对齐方式(50%->几张图片垂直方向上居中对齐，100%->右对齐，0%->左对齐)
+@mixin compass-singleimg-multistate($img-folder-name, $imgname: "icon", $cursor: default, $G_offset-x: 0px, $G_offset-y: 0px, $sprite-base-class: false, $spacing: 20px, $layout: vertical, $percent: false, $map-align: 50%) {
+    //如果传入了基类名(默认false)
+    @if $sprite-base-class != false {
+        @extend #{$sprite-base-class};
+    }
+
+    //配置并获取精灵地图,$position: 50%->使精灵在地图中居中对齐
+    $icons: sprite-map($img-folder-name + "/*.png", $spacing: $spacing, $layout: $layout, $position: $map-align);
+
+    //如果传入百分比参数，则将返回的偏移量换算换算成百分比
+    @if $percent == true {
+        background: sprite($icons, $imgname, $G_offset-x, $G_offset-y, true) no-repeat;
+    }
+    @else {
+        background: sprite($icons, $imgname, $G_offset-x, $G_offset-y) no-repeat;
+    }
+
+    &:hover {
+        //如果存在hover状态的图片
+        @if index(sprite-names($icons), #{$imgname + _hover}) {
+            //如果传入百分比参数，则将返回的偏移量换算换算成百分比
+            @if $percent == true {
+                background-position: sprite-position($icons, #{$imgname + "_hover"}, $G_offset-x, $G_offset-y, true);
+            }
+            @else {
+                background-position: sprite-position($icons, #{$imgname + "_hover"}, $G_offset-x, $G_offset-y);
+            }
+        }
+
+        cursor: $cursor;
+    }
+
+    &.act {
+        //@debug sprite-names($icons);
+        //@debug "length is:" + length(sprite-names($icons));
+        //@debug type-of(sprite-names($icons));
+        //如果在精灵列表中存在激活(act)状态的图片
+        @if index(sprite-names($icons), #{$imgname + _act}) {
+            //如果传入百分比参数，则将返回的偏移量换算换算成百分比
+            @if $percent == true {
+                background-position: sprite-position($icons, #{$imgname + "_act"}, $G_offset-x, $G_offset-y, true);
+            }
+            @else {
+                background-position: sprite-position($icons, #{$imgname + "_act"}, $G_offset-x, $G_offset-y);
+            }
+        }
+    }
+}
+
+// ----- compass-icons-collection ----- //
+// -> compass精灵地图修改->将指定文件夹中的图标合成为一个sprite map
+// !!仅适用于多个作为链接或者head背景的icon合并
+// 注：
+// 1.图标布局方式采用垂直方式，则针对精灵设置的百分比偏移量无效(同理水平布局)
+// 2.注意布局方式和对齐方式的不同
+//
+// $img-folder-name : 图标文件夹名称
+// $cursor : 鼠标经过鼠标样式(默认:default)
+// $G_offset-x : 指定某个精灵的偏移量(如果是百分比)
+// $sprite-base-class : 精灵需要继承的基类(默认:无)
+// $spacing : 精灵布局间距(默认:20px)
+// $layout : 精灵布局方式(默认:水平)
+// $percent : 最后生成的position换算成百分比
+// $map-align : map(整体)的默认对齐方式(50%->几张图片垂直方向上居中对齐，100%->右对齐，0%->左对齐)
+// $cla-use-iconname : 是否使用图标的名称作为类名
+@mixin compass-icons-collection($img-folder-name, $icon-prefixname: "it", $cursor: default, $G_offset-x: 0px, $G_offset-y: 0px, $sprite-base-class: false, $spacing: 20px, $layout: vertical, $percent: false, $map-align: 50%, $cla-use-iconname: false) {
+    //如果传入了基类继承基类(默认false)
+    @if $sprite-base-class != false {
+        @extend #{$sprite-base-class};
+    }
+
+    //配置并获取精灵地图,$position: 50%->使精灵在地图中居中对齐
+    $icons: sprite-map($img-folder-name + "/*.png", $spacing: $spacing, $layout: $layout, $position: $map-align);
+
+    @each $sprite-name in sprite-names($icons) {
+        //默认使用索引的方式，eg: it.it-1,附加索引值，根据实际需要改变
+        @if $cla-use-iconname == false {
+            ///
+            &.#{$icon-prefixname}-#{index(sprite-names($icons), $sprite-name)} {
+                @if $percent == true {
+                    background: sprite($icons, $sprite-name, $G_offset-x, $G_offset-y, true) no-repeat;
+                }
+                @else {
+                    background: sprite($icons, $sprite-name, $G_offset-x, $G_offset-y) no-repeat;
+                }
+            }
+
+            ///
+        }
+        @else {
+            //使用icon name命名类
+            ///
+            &.#{$sprite-name} {
+                @if $percent == true {
+                    background: sprite($icons, $sprite-name, $G_offset-x, $G_offset-y, true) no-repeat;
+                }
+                @else {
+                    background: sprite($icons, $sprite-name, $G_offset-x, $G_offset-y) no-repeat;
+                }
+            }
+
+            ///
+        }
+    }
+}
+
+// ----- inline-block ----- //
+// -> 自定义inline-block生成宏
+//
+// $support-ie7 : 是否支持ie7
+@mixin sim-inline-block($support-ie7: true) {
+    display: inline-block;
+
+    @if $support-ie7 {
+        *display: inline;
+        *zoom: 1;
+    }
+}
+
+// ----- vertical-line-right ----- //
+// -> 利用after或before生成竖线
+@mixin vertical-line-right($line-color: #ebebeb) {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 100%;
+    color: $line-color;
+    -webkit-transform: scaleX(0.5);
+    transform: scaleX(0.5);
+    border-right: 1px solid $line-color;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}

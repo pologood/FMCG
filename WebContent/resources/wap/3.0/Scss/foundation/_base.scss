@@ -1,0 +1,114 @@
+// *************************************
+//
+//   Base，和具体的页面结构无关,项目特征基础样式
+//
+// *************************************
+///全局使用border-box
+*, *:before, *:after {
+    //box-sizing: border-box;
+    //box-sizing: inherit;
+    @include box-sizing(inherit);
+    -webkit-text-size-adjust: none;
+}
+
+html {
+    background: $c-background;
+    //color: $c-text;
+    //html基本字体
+    font-family: $b-fontFamily;
+    font-size: $b-fontSize;
+    //line-height: $b-lineHeight;
+    @include box-sizing(border-box);
+    //height: 100%;
+}
+
+body {
+    //font: fdf;
+    ///font-size: 100%;
+    font-size: $b-fontSize;
+    //min-height: 100%;
+    ///$b-fontSize;
+    //font-size: $b-fontSize;
+}
+
+// -------------------------------------
+//   Block Content
+// -------------------------------------
+/// 暂停使用
+///ul, p {
+///    //margin-bottom: $b-space;
+///    margin-bottom: 0px;
+///    margin-top: 0;
+///}
+///
+///li {
+///    //margin-bottom: $b-space-s;
+///    margin-bottom: 0px;
+///    margin-top: 0;
+///}
+
+// ----- Headings 标题基础样式 ----- //
+/// 暂停使用
+///h1, .h1,
+///h2, .h2,
+///h3, .h3,
+///h4, .h4 {
+///    font-family: $b-fontFamily-heading;
+///    font-weight: bold;
+///    line-height: 1.2;
+///    //margin-bottom: $b-space-xs;
+///    margin-top: 0;
+///}
+///
+///h1, .h1 {
+///    font-size: 200%;
+///}
+///
+///h2, .h2 {
+///    font-size: 150%;
+///}
+///
+///h3, .h3 {
+///    font-size: 125%;
+///}
+///
+///h4, .h4 {
+///    font-size: 110%;
+///}
+
+// ----- Links,链接基础样式 ----- //
+
+a {
+    //border-bottom: $b-border;
+    font-family: $b-fontFamily-a;
+    //链接默认颜色
+    color: #333;
+    //已在reset中指定
+    //text-decoration: none;
+    &:hover,
+    &:focus {
+        //已在reset中指定
+        //text-decoration: underline;
+        cursor: pointer;
+    }
+    &:hover {
+        //链接高亮色
+        //color: $c-a-highlight;
+    }
+    &:link, &:visited, &:hover, &:active, &:focus {
+        text-decoration: none;
+    }
+}
+
+// ----- Images 图片基础样式----- //
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+// ----- 表格 基础样式----- //
+
+table {
+    width: 100%;
+}

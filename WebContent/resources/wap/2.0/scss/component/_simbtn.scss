@@ -1,0 +1,22 @@
+// -------------------------------------
+// 自定义按钮样式
+// -------------------------------------
+/* >>sbtn*/
+.sbtnT1 {
+    $fa_name_without_dot: "sbtnT1";
+    $this-base-fontsize: 14;
+    display: block;
+    font-size: pxToEm($this-base-fontsize);
+    height: pxToEm(35, $this-base-fontsize);
+    line-height: pxToEm(35, $this-base-fontsize);
+    border: 1px solid #dfdfdf;
+    text-align: center;
+    @include border-radius(999px);
+    &.ok {
+        color: #387bee;
+        background-color: #fff;
+    }
+}
+
+//@import "simbtn/for-page-xxx";
+/* >>sbtn,end*/

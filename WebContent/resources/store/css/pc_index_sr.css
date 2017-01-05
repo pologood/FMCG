@@ -1,0 +1,756 @@
+@charset "UTF-8";
+.btn-img,.button {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-align: center;
+    cursor: pointer;
+}
+/* ---------- Form ---------- */
+.form .item {
+    position: relative;
+    margin-bottom: 20px;
+    z-index: 1;
+}
+.form .item .get-btn {
+    position: absolute;
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    background-color: #3498db;
+    top: 4px;
+    right: 5px;
+    color: #fff;
+    text-align: center;
+}
+
+.form .item .get-btn1 {
+    position: absolute;
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    background-color: #3498db;
+    top: 4px;
+    right: 5px;
+    color: #fff;
+    text-align: center;
+}
+.form label,.form input,.form select,.form textarea,.form button,.form .label {
+    float: left;
+    font-size: 12px;
+}
+.form .item .placeholder {
+    position: absolute;
+    left: 50px;
+    top: 10px;
+    line-height: 18px;
+    color: #999;
+    font-size: 14px;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+    opacity: 1;
+}
+
+.form .item .login-label {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 38px;
+    height: 38px;
+    border-right: 1px solid #bdbdbd;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) no-repeat
+}
+
+.form .item .name-label {
+    background-position: 0 0;
+}
+
+.form .item .pwd-label {
+    background-position: -48px 0;
+}
+
+.form .item-fore1,.form .item-fore2 {
+    border: 1px solid #bdbdbd;
+    height: 38px;
+    width: auto;
+    display: flex;
+}
+
+.form .item-fore1 .clear-btn,.form .item-fore2 .clear-btn {
+    position: absolute;
+    z-index: 20;
+    right: 6px;
+    top: 12px;
+    width: 14px;
+    height: 14px;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) -25px -143px no-repeat;
+    cursor: pointer;
+    display: none;
+}
+
+.form .item-fore1 .clear-btn:hover,.form .item-fore2 .clear-btn:hover {
+    background-position: -50px -143px;
+}
+
+.form .item-fore1 .e-icon,.form .item-fore2 .e-icon {
+    position: absolute;
+    width: 12px;
+    height: 13px;
+}
+
+.form .item-fore1 .capslock,.form .item-fore2 .capslock {
+    position: absolute;
+    z-index: 4;
+    display: none;
+    width: 106px;
+    top: 28px;
+    left: 50px;
+    padding-left: 26px;
+    height: 26px;
+    line-height: 28px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/css/i/capslock.png) no-repeat
+}
+
+.form .item-fore1 .capslock b,.form .item-fore2 .capslock b {
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: 10px;
+    width: 10px;
+    height: 14px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) -104px -133px no-repeat
+}
+
+.form .itxt {
+    line-height: 18px;
+    height: 18px;
+    border: 0;
+    padding: 10px 0 10px 50px;
+    width: 100%;
+    float: none;
+    overflow: hidden;
+    font-size: 14px;
+    font-family: '\5b8b\4f53';
+    *margin: -1px 0 0
+}
+
+.form .itxt02 {
+    padding: 10px 5px;
+    width: 78px;
+    text-align: center
+}
+
+.form .verify-code {
+    cursor: pointer;
+    width: 100px;
+    height: 33px;
+    vertical-align: middle
+}
+
+.form .item-error {
+    border: 1px solid #e4393c;
+}
+
+.form .item-error .name-label {
+    background-position: 0 -96px;
+    border-color: #e4393c;
+}
+
+.form .item-error .pwd-label {
+    background-position: -48px -96px;
+    border-color: #e4393c;
+}
+
+.form .item-focus {
+    border: 1px solid #3aa2e4;
+}
+
+.form .item-focus .name-label {
+    background-position: 0 -48px;
+    border-color: #3aa2e4
+}
+
+.form .item-focus .pwd-label {
+    background-position: -48px -48px;
+    border-color: #3aa2e4
+}
+
+.form .item-hide .placeholder {
+    opacity: 0;
+    visibility: hidden
+}
+
+.form .item-vcode .placeholder {
+    left: 25px
+}
+
+.form #o-authcode.item {
+    border: 0
+}
+
+.form #o-authcode.item .itxt {
+    border: 1px solid #bdbdbd;
+    font-size: 14px;
+    padding: 7px 5px;
+    vertical-align: middle
+}
+
+.form #o-authcode.item-error {
+    border: 0
+}
+
+.form #o-authcode.item-error .itxt {
+    border-color: #e4393c
+}
+
+.form #o-authcode.item-focus {
+    border: 0
+}
+
+.form #o-authcode.item-focus .itxt {
+    border-color: #3aa2e4
+}
+
+.form input::-webkit-input-placeholder {
+    color: #999;
+    font-size: 14px
+}
+
+.form input:-moz-placeholder {
+    color: #999;
+    font-size: 14px
+}
+
+.form label {
+    float: none;
+}
+
+.form .checkbox {
+    float: none;
+    vertical-align: middle;
+    _vertical-align: 0.001px;
+    margin: 0 3px 0 0;
+    padding: 0;
+}
+
+.form .item-fore1 {
+    z-index: 6;
+}
+
+.form .item-fore2 {
+    height: 38px;
+}
+
+.form .item-fore3 {
+    z-index: 5;
+    margin-bottom: 15px;
+}
+
+.form .item-fore3 .safe a {
+    color: #666;
+}
+
+.form .item-fore3 .safe a:hover {
+    color: #eb3341;
+}
+
+.form .sugcontent {
+    position: absolute;
+    top: 38px;
+    left: 38px;
+    background: #fff;
+    border: 1px solid #98cff2;
+    border-top-color: #3aa2e4;
+    width: 265px;
+    z-index: 4
+}
+
+.form .sugcontent li {
+    height: 28px;
+    line-height: 28px;
+    padding-left: 10px;
+    width: 254px;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all
+}
+
+.form .sugcontent li.hover {
+    background: #d8ecfa
+}
+
+.form .sug-iframe {
+    position: absolute;
+    border: 0;
+    z-index: 3;
+    left: 39px;
+    top: 39px;
+    width: 266px;
+    height: 100px
+}
+
+.form .updata {
+    z-index: 10;
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    width: 188px;
+    padding: 5px;
+    line-height: 108px;
+    height: 40px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/css/i/login-update.png) no-repeat
+}
+
+.form .updata .up-one {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    width: 10px;
+    height: 10px
+}
+
+.form .updata .up-two {
+    position: absolute;
+    left: 92px;
+    top: 13px;
+    width: 72px;
+    height: 20px
+}
+
+/* ---------- Message ---------- */
+
+div.xxMessage {
+    padding: 10px 30px;
+    display: none;
+    position: fixed;
+    _position: absolute;
+    top: 5%;
+    _top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(25 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + "px");
+    left: 50%;
+    z-index: 100;
+    overflow: hidden;
+    -webkit-box-shadow: 1px 1px 6px #999999;
+    -moz-box-shadow: 1px 1px 6px #999999;
+    box-shadow: 1px 1px 6px #999999;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(color=#e5e5e5,direction=0,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#d4d4d4,direction=90,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#d4d4d4,direction=180,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#e5e5e5,direction=270,strength=3)";
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=#e5e5e5,direction=0,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#d4d4d4,direction=90,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#d4d4d4,direction=180,strength=3) progid:DXImageTransform.Microsoft.Shadow(color=#e5e5e5,direction=270,strength=3);
+    border: 1px solid #999999;
+    background-color: #ffffff;
+}
+
+div.xxMessage .messageContent {
+    line-height: 24px;
+    padding: 0px 10px 0px 30px;
+    color: #666666;
+}
+
+div.xxMessage .messagewarnIcon {
+    background: url(../images/common_admin.gif) -60px -360px no-repeat;
+}
+
+div.xxMessage .messagesuccessIcon {
+    background: url(../images/common_admin.gif) -30px -390px no-repeat;
+}
+
+div.xxMessage .messageerrorIcon {
+    background: url(../images/common_admin.gif) 0px -420px no-repeat;
+}
+
+div.xxMessage .messageIframe {
+    width: 2000px;
+    height: 2000px;
+    position: absolute;
+    left: -100px;
+    top: -100px;
+    z-index: -1;
+}
+/*------- login-form ---------*/
+div.login-form {
+    position: relative;
+    z-index: 4;
+    width: auto;
+    background: #fff;
+    padding: 30px;
+    overflow: visible;
+    font-family: "Microsoft YaHei";
+}
+div.register-form {
+    position: relative;
+    z-index: 4;
+    width: auto;
+    background: #fff;
+    padding: 30px;
+    overflow: visible;
+    font-family: "Microsoft YaHei";
+}
+div.forget-form {
+    position: relative;
+    z-index: 4;
+    width: auto;
+    background: #fff;
+    padding: 30px;
+    overflow: visible;
+    font-family: "Microsoft YaHei";
+}
+div.login-form .msg-wrap {
+    min-height: 31px;
+    height: auto!important;
+    height: 31px;
+    margin: 2px 0 5px;
+}
+div.login-form .msg-error {
+    position: relative;
+    background: #ffebeb;
+    color: #e4393c;
+    border: 1px solid #e4393c;
+    padding: 3px 10px 3px 40px;
+    line-height: 18px;
+    min-height: 18px;
+    _height: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+div.login-form .msg-error b {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    display: block;
+    margin-top: -8px;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) -104px -49px no-repeat;
+}
+div.login-form .msg-warn {
+    position: relative;
+    background: #fff6d2;
+    color: #666;
+    border: 1px solid #ffe57d;
+    padding: 3px 10px 3px 40px;
+    line-height: 18px;
+    height: 18px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+div.login-form .msg-warn b {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    display: block;
+    margin-top: -8px;
+    width: 16px;
+    height: 17px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) -104px -22px no-repeat;
+}
+div.login-form .login-box .mt {
+    display: inline-block;
+    display: block;
+    width: auto;
+    overflow: visible;
+    height: 27px;
+    zoom: 1;
+}
+div.login-form .login-box .mt:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+* html div.login-form .login-box .mt {
+    height: 1%;
+}
+*+html div.login-form .login-box .mt {
+    min-height: 1%;
+}
+div.login-form .login-box .mt h1 {
+    position: relative;
+    height: 27px;
+    line-height: 27px;
+    top: -5px;
+    float: left;
+    color: #666;
+    font-family: '\5fae\8f6f\96c5\9ed1';
+    font-size: 20px;
+}
+div.login-form .login-box .mt .extra-r {
+    float: right;
+}
+div.login-form .login-box .mt .regist-link {
+    font-size: 14px;
+    color: #666;
+}
+div.login-form .login-box .mt .regist-link a {
+    color: #3498db;
+}
+div.login-form .login-box .mc {
+    overflow: visible;
+    zoom: 1;
+}
+div.login-form .login-box .safe {
+    position: relative;
+    color: #666;
+}
+div.login-form .login-box .safe span {
+    margin-right: 15px;
+}
+div.login-form .login-box .safe .forget-pw-safe {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+}
+div.login-form .login-box .safe .forget-pw-safe a {
+    color:#3498db;
+}
+div.login-form .login-box .coagent {
+    line-height: 22px;
+    height: auto;
+}
+div.login-form .login-box .coagent h5 {
+    font-weight: 400;
+    color: #999;
+}
+div.login-form .login-box .coagent ul {
+    display: inline-block;
+    display: block;
+}
+div.login-form .login-box .coagent ul:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+* html div.login-form .login-box .coagent ul {
+    height: 1%;
+}
+*+html div.login-form .login-box .coagent ul {
+    min-height: 1%;
+}
+div.login-form .login-box .coagent li {
+    float: left;
+}
+div.login-form .login-box .coagent li .line {
+    color: #ccc;
+    padding: 0 10px;
+}
+div.login-form .login-box .login-btn {
+    border: 1px solid #cb2a2d;
+    margin: 0 auto;
+    height: 33px;
+    position: relative;
+}
+div.login-form .login-box .login-btn .btn-img {
+    border: 1px solid #e85356;
+    display: block;
+    width: auto;
+    background: #e4393c;
+    height: 31px;
+    line-height: 31px;
+    color: #fff;
+    font-size: 20px;
+    font-family: '\5fae\8f6f\96c5\9ed1';
+}
+div.login-form .login-box .login-btn .btn-img:hover {
+    text-decoration: none;
+}
+div.login-form .btn-2login,div.login-form .btn-2qrcode {
+    display: block;
+    width: 60px;
+    height: 60px;
+    line-height: 99em;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/login-qricon-01.png) no-repeat;
+    -webkit-transition: background-position .2s cubic-bezier(0.25,.5,.5,.9);
+    -moz-transition: background-position .2s cubic-bezier(0.25,.5,.5,.9);
+    transition: background-position .2s cubic-bezier(0.25,.5,.5,.9);
+}
+/*扫码登录*/
+div.login-form .btn-2qrcode {
+    background-position: -60px 0;
+}
+div.login-form .btn-2login {
+    background-position: 0 -60px;
+}
+div.login-form .qrcode-login {
+    display: none;
+    text-align: center;
+}
+div.login-form .qrcode-login .qrcode-desc {
+    margin-top: 53px;
+}
+div.login-form .qrcode-login .qrcode-desc h2 {
+    font-size: 16px;
+    color: #999;
+    font-family: '\5fae\8f6f\96c5\9ed1';
+    font-weight: 400;
+}
+div.login-form .qrcode-login .qrcode-img {
+    border: 1px solid #f4f4f4;
+    padding: 10px;
+    width: 155px;
+    margin: 20px auto 15px;
+}
+div.login-form .qrcode-login .qrcode-img .qrcode-error02 {
+    padding: 30px 0;
+}
+div.login-form .qrcode-login .qrcode-img .qrcode-error02 .error-icon {
+    display: inline-block;
+    margin-bottom: 25px;
+    width: 50px;
+    height: 50px;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/css/i/qr-error-icon.png) no-repeat
+}
+div.login-form .qrcode-login .qrcode-img img {
+    width: 147px;
+    height: 147px;
+}
+div.login-form .qrcode-login .qrcode-error {
+    display: none;
+    position: relative;
+    background: #ffebeb;
+    color: #e4393c;
+    border: 1px solid #e4393c;
+    padding: 3px 10px 3px 100px;
+    text-align: left;
+}
+div.login-form .qrcode-login .qrcode-error b {
+    position: absolute;
+    top: 50%;
+    left: 70px;
+    display: block;
+    margin-top: -8px;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    background: url(//miscssl.360buyimg.com/user/passport-2015/widget/login-form/i/pwd-icons-new.png) -104px -49px no-repeat
+}
+div.login-form .qrcode-login .qrcode-panel {
+    width: 150px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+div.login-form .qrcode-login .qrcode-panel ul {
+    display: inline-block;
+    display: block;
+}
+div.login-form .qrcode-login .qrcode-panel ul:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+* html div.login-form .qrcode-login .qrcode-panel ul {
+    height: 1%;
+}
+*+html div.login-form .qrcode-login .qrcode-panel ul {
+    min-height: 1%;
+}
+div.login-form .qrcode-login .qrcode-panel li {
+    float: left;
+    padding: 0 0 0 10px;
+    margin: 0 10px 0 0;
+    border-left: 1px solid #ccc;
+}
+div.login-form .qrcode-login .qrcode-panel li.fore1 {
+    border: 0;
+}
+div.login-form .qrcode-login .qrcode-panel a {
+    color: #999;
+}
+div.login-form .qrcode-login .qrcode-panel a:hover {
+    color: #e4393c;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips {
+    position: relative;
+    background: #F6DCDF;
+    color: #999;
+    margin-top: 10px;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .triangle-border {
+    position: absolute;
+    right: 30px;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    border-width: 5px;
+    border-style: dashed dashed solid;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .tb-border {
+    top: -10px;
+    border-color: transparent transparent #F6DCDF;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .qrcode-tips-info {
+    height: 20px;
+    line-height: 20px;
+    overflow: hidden;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .qrcode-tips-info .qrcode-tips1 {
+    transition: margin-top .5s;
+    -moz-transition: margin-top .5s;
+    -webkit-transition: margin-top .5s;
+    -o-transition: margin-top .5s;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .qrcode-tips-info .qrcode-tips1:hover {
+    margin-top: -20px;
+}
+div.login-form .qrcode-login .qrcode-panel .qrcode-tips .qrcode-tips-info .qrcode-tips2 {
+    color: #763A42;
+}
+/*------------------------*/
+div.entrance {
+    position: absolute;
+    top: 50vw;
+    right: 0%;
+    height: auto;
+    z-index: 999;
+    width: 100%;
+    display: none;
+}
+@media (min-width: 361px) {
+    div.entrance {
+        top: 42vw;
+    }
+}
+@media (min-width: 640px) {
+    div.entrance {
+        top: 26vw;
+    }
+}
+@media (min-width: 768px) {
+    div.entrance {
+        top: 20vw;
+    }
+}
+@media (min-width: 769px) and (max-width: 1149px) {
+    div.entrance {
+        top: 25%;
+        width: 380px;
+        right: 15%;
+    }
+}
+@media (min-width: 1150px) {
+    div.entrance {
+        top: 25%;
+        width: 468px;
+        right: 18%;
+    }
+}

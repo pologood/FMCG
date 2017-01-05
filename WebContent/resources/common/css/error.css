@@ -1,0 +1,27 @@
+body{background:#fff;font-size:12px;-webkit-text-size-adjust:none;width:100%;height:100%;}
+body{font-family:"Microsoft YaHei", Arial,Narrow,Helvetica, sans-serif;margin:0;padding:0;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td,span,img{margin:0;padding:0;border:0;}
+a{text-decoration:none;-webkit-touch-callout:none;}
+ul,ol,dl{list-style:none;}
+
+.errorbody{width:960px;height:440px;padding:20px;background:#fff;margin:20px auto 0 auto;}
+.errorbodyul{padding:140px 50px 10px 480px;width:420px;height:240px;position:relative;background:url(../images/error.jpg) no-repeat;background-position:20px 20px;border:2px solid #f0efef;-moz-box-shadow:0 2px 3px #f1f1f1;-webkit-box-shadow:0 2px 3px #f1f1f1;box-shadow:0 2px 3px #f1f1f1;filter:progid:DXImageTransform.Microsoft.Shadow(color='#f1f1f1',Direction=135,Strength=0);}
+.errorbodyul p,.errorbodyul h1{width:100%;}
+.errorbodyul p{color:#a7a7a7;padding:10px 0;}
+.errorbodyul a.error_home,.errorbodyul a.error_return{width: 64px;text-align:center;float:left;display:inline-block;padding:6px 10px;color:#fff;background:#c7000b;border:2px solid #c7000b;-moz-border-radius:4px;-webkit-border-radius:4px;border-radius:4px;}
+.errorbodyul a.error_home{background:#c7000b;border:2px solid #c7000b;margin-left:10px;}
+.errorbodyul a:hover{background:#f1f1f1;color:#999;border-color:#f1f1f1}
+.errorbodyul span{width:113px;height:127px;background:url(../images/error_logo.jpg) no-repeat;position:absolute;top:10px;right:10px;}
+.errorcr{width:100%;height:60px;color:#a7a7a7;text-align: center;line-height:60px;}
+@media only  screen and (min-width: 100px) and (max-width: 480px) {
+.errorbody{width:100%;padding:0;overflow: hidden;height:auto;margin:0;position:absolute;top:20px;left:0;bottom:0;right:0;}
+.errorbodyul{width:100%;height:100%;border:0;background:url(../images/m_404.jpg) no-repeat;background-size:320px auto;padding:0;position:relative;}
+.errorbodyul span{display:none;}
+.errorbodyul h1{position: absolute;top: 180px;left: 170px;width: auto;color: #fff;}
+.errorbodyul p{padding: 20px;position: absolute;top: 260px;color: #333;width: auto;font-size:1.2em}
+.errorbodyul .errorbodybtn{position:absolute;text-align: center;text-align: center;bottom: 20px;width: 100%;}
+.errorbodyul .errorbodybtn a{display:inline-block;float:none;}
+.errorbodyul a.error_home{margin:0;display:none}
+.errorcr{display:none}
+.errorbodyul a.error_return{width: 100px;padding:10px;font-size:1.2em}
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>首页</title>
+    
+<link rel="stylesheet" href="/app/style/wap.min.css"/>
+<script src="/app/js/zepto.min.js"></script>
+<script src="/app/js/handlebars.min.js"></script>
+<script src="/app/js/lazyload.min.js"></script>
+<script src="/app/js/iSlider.min.js"></script>
+<script src="/app/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+
+<div class="container" id="container"></div>
+
+
+<script src="/app/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("index");
+        var ads = new ad(
+                function (data) {
+                    $("#iSlider-wrapper").silder(data);
+                }
+        );
+        ads.doT(70);
+        $('#lianxi').on('click', function () {
+            console.log("show")
+            actionsheet.show();
+        });
+    });
+    $(function () {
+        /**
+         *倒计时调用
+         */
+//        var endTime = "${(activityPlanning.endDate?string("yyyy-MM-dd HH:mm:ss"))!}";
+        var endTime = "2016-11-11 23:59:59";
+        endTime = endTime.replace(/-/g, ",").replace(/:/g, ",").replace(/ /g, ",");
+        var d = endTime.split(",");
+        var obj = {
+            sec: document.getElementById("sec"),//秒
+            mini: document.getElementById("mini"),//分
+            hour: document.getElementById("hour"),//时
+            day: document.getElementById("day")//天
+        };
+        fnTimeCountDown(d, obj);//启用方法
+    });
+
+</script>
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,53 @@
+/// namespace: TT-IN
+/// 隶属于页面tenant\index3.0.ftl,从属命名空间
+/* >>tenant\bottom_operas.ftl*/
+$page_ns: "TT-IN";
+
+.btoperas {
+    &.#{$page_ns} {
+        position: fixed;
+        z-index: 256;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f9fafb;
+
+        @include flexbox;
+
+        @include justify-content(space-around);
+
+        @include align-items;
+
+        &:before {
+            @include dividingline(top, #ddd);
+        }
+
+        & > a {
+            color: #666;
+
+            @include flex(1, 1, auto);
+            position: relative;
+
+            text-align: center;
+            padding: 1.2em 0;
+            line-height: 1;
+
+            &:after {
+                @include dividingline(right, #ddd);
+            }
+
+            &:last-child {
+                &:after {
+                    display: none;
+                }
+            }
+            &.disabled{
+                color: #ccc;
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<tenant\bottom_operas.ftl*/

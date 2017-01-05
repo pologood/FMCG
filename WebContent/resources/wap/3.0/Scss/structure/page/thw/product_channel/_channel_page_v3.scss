@@ -1,0 +1,111 @@
+/// namespace: PT-CNP
+/* >>indexnew.ftl*/
+$page_ns: "PT-CNP";
+$star: "*";
+
+//style here
+//频道
+
+#sg-iSlider {
+    position: relative;
+    width: dimension-to-vw(640px);
+    height: dimension-to-vw(250px);
+    overflow: hidden;
+
+    li {
+        list-style: none;
+        .tp1_banner{
+            width: dimension-to-vw(640px);
+            height: dimension-to-vw(250px);
+            img{
+                width: 100%;
+            }
+        }
+    }
+
+    .islider-dom {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .islider-pic {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-pack: center;
+        -webkit-box-align: center;
+        list-style: none;
+    }
+
+    .islider-img > img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.channels {
+    &.#{$page_ns} {
+        font-size: 0;
+        white-space: nowrap;
+        overflow: auto;
+
+        //所有浏览器
+        #{$star}word-spacing: -1px;
+
+        //IE6、7
+        overflow-x: auto;
+        padding: dimension-to-vw(12.8px);
+        background-color: #fff;
+
+        .it {
+            text-align: center;
+            width: dimension-to-vw(153.6px);
+            display: inline-block;
+            #{$star}display: inline;
+            #{$star}zoom: 1;
+            font-family: "微软雅黑";
+            padding: dimension-to-vw(12.8px) dimension-to-vw(38.4px);
+            letter-spacing: normal;
+            word-spacing: normal;
+
+            //频道图标
+            .channel_sign {
+                max-width: 100%;
+                height: auto;
+
+                @include no-flicker;
+            }
+
+            p {
+                text-align: center;
+                line-height: 2.4em;
+                height: 2em;
+            }
+        }
+    }
+}
+
+.sg_ad {
+    &.#{$page_ns} {
+        padding: dimension-to-vw(10px);
+        margin-top: dimension-to-vw(18px);
+
+        img {
+            width: 100%;
+            height: auto;
+            margin-top: dimension-to-vw(8px);
+        }
+    }
+}
+
+
+$page_ns: "";
+$star: "";
+
+/* <<indexnew.ftl*/

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>绑定手机</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_myaddphone">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            
+<!--BEGIN userPhone-->
+
+<div class="user_addphone">
+    <p class="f12" style="padding: 5px 15px">请选择您的国家和地区</p>
+    <div class="weui-cells" style="margin-top: 0;">
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd f14">
+                <label for="" class="weui-label">国家/地区</label>
+            </div>
+            <div class="weui-cell__bd f14">
+                <select class="weui-select" name="select2">
+                    <option value="1">中国</option>
+                    <option value="2">美国</option>
+                    <option value="3">英国</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select weui-cell_select-before">
+            <div class="weui-cell__hd f14">
+                <select class="weui-select" name="select2">
+                    <option value="1">+86</option>
+                    <option value="2">+80</option>
+                    <option value="3">+84</option>
+                    <option value="4">+87</option>
+                </select>
+            </div>
+            <div class="weui-cell__bd f14">
+                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入手机号码" id="mobnum"/>
+            </div>
+        </div>
+    </div>
+    <div  class="weui-cells">
+        <div class="weui-cell weui-cell_vcode" style="padding:5px 0;">
+            <div class="weui-cell__hd f14" style="padding-left:5px;">
+                <label class="weui-label" style="width:60px;">验证码</label>
+            </div>
+            <div class="weui-cell__bd f14">
+                <input class="weui-input" type="tel" placeholder="请输入验证码" id="captcha">
+            </div>
+            <div class="weui-cell_ft">
+                <input type="button" id="getcap" class="weui-btn weui-btn__primary" style="background:#00a0e9;font-size: 12px;" onclick="settime(this)" value="发送验证码">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__bd f14">
+                <input class="weui-input" type="tel" placeholder="若有邀请码，请输入邀请码" id="inviteCode">
+            </div>
+        </div>
+    </div>
+    <label for="weuiAgree" class="weui-agree">
+        <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" checked>
+        <span class="weui-agree__text">
+                已阅读并同意<a href="javascript:void(0);">《挑货网--专业为实体店服务的网站-官方网站服务平台协议》</a>
+            </span>
+    </label>
+    <div class="weui-btn-area">
+        <a class="weui-btn btn-default" href="javascript:" id="login">登陆</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var countdown=60;
+    function settime(val) {
+        if($('#phonenumber').val()!=""){
+            if (countdown == 0) {
+                val.removeAttribute("disabled");
+                val.value="发送验证码";
+                val.style.background="#00a0e9";
+                countdown = 60;
+                return;
+            } else {
+                val.setAttribute("disabled", true);
+                val.value="重新发送(" + countdown + ")";
+                val.style.background="#999";
+                countdown--;
+            }
+            setTimeout(function() {
+                settime(val)
+            },1000)
+        }
+
+    }
+</script>
+
+<!--END userPhone-->
+
+        </div>
+    </div>
+</div>
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("myaddphone");
+
+        //绑定手机获取验证码
+        $("#getcap").click(function(){
+            var mobnum=$("#mobnum").val();
+            var me=new member(function(data){
+                console.log(data);
+            });
+            me.sendCode({mobile:mobnum})
+        });
+
+        //绑定手机
+        $("#login").click(function(){
+            var check=document.getElementById("weuiAgree");
+            var mobnum=$("#mobnum").val();
+            var capt=$("#captcha").val();
+            var invite=$("#inviteCode").val();
+            if(check.checked==true){
+                var me=new member(function(data){
+                    console.log(data)
+                    toast.show("绑定成功");
+                    setTimeout(function () {
+                        window.location.href = document.referrer;
+                    },1000);
+                });
+                me.bindMobile({mobile:mobnum,captcha:capt,inviteCode:invite});
+            }else{
+                toast.show("请同意协议")
+            }
+        })
+
+
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
+
+

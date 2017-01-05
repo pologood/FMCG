@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+.shop-video-content{float:left;width:100%;height:100%;}
+.shop-video-l{float:left;width:200px;height:343px;}
+.shop-video-notice{float:left;width:198px;height:148px;background:url(../images/notice-bg.jpg) no-repeat;border:1px solid #f1f1f1;}
+.notice-title{float:left;width:198px;height:20px;line-height:23px;text-align:center; font-weight:bold;}
+.notice-outer{margin:0 auto;width:178px;height:118px;overflow:hidden;}
+.notice-content{width:168px;height:auto;margin:0 auto;}
+.notice-content a{width:178px;height:auto;line-height:25px;text-align:left;text-decoration:none;}
+.shop-video-ad{float:left;width:198px;height:181px;margin-top:5px;border:1px solid #f1f1f1;}
+.shop-video{float:left;width:548px;margin-left:10px;height:338px;border:1px solid #f1f1f1;}
+.shop-video-main{position:relative;float:left;width:452px;height:330px;text-align:center;border:4px solid #ff0000;background:#000;}
+.shop-video-list{position:relative;float:left;width:88px;height:339px;background:#f7f7f7;}
+.shop-video-list ul{float:left;width:88px;height:337px;list-style:none;text-align:center;margin-top:5px;}
+.shop-video-list ul li{float:left; width:100%;height:30px;border-bottom:1px solid #e4e4e4;}
+.shop-video-list ul li a{float:left; width:100%;height:30px;line-height:30px; text-decoration:none;color:#666;}
+.shop-video-list ul li a.current-view{background:#ff0000;color:#fff;}
+.shop-video-list ul li a:hover{background:#ccc;color:#fff;}
+.close-view{float:left;width:88px;height:30px;background:#808080;margin-top:-34px;}
+.close-view:hover{background:#ccc;color:#fff;}
+.close-view a{float:left; width:88px;height:30px; text-align:center;line-height:30px; text-decoration:none;color:#fff;}
+/*
+.shop-video-content{position:relative;float:left;width:100%;height:100%;}
+.shop-video-l{ position:absolute;width:200px;top:0;left:0;bottom:0;}
+.shop-video-notice{position:absolute;width:200px;height:150px;top:0;left:0;background:url(../img/notice-bg.jpg) no-repeat;border:1px solid #f1f1f1;}
+.notice-title{ position:absolute;width:200px;height:20px;top:0;left:0;line-height:30px;text-align:center; font-weight:bold;}
+.notice-outer{position:absolute;top:20px;left:0;right:0;bottom:0;margin:10px;overflow:hidden;}
+.notice-content{width:180px;height:auto;}
+
+.notice-content a{width:180px;height:auto;line-height:25px;text-align:left;color:#000;text-decoration:none;}
+.shop-video-ad{position:absolute;width:200px;height:183px;bottom:0;left:0;border:1px solid #f1f1f1;}
+.shop-video{position:absolute;left:210px;top:0;right:0;bottom:0;border:1px solid #f1f1f1;}
+.shop-video-main{position:absolute;left:0;top:0;right:90px;bottom:0;text-align:center;border:4px solid #ff0000;background:#000;}
+.shop-video-list{position:absolute;width:90px;top:0;right:0px;bottom:0;background:#f7f7f7;}
+.shop-video-list ul{position:absolute;top:0;left:0;right:0;list-style:none;text-align:center;margin-top:5px;}
+.shop-video-list ul li{float:left; width:100%;height:30px;border-bottom:1px solid #e4e4e4;}
+.shop-video-list ul li a{float:left; width:100%;height:30px;line-height:30px; text-decoration:none;color:#666;}
+.shop-video-list ul li a.current-view{background:#ff0000;color:#fff;}
+.shop-video-list ul li a:hover{background:#ccc;color:#fff;}
+.close-view{position:absolute;bottom:0;left:0;width:100%;height:30px;background:#808080;}
+.close-view:hover{background:#ccc;color:#fff;}
+.close-view a{float:left; width:100%;height:30px; text-align:center;line-height:30px; text-decoration:none;color:#fff;}
+*/

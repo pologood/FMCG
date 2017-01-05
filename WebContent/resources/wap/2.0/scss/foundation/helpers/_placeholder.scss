@@ -1,0 +1,48 @@
+// *************************************
+//
+//   Placehodlder,占位符对象
+//
+// *************************************
+
+// ----- 文字省略号 ----- //
+
+%ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+%ellipsis-line2 {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: initial;
+}
+
+// ----- 调试背景色 ----- //
+
+%debug {
+    background-color: pink !important;
+}
+
+%blk {
+    display: block !important;
+}
+
+// ----- 图像替换 ----- //
+
+%ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    &::before {
+        content: "";
+        display: block;
+        width: 0;
+        height: 150%;
+    }
+}
+
+

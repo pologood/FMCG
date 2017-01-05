@@ -1,0 +1,77 @@
+div.message {
+    margin-top: 20px;
+    background-color: #fff;
+}
+div.message li {
+    border: 1px solid #e4e4e4;
+    padding:20px 30px 20px 30px;
+    margin-top: -1px;
+}
+div.message li .dt {
+    font-weight: 600;
+    font-size: 14px;
+    position: relative;
+}
+div.message li .dt em {
+    color:#eb3341;
+    padding-right: 5px;
+}
+div.message li .dd {
+    padding-left: 18px;
+    padding-top: 10px;
+}
+div.message li .dd .info {
+    padding-top: 5px;
+}
+div.message li .delete {
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    width: 13px;
+    height: 13px;
+    font-size: 0;
+    overflow: hidden;
+    vertical-align: middle;
+    background: url(//misc.360buyimg.com/user/myjd-2015/css/i/order-icon20150916.png) -23px -132px no-repeat;
+}
+div.message li .delete:hover {
+    background-position: 0 -132px;
+}
+div.message li:hover {
+    background-color: #f1f1f1;
+}
+div.message li:hover .delete {
+    background-position: 0 -132px;
+}
+div.message .p-skip {
+    display: none;
+}
+
+.new-message-box ul li .dd {
+    padding-top: 2px;
+}
+.new-message-box ul li .dd .info {
+    padding-top: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

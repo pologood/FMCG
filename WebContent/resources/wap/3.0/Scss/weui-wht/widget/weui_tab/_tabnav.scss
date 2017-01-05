@@ -1,0 +1,50 @@
+@import "../../base/fn";
+
+.weui_tabnav {
+    display: flex;
+    z-index: 1;
+    background-color: #fafafa;
+
+    &:after {
+        @include setBottomLine($globalBorderColor);
+
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+
+    & + .weui_tab_bd {
+        //padding-top: 50px;
+        //padding-bottom: 0;
+   
+    }
+}
+
+.weui_tabnav_item {
+    position: relative;
+    display: block;
+    flex: 1;
+    padding: 13px 0;
+    text-align: center;
+    font-size: 15px;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+        background-color: #ededed;
+    }
+
+    &.weui_tab_item_on {
+        background-color: #eaeaea;
+    }
+
+    &:after {
+        @include setRightLine(#cccccc);
+    }
+
+    &:last-child {
+        &:after {
+            display: none;
+        }
+    }
+}

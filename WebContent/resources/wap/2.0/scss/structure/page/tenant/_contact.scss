@@ -1,0 +1,155 @@
+/// namespace: TTC
+/* >>tenant\contact*/
+$page_ns: "TTC";
+
+///box_store
+.box_store {
+    &.#{$page_ns} {
+        margin-top: 0;
+    }
+}
+
+///storeinfo
+.storeinfo {
+    &.#{$page_ns} {
+        ///storeinfo-hd
+        @at-root .storeinfo-hd {
+            &.#{$page_ns} {
+                width: 15.625vw;
+                height: 15.625vw;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        }
+
+        @at-root .storeinfo-bd {
+            &.#{$page_ns} {
+                padding-left: 0.6em;
+
+                p {
+                    color: #333;
+                    font-size: 16px;
+                }
+
+                span {
+                    font-size: 10px;
+
+                    &:first-child {
+                        color: #666;
+                    }
+
+                    &:last-child {
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}
+
+///box_contactinfo
+.box_contactinfo {
+    &.#{$page_ns} {
+        padding: 15px;
+        font-size: 14px;
+        color: #666;
+
+        .box-bd {
+            padding-left: 0.5em;
+        }
+
+        ///到这里去
+        @at-root .openmap {
+            &.#{$page_ns} {
+                .box-hd {
+                    color: #000;
+                }
+            }
+        }
+
+        @at-root .callweixin {
+            &.#{$page_ns} {
+                .box-hd {
+                    color: #05af10;
+                }
+            }
+        }
+
+        @at-root .callphone {
+            &.#{$page_ns} {
+                .box-hd {
+                    color: #ff7936;
+                }
+            }
+        }
+    }
+}
+
+///电话列表
+.tellists {
+    @at-root .tellists-title {
+        &.#{$page_ns} {
+            font-size: 16px;
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 0;
+            background-color: #e8eaea;
+        }
+    }
+
+    @at-root .tellists-ctn {
+        &.#{$page_ns} {
+            padding-bottom: 50px;
+            font-size: 14px;
+            color: #666;
+
+            ///box-tellist
+            @at-root .box-tellist {
+                &.#{$page_ns} {
+                    color: #888;
+                    padding: 15px;
+
+                    .bd {
+                        span {
+                            color: #666;
+
+                            &:last-child {
+                                color: #999;
+                                display: block;
+                                font-size: 12px;
+                                font-style: normal;
+                            }
+                        }
+                    }
+
+                    .ft {
+                        color: #00a0e9;
+
+                        a {
+                            display: inline-block;
+                            vertical-align: middle;
+                            padding: 0.2em 0.5em;
+
+                            &:nth-child(1) {
+                                color: #ff7936;
+                            }
+
+                            &:nth-child(2) {
+                                font-size: 14px;
+                                color: #00a0e9;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>tenant\contact,end*/

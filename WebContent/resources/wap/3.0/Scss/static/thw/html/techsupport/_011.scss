@@ -1,0 +1,100 @@
+/// namespace: STC-TS-11
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\011.html*/
+$page_ns: "STC-TS-11";
+
+//style here
+//技术支持011页面
+
+.ensure {
+    &.STC-TS-5 {
+        &.STC-TS-11 {
+            //消费保障主体部分
+            .ensure-main {
+                padding: 0 dimension-to-vw(20px);
+
+                .ensure-main1 {
+                    padding: dimension-to-vw(50px) 0;
+                    text-align: center;
+                    position: relative;
+                    &:after {
+                    @include dividingline(bottom, #eee);
+                }
+
+
+                    .ensure_img {
+                        width: dimension-to-vw(170px);
+                        height: dimension-to-vw(180px);
+                        margin: 0 auto;
+                        img{ width: 100%;}
+                    }
+                    h1 {
+                        margin: .5em auto .2em;
+                    }
+
+                    ul li {
+                        margin-top: 1em;
+                        display: inline-block;
+                        &:nth-child(2){
+                            margin-left: dimension-to-vw(43px)
+                        }
+
+                            span {
+                            width: dimension-to-vw(130px);
+                            height: dimension-to-vw(130px);
+                            display: block;
+                            margin-bottom: dimension-to-vw(10px);
+                            img{ width: 100%;}
+                        }
+                        
+                    }
+                }
+
+                //消费攻略
+                .ensure-main2 {
+                    padding: dimension-to-vw(40px) 0 dimension-to-vw(80px) 0;
+                    .strategy {
+                        text-align: left;
+                        position: relative;
+                        padding-bottom: dimension-to-vw(20px);
+                        &:after {
+                    @include dividingline(bottom, #e4e4e4);
+                }
+                        h1 {
+                            text-align: left;
+                            line-height: 3em;
+                            position: relative;
+
+                            a{
+                                text-decoration: underline;
+                                position: absolute;
+                                bottom: 0;
+                                right: 0;
+                            }
+
+                            span {
+                                width: dimension-to-vw(32px);
+                                height: dimension-to-vw(32px);
+                                display: inline-block;
+                                margin-right: dimension-to-vw(8px);
+                                border-radius: 50%;
+                                line-height: dimension-to-vw(32px);
+                                text-align: center;
+                            }
+                        }
+                        p{
+                            margin-bottom: dimension-to-vw(10px);
+                            &.instruction{
+                                margin-left:dimension-to-vw(20px) 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

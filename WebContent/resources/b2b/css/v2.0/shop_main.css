@@ -1,0 +1,101 @@
+﻿/* CSS Document */
+.shop_auth_div { padding:22px 0px 15px 15px; position:relative; z-index:98; height:189px; width:1005px;}
+.shop_border_top_img03 { position:absolute; bottom:-10px; left:0;}
+.shop_auth_div .shop_rz_div { margin-right:55px; width:280px; background:url(../../images/v2.0/shop_auth_line_bg02.gif) 0 bottom repeat-x; float:left;}
+.shop_auth_div .shop_rz_img_div { background:url(../../images/v2.0/shop_auth_line_bg01.gif) 0 center no-repeat; text-align:center;}
+.shop_auth_div .shop_rz_img_div img { width:84px; height:84px;}
+
+.shop_auth_div .shop_tit { text-align:center; padding:15px 0 15px 0; font-size:20px; color:#5e6c76;}
+.shop_auth_div .shop_info { font-size:15px; color:#869097; font-family:"微软雅黑"; padding:0 20px 15px 20px; height:40px; line-height:20px;}
+.shop_var_div { background:#192c3b; padding:0 200px 25px 200px;}
+.shop_var_div h1 { background:url(../../images/v2.0/shop_var_line_bg.gif) 0 bottom repeat-x; padding:18px 0; margin-bottom:15px; font-size:20px; color:#babfc4; text-align:center;}
+.shop_var_div p { color:#d6d6d7; font-size:15px; font-family:"微软雅黑"; padding:0 5px;}
+.shop_act_div { background:#192c3b; margin-top:-30px; position:relative; z-index:98; overflow:hidden; *margin-top:30px; *margin-bottom:20px; *height:859px;}
+.shop_act_div h1 { width:930px; padding:37px 0 20px 113px; font-size:25px; background:url(../../images/v2.0/shop_act_tit_line.gif) 0 bottom repeat-x; margin-bottom:30px; color:#babfc4;}
+.shop_act_div .shop_commodity_list { margin-left:15px;}
+
+.login_footer_div { margin:0 auto;}
+
+
+/* ---------- Password ---------- */
+
+div.password .wrap {
+	margin-top: 10px;
+	margin-bottom: 10px;
+    border: 1px solid #f2f2f2;
+}
+
+div.password .main {
+	padding-bottom: 20px;
+	border: 0px solid #d7d7d7;
+}
+
+div.password .title {
+	height: 40px;
+	line-height: 40px;
+	color: #d8d8d8;
+	font-family: "Microsoft YaHei";
+	border-bottom: 1px dotted #ededed;
+}
+
+div.password .title strong {
+	padding: 0px 10px;
+	color: #3164af;
+	font-size: 18px;
+}
+
+div.password table {
+	width: 100%;
+	margin-top: 20px;
+}
+
+div.password th {
+	width: 100px;
+	padding: 12px;
+	font-size: 14px;
+	font-weight: normal;
+	text-align: right;
+}
+div.password .captcha {
+	width: 130px;
+	text-transform: uppercase;
+	ime-mode: disabled;
+}
+
+div.password .captchaImage {
+	margin-left: 10px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+div.password .submit {
+	width: 100px;
+	height: 35px;
+	line-height: 35px;
+	margin-top: 10px;
+	color: #ffffff;
+	cursor: pointer;
+	outline: none;
+	blr: expression(this.hideFocus = true);
+	border: none;
+	background: url(../../images/v2.0/password.gif) 0px 0px no-repeat;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

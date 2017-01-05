@@ -1,0 +1,66 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    font-family: "微软雅黑","宋体";
+}
+
+body, button, input, select, textarea {
+    font: 12px/1.5 tahoma,arial,\5b8b\4f53,sans-serif;
+}
+//表格边框和字体
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: inherit;
+    font: 100%;
+}
+
+caption, th {
+    text-align: left;
+}
+
+fieldset, img {
+    border: none;
+}
+//列表
+ul, ol {
+    list-style: none;
+}
+//标题
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+//表单项
+input, button, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    vertical-align: middle;
+    *font-size: 100%;
+}
+//特殊标签
+address, caption, cite, code, dfn, em, i, b, strong, th, var, optgroup {
+    font-style: normal;
+    font-weight: normal;
+}
+//small
+small {
+    font-size: 100%;
+}
+//水平线
+hr {
+    color: #D1D7DC;
+    background-color: #D1D7DC;
+    border: none;
+    height: 1px;
+}
+//链接：默认没有下划线
+a {
+    text-decoration: none;
+}
+//链接：鼠标经过出现下划线
+a:hover {
+    text-decoration: underline;
+}

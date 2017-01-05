@@ -1,0 +1,109 @@
+/*-------------------*/
+div.news-nav {
+    background-color: #fff;
+    margin-top: 40px;
+    padding-bottom: 350px;
+}
+div.news-nav .dl {
+    margin-bottom: 5px;
+}
+div.news-nav .dt {
+    background-color: #fb0600;
+    color: #fff;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+}
+div.news-nav .dt i {
+    position: absolute;
+    left: 35px;
+    font-size: 16px;
+    top: 0;
+}
+div.news-nav .arrow .up {
+    display: block;
+}
+div.news-nav .arrow .down {
+    display: none;
+    font-size: 14px;
+}
+div.news-nav .click .up {
+    display: none;
+}
+div.news-nav .click .down {
+    display: block;
+    font-size: 14px;
+}
+div.news-nav .dd ul {
+    margin-top: -1px;
+    overflow: hidden;
+}
+div.news-nav .dd li {
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 14px;
+    border-top: 1px dashed #ddd;
+    cursor: pointer;
+}
+div.news-nav .dd li:hover {
+    background-color: #eff3f5;
+}
+div.news-nav .dd li.select {
+    background-color: #eff3f5;
+}
+div.news-nav .dd li.select a {
+    color: #eb3341;
+}
+div.news-nav .dd li:hover a {
+    color: #eb3341;
+}
+div.news-nav .dd li em {
+    margin-right: 15px;
+}
+
+div.news-con {
+    background-color: #fff;
+    padding: 50px;
+    margin-top: 40px;
+}
+div.news-con h1 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+div.news-con .news-info {
+    text-align: center;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    color: #999;
+    font-weight: 600;
+}
+div.news-con .news-info span {
+    padding-right: 10px;
+}
+
+div.news-paper {
+    margin-top: 30px;
+}
+div.news-paper p {
+    font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

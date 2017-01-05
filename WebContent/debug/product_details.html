@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>商品详情页</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_product_details">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel" style="padding-bottom: 10vw;">
+                
+<!--BEGIN productDetailsSlider-->
+<div id="product_album" class="mask">
+    <img src="http://www.tiaohuo.com/resources/wap/3.0/image/blank/blank640x640.png" alt="">
+    <span class="pagenum"></span>
+    <div class="mask-bg"></div>
+</div>
+<!--END productDetailsSlider-->
+
+                
+<!--BEGIN productDetailsDesc-->
+<div class="product_desc weui-cells">
+    <div class="hd f14">协嘉新生代早餐160g水果燕麦片牛奶味早餐谷物营养麦片</div>
+    <div class="weui-cell bd">
+        <div class="weui-cell__bd">
+            <span class="f14">￥11.9</span>
+            <span class="f12">￥15.9</span>
+        </div>
+        <div class="weui-cell__ft f12">
+            <span>0人访问 </span>
+            <span> 月销0件</span>
+        </div>
+    </div>
+    <div class="other">
+        <span class="f12">免运费</span>
+        <i class="iconfont icon-zhe"></i>
+    </div>
+</div>
+<!--END productDetailsDesc-->
+
+                
+<!--BEGIN tenant_info-->
+<div class="tenant_info weui-cells">
+    <a class="weui-cell weui-cell_access" href="http://localhost:8080/debug/tenant-home.html">
+        <div class="weui-cell__bd f14">菲小姐的店</div>
+        <div class="weui-cell__ft"></div>
+    </a>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <img src="http://cdn.tiaohuo.com/upload/image/201611/6357fc15-d6f5-486e-81d6-562dc0629c74.jpg" alt="">
+        </div>
+        <div class="weui-cell__bd weui-cell_primary">
+            <div class="address">
+                <i class="iconfont icon-l-location f14"></i>
+                <span class="f14">芜湖路万达金街一楼150号</span>
+            </div>
+            <div class="info f12">
+                <span>全部好货556</span>
+                <span>收藏人数82</span>
+                <div class="stars">
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-l-star f12"></i>
+                </div>
+            </div>
+            <div class="other f12">
+                <span>
+                    <i class="iconfont icon-seven f14"></i>
+                    七天退货
+                </span>
+                <span>
+                    <i class="iconfont icon-assure f14"></i>
+                    担保交易
+                </span>
+            </div>
+        </div>
+        <div class="weui-cell__ft">
+            <a href="tel:13515515899">
+                <i class="iconfont icon-phone-a"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<!--END tenant_info-->
+
+                
+<!--BEGIN product_evaluate-->
+<div class="product_evaluate weui-cells">
+    <a class="weui-cell weui-cell_access hd" href="evaluate.html">
+        <div class="weui-cell__hd f14">评价</div>
+        <div class="weui-cell__bd f12">
+            <span>暂无评价，购买后快来发表评价</span>
+            <span>好评100%</span>
+        </div>
+        <div class="weui-cell__ft"></div>
+    </a>
+    <div class="weui-cells bd">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <img src="http://wx.qlogo.cn/mmopen/YCOL3hU8ffVpextwcQ247jRkd7ToIYPuLOHVNXGgAh9rQqA6pibJna97Hg1ibdnZSrGweibAD6OlS0dLkibicF4o9piaL3CV3ah4Xo/0" alt="icon">
+            </div>
+            <div class="weui-cell__bd f12">熊猫</div>
+            <div class="weui-cell__ft f12">2016-11-13</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd f14"><span>儿子好喜欢，很美味的零食！</span></div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"></div>
+            <div class="weui-cell__bd f12">
+                <span>&nbsp;</span>
+            </div>
+            <div class="weui-cell__ft f12">购买日期：2016-11-12</div>
+        </div>
+    </div>
+    <a class="weui-cell weui-cell_access ft" href="evaluate.html">
+        <div class="weui-cell__bd f14">查看全部评价</div>
+    </a>
+</div>
+<!--END product_evaluate-->
+
+                <div class="f14" style="text-align: center;padding: 2%;margin-top: 2%;background-color: #fff;">
+                    宝贝详情
+                </div>
+                
+<!--BEGIN details-->
+<div class="details f12">
+    <div class="title">
+        <p>此商品每人限购一件，多拍不发。</p>
+    </div>
+    <div class="content">
+        <img src="http://cdn.tiaohuo.com/upload/image/201611/7d9896b0-57fb-4c89-ae7c-ff6ba15daefe.jpg"/>
+        <img src="http://cdn.tiaohuo.com/upload/image/201611/60c8975e-ea02-40ac-9639-33ccd65b3e91.jpg"/>
+    </div>
+</div>
+<!--END details-->
+
+                <div class="f14" style="text-align: center;padding: 2%;margin-top: 2%;background-color: #fff;">
+                    店主推荐
+                </div>
+                
+<!-- product_grid -->
+
+<div class="product-grid weui-cells ">
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+</div>
+
+<!-- product_grid end -->
+
+                <div class="f14" style="text-align: center;padding: 2%;margin-top: 2%;background-color: #fff;">
+                    领家好货
+                </div>
+                
+<!-- product_grid -->
+
+<div class="product-grid weui-cells ">
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i1/TB1RnklIFXXXXXiapXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    <a class="" href="http://localhost:8080/debug/product_details.html">
+        <div class="weui-cell__hd">
+            <img src="https://img.alicdn.com/bao/uploaded/i4/TB1bnb5KFXXXXb0XVXXXXXXXXXX_!!0-item_pic.jpg_250x250.jpg"
+                 alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+            <p class="tag_list"><i class="iconfont icon-seckill"></i><i class="iconfont icon-mail"></i><i class="iconfont icon-discount"></i><i class="iconfont icon-buyfree"></i></p>
+            <p class="price f14"><span>￥89 <i class="f12">￥249</i></span></p>
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+</div>
+
+<!-- product_grid end -->
+
+            </div>
+            <div class="foot_menu ft weui-tabbar">
+                <a href="http://localhost:8080/debug/shop_guide.html" class="weui-tabbar__item Ftext">
+                    <i class="iconfont icon-l-sj"></i>
+                    <p class="weui-tabbar__label f12">导购</p>
+                </a>
+                <a id="collect" href="javascript:;" class="weui-tabbar__item Ftext">
+                    <i class="iconfont icon-l-star"></i>
+                    <p class="weui-tabbar__label f12">收藏</p>
+                </a>
+                <a href="http://localhost:8080/debug/cart.html" class="weui-tabbar__item Ftext">
+                    <span class="weui-badges">
+                        <i class="iconfont icon-sc-01 "></i>
+                        <span class="weui-badge f12">9</span>
+                    </span>
+                    <p class="weui-tabbar__label f12">购物车</p>
+
+                </a>
+                <a href="javascript:;" class="weui-tabbar__item f14 add_btn" id="add_card">加入购物车</a>
+                <a href="javascript:;" class="weui-tabbar__item f14 buy_btn" id="buy_now">立即购买</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("product_details");
+        var ads = new ad(
+                function (data) {
+                    $("#product_album").silder(data,1800,'zoomout');
+                }
+        );
+        ads.doT(70);
+        var pl = new productChannel(
+                function (data) {
+                    $("#tenant_pic").silderProductChannel(data,1,2);
+                }
+        );
+        pl.list();
+    });
+</script>
+
+
+</body>
+</html>
+
+

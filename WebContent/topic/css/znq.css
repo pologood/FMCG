@@ -1,0 +1,112 @@
+.znq_box{padding:1px;margin:0 auto;width:1098px;}
+.znq_box_t{display:inline-block;padding:10px 100px;height:60px;margin-top:30px;background:#3a5df4;border-radius:30px;font-size:32px;color:#fff;font-weight:bold;}
+.znq_box_c{padding:20px;margin-top:30px;background:#fff;border-radius:20px;}
+.znq_box_c h2.h2{font-size:40px;font-weight:bold;color:#fa4a16;margin-left:30px;}
+
+.lottery{width: 960px;margin: 20px auto ;padding-top:20px;}
+.lottery-out{margin-left:0px;width: 465px;height: 465px;float: left;background: url(/assets/images/lottery_spring/lottery_light.png);background-size:cover;position: relative;}
+.lottery-gift{width: 389px;height: 389px;background: url(/assets/images/znq/znq_lottoery_zp.png);position: absolute;left: 40px;top:40px;z-index: 10; }
+.lottery-arrow{width: 184px;height: 27px;background: url(/assets/images/lottery_spring/arrow.png);position: absolute;z-index: 20;top: 220px;left: 146px;}
+.lottery-arrow-brand{ cursor: pointer; width: 120px;height: 125px;background: url(/assets/images/lottery_spring/btn.png);position: absolute;z-index: 30;left: 172px;top:172px; }
+
+.lottery-list{margin-top:-80px;width: 397px;height: 568px;background:#fff7e7;border:1px solid #ff4765;border-radius:15px;float: right;padding: 20px;}
+.lottery-list-user{height: 140px;}
+.lottery-list-user h3{margin:0;font-size: 24px;color: #000;font-weight: bold;text-align: center;line-height: 40px;}
+.lottery-list-user-no{color: #fa4a16;margin-left: 3px;margin-right: 3px;}
+ .btn1{float: left;font-weight: bold; width: 160px;height: 50px;border-radius: 5px;font-size: 24px;line-height: 50px;text-align: center;color: #fff;background-color: #fa4a16;margin-right: 26px;cursor: pointer;}
+ .btn2{float: right;font-weight: bold; width: 160px;height: 50px;border-radius: 5px;font-size: 24px;line-height: 50px;text-align: center;color: #fa4a16;border:1px solid #fa4a16;cursor: pointer; }
+.lottery-list-user-lst{float: right; padding-top: 90px;padding-bottom:15px; width: 353px;margin-top: 18px;background: url(/assets/images/lottery_spring/p_ti.png) center top no-repeat;}
+.lottery-list-user .dis{display: none;}
+.lottery-list-user .btns{margin-top: 25px;}
+ .btns a{color:inherit;text-decoration:none;}
+.lottery-list-user-lst table{width: 325px;height: 245px;margin:auto;font-size: 16px;}
+.lottery-list-user-lst th{color: #fff;background-color: #fb7246;height: 38px;line-height: 38px;padding-left: 15px;}
+.lottery-list-user-lst td{color: #000033;padding-left: 15px;background-color: #fff;border:1px solid  #dadada;height: 40px;line-height: 40px;}
+.lottery-list-user-lst tr td:last-child{color: #fb7246;}
+
+.rule_box {margin-top:20px;}
+.rule_box .rule_left{float:left;width:500px;margin-left:15px;}
+.rule_box .rule_left h2{display: inline-block;
+  padding: 5px 50px;
+  font-size: 30px;
+  color: #fa4a16;
+  background: #fffbea;
+  border: 2px solid #fa4a16;
+  border-radius: 25px;
+  font-weight: bold;
+  text-align: center;}
+ .rule_box .rule{padding:15px;height:425px;overflow:hidden;margin-top:20px;background:#fffae8;border:1px solid #e9d270;border-radius:5px;font-size:20px;line-height:1.8}
+
+ .txtScroll-top{ width:450px;height:266px; margin:20px auto; overflow:hidden; position:relative;}
+
+.txtScroll-top .bd{}
+.txtScroll-top .infoList{padding:0}
+.txtScroll-top .infoList li{box-sizing:content-box;-moz-box-sizing:content-box; -webkit-box-sizing:content-box; list-style:none;height:28px; line-height:28px;margin-bottom: 10px;color: #333;  font-size: 20px;}
+.txtScroll-top .infoList li span{display:inline-block;}
+.txtScroll-top .infoList li span.l_1{width:250px;}
+.txtScroll-top .infoList li span.l_2{width:140px;}
+.txtScroll-top .infoList li span i{font-style: normal;color: #fa4a16;}
+.g-footer-sc{width:200px;margin:0 auto;padding:8px 20px;background-color: #fa4a16;border-radius: 5px;border-bottom:5px solid #c9360a;font-size: 18px;color: #fff;cursor: pointer;text-align: center;line-height: 32px;}
+
+
+.rank {float:left;width:500px;height:479px;background:#fff;}
+
+.rank .rank_num {display:inline-block;width:22px;height:22px;line-height:22px;text-align:center;color:#fff;border-radius:1px;}
+.rank .i_r .rank_num{background:#dfdfdf;}
+.rank .i_t .rank_num{background:#fa5a26;}
+.rank .nav-tabs{background:#fa5a26;border-bottom:1px solid #fa5a26;  padding-left: 30px;  padding-top: 10px;}
+.nav>li>a{padding:5px 15px;margin-right:10px;color:#fff}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{border-color:transparent;padding:5px 15px;color:#fa4a16;background:#fff}
+.nav-tabs>li>a:hover{color:#fa4a16;background:#fff}
+
+
+.my_rank{width:450px;height:146px;padding:20px;background:#fffae8;border:1px solid #e9d270;border-radius:5px;font-size:20px;color:#333;}
+.my_rank h3{color:#fa4a16;font-size:22px;margin-top:0;margin-bottom:30px;font-weight:bold;}
+.my_rank p{}
+.my_rank p b{font-size:25px;color:#fa4a16}
+
+.rank_prize{width:450px;}
+.rank_prize h3{color:#fa4a16;font-size:22px;margin-top:81px;margin-bottom:30px;font-weight:bold;}
+.rank_prize table {border-color:#fa5a26;background:#fff;}
+.rank_prize table thead{background:#fa5a26;color:#fff;font-size:20px;font-weight:bold;}
+.rank_prize table.table tbody td{padding:15px;}
+.rank .tab-pane{padding:10px 20px;}
+.my_rank,.rank_prize{float:left;margin-left:50px;}
+
+.invite_con .rule{float:left;padding:25px;width:626px;height:250px;overflow:hidden;margin-top:20px;background:#fffae8;border:1px solid #e9d270;border-radius:5px;font-size:20px;line-height:1.8}
+.invite_con .rule li{margin-bottom:30px}
+.invite_con .invite_qrcode{float:left;margin-top:20px;margin-left:96px;width:253px;height:253px;}
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th{border: 1px solid #FA5A26;}
+.text-znq{color:#fa5a26}
+.text-green{color:#10c152;}
+
+.invite_link input {
+  float: left;
+  width: 260px;
+  height: 38px;
+  line-height: 38px;
+  border: 1px solid #f22f43;
+  font-size: 16px;
+  padding-left: 20px;
+  margin-top: 18px;
+}
+#d_clip_button {
+  float: left;
+  margin-top: 18px;
+  width: 78px;
+  height: 38px;
+  line-height: 38px;
+  font-size: 17px;
+  background-color: #f22f43;
+  text-align: center;
+  display: inline-block;
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  }
+ .znq_float{position:fixed;z-index:999;top:50px;right:0;width:140px;height:345px;background:url(/assets/images/znq/znq_float.png);}
+  .znq_float a{display:block;width:140px;}
+  .znq_float a.znq_home{margin-top:66px;height:78px;}
+  .znq_float a.znq_customer{margin-top:1px;height:70px;}
+  .znq_float a.znq_green{margin-top:1px;height:74px;}
+  .znq_float a.znq_top{margin-top:1px;height:48px;}

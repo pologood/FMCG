@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>微信首页</title>
+    
+<link rel="stylesheet" href="/app/style/wap.min.css"/>
+<script src="/app/js/zepto.min.js"></script>
+<script src="/app/js/handlebars.min.js"></script>
+<script src="/app/js/lazyload.min.js"></script>
+<script src="/app/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_aproductReasult">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+
+        <div class="weui-tab product_style pageable">
+                
+<!--BEGIN dropmenu-->
+
+<div class="dropmenu">
+    <div class="weui-navbar hd " id="navbar">
+        <div class="weui-navbar__item active">
+            <span class="f14"><span class="navbar1">全城</span>&nbsp;<i class="icon iconfont down-01"></i></span>
+        </div>
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar2">全部类别</span>&nbsp;<i class="icon iconfont down-01"></i></span>
+        </div>
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar3">智能排序</span><i class="icon iconfont down-01"></i></span>
+        </div>
+    </div>
+    <div id="style">
+        <i class="iconfont icon-details style col-1" id="goods_style"></i>
+    </div>
+    <div class="bd" id="nav_menu">
+        <div class="weui-flex menu aread" style="display:none">
+
+        </div>
+        <div class="weui-flex menu categoryd" style="display:none">
+        </div>
+        <div class="weui-flex menu orderd" style="display:none;margin-top:0;">
+        </div>
+    </div>
+</div>
+
+<div id="mask" style=""></div>
+
+<!--END dropmenu-->
+
+                
+
+
+    <!--BEGIN location-->
+    <div class="location row f12">
+        <div class="col-23">当前：合肥市瑶海区</div>
+        <div class="col-1">
+            <i class="iconfont icon-shuaxin refresh"></i>
+        </div>
+    </div>
+    <!--END location-->
+
+                <div class="product-list weui-cells product" style="margin-top:80px"></div>
+        
+
+    <div class="weui-tabbar foot_menu" style="position: fixed;">
+        <a href="../debug/index.html" class="weui-tabbar__item weui-bar__item_on" id="nav1">
+            <i class="weui-tabbar__icon iconfont icon-l-home"></i>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="../debug/category.html" class="weui-tabbar__item" id="nav2">
+            <i class="weui-tabbar__icon iconfont icon-l-classify"></i>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="../debug/nearby.html" class="weui-tabbar__item" id="nav3">
+            <i class="weui-tabbar__icon iconfont icon-l-location"></i>
+            <p class="weui-tabbar__label">附近</p>
+        </a>
+        <a href="../debug/cart.html" class="weui-tabbar__item" id="nav4">
+            <i class="weui-tabbar__icon iconfont icon-l-sc"></i>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="../debug/mycenter.html" class="weui-tabbar__item" id="nav5">
+            <i class="weui-tabbar__icon iconfont icon-l-me"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+    </div>
+    <script type="text/javascript" class="tabbar js_show">
+        $(function(){
+            /*$('.weui-tabbar__item').on('click', function () {
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            });*/
+            var str = window.location.href;
+            var index = str .lastIndexOf("\/");
+            str  = str .substring(index + 1, str .length);
+            if(str=="index.html"){
+                $("#nav1").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="category.html"){
+                $("#nav2").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="nearby.html"){
+                $("#nav3").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="cart.html"){
+                $("#nav4").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="mycenter.html"){
+                $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+        });
+    </script>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+</script>
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+    {{#each this}}
+    <a href="javascript:;">
+        <div class="weui-cell__hd">
+            <img src=" {{thumbnail}} "alt="">
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{fullName}}</p>
+
+            <p class="tag_list">
+                {{#each promotions}}
+                    <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+
+            <p class="price f14"><span>￥{{price}} <i>￥{{marketPrice}}</i></span></p>
+            <p class="Fauxiliary">人气 {{favoriteCount}} /月销量 {{monthSales}}</p>
+
+        </div>
+        <span class="cart"><i class="icon iconfont"></i></span>
+    </a>
+    {{/each}}
+<!-- product_list end -->
+
+
+
+
+</script>
+
+
+<script src="/app/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        pageManager.show("aproductReasult");
+
+        var tenantRedListData = {
+            pageSize: 20,
+            pageNumber: 1
+        };
+        dropmenu.init("全城", pageManager.GetQueryString("categoryName"), "智能排序");
+        var ar = new area(function (data) {
+            dropmenu.bindCity(data, function (data) {
+                console.log(data);
+                tenantRedListData.pageNumber = 1;
+                tenantRedListData.areaId = data.areaId;
+                tenantRedListData.communityId = data.communityId;
+                loadUpFn(tenantRedListData);
+            });
+        });
+        ar.community();
+        initCategory();
+        dropmenu.bindCategory(getCategoryChildRens(pageManager.GetQueryString("categoryId")), function (data) {
+            console.log(data);
+            tenantRedListData.pageNumber = 1;
+            tenantRedListData.categoryId = data.categoryId;
+            loadUpFn(tenantRedListData);
+        });
+        dropmenu.bindOrder(["默认排序", "按距离排序", "按红包大小排序"], function (data) {
+            console.log(data);
+            var orderType = "";
+            if (data == 1) {
+                orderType = "distance";
+            }
+            if (data == 2) {
+                orderType = "amountSize";
+            }
+            tenantRedListData.pageNumber = 1;
+            tenantRedListData.orderType = orderType;
+            loadUpFn(tenantRedListData);
+        });
+
+
+        var pge = $(".pageable").pageable({
+                    loadUpFn: function (me) {
+                        var tu = new product(function (data) {
+                            var h = render.fill($("#tpl_productList"), data);
+                            $(".pageable .product-list").html(h);
+                            pge.resetload();
+                        });
+                        tu.list({pageNumber: 1});
+                    },
+                    loadDownFn: function (me) {
+                        var td = new product(function (data) {
+                            var h = render.fill($("#tpl_productList"), data);
+                            $(".pageable .product-list").append(h);
+
+                            if (data.length < 20) {
+                                pge.lock();
+                                pge.noData();
+                            }
+                            pge.resetload();
+                        });
+                        td.list({pageNumber: 1});
+                    }
+                }
+        );
+
+
+        //搜索结果页点击切换商品样式
+        $('#goods_style').on('click', function () {
+            $(this).toggleClass('col-2');
+            if ($('#goods_style').hasClass('col-2')) {
+                $('.product').addClass('product-grid').removeClass('product-list');
+            }
+            else {
+                $('.product').addClass('product-list').removeClass('product-grid');
+            }
+        });
+
+    });
+
+</script>
+
+
+</body>
+</html>
+
+

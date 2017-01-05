@@ -1,0 +1,80 @@
+// -------------------------------------
+//   _dividingline,分割线
+// -------------------------------------
+%dline_vertical {
+    content: " ";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+
+.dline-top {
+    top: 0;
+    color: #d9d9d9;
+    border-top: 1px solid #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+.dline-bottom {
+    //bottom: 0;
+    //color: #d9d9d9;
+    //border-bottom: 1px solid #d9d9d9;
+    -webkit-transform-origin: 0 100%;
+    transform-origin: 0 100%;
+}
+
+@mixin dividingline($pos: top, $color: #d9d9d9) {
+    $transform-origin: 0 0;
+    $dividingline-transform: scaleY(0.5);
+    $dividingline-width: 100%;
+    $dividingline-height: 1px;
+
+    content: " ";
+    position: absolute;
+    color: $color;
+    border-#{$pos}: 1px solid $color;
+
+    @if $pos == top {
+        left: 0;
+        top: 0;
+
+        $transform-origin: 0 0;
+    }
+    @else if $pos == bottom {
+        left: 0;
+        bottom: 0;
+
+        $transform-origin: 0 100%;
+    }
+    @else if $pos == left {
+        top: 0;
+        left: 0;
+
+        $dividingline-width: 1px;
+        $dividingline-height: 100%;
+        $dividingline-transform: scaleX(0.5);
+        $transform-origin: 0 0;
+    }
+    @else {
+        top: 0;
+        right: 0;
+
+        $dividingline-width: 1px;
+        $dividingline-height: 100%;
+        $dividingline-transform: scaleX(0.5);
+        $transform-origin: 100% 0;
+    }
+
+    width: $dividingline-width;
+    height: $dividingline-height;
+    @include no-flicker;
+    -webkit-transform: $dividingline-transform;
+    transform: $dividingline-transform;
+    -webkit-transform-origin: $transform-origin;
+    transform-origin: $transform-origin;
+}
+
+//@include dividingline(top);

@@ -1,0 +1,72 @@
+@include keyframes(bounceOutRight) {
+    0% {
+        @include transform(translateX(0));
+    }
+
+    20% {
+        opacity: 1;
+
+        @include transform(translateX(-20px));
+    }
+
+    100% {
+        opacity: 0;
+
+        @include transform(translateX(2000px));
+    }
+}
+
+
+///自定义 基于bounceOutRight
+@include keyframes(bounceOutRight2) {
+    0% {
+        @include transform(translate(0, 0) rotate(0deg));
+    }
+
+    25% {
+        opacity: 1;
+        @include transform(translate(-50%, 10%) rotate(-45deg));
+    }
+
+    30% {
+        @include transform(translate(0, 0) rotate(0deg));
+    }
+
+    100% {
+        opacity: 0;
+        @include transform(translate(1500%, 150%) rotate(180deg));
+    }
+}
+
+
+@mixin bounceOutRight($count: $countDefault, $duration: $durationDefault, $delay: $delayDefault, $function: $functionDefault, $fill: $fillDefault, $visibility: $visibilityDefault) {
+    @include animation-name(bounceOutRight);
+
+    @include count($count);
+
+    @include duration($duration);
+
+    @include delay($delay);
+
+    @include function($function);
+
+    @include fill-mode($fill);
+
+    @include visibility($visibility);
+}
+
+@mixin bounceOutRight2($count: $countDefault, $duration: $durationDefault, $delay: $delayDefault, $function: $functionDefault, $fill: $fillDefault, $visibility: $visibilityDefault) {
+    @include animation-name(bounceOutRight2);
+
+    @include count($count);
+
+    @include duration($duration);
+
+    @include delay($delay);
+
+    @include function($function);
+
+    @include fill-mode($fill);
+
+    @include visibility($visibility);
+}

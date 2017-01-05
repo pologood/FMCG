@@ -1,0 +1,1159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>联系我们</title>
+<link href="http://www.zhaoqipei.com/resources/b2b/css/v2.0/common.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/common/js/jquery.js"></script>
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/common/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/b2b/js/common.js"></script>
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/data/data.js"></script>
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/b2b/js/v2.0/search.js"></script>
+</head>
+<style>
+.public_nav_dl .two_nav_ul > li { width:188px; padding-left:12px;}
+</style>
+<body>
+<script type="text/javascript">
+$(function(){
+	var $headerRegister = $("#headerRegister");
+	var $headerUsername = $("#headerUsername");
+	var $headerLogout = $("#headerLogout");
+	var username = getCookie("username");
+	var areaId = getCookie("area_id");
+	var $selectOrderType = $("a[name='orderType']");
+	var $orderSelect = $("#orderSelect");
+	var $sort = $("#sort a");
+	var $size = $("#sort a.size");
+	var $orderType = $("#orderType");
+	
+	var $change_city = $("#change_city");
+	var $back_to_province = $("#back_to_province");
+	var $chooseCity = $("#chooseCity");
+	var $chooseProvince = $("#chooseProvince");
+	var $setCity = $("#setCity");
+	var $search_login = $("#search_login");
+	
+	var $memberPrice=$(".memberPrice");
+	var $jt=$(".jt");
+	var $jt1=$(".jt1");
+	var $addCart = $("a[name='addCart']");
+	var $toLogin = $("a[name='toLogin']");
+	   
+   var $pageSize = $("#pageSize");
+   var $pageNumber=$("#pageNumber");
+   var $listForm=$("#listForm");
+   var $series1=$("#series1 li");
+   var $series2=$("#series2 li");
+   var $series3=$("#series3 li");
+   var $brandSeriesId=$("#brandSeriesId");
+   var $productCategory = $("#productCategory li");
+   var $productCategoryId = $("#productCategoryId");
+   var $packagUnit=$(".packagUnit");
+   var $normalQuantity = $(".w_pcttcount input[name='quantity']");
+   var $table_quantity=$("#p_table tr input[name='productNum']");
+   var $normalAddCart=$(".addCart");
+   var $addCart = $("p[name='addCart']");
+   var $payNow =  $("p[name='payNow']");
+   var $add=$(".plus-sign");
+   var $sub=$(".sub-sign");
+   var $normalSub=$(".w_countl");
+   var $normalAdd=$(".w_countr");
+   var $packagUnit1=$(".packagUnit1");
+   var $method=$("#method");
+   var $normal=$(".w_modulecg");
+   var $batch=$(".w_modulepl");
+   
+   $('input, textarea').placeholder();
+
+   $("#previousPage").click(function(){
+    	$pageNumber.val(0);
+		$listForm.submit();
+		return false;
+   });
+   $("#nextPage").click(function(){
+    	$pageNumber.val(2);
+		$listForm.submit();
+		return false;
+   });
+	
+   $series1.click(function(){
+   		var $this =$(this);
+   		$brandSeriesId.val($this.attr("seriesId"));
+   		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+   });
+   
+	$("#series1Select").mouseover(function() {
+		var $this = $(this);
+		var $menuWrap = $this.closest("#series1Select");
+		var $popupMenu = $menuWrap.children("#series1");
+		$popupMenu.show();
+		$menuWrap.mouseleave(function() {
+			$popupMenu.hide();
+		});
+	});
+ 
+	$("#series2Select").mouseover(function() {
+		var $this = $(this);
+		var $menuWrap = $this.closest("#series2Select");
+		var $popupMenu = $menuWrap.children("#series2");
+		$popupMenu.show();
+		$menuWrap.mouseleave(function() {
+			$popupMenu.hide();
+		});
+	});
+	
+	$("#series3Select").mouseover(function() {
+		var $this = $(this);
+		var $menuWrap = $this.closest("#series3Select");
+		var $popupMenu = $menuWrap.children("#series3");
+		$popupMenu.show();
+		$menuWrap.mouseleave(function() {
+			$popupMenu.hide();
+		});
+	});
+   
+   $series2.click(function(){
+   		var $this =$(this);
+   		$brandSeriesId.val($this.attr("seriesId"));
+   		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+   });
+   $series3.click(function(){
+   		var $this =$(this);
+   		$brandSeriesId.val($this.attr("seriesId"));
+   		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+   });
+   
+   $normal.click(function(){
+   		var $this =$(this);
+   		$method.val('normal');
+   		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+   });
+   
+   $batch.click(function(){
+   		var $this =$(this);
+   		$method.val('batch');
+   		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+   });
+   
+   $productCategory.click(function(){
+   		var $this = $(this);
+   		$productCategoryId.val($this.attr("productCategoryId"));
+   		$pageNumber.val(1);
+   		$brandId.val("");
+		$listForm.submit();
+		return false;
+   });
+   
+	$orderSelect.mouseover(function() {
+		var $this = $(this);
+		var $menuWrap = $this.closest("div.orderSelect");
+		var $popupMenu = $menuWrap.children("div.popupMenu");
+		$popupMenu.show();
+		$menuWrap.mouseleave(function() {
+			$popupMenu.hide();
+		});
+	});
+	$sort.click(function() {
+		var $this = $(this);
+		if ($this.hasClass("current")) {
+			$orderType.val("");
+		} else {
+			$orderType.val($this.attr("orderType"));
+		}
+		$pageNumber.val(1);
+		$listForm.submit();
+		return false;
+	});
+	$size.click(function() {
+		var $this = $(this);
+		$pageNumber.val(1);
+		$pageSize.val($this.attr("pageSize"));
+		$listForm.submit();
+		return false;
+	});	
+	//切换单位
+	$packagUnit.click(function(){
+		var $this =$(this);
+		$this.closest("li").find("input[data='packagUnitId']").val($this.attr("packagUnitId"));
+		$this.closest("li").find(".price").text($this.attr("price"));
+		$this.closest("li").find(".wholePrice").text($this.attr("wholePrice"));
+		return false;
+	});
+	//切换单位
+	$packagUnit1.click(function(){
+		var $this =$(this);
+		$this.closest("tr").find("span[data='choosedUnit']").text($this.text());
+		$this.closest("tr").find("input[data='packagUnitId']").val($this.attr("packagUnitId"));
+		$this.closest("tr").find(".price").text($this.attr("price"));
+		$this.closest("tr").find(".wholePrice").text($this.attr("wholePrice"));
+		$this.closest("tr").find("div[name='allUnits']").hide();
+		return false;
+	});	
+	
+	// 页码输入
+	$pageNumber.keypress(function(event) {
+		var key = event.keyCode ? event.keyCode : event.which;
+		if ((key == 13 && $(this).val().length > 0) || (key >= 48 && key <= 57)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	
+	// 表单提交
+	$listForm.submit(function() {
+		if (!/^\d*[1-9]\d*$/.test($pageNumber.val())) {
+			$pageNumber.val("1");
+		}
+	});
+
+	   $.pageSkip = function(pageNumber) {
+			if($normal.hasClass('hoverbg')){
+				$method.val("normal");
+			}
+			if($batch.hasClass('hoverbg')){
+				$method.val("batch");
+			}
+			$pageNumber.val(pageNumber);
+			$listForm.submit();
+			return false;
+		}
+   
+ //常规，数量
+	$normalQuantity.on('keypress',function(event) {
+		var key = event.keyCode ? event.keyCode : event.which;
+		if ((key >= 48 && key <= 57) || key==8) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	 //批量，数量
+	$table_quantity.on('keypress',function(event) {
+		var key = event.keyCode ? event.keyCode : event.which;
+		if ((key >= 48 && key <= 57) || key==8) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+	
+	
+	//订购,常规
+	   $normalAddCart.click(function(){
+			var $this =$(this);
+			var quantity= $this.closest("li").find("input[data='quantity']").val();
+			var packagUnitId= $this.closest("li").find("input[data='packagUnitId']").val();
+			$.ajax({
+				url:"http://www.zhaoqipei.com/b2b/cart/add.jhtml",
+				type:"post",
+				data:{id:$this.attr("productId"),quantity:quantity,packagUnitId:packagUnitId},
+				dataType:"json",
+				success:function(message){
+					$.message(message);
+					refreshCartCount();
+					//$("#navTopZone_CartSum,#navTopZone_CartSum_header").text($(".messagesuccessIcon span.red").eq(0).text());
+					return false;
+				}
+			});
+		});
+	   //订购,批量
+	   $("a[name='addCart'],p[name='addCart']").click(function(){
+		   var temp=[];
+			$("input[data='productNum']:text").each(function () {
+				var $this=$(this);
+				var $productId= $this.parent().parent().parent().parent().find("input[data='productId']");
+				var $packagUnitId= $this.parent().parent().parent().parent().find("input[data='packagUnitId']");
+				if($this.val()!="0"&&$this.val()!=""){
+					temp.push($productId.val()+"-"+$this.val()+"-"+$packagUnitId.val());
+				}
+			});
+			var idAndQuantity=temp.join(",");
+		   $.ajax({
+			   url:"http://www.zhaoqipei.com/b2b/cart/addALL.jhtml",
+			   type:"post",
+			   data:{idAndQuantity:idAndQuantity},
+			   dataType:"json",
+			   success:function(message){
+				   $.message(message);
+				   refreshCartCount();
+				   //$("#navTopZone_CartSum,#navTopZone_CartSum_header").text($(".messagesuccessIcon span.red").eq(0).text());
+				   return false;
+			   }
+		   });
+	   });
+	   //购物车加减
+		$add.click(function(){
+			var $this =$(this);
+			var $quantity=$this.closest("tr").find("input[data='productNum']");
+			if($quantity.val()==""){
+				$quantity.val(1);
+				return false;	
+			}
+			if (parseInt($quantity.val()) >= 0)
+			{
+				$quantity.val(parseInt($quantity.val())+1);
+			}
+			if(isNaN(parseInt($quantity.val())))
+			{
+				$quantity.val(1);
+			};		
+		return false;
+		});
+		$sub.click(function(){
+			var $this =$(this);
+			var $quantity=$this.closest("tr").find("input[data='productNum']");
+			if(parseInt($quantity.val())>0){
+				$quantity.val(parseInt($quantity.val())-1);
+			}
+			if(isNaN(parseInt($quantity.val())))
+			{
+				$quantity.val(0);
+			};
+			return false;
+		});
+	   $normalSub.click(function(){
+		   var $this =$(this);
+		   var $normalQuantity=$this.siblings('input');
+		   if(parseInt($normalQuantity.val())>1){
+			   $normalQuantity.val(parseInt($normalQuantity.val())-1);
+		   }
+		   return false;
+	   });
+	   $normalAdd.click(function(){
+		   var $this =$(this);
+		   var $normalQuantity=$this.siblings('input');
+		   $normalQuantity.val(parseInt($normalQuantity.val())+1);
+		   return false;
+	   });
+   
+	//搜索引擎，商品跟商家输入框切换
+	$(".jq_get_ul h4").eq(0).addClass("select_btn02").siblings("h4").removeClass("select_btn02");
+	$(".search_input_div").eq(0).show().siblings(".search_input_div").hide();
+	
+	//立即付款
+	   $payNow.click(function(){
+			var temp=[];
+			$("input[data='productNum']:text").each(function () {
+				var $this=$(this);
+				var $productId= $this.parent().parent().parent().parent().find("input[data='productId']");
+				var $packagUnitId= $this.parent().parent().parent().parent().find("input[data='packagUnitId']");
+				if($this.val()!="0"&&$this.val()!=""){
+					//alert($productId.val());
+					temp.push($productId.val()+"-"+$this.val()+"-"+$packagUnitId.val());
+				}
+			});
+			
+			
+			var idAndQuantity=temp.join(",");
+		   $.ajax({
+			   url:"http://www.zhaoqipei.com/b2b/cart/addALL.jhtml",
+			   type:"post",
+			   data:{idAndQuantity:idAndQuantity},
+			   dataType:"json",
+			   success:function(message){
+				   $.message(message);
+				   refreshCartCount();
+				   //$("#navTopZone_CartSum,#navTopZone_CartSum_header").text($(".messagesuccessIcon span.red").eq(0).text());
+				   if (message.type!='error') { 
+				      location.href="http://www.zhaoqipei.com/b2b/cart/list.jhtml"; 
+				   }
+				   return false;
+			   }
+		   });
+		   
+	   });
+})	
+</script>
+<!--IE浏览器提示更新start-->
+<div class="ie_browser_box">
+  <div class="ie_browser"><b onclick="$('.ie_browser_box').remove()" title="关闭">×</b>您的浏览器版本过低！为了您更好的体验《找汽配》，请您<a title="点击升级IE浏览器" href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie" target="_brank">升级IE浏览器</a>或者点击下载<a title="点击升级UC浏览器" href="http://www.uc.cn/" target="_brank">UC浏览器</a>或<a title="点击升级谷歌浏览器" href="http://www.google.cn/intl/zh-CN/chrome/browser/desktop/index.html" target="_brank">谷歌浏览器</a>！</div>
+</div>
+  <!--IE浏览器提示更新end-->
+<script>
+//城市选择搜索商品
+var iValue =  0 ;//后台传值
+
+function deleteAddress(sNone)
+{
+	if (sNone == "none")
+	{
+		$(".tab_prov").hide();
+	}else {
+		$(".tab_prov").show();
+		insertCityTags();
+	}
+	
+}
+function insertCityTags()
+{
+	var str = "";
+
+	for(var i=0;i<citys.length;i++)
+	{
+		str+="<dd class='insert_one' cityid='"+citys[i].id+"'>"+citys[i].name+"</dd>";
+		if (i == 5 || i == 11 || i == 17 || i == 23 || i == 29 || i == 33)
+		{
+			str+="<dd class='insert_two'><dl class='insert_ul'></dl></dd>";
+		}
+	}	
+	$("#prov").html(str);
+	$(".all_name").html("全国");
+	$(".insert_one").hover(function(){
+		tabCityTags(this);
+		$("#prov>dd.insert_one,#prov>dd.insert_two dd").bind("click",function(){jumpCityTags(this)});
+	});
+	$(".all_name").bind("click",function(){
+		iValue=0;
+		jumpCityTags(this);
+	});
+	var str2 = "";
+	for (var a=0;a<citys.length;a++)
+	{
+		if (iValue == citys[a].id)
+		{
+			for (var b=0;b<$(".insert_one").length;b++)
+			{
+				if ($(".insert_one").eq(b).attr("cityid") == iValue)
+				{
+					$(".insert_one").css({color:"#666"});
+					$(".insert_one").eq(b).css({background:"#B71C22",color:"#fff"});
+					var x = $(".insert_one").eq(b).index();
+					
+					if (x > 5 && x<=12)
+					{
+						$(".insert_two").hide().eq(1).show();
+					}else if (x > 12 && x<=19){
+						$(".insert_two").hide().eq(2).show();
+					}else if (x > 19 && x<=26){
+						$(".insert_two").hide().eq(3).show();
+					}else if (x > 26 && x<=33){
+						$(".insert_two").hide().eq(4).show();
+					}else if (x > 33){
+						$(".insert_two").hide().eq(5).show();
+					}else {
+						 $(".insert_two").hide().eq(0).show();
+					}
+					
+				}
+			}
+			for (var c in citys[a].childrens)
+			{
+				str2+="<dd cityid='"+citys[a].childrens[c].id+"'>"+citys[a].childrens[c].name+"</dd>"
+			}
+			for (var d=0;d<$(".insert_two").length;d++)
+			{
+				if ($(".insert_two").eq(d).css("display") == "block")
+				{
+					$(".insert_two").eq(d).children("dl").html(str2).show();
+					return true;
+				}
+			}
+			return true;
+		}else if (iValue > 0){
+			var str3 = "";
+			var iU = 0;
+			for (var i=0;i<citys.length;i++)
+			{
+				for (var j=0;j<citys[i].childrens.length;j++)
+				{
+					//str3+="<dd cityid='"+citys[i].childrens[j].id+"'>"+citys[i].childrens[j].name+"</dd>";
+					
+					if (iValue == citys[i].childrens[j].id)
+					{
+						for (var r=0;r<citys[i].childrens.length;r++)
+						{
+							if (iValue == citys[i].childrens[r].id)
+							{
+								str3+="<dd cityid='"+citys[i].childrens[r].id+"' style='color:#FE0005;'>"+citys[i].childrens[r].name+"</dd>";
+							}else {
+								str3+="<dd cityid='"+citys[i].childrens[r].id+"'>"+citys[i].childrens[r].name+"</dd>";
+							}
+						}
+						for (var g=0;g<$(".insert_one").length;g++)
+						{
+							if (citys[i].id == $(".insert_one").eq(g).attr("cityid"))
+							{
+								$(".insert_one").css({color:"#666"});
+								$(".insert_one").eq(g).css({background:"#B71C22",color:"#fff"});
+								if (g <= 5)
+								{
+									$(".insert_two").hide().eq(0).show();
+								}else if (g > 5 && g <= 11){
+									$(".insert_two").hide().eq(1).show();
+								}else if (g > 11 && g <= 17){
+									$(".insert_two").hide().eq(2).show();
+								}else if (g > 17 && g <= 23){
+									$(".insert_two").hide().eq(3).show();
+								}else if (g > 23 && g <= 29){
+									$(".insert_two").hide().eq(4).show();
+								}else if (g > 29){
+									$(".insert_two").hide().eq(5).show();
+								}
+							}
+						}
+						
+						for (var y=0;y<$(".insert_two").length;y++)
+						{
+							if ($(".insert_two").eq(y).css("display") == "block")
+							{
+								$(".insert_two").eq(y).children("dl").html(str3).show();
+								return true;
+							}
+						}
+					}
+				}
+			}
+			//return true;
+		}else {
+			return true;
+		}
+	}
+}
+function jumpCityTags(obj)
+{
+	$("#areaId").val($(obj).attr("cityid"));
+	$("#areaName").html($(obj).text());
+	$("#pageNumber").val(1);
+	$("#listForm").submit();
+	return false;
+}
+function tabCityTags(othis)
+{
+	var str = "";
+	for (var i=0;i<citys.length;i++)
+	{
+		if ($(othis).attr("cityid") == citys[i].id)
+		{
+			for (var j=0;j<citys[i].childrens.length;j++)
+			{
+				str+="<dd cityid='"+citys[i].childrens[j].id+"'>"+citys[i].childrens[j].name+"</dd>";
+			}
+			continue;
+		}
+	}
+	$(".insert_ul").html(str);
+	$("#prov .insert_one").css("background","none");
+	$(".insert_one").css({color:"#666"});
+	$(othis).css({background:"#B71C22",color:"#fff"});
+	var iM = $(othis).index();
+	showInsertLi(iM);
+	
+}
+function showInsertLi(inum)
+{
+	if (inum <= 5)
+	{
+		$(".insert_two").hide().eq(0).show();
+	}else if (inum > 6 && inum <= 12){
+		$(".insert_two").hide().eq(1).show();
+	}else if (inum > 13 && inum <= 19){
+		$(".insert_two").hide().eq(2).show();
+	}else if (inum > 20 && inum <= 26){
+		$(".insert_two").hide().eq(3).show();
+	}else if (inum > 27 && inum <= 33){
+		$(".insert_two").hide().eq(4).show();
+	}else if (inum > 34){
+		$(".insert_two").hide().eq(5).show();
+	}
+}
+
+$(function(){
+	initCity();//全国城市存放数组函数
+	insertCityTags();
+	//刷新后保留搜索商品值
+	var $key = window.location.href;//url
+	$key = decodeURI($key);//url转码
+	var $brandVal = $key.substring($key.indexOf("brandId="));
+	if ($brandVal.indexOf("&") < 0)
+	{
+		$brandVal = $brandVal.substring(8);
+	}else {
+		$brandVal = $brandVal.substring(8,$brandVal.indexOf("&"));
+	}
+	$key = $key.replace(/[^\u4e00-\u9fa5]/gi,"");//获取搜索框的值
+	if ($key != "")
+	{
+		$(".enter_input01").val($key).css("color","#000");
+	};
+	if ($brandVal > 0)
+	{
+		initBrand();//遍历所有汽车品牌
+		for (var u=0;u<brands.length;u++)
+		{
+			if (brands[u].id == $brandVal)
+			{
+				$("#headerSerachName").text(brands[u].name);
+				//return false;
+			}
+		}
+	}
+});
+</script>	
+
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/common/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/data/data.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$('input, textarea').placeholder();
+	function jumpSearchBrand(id,name)
+	{
+		//ie浏览器清除默认value值
+		if (navigator.userAgent.indexOf('MSIE') >= 0)
+		{
+			if ($("#"+id).val() == name)
+			{
+				$("#"+id).val("");
+			}
+		}
+	}
+	// 商品搜索 
+	$("#product_submit").click(function() {
+		jumpSearchBrand("product","请输入商品名称、件号、分类或适用车型等");
+		var $areaVal = $("#areaId").val();
+		if ($areaVal == undefined)
+		{
+			$areaVal=0;
+		};
+		location.href = "http://www.zhaoqipei.com/b2b/product/list.jhtml?keyword="+$("#product").val()+"&brandId="+$("#headerBrandId").val()+"&areaId="+$areaVal;
+	});
+	$("#product").keydown(function(ev){
+		var $areaVal = $("#areaId").val();
+		if ($areaVal == undefined)
+		{
+			$areaVal=0;
+		};
+		if (ev.keyCode == 13)
+		{
+			location.href = "http://www.zhaoqipei.com/b2b/product/list.jhtml?keyword="+$("#product").val()+"&brandId="+$("#headerBrandId").val()+"&areaId="+$areaVal;	
+		};
+	});
+	// 商家搜索 
+	$("#tenant_submit").click(function() {
+		jumpSearchBrand("tenant","请输入商家名称、所在地或主营范围等");
+		var $areaVal = $("#areaId").val();
+		if ($areaVal == undefined)
+		{
+			$areaVal=0;
+		};
+		location.href = "http://www.zhaoqipei.com/b2b/tenant/list.jhtml?keyword="+$("#tenant").val()+"&brandId="+$("#headerBrandId").val()+"&areaId="+$areaVal;
+	});
+	$("#tenant").keydown(function(ev){
+		var $areaVal = $("#areaId").val();
+		if ($areaVal == undefined)
+		{
+			$areaVal=0;
+		};
+		if (ev.keyCode == 13)
+		{
+			location.href = "http://www.zhaoqipei.com/b2b/tenant/list.jhtml?keyword="+$("#tenant").val()+"&brandId="+$("#headerBrandId").val()+"&areaId="+$areaVal;
+		};
+	});
+	//检测是否IE浏览器
+	if (navigator.appName == "Microsoft Internet Explorer")
+	{
+		var $ie_b_version=navigator.appVersion;
+		
+		var $ie_version=$ie_b_version.split(";");
+		
+		var $ie_trim_Version=$ie_version[1].replace(/[ ]/g,"");
+	
+		if($ie_trim_Version=="MSIE6.0" || $ie_trim_Version == "MSIE7.0" || $ie_trim_Version ==  "MSIE8.0" || $ie_trim_Version ==  "MSIE9.0")
+		{
+		
+			$(".ie_browser_box").show();
+		
+		}else {
+			$(".ie_browser_box").remove();
+		}
+	}
+});
+
+</script>
+
+	<!-- head public css start -->
+	<div class="box">
+<script type="text/javascript" src="http://www.zhaoqipei.com/resources/b2b/js/v2.0/jquery.lazyload.js"></script>
+<script type="text/javascript">
+$(function(){
+	//图片懒加载
+	$("img").each(function(){
+		if ($(this).attr("src") == "")
+		{
+			$(this).attr("src","http://www.zhaoqipei.com/resources/b2b/images/v2.0/grey.jpg");
+		}
+	});
+	$("img").lazyload({ 
+		placeholder : "http://www.zhaoqipei.com/resources/b2b/images/v2.0/grey.jpg",
+		threshold : 200, 
+		effect : "fadeIn" 
+	}); 
+	//输入框改变字体颜色
+	$(".enter_input01").keydown(function(){
+		if ($(this).val() != $(this).attr("placeholder"))
+		{
+			$(this).css("color","#000");
+		}
+	});
+	var username = getCookie("username");
+	var $nickName = $("#nickName");
+	var $memberCenter = $("#memberCenter");
+	var $logout = $("#logout");
+	var $login = $("#login");
+	var $register = $("#register");
+	var $currentArea = $("#currentArea");
+	var $header_message_div = $(".header_message_div");
+	var $messageCount = $("#messageCount");
+
+ 	if (username != null) {
+		 $nickName.text(username);
+		 $nickName.show();
+		 $login.hide();
+		 $register.hide();
+		 $logout.show();
+	} else {
+	     $nickName.text("");
+	     $nickName.hide();
+		 $login.show();
+		 $register.show();
+		 $logout.hide();
+	}
+	
+
+	var cartTimeout = null;
+	
+	//获取购物车数量方法
+	function getCartCount(){
+		clearTimeout(cartTimeout);
+		$.ajax({
+			url : "http://www.zhaoqipei.com/b2b/cart/get_cart_count.jhtml",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				$("#navTopZone_CartSum,#navTopZone_CartSum_header").text(data.count);
+			}
+		});
+	};
+    cartTimeout = setTimeout(function() {
+							getCartCount();
+						},500);
+	
+	var messageTimeout = null;
+	//获取消息列表方法
+	function getMessage(){
+		$.ajax({
+			url : "http://www.zhaoqipei.com/b2b/member/message/head_list.jhtml",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.count!=0)
+				{
+					if(data.msgType=="new"){
+						$messageCount.html(data.count);
+						var html='<span class="arrow"></span>';
+						html=html+'<div class="new_div01"><a target="_blank" href="http://www.zhaoqipei.com/b2b/member/message/list.jhtml" class="more">more>></a><h2>新信息<span class="num_span01">('+data.count+')</span></h2></div>';
+						html=html+'<ul class="message_oder_ul">';
+						$.each(data.data, function(i, item) {
+							html=html+'<li><div class="new_div"><a href="http://www.zhaoqipei.com/b2b/member/message/view.jhtml?id='+item.id+'" class="tit_link">'+item.content+'</a></div>';
+							if(item.trade!=null){
+								html+='<div class="message_txt_div">'
+								if(item.img!=null){html+='<img src="'+item.img+'" />'}else{html+='<img src="http://www.zhaoqipei.com/resources/b2b/images/v2.0/head_img01.gif" />'};
+								html+='订单号：'+item.sn+'<br>';
+								if(item.orderStatus!=null){html+=item.orderStatus+'<br>'}else{html+='<br>'};
+								if(item.ismember!=null && item.ismember){
+								html+='<a href="http://www.zhaoqipei.com/b2b/member/trade/view.jhtml?id='+item.trade.id+'" class="go_btn">去看看</a>';
+								}else if(item.ismember!=null && !item.ismember){
+								html+='<a href="http://www.zhaoqipei.com/b2b/member/order/view.jhtml?id='+item.trade.id+'" class="go_btn">去看看</a>';
+								}
+								html+='</div>';
+							}
+							html+='</li>';
+						});
+						html=html+"</ul>";
+						$header_message_div.html(html);
+					}else{
+						//$messageCount.html(data.count);
+						var html='<span class="arrow"></span>';
+						html='<div class="new_div01" ><a target="_blank" href="http://www.zhaoqipei.com/b2b/member/message/list.jhtml" class="more">more>></a><h2>历史消息<span class="num_span01">('+data.count+')</span></h2></div>'
+						html+='<ul class="message_oder_ul">'
+						$.each(data.data, function(i, item) {
+							html+='<li><div class="new_div history_tit_div">'+item.content+'</div>';
+							html+='<div class="message_txt_div">';
+							if(item.trade!=null){
+								if(item.img!=null){html+='<img src="'+item.img+'" />'}else{html+='<img src="http://www.zhaoqipei.com/resources/b2b/images/v2.0/head_img01.gif" />'};
+								html+='订单号：'+item.sn+'<br>';
+								if(item.orderStatus!=null){html+=item.orderStatus+'<br>'}else{html+='<br>'};
+								if(item.ismember!=null && item.ismember){
+									html+='<a href="http://www.zhaoqipei.com/b2b/member/trade/view.jhtml?id='+item.trade.id+'" class="go_btn">去看看</a>';
+								}else if(item.ismember!=null && !item.ismember){
+									html+='<a href="http://www.zhaoqipei.com/b2b/member/order/view.jhtml?id='+item.trade.id+'" class="go_btn">去看看</a>';
+								}
+							}
+							html+='</div></li>';
+						});
+						html=html+"</ul>";
+						$header_message_div.html(html);
+					}
+				}
+			}
+		});
+	};
+    messageTimeout = setTimeout(function() {
+							getMessage();
+						},500);
+	
+	var areaTimeout = null;
+
+	$("#message").click(function(){
+		getMessage();
+	});
+
+	//获取当前位置-定位
+	function getCurrentArea(){
+		clearTimeout(areaTimeout);
+		$.ajax({
+			url : "/ajax/lbs/currentArea.jhtml",
+			type:"get",
+			dataType:"json",
+			success:function(data){
+			  if (data != null)
+			  {
+			  	$("#currentArea").html(data.name);
+			  }		  
+			}
+		});
+	};
+    areaTimeout = setTimeout(function() {
+							getCurrentArea();
+						}, 500);
+						
+	var locationTimeout;
+	function lbs(){
+		clearTimeout(locationTimeout);
+		$.ajax({
+			url : "/ajax/lbs/location.jhtml?force=true",
+			type:"get",
+			dataType:"json",
+			success:function(data){
+			   getCurrentArea();
+			}
+		});
+	};
+
+    $currentArea.click(function() {
+								$.message("success", "正在定位中....");
+       locationTimeout = setTimeout(function() {
+							lbs();
+						}, 500);
+	});
+})		
+
+
+function refreshCartCount() {
+	var cartTimeout;
+
+	//获取购物车数量方法
+	function getCartCount(){
+		clearTimeout(cartTimeout);
+		$.ajax({
+			url : "http://www.zhaoqipei.com/b2b/cart/get_cart_count.jhtml",
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				$("#navTopZone_CartSum,#navTopZone_CartSum_header").text(data.count);
+			}
+		});
+	};
+    cartTimeout = setTimeout(function() {
+							getCartCount();
+						}, 500);
+}
+</script>
+
+  	<div class="public_head_div">
+			<div class="header_box">
+				<p class="address_p01">
+					<span class="top_addrenss" id="currentArea" title="点击重新获取">南京</span>您好！
+						<a class="login_reg" href="http://www.zhaoqipei.com/b2b/login.jhtml" id="login">登录</a>
+						<a class="login_reg" href="http://www.zhaoqipei.com/b2b/register.jhtml" id="register">注册</a>
+					<span id="nickName"></span><a id="logout" href="http://www.zhaoqipei.com/b2b/logout.jhtml" id="logout">退出系统</a>
+				</p>
+				<dl>
+					<dd><a href="http://www.zhaoqipei.com/b2b/index.html">首页</a></dd>
+					<dd id="memberCenter"><a href="http://www.zhaoqipei.com/b2b/member/index.jhtml">个人中心</a></dd>
+					<dd class="top_cart_dd"><a href="http://www.zhaoqipei.com/b2b/cart/list.jhtml">购物车(<span id="navTopZone_CartSum">0</span>)</a></dd>
+					<dt class="top_mail_dd">
+						<a href="#" id="message">消息(<span id="messageCount">0</span>)</a><font class="top_line">|</font>
+						<div class="header_message_div">
+							<div class="new_message_div">
+							<span class="arrow"></span>
+							<!--div class="new_div01"><a href="#" class="more">more>></a><h2>新信息（<span class="num_span01">0</span>）</h2></div>
+							<ul class="message_oder_ul">
+								<li>
+									<div class="new_div"><strong>您购买的汽配</strong> 有<e>1</e>个物流变化</div>
+									<div class="message_txt_div">
+										<img src="/resources/b2b/images/v2.0/message_img.jpg" />
+										订单号：122846*****42<br>
+										快递已签收<br>
+										<a href="#" class="go_btn">去看看</a>
+									</div>
+								</li>
+								<li>
+									<div class="new_div"><a href="#" class="tit_link">有人购买了您的商品，快去发货</a></div>
+									<div class="message_txt_div">
+										<img src="/resources/b2b/images/v2.0/message_img.jpg" />
+										订单号：122846*****42<br>
+										快递已签收<br>
+										<a href="#" class="go_btn">去看看</a>
+									</div>
+								</li>
+							</ul>
+							</div-->
+							<div class="old_message_div" style="display:none;">
+							<div class="new_div01" ><a href="#" class="more">more>></a><h2>历史消息<span class="num_span01">（0）</span></h2></div>
+							<ul class="message_oder_ul">
+								<li>
+									<div class="new_div history_tit_div"><strong>您购买的汽配</strong> 有<e>1</e>个物流变化</div>
+									<div class="message_txt_div">
+										<img src="http://www.zhaoqipei.com/resources/b2b/images/v2.0/message_img.jpg" />
+										订单号：122846*****42<br>
+										快递已签收<br>
+										<a href="#" class="go_btn">去看看</a>
+									</div>
+								</li>
+								<li>
+									<div class="new_div history_tit_div02"><strong>您卖出的汽配</strong> 有<e>1</e>个物流变化</div>
+									<div class="message_txt_div">
+										<img src="http://www.zhaoqipei.com/resources/b2b/images/v2.0/message_img.jpg" />
+										订单号：122846*****42<br>
+										快递已签收<br>
+										<a href="#" class="go_btn">去看看</a>
+									</div>
+								</li>
+							</ul>
+							</div>
+							<div class="unread_message_div">
+								<h3>未读消息</h3>
+								<p>"没有新消息了"</p>
+								<img src="http://www.zhaoqipei.com/resources/b2b/images/v2.0/message_img02.jpg" />
+								<a href="http://www.zhaoqipei.com/b2b/member/message/list.jhtml">查看之前消息</a>
+							</div>
+						</div>
+					</dt>
+			              <dd><a href="http://www.zhaoqipei.com/b2b/article/list/59.jhtml"  target="_blank">帮助中心</a></dd>
+					<dd><a href="javascript:shoucang('找汽配','http://www.zhaoqipei.com')" id="setfavorite">收藏网站</a></dd>
+				</dl>
+		 </div>
+	 </div>
+		<ul class="logo_search_car_ul">
+			<li><a href="http://www.zhaoqipei.com/b2b/index.jhtml"><img alt="找汽配" title="找汽配" class="logo" src="http://cdn.zhaoqipei.com/upload/image/201508/0dd2718d-4096-4e0d-afd0-4c05f55ad1f4.gif" /></a></li>
+			<li class="search_li">
+				<div class="head_search_div">
+				    <input type="hidden" id="headerBrandId" value=""/> 
+					<h3 class="select_btn" id="headerSerachName" onClick="tabLayer('contentid','block',this)">选择车型</h3>
+					<div class="two_search_div">
+						<dl>
+							<dt class="jq_get_ul">
+								<h4 class="select_btn02">找商品</h4>
+								<h4>找商家</h4>
+							</dt>
+							<dd id="total">3546546个配件等您选购</dd>
+						</dl>
+						<div class="clear"></div>
+						<div class="search_input_div">
+							<input type="text" placeholder="请输入商品名称、件号、分类、适用车型等" id="product" value="" class="enter_input01" />
+							<input type="submit" class="submit_btn" id="product_submit" value="找一下" />
+						</div>
+						<div class="search_input_div" style="display:none;">
+							<input type="text" placeholder="请输入商家名称、所在地或主营范围等" id="tenant" value="" class="enter_input01" />
+							<input type="submit" class="submit_btn" id="tenant_submit" value="找一下" />
+						</div>
+					</div>
+				</div>
+			</li>
+			<li class="head_car_btn"><a href="http://www.zhaoqipei.com/b2b/cart/list.jhtml">购物车</a><span id="navTopZone_CartSum_header">0</span></li>
+		</ul>
+		<dl class="public_nav_dl">
+		
+			<dt>
+				<h1>全部分类</h1>
+				<ul class="two_nav_ul">
+				</ul>
+				<script>
+					//全部商品分类
+					initCategoryes();
+					//导入商品数据	
+					var $incons = [];
+						$incons.push("http://cdn.zhaoqipei.com/upload/image/201510/dfe246f2-e583-4d86-8ae0-f845351910a1.png");
+						$incons.push("http://cdn.zhaoqipei.com/upload/image/201510/94a76c05-2c9e-4c2d-a014-fe88b7aaa546.png");
+						$incons.push("http://cdn.zhaoqipei.com/upload/image/201510/6f851ca8-c16e-4cf7-881a-09705cbe62f6.png");
+						$incons.push("http://cdn.zhaoqipei.com/upload/image/201510/91e24f79-e7aa-44e7-91b4-a6936b54c852.png");
+					for (var i=0;i<categoryes.length;i++)
+					{
+						$(".two_nav_ul").append('<li><span><img src="'+$incons[i]+'" /></span><a href="http://www.zhaoqipei.com/b2b/product/list/'+categoryes[i].id+'.jhtml">'+categoryes[i].name+'</a><ul class="three_nav_ul"></ul></li>');
+						for (var n=0;n<categoryes[i].childrens.length;n++)
+						{
+							$(".two_nav_ul").children().eq(i).children(".three_nav_ul").append('<li><a href="http://www.zhaoqipei.com/b2b/product/list/'+categoryes[i].childrens[n].id+'.jhtml">'+categoryes[i].childrens[n].name+'</a><ul class="four_nav_ul"></ul></li>');
+							for (var t=0;t<categoryes[i].childrens[n].childrens.length;t++)
+							{
+								$(".two_nav_ul").children().eq(i).children(".three_nav_ul").children().eq(n).children(".four_nav_ul").append('<li><a href="http://www.zhaoqipei.com/b2b/product/list/'+categoryes[i].childrens[n].childrens[t].id+'.jhtml">'+categoryes[i].childrens[n].childrens[t].name+'</a></li>');
+							}
+						}
+					};
+					
+				</script>
+			</dt>
+			
+			      <dd><a href="http://www.zhaoqipei.com/b2b/member/index.jhtml" >我的汽配圈</a></dd>
+			
+		</dl>
+	</div>
+	<!-- head public css end -->
+
+   <!--车型选择开始--> 
+   <div id="layer_div"></div>
+   <div class="clear car_bg" id="contentid">
+    	<div class="car_title">
+        	<h1>选择车型</h1>
+            <input type="button"  value="" onClick="tabLayer('contentid','none')" class="gb"/>
+			<input type="button" onclick="deleteAllBrand()" value="全部品牌" class="btn_bg5" /> 
+        </div>
+		<div class="brand_btn_div" id="brand_panel"> 
+			<input type="button" brandid="0" onClick="getBrandTags(this)" value="乘用车" class="btn_bg4 btn_bg3 f_left clear" />  
+        	<input type="button" brandid="0" onClick="getBrandTags(this)" value="商用车" class="btn_bg4 f_left" /> 
+		</div>  
+        <div class="clear car_box" id="brandPanel">
+            <!--车型选择tab开始--> 
+            <div class="su_top2">
+            	<ul id="TabBrandBtn">
+                  
+               </ul>
+            </div>
+            <div id="TabBrandDiv">
+            </div>
+        </div>
+   </div>
+   <!--车型选择结束--> 
+    <style type="text/css">
+         .content{
+			  width:980px;
+			  height:600px;
+			  -moz-box-sizing:border-box;
+			  border-top:1px solid #ccc;
+			  margin:5px auto;
+			  }			
+		  .left{
+			  width:200px;
+			  height:160px; 
+			  float:left;
+			  }
+		  .left p{
+				font-size:14px;
+				line-height:40px;
+				}
+		   ul.constract{
+			   list-style:none;
+			   text-align:center;
+			   line-height:40px;
+			   border:1px solid #ccc;
+			   background:#eee;
+			   width:200px;
+			   height:120px;
+			   }
+		  ul.constract a{
+				text-decoration:none;
+				font-size:15px;
+				 
+				}
+		 ul li.first {
+			background:#ae1e23;
+			
+			}
+		 ul li.first a {
+			 	color:#fff;
+			 }
+		 .right{
+				width:778px;
+				 
+				float:right;			 
+				}
+		 .r_top{
+			 width:718px;
+			 height:290px; 
+			 padding:30px;    
+			 }
+		.r_1{
+			margin-top:20px;
+			font-size: 14px;
+            text-indent: 28px;
+			line-height:30px;
+            font-family: "微软雅黑";}
+		.center p a{
+			text-decoration:none;
+			font-size:12px;
+			color:#fff;}
+		.center p{
+			line-height:25px;}
+		.iw_poi_title {
+			 color:#CC5522;
+			 font-size:14px;
+			 font-weight:bold;
+			 overflow:hidden;
+			 padding-right:13px;
+			 white-space:nowrap
+			 }
+        .iw_poi_content {
+			font:12px arial,sans-serif;
+			overflow:visible;
+			padding-top:4px;
+			white-space:-moz-pre-wrap;
+			word-wrap:break-word;
+			}
+	    #dituContent{ 
+	       margin-top:250px;
+	    }
+    </style>
+    <div class="content">
+        <div class="left">
+            <p>当前位置：<a href="http://www.zhaoqipei.com">找汽配</a>&gt;关于我们</p>
+            <ul class="constract">
+                <li class="first"><a href="http://www.zhaoqipei.com/b2b/about.html ">关于我们</a></li>
+                <li><a href="http://www.zhaoqipei.com/b2b/contact.html ">联系我们</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <div class="r_top">
+                <div class="r_1">
+                 <p>  "找汽配"是南京祥运电子商务股份有限公司(www.xiangyungf.com)旗下一个为汽配行业提供服务的网络交易平台网站。网站整体由购物商城和线下物流两部分组成，以"找汽配，很容易"为使命，整合了传统汽配行业和高科技现代网络技术，为汽配经销商和汽修厂提供了高效、便捷的服务。</p></div>
+                 <div class="r_1">
+                 <p>"找汽配"秉持互联网工具化、工具互联网化的理念，由专注于垂直电商和行业ERP的十数名研发人员耗时两年打造，搭建起支持汽配交易的快速通道，同时借助覆盖全国的300余个服务终端、数千人的强大线下体系（小祥快运汽配物流连锁：www.xiaoxiangky.com），完美的实现了信息流、物流、资金流的"三流合一"。</p></div>
+                 <div class="r_1">
+                 <p>
+            找汽配致力于中国汽车后产业的健康发展，有志成为中国汽车后产业电商领域的领导型企业。</p></div>
+            </div>
+        </div>
+    </div>
+   
+ 
+    <div class="center clear footer">
+		<p>客服电话：400-086-7676&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.zhaoqipei.com/b2b/about.html ">关于我们</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.zhaoqipei.com/b2b/contact.html ">联系我们</a>&nbsp;&nbsp;&nbsp;&nbsp;Copyright<span>&copy</span> 2013-2015&nbsp;&nbsp;找汽配&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://m.kuaidi100.com" target="_blank" class="queryExpress">快递查询</a> <a class="queryExpress" href="/sitemap.xml" target="_blank">站点地图</a><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256589108'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1256589108%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></p>
+		<p><a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">祥运电子商务股份有限公司&nbsp;&nbsp;版权所有;&nbsp;&nbsp;&nbsp;苏ICP备15001299-2</a> &nbsp;&nbsp;&nbsp;&nbsp;<span>增值电信业务经营许可证：<a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">苏B1.B2-20150147</a></span> </p>
+	</div> 
+    <div class="float_car_div">
+		<a href="#" class="float_car_btn">购物车</a>
+		<a href="#" class="float_service_btn">客服</a>
+		<a href="#" class="float_return_btn">回到<br />头部</a>
+	</div>
+  </body>  
+</html>

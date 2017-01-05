@@ -1,0 +1,73 @@
+﻿/* CSS Document */
+body { background:#f4f4f4 url(../../images/v2.0/shop_body_bg.jpg) 0 0 repeat-x;}
+.shop_logo_div { height:91px;}
+.shop_logo { float:left; margin:27px 0 0 0;}
+.shop_name_qq_dl { padding:12px 0 0 0; height:76px; float:left; margin-left:80px;}
+.shop_name_qq_dl dt { padding-right:12px; min-width:255px; border-right:1px solid #ccc;}
+.shop_name_qq_dl dt,.shop_name_qq_dl dd { float:left;}
+.shop_name_qq_dl dt .shop_head_img { float:left;}
+.shop_name_qq_dl dt h1 { float:left; padding-left:10px; display:block; min-width:190px; height:30px; line-height:30px; color:#383838;}
+.shop_name_qq_dl dt .shop_badge_img { margin-left:10px; border:1px solid #fcf2e7; width:18px; height:18px;}
+.shop_name_qq_dl dd { background:url(../../images/v2.0/shop_head_call_bg.gif) 13px center no-repeat; max-width:360px; padding-top:8px;}
+.shop_name_qq_dl dd div { padding:12px 5px 0 46px; float:left; color:#555;}
+.shop_name_qq_dl dd a,.lxkf a { text-align:center; display:block; float:left; background:url(../../images/v2.0/shop_head_qq_bg.gif) center 0 no-repeat; width:40px; padding-top:28px; color:#646568; margin-right:5px;}
+.shop_name_qq_dl dd a:hover,.lxkf a:hover { text-decoration:none;}
+.shop_add_follow_btn { width:125px; height:38px; line-height:34px; text-align:center; color:#fff; background:url(../../images/v2.0/shop_follow_btn.gif) no-repeat; display:block; float:right; font-size:14px; margin-top:26px; font-family:"微软雅黑";}
+.shop_add_follow_btn:hover { text-decoration:none; color:#fff;}
+
+/* 店铺首页导航样式*/
+.shop_bottom_layer { height:50px; width:980px; background:#f4f4f4; position:absolute; z-index:98;}
+.shop_bottom_layer img,.shop_border_top_img01 { position:absolute; bottom:-10px;}
+.shop_border_top_img01 { bottom:0; z-index:98;}
+.shop_banner_div { position:relative; height:374px; z-index:0;}
+.shop_nav_ul { position:absolute; left:0; top:0; z-index:99; width:980px; height:54px;}
+.shop_nav_ul .shop_nav_logo { width:94px; padding-left:10px; position:relative; float:left; height:54px;}
+.shop_nav_ul .shop_nav_li{ float:left;}
+.shop_nav_ul .shop_search_li { float:right;}
+.shop_nav_ul .shop_nav_logo img { position:absolute; top:-2px;}
+.shop_nav_dl dt,.shop_nav_dl dd,.shop_nav_dl dt h1 { width:122px; height:54px; float:left; font-size:15px; font-family:"微软雅黑";}
+.shop_nav_dl dt { position:relative; z-index:99; width:140px;}
+.shop_nav_dl dd a,.shop_nav_dl dt h1 { display:block; padding-top:12px; text-align:center; height:40px; border-top:2px solid #f4f4f4;}
+.shop_nav_dl dt h1 { background:url(../../images/v2.0/shop_all_btn.gif) 100px 19px no-repeat;}
+.shop_nav_dl dd a:hover,.shop_nav_dl dt h1:hover,.shop_nav_dl dt:hover h1 { background:#2d2d2d; text-decoration:none; color:#0bc7b4; border-top:2px solid #0bc7b4;}
+.shop_nav_dl dt h1:hover,.shop_nav_dl>dt:hover>h1 { background:#2d2d2d url(../../images/v2.0/shop_all_btn_hover.gif) 100px 19px no-repeat;}
+.shop_nav_dl dt h1 { cursor:default; width:110px; text-align:left; padding-left:30px;}
+.shop_nav_ul .shop_search_li { padding-top:6px;}
+.shop_nav_ul .shop_search_li .shop_input01 { float:right; width:215px; height:38px; line-height:38px; padding-left:6px; color:#5b6873; border:1px solid #707070;}
+.shop_nav_ul .shop_search_li .shop_submit01 { border:none; float:right; background:#b71c22; width:108px; height:40px; line-height:40px; color:#fff; font-size:14px; font-family:"微软雅黑"; word-spacing:2px; letter-spacing: 2px;}
+
+
+
+
+
+/* banner幻灯片样式*/
+.shop_bnner_dl { width:980px; position:absolute; top:52px; left:0; z-index:97; background:#192c3b; height:320px;}
+.shop_bnner_dl dd,.shop_bnner_dl dt { float:left; width:104px; height:320px;}
+.shop_bnner_dl dt { width:772px;}
+.shop_bnner_dl dt img,.shop_bnner_dl dt a { width:772px; height:320px;}
+.shop_slide_dt ul { display:none;}
+.shop_bnner_dl dd { width:104px;}
+.shop_bnner_dl .shop_left_btn { background:url(../../images/v2.0/shop_left_btn_bg.jpg) no-repeat;}
+.shop_bnner_dl .shop_right_btn { background:url(../../images/v2.0/shop_right_btn_bg.jpg) no-repeat;}
+.shop_bnner_dl dd a { width:34px; height:34px; display:block;}
+.shop_bnner_dl .shop_left_btn a { background:url(../../images/v2.0/shop_left_btn.png) no-repeat; margin:248px 0 0 40px;}
+.shop_bnner_dl .shop_right_btn a { background:url(../../images/v2.0/shop_right_btn.png) no-repeat; margin:248px 0 0 30px;}
+.shop_fxcg_tit { background:url(../../images/v2.0/shop_fxcg_bg.png) no-repeat; display:block; color:#fff; width:89px; height:30px; text-align:center; line-height:28px; font-size:15px; font-family:"微软雅黑"; position:absolute; left:234px; top:-10px;}
+
+
+div.wrapper { width: 980px; margin: 0 auto; position: relative; }
+.fn-clear { zoom: 1; }
+.box_skitter { position: relative; background: none; }
+.box_skitter ul { display: none; }
+.box_skitter .container_skitter { overflow: hidden; position: relative; }
+.box_skitter .image { overflow: hidden; }
+.box_skitter .image img { display: none; }
+.box_skitter .box_clone { position: absolute; top: 0; left: 0; width: 100px; overflow: hidden; display: none; z-index: 20; }
+.box_skitter .box_clone img { position: absolute; top: 0; left: 0; z-index: 20; }
+.box_skitter .prev_button { position: absolute; top: 248px; left: -60px; text-indent:-9999em; z-index: 100; background:url(../../images/v2.0/shop_left_btn.png) no-repeat; width:34px; height:34px; display:block; overflow: hidden;}
+.box_skitter .next_button { position: absolute; top: 248px; right: -60px; z-index: 100; width: 34px; height: 34px; overflow: hidden; text-indent: -9999em;  background:url(../../images/v2.0/shop_right_btn.png) no-repeat; }
+.box_skitter .label_skitter { z-index: 150; position: absolute; display: none; }
+.loading { position: absolute; top: 50%; right: 50%; z-index: 10000; margin: -16px -16px; color: #fff; text-indent: -9999em; overflow: hidden; background: url(../images/ajax-loader.gif) no-repeat left top; width: 31px; height: 31px; }
+
+
+

@@ -1,0 +1,188 @@
+@charset "utf-8";
+/*-----限时抢购页面大图展示------*/
+div.flashSaleImgShow {
+    height: 350px;
+    padding:10px 0px;
+}
+div.flashSaleImgShow .wrapper {
+    height: 350px;
+    text-align: center;
+    background-color: #ffffff;
+    width: 1000px;
+    float: left;
+    margin: 0;
+    min-height: 350px;
+}
+div.flashSaleImgShow .wrapper .topWrapper {
+    width: 1000px;
+    height: 350px;
+}
+div.flashSaleImgShow .wrapper .topWrapper .pagination-all {
+    top: 300px;
+}
+div.flashSaleImgShow .wrapper a img {
+    /*width:1000px;*/
+    /*height: 350px;*/
+}
+div.flashSaleImgShow .right {
+    height: 350px;
+    text-align: center;
+    background-color: #ffffff;
+}
+div.flashSaleImgShow .right p {
+    font-size: 18px;
+    line-height: 18px;
+    color: #eb3341;
+    padding:40px 0px 0px 0px;
+}
+div.flashSaleImgShow .right span {
+    display: block;
+    font-size: 28px;
+    line-height: 28px;
+    color: #eb3341;
+    padding:15px 0px 0px 0px;
+}
+div.flashSaleImgShow .countDown {
+    margin:60px 20px 20px 20px ;
+    height: 160px;
+    background-color: #EB3341;
+    border-radius: 10%;
+}
+div.flashSaleImgShow .countDown input[type='text'] {
+    position: absolute;
+    top:40px;
+    left: 15px;
+    width: 98px;
+    border:none;
+    background-color: #EB3341;
+    color:#fff;
+    font-size: 80px;
+    font-weight: 600;
+    height: 88px;
+    display:inline-block;
+    transform:scale(1,1.2);
+    -ms-transform:scale(1,1.2);
+    -webkit-transform:scale(1,1.2);
+    -moz-transform:scale(1,1.2);
+    -o-transform:scale(1,1.2);
+}
+div.flashSaleImgShow .countDown h3 {
+    float: right;
+    color:#fff;
+    width:50px;
+    height:160px;
+    font-size: 26px;
+    font-weight: normal;
+    line-height: 220px;
+}
+div.flashSaleImgShow .countDown ul {
+    position: absolute;
+    width:160px;
+    top:-30px;
+    left:0px;
+}
+div.flashSaleImgShow .countDown ul li {
+    float: left;
+    width: 20px;
+    height: 50px;
+    background-color: #ffffff;
+    border: 5px solid #EB3341;
+    border-radius: 15px;
+    margin:0px 25px;
+}
+/*---------------限时抢购页面专场楼层------------------*/
+div.flashSaleFloor {
+
+}
+/*标题*/
+div.flashSaleFloor .flashSaleFloorNav {
+    height:40px;
+    font-size: 22px;
+    line-height: 40px;
+    text-align: center;
+    color:#333333;
+}
+div.flashSaleFloor .flashSaleFloorShow{
+    width:298px;
+    height:475px;
+    float: left;
+    background-color:#ffffff;
+    margin:10px 1px;
+}
+div.flashSaleFloor .flashSaleFloorShow dl {
+
+}
+div.flashSaleFloor .flashSaleFloorShow dl dt {
+    text-align: center;
+    font-size: 20px;
+    padding: 25px 0px 0px 0px;
+}
+div.flashSaleFloor .flashSaleFloorShow dl dd {
+    padding: 10px 0px;
+    font-size: 18px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+}
+div.flashSaleFloor .flashSaleFloorShow dl dd input[type='text'] {
+    width: 25px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 25px;
+    color: #EB3341;
+    border: medium none;
+    height: 25px;
+    padding: 0px 0px 5px;
+}
+div.flashSaleFloor .flashSaleFloorShow a img {
+    padding:0px 30px 10px 30px;
+    width:238px;
+    height:238px;
+}
+div.flashSaleFloor .flashSaleFloorShow h2 {
+    padding: 0px 30px;
+    font-size: 14px;
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+    font-weight: normal;
+}
+div.flashSaleFloor .flashSaleFloorShow div {
+    padding:10px 30px;
+}
+div.flashSaleFloor .flashSaleFloorShow div h1 {
+    float: right;
+    width: 50%;
+    font-size: 24px;
+    font-weight: normal;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    overflow: hidden;
+    border-radius: 10px;
+    margin:3px 0px;
+}
+div.flashSaleFloor .flashSaleFloorShow div h1 a {
+    color:#ffffff;
+    padding:10px 35px;
+    background-color: #EB3341;
+
+}
+div.flashSaleFloor .flashSaleFloorShow div div {
+    width:50%;
+    float: left;
+    padding:0px;
+}
+div.flashSaleFloor .flashSaleFloorShow div div span {
+    display: block;
+    font-size: 18px;
+    color: #DE0010;
+    font-weight: bold;
+}
+div.flashSaleFloor .flashSaleFloorShow div div em {
+    display: block;
+    padding:5px 0px 0px 0px;
+    font-size: 14px;
+    color: #989898;
+    text-decoration: line-through;
+}

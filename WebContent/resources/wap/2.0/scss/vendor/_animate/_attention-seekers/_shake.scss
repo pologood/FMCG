@@ -1,0 +1,166 @@
+$translateX_offset: 10px;
+
+@include keyframes(shake) {
+    0%, 100% {
+        @include transform(translateX(0));
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+        @include transform(translateX(-$translateX_offset));
+    }
+
+    20%, 40%, 60%, 80% {
+        @include transform(translateX($translateX_offset));
+    }
+}
+//(真实)动画部分占整个动画的比例因子
+//真实动画原始时长:1s, 0.25 = 1 / 4
+$anm-shake2-duration-initial:1.25s;
+$anm-shake2-duration-whole:10s;
+$anm-shake2-moment-scalerate:$anm-shake2-duration-initial / $anm-shake2-duration-whole;
+@include keyframes(shake2) {
+    0% {
+        @include transform(translateX(0));
+    }
+
+    #{(10*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(-9px));
+    }
+
+    #{(20*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(8px));
+    }
+
+    #{(30*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(-7px));
+    }
+
+    #{(40*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(6px));
+    }
+
+    #{(50*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(-5px));
+    }
+
+    #{(60*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(4px));
+    }
+
+    #{(70*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(-3px));
+    }
+
+    #{(80*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(2px));
+    }
+
+    #{(90*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(-1px));
+    }
+
+    #{(100*$anm-shake2-moment-scalerate)}% {
+        @include transform(translateX(0));
+    }
+}
+
+//(真实)动画部分占整个动画的比例因子
+//真实动画原始时长:1s, 0.25 = 1 / 4
+$anm-shake3-duration-initial:1.25s;
+$anm-shake3-duration-whole:12s;
+$anm-shake3-moment-scalerate:$anm-shake3-duration-initial / $anm-shake3-duration-whole;
+@include keyframes(shake3) {
+    0% {
+        @include transform(translateX(0));
+    }
+
+    #{(10*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(-9px));
+    }
+
+    #{(20*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(8px));
+    }
+
+    #{(30*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(-7px));
+    }
+
+    #{(40*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(6px));
+    }
+
+    #{(50*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(-5px));
+    }
+
+    #{(60*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(4px));
+    }
+
+    #{(70*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(-3px));
+    }
+
+    #{(80*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(2px));
+    }
+
+    #{(90*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(-1px));
+    }
+
+    #{(100*$anm-shake3-moment-scalerate)}% {
+        @include transform(translateX(0));
+    }
+}
+
+
+@mixin shake($count: $countDefault, $duration: $durationDefault, $delay: $delayDefault, $function: $functionDefault, $fill: $fillDefault, $visibility: $visibilityDefault) {
+    @include animation-name(shake);
+
+    @include count($count);
+
+    @include duration($duration);
+
+    @include delay($delay);
+
+    @include function($function);
+
+    @include fill-mode($fill);
+
+    @include visibility($visibility);
+}
+
+@mixin shake2($count: $countDefault, $duration: $anm-shake2-duration-whole, $delay: $delayDefault, $function: $functionDefault, $fill: $fillDefault, $visibility: $visibilityDefault) {
+    @include animation-name(shake2);
+
+    @include count($count);
+
+    @include duration($duration);
+
+    @include delay($delay);
+
+    @include function($function);
+
+    @include fill-mode($fill);
+
+    @include visibility($visibility);
+}
+
+@mixin shake3($count: $countDefault, $duration: $anm-shake3-duration-whole, $delay: $delayDefault, $function: $functionDefault, $fill: $fillDefault, $visibility: $visibilityDefault) {
+    @include animation-name(shake3);
+
+    @include count($count);
+
+    @include duration($duration);
+
+    @include delay($delay);
+
+    @include function($function);
+
+    @include fill-mode($fill);
+
+    @include visibility($visibility);
+}
+$translateX_offset: "";

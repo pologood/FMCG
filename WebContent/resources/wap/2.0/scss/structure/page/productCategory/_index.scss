@@ -1,0 +1,89 @@
+/// namespace: PCI
+/* >>productCategory\_index*/
+//scss\structure\page\productCategory\_index.scss
+$page_ns: "PCI";
+
+.searchbox_state {
+    &.#{$page_ns} {
+        margin-top: 0;
+        background-color: #e8eaea;
+
+        &.fixedit {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        @at-root .searchbox_state-ctn {
+            &.#{$page_ns} {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+        }
+    }
+}
+
+///主要区域
+.category-ctn {
+    &.#{$page_ns} {
+        //position: relative;
+        //height: 100vh;
+        //padding-bottom: 50px;
+        background-color: #fff;
+
+        @at-root .category-ctn-nav {
+            //height: 100%;
+            position: relative;
+            top: 0;
+            overflow: auto;
+            width: 30%;
+            background-color: #EEEEEE;
+            min-height: 100vh;
+            padding-bottom: 50px;
+			///样式覆盖
+            .am-list {
+                margin-bottom: 0;
+            }
+
+            &.fixednav {
+                position: fixed;
+                top: 45px;
+
+                //默认固定位置离顶部的距离，具体可通过js控制
+                left: 0;
+                bottom: 50px;
+                overflow: auto;
+            }
+
+            a {
+                &.active {
+                    //color: #333;
+                    background-color: #fff;
+                }
+            }
+        }
+
+        @at-root .category-ctn-dest {
+            //height: 100%;
+            width: 70%;
+            text-align: left;
+            overflow: auto;
+            min-height: 100vh;
+            padding-bottom: 50px;
+
+            a {
+                img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+
+            //	    	background-color: #D3ED54;
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>productCategory\_index,end*/

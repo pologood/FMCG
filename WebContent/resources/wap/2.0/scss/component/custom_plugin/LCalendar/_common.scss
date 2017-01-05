@@ -1,0 +1,44 @@
+.gearYM, .gearDate, .gearDatetime, .gearTime{
+    background-color: rgba(0,0,0,0.6);
+}
+.date_btn {
+    color: #0bb20c;
+    //font-weight: normal;
+
+    ///确定按钮
+    &.lcalendar_finish {
+        //color: #0bb20c;
+        color: #fff;
+    }
+
+    &.lcalendar_cancel {
+        //color: #353535;
+        //color: #ccc;
+        color: #ddd;
+        font-weight: normal;
+    }
+}
+
+.date_btn_box {
+    background-color: #000;
+
+    &:after {
+        display: none;
+    }
+}
+
+.date_ctrl {
+    //background: #e9ebeb;
+    background: #1F222F;
+    background-color: #000;
+}
+
+.date_roll_mask {
+    -webkit-mask: none;
+}
+
+.ym_roll, .date_roll, .datetime_roll, .time_roll {
+    font-weight: normal;
+    background-color: #fff;
+    -webkit-mask: -webkit-linear-gradient(rgba(0, 0, 0, 0) 0%, #E9EBEA 33.33%, #E9EBEA 66.66%, rgba(0, 0, 0, 0) 100%);
+}

@@ -1,0 +1,55 @@
+// -------------------------------------
+// 微信分享弹出层(默认)
+// -------------------------------------
+.sharelayer-tip {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 10, 0.8);
+    filter: alpha(opacity = 80);
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+
+    ///图片容器
+    p {
+        text-align: center;
+
+        //margin-top: 10%;
+        //padding: 0 5%;
+   
+    }
+
+    ///
+    div {
+        text-align: center;
+        padding: 2em;
+
+        a {
+            font-size: 4.6875vw;
+            padding: 0.3em 1.2em;
+            display: inline-block;
+            position: relative;
+            color: #fff;
+			border: 1px solid #fff;
+            border-radius: 8px;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                border: 1px solid #fff;
+                border-radius: 8px;
+                transform:rotate(-5deg);
+				-ms-transform:rotate(-5deg); 	/* IE 9 */
+				-moz-transform:rotate(-5deg); 	/* Firefox */
+				-webkit-transform:rotate(-5deg); /* Safari 和 Chrome */
+				-o-transform:rotate(-5deg); 	/* Opera */
+            }
+        }
+    }
+}

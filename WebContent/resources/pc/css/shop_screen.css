@@ -1,0 +1,191 @@
+@charset "utf-8";
+
+.container {
+	width: 980px;
+}
+
+.container .content {
+	width: auto;
+}
+
+/*------------- 购物屏页面头部 shop_screen_head ----------------*/
+
+div.shop_screen_head {
+	width: 100%;
+	height: 336px;
+	text-align: center;
+	background: url(../../../resources/pc/images/云看店购物屏.png) no-repeat center;
+}
+
+div.shop_screen_head h3 {
+	text-align: center;
+	padding-top: 120px;
+	font-size: 36px;
+	color: #666666;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+div.shop_screen_head h1 {
+	text-align: center;
+	padding-top: 25px;
+	font-size: 50px;
+	color: #0f94f2;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+/*------wit_store-------*/
+
+div.wit_store {
+	background: #f4f4f4;
+	width: 100%;
+}
+
+div.wit_store .container {
+	width: 980px;
+}
+
+div.wit_store .image {
+	float: left;
+	width: 710px;
+	height: 505px;
+	overflow: hidden;
+}
+
+div.wit_store .image img {
+	display: block;
+	margin: 0 auto;
+}
+
+div.wit_store .title {
+	float: right;
+	text-align: right;
+	width: 270px;
+	height: 505px;
+}
+
+div.wit_store .title h1 {
+	font-size: 40px;
+	font-weight: 400;
+	color: #333;
+	padding-top: 160px;
+	padding-bottom: 25px;
+	line-height: 1.2;
+}
+
+div.wit_store .title h3 {
+	font-size: 24px;
+	font-weight: 400;
+	color: #0f94f2;
+	line-height: 1.5;
+}
+
+/*--------------shop_screen_box------------------*/
+
+div.shop_screen_box {
+	width: 100%;
+	padding-bottom: 50px;
+	position: relative;
+}
+
+div.shop_screen_box h1 {
+	font-size: 40px;
+	font-weight: 400;
+	color: #333;
+	padding-top: 50px;
+	padding-bottom: 10px;
+	line-height: 1.1;
+	text-align: center;
+}
+
+div.shop_screen_box h3 {
+	font-size: 24px;
+	font-weight: 400;
+	color: #0f94f2;
+	line-height: 1.1;
+	text-align: center;
+}
+
+div.shop_screen_box .image {
+	position: relative;
+	width: 100%;
+	padding-top: 50px;
+}
+
+div.shop_screen_box .image .ul {
+	margin-left: -70px;
+	display: inline-block;
+}
+
+div.shop_screen_box .image .ul .li {
+	float: left;
+	margin-left: 70px;
+	width: 455px;
+	height: auto;
+	text-align: center;
+}
+
+div.shop_screen_box .image .ul .li img {
+	display: block;
+	width: 455px;
+	height: 372px;
+}
+
+div.shop_screen_box .image .ul .li h2 {
+	font-size: 28px;
+	font-weight: 400;
+	color: #0f94f2;
+	line-height: 90px;
+	height: 90px;
+}
+
+div.shop_screen_box .image i {
+	position: absolute;
+	top: 40%;
+    left: 49%;
+	font-size: 30px;
+	color: #0f94f2;
+}
+
+div.shop_screen_box .down {
+	font-size: 28px;
+    color: #aaa;
+    display: block;
+    width: 980px;
+    text-align: center;
+}
+
+/*--------- goods_display ---------*/
+
+div.goods_display {
+	background: #f9f9f9;
+}
+
+/*--------- phone_manager ---------*/
+
+div.phone_manager {
+	background: #ececec;
+}
+
+div.phone_manager h3 {
+	padding-bottom: 40px;
+}
+
+div.phone_manager ul {
+	margin-left: -10px;
+	display: inline-block;
+}
+
+div.phone_manager ul li {
+	width: 320px;
+	height: 560px;
+	float: left;
+	margin-left: 10px;
+}
+
+div.phone_manager ul li img {
+	width: 100%;
+	height: 100%;
+	display: block;
+}

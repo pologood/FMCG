@@ -1,0 +1,184 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>应用下载</title>
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="直通邦">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <link rel="stylesheet" href="../../resources/wap/css/amazeui.css">
+    <link rel="stylesheet" href="../../resources/wap/css/common.css">
+    <link rel="stylesheet" href="../../resources/wap/2.0/css/wap2.css">
+    <script type="text/javascript" src="../../resources/wap/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+    $().ready(function() {
+        function is_weixin() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var isWeixin = is_weixin();
+        if (isWeixin) {
+            $(".sec3 a").attr("href", "javascript:;");
+            $(".sec3 a").on("click", function() {
+                $(".weixin-tip").css("height", "100%");
+                $(".weixin-tip").show();
+                $(".weixin-tip").on('click', 'p', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                });
+                $(".weixin-tip").on("click", function() {
+                    $(".weixin-tip").hide();
+                });
+            });
+        }
+    });
+    </script>
+    <script type="text/javascript">
+    $().ready(function() {
+
+    });
+    </script>
+    <style type="text/css" media="screen">
+    a {
+        text-decoration: none;
+    }
+    
+    .pageR {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+        background: url(../img/invite_download-ztb-bg01.png) left top no-repeat #da473f;
+        background-size: 100% 100%;
+    }
+    
+    .pageR .sec1 {
+        margin: 0;
+        height: 37vh;
+        background: url(../img/invite_download-ztb-01.png) center center no-repeat transparent;
+        background-size: contain;
+        padding-top: 6vh;
+        background-origin: content-box;
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-color-index:0)
+    {  
+       .pageR .sec1 {(;
+          height: 25vh;
+        );}
+    }
+    _::-webkit-full-page-media, _:future, :root .pageR .sec1 {
+        height: 25vh;
+    }
+
+    .pageR .sec2 {
+        padding: 2.5vh;
+        height: 48vh;
+        margin: 0;
+        background: url(../img/invite_download-ztb-02.png) center center no-repeat, -webkit-linear-gradient(-104.3deg, transparent 43%, #da473f 43.5%, #da473f);
+        background-size: contain, cover;
+        background-origin: content-box, padding-box;
+    }
+    
+    .pageR .sec3 {
+        height: 15vh;
+        /* padding: 1.5vh; */
+        text-align: center;
+        background-color: #da473f;
+    }
+    @media screen and (-webkit-min-device-pixel-ratio:0) and (min-color-index:0)
+    {  
+       .pageR .sec3 {(;
+          height: 27vh;
+        );}
+    }
+    _::-webkit-full-page-media, _:future, :root .pageR .sec3 {
+        height: 27vh;
+    }
+
+    .downlink.iphone {
+        background-image: url(../../resources/wap/img/iphone.png);
+        background-size: 7.08vw 8.4vw;
+        background-position: 4.5vw center;
+        text-indent: 1.4em;
+    }
+    
+    .downlink.android {
+        /*background-image: url(../../img/and.png);*/
+        background-size: 7.08vw 8.4vw;
+        background-position: 3.6vw center;
+        text-indent: 1.5em;
+    }
+    
+    .downlink {
+        display: inline-block;
+        margin: 0 2vw;
+        margin-bottom: 3.5vh;
+        width: 40vw;
+        height: 14vw;
+        font-size: 6vw;
+        border: 1px solid #fff;
+        border-radius: 0.6em;
+        text-align: center;
+        color: #fff;
+        line-height: 14vw;
+        background-repeat: no-repeat;
+    }
+    
+    .weixin-tip {
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0, 0, 10, 0.8);
+        filter: alpha(opacity=80);
+        height: 100%;
+        width: 100%;
+        z-index: 100;
+    }
+    </style>
+</head>
+
+<body style="zoom: 1;">
+    <div class="pageR">
+        <div class="sec1">
+        </div>
+        <div class="sec2">
+        </div>
+        <div class="sec3">
+            <a href="http://itunes.apple.com/cn/app/id1102277749?mt=8" class="downlink iphone">iPhone</a>
+            <a href="http://oss.rzico.com/update/ztb/ztb-b-release.apk " class="downlink android">Android</a>
+        </div>
+    </div>
+    <div class="weixin-tip">
+        <p>
+            <img src="../../resources/wap/2.0/images/invite-download-01.png">
+        </p>
+        <div>
+            <a href="javascript:;" class="">知道了</a>
+        </div>
+    </div>
+</body>
+
+</html>

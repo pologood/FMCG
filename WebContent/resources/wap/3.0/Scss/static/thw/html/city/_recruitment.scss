@@ -1,0 +1,38 @@
+/// namespace: STC-CR
+/// description: 开通城市招商页
+/* >>wap/html/city/recruitment.html*/
+$page_ns: "STC-CR";
+
+body {
+    &.#{$page_ns} {
+        background: url(../image/static/city/city-recruitment-bg.png) left top transparent;
+        background-size: 100% 100%;
+    }
+}
+
+.sec1 {
+    &.#{$page_ns} {
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+
+.sec2 {
+    &.#{$page_ns} {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap/html/city/recruitment.html*/

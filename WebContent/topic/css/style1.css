@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0;padding:0;}
+body,h1,h2,h3,h4,h5,p,dl,dd,ul,ol,form,input,textarea,th,td,select { margin:0; padding:0; }
+em { font-style:normal; }
+li { list-style:none; }
+a { text-decoration:none; }
+img { border:none; vertical-align:top; }
+table { border-collapse:collapse; }
+input,textarea { outline:none; }
+textarea { resize:none; overflow:auto; }
+body { font-size:12px; font-family:"΢���ź�";background:#c9204b;}
+/* end reset */
+
+/* public */
+.clear { zoom:1; }
+.clear:after { content:''; display:block; clear:both; }
+.fl { float:left; }
+.fr { float:right; }
+
+
+.top{/* width: 1200px; */height:983px;background: url(../img/top_bg.jpg) no-repeat top center;text-align:center;margin:0 auto;min-width:1200px;position:relative;}
+#nav{width:100%;height:107px;}
+#nav ul{text-align:center;position:absolute;top:431px;left:50%;margin-left:-560px;}
+#nav ul li{float:left;width:268px;height:107px;background:url(../img/btn_bg2.png) no-repeat;padding-right:25px;}
+#nav ul li a{display:block;color:#fff;line-height:40px;padding-top:13px;}
+#nav ul li a h2{font-size:28px;font-weight:bold;letter-spacing:5px;}
+#nav .active{font-size:18px;font-weight:bold;}
+#nav ul li a span{font-size:22px;font-weight:bold;}
+#nav ul li a span em{color:#fbe829;}
+
+#main{back  ground:url(../img/bg_1.jpg) no-repeat;/* width: 1200px; */width:80%;height:auto;position:relative;background:#ca1d46;margin: -390px auto 0 auto;border:1px solid rgba(255,255,255,0.3);border-top:3px solid #fff;}
+.shop_list{/* width: 1200px; */height:auto;background:#ca1d46;margin:0 auto;z-index:1;}
+.shop_top{z-index:2;}
+.shop_top img{margin:0;width:100%;padding:0;margin-left:-12px;position:relative;}
+.shop_top .normal{margin-left:0;}
+.shop_top a{display:block;width: 100%;height:83px;background:#fffa9f;font-size:32px;text-align:center;line-height:83px;color:#fe0022;font-weight:bold;}
+.shop_top .more{position:absolute;top:114px;right:44px;width:75px;height:123px;text-indent:-999px;filter:alpha(opacity:0);opacity:0;}
+.shop_list ul {border-bottom:8px solid #fe8fa2;width: 100%;height:795px;}
+.shop_list ul li{float:left;padding:0 100px;text-align: center;}
+.shop_list ul li img{width:50%;}
+.shop_btom{width: 100%;height:82px;}
+.shop_btom span{width:50%;height:82px;text-align:center;display:block;float:left;font-size:32px;font-weight:bold;color:#fee700;line-height:82px;}

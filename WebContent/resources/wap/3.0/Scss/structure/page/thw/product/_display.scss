@@ -1,0 +1,672 @@
+/// namespace: PT-DY
+/* >>product/display.ftl*/
+$page_ns: "PT-DY";
+
+//商品相册
+.productalbum {
+    &.#{$page_ns} {
+        //height: 111px;
+        .pagenum {
+            position: absolute;
+            display: inline-block;
+            right: 8%;
+            bottom: 15%;
+            z-index: 10;
+            font-size: 10px;
+            background-color: #b8b8b8;
+            color: #fff;
+            padding: 0 0.8em;
+            border-radius: 1em;
+
+            i {
+                font-style: normal;
+            }
+        }
+    }
+}
+
+//商品描述
+.productdesc {
+    &.#{$page_ns} {
+        position: relative;
+        padding: dimension-to-vw(16px) dimension-to-vw(30px);
+
+        &:before {
+            @include dividingline(top, #eee);
+        }
+
+        //商品名称
+        .name {
+            color: #414141;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            white-space: initial;
+            line-height: 1.4;
+        }
+
+        //商品量
+        @at-root .productdesc-amount {
+            $father_productdesc-amount: #{&};
+
+            padding: 0;
+            padding-top: 0.2em;
+
+            @include flexbox;
+
+            @include flex-direction(row);
+
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            align-items: center;
+
+            &:before {
+                display: none;
+            }
+
+            .weui_cell_bd {
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+
+                @at-root #{$father_productdesc-amount} {
+                    .price {
+                        color: #ff7514;
+                        font-weight: normal;
+                    }
+
+                    .marketprice {}
+                }
+            }
+
+            .weui_cell_ft {
+                padding-top: 0.5em;
+            }
+        }
+
+        //相关信息
+        @at-root .productdesc-otherinfo {
+            line-height: 1;
+
+            .promtags {
+                margin-left: 0.4em;
+            }
+        }
+    }
+}
+
+//店铺信息
+.tenantinfo {
+    &.#{$page_ns} {
+        margin-top: dimension-to-vw(18px);
+
+        //店铺名
+        @at-root .tenantinfo-title {
+            &.#{$page_ns} {
+                padding: 0 15px;
+
+                @include flexbox;
+
+                @include flex-direction(row);
+
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                align-items: center;
+
+                & > .weui_cell_primary {
+                    -webkit-box-flex: 1;
+                    -moz-box-flex: 1;
+                    -webkit-flex: 1;
+                    -ms-flex: 1;
+                    flex: 1;
+                }
+
+                .tanantname {
+                    line-height: 2.8em;
+                    font-weight: normal;
+                }
+
+                .weui_cell_ft{
+                    &:after{
+                        -webkit-transform: rotate(45deg);    
+            -moz-transform: rotate(45deg);       
+            -ms-transform: rotate(45deg);      
+            -o-transform: rotate(45deg);  
+                    }
+                }
+            }
+        }
+
+        //店铺信息-细节
+        @at-root .tenantinfo-details {
+            $father_tenantinfo-details: #{&};
+
+            @include flexbox;
+
+            @include flex-direction(row);
+
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            -webkit-box-align: center;
+            align-items: center;
+
+            @include align-items(stretch);
+
+            &:before {
+                left: 0;
+            }
+
+            .weui_cell_hd {
+                height: dimension-to-vw(95px);
+                width: dimension-to-vw(95px);
+
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .weui_cell_bd {
+                @include flexbox;
+
+                @include flex-direction(column);
+
+                @include justify-content(space-between);
+
+                -webkit-box-flex: 1;
+                -moz-box-flex: 1;
+                -webkit-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                padding: 0 dimension-to-vw(10px);
+
+                @at-root #{$father_tenantinfo-details} {
+                    .position {
+                        @extend %ellipsis-2line;
+
+                        line-height: 1.2;
+
+                        .iconfont {
+                            padding-right: 0.3em;
+                        }
+                    }
+
+                    .datashow {
+                        line-height: 1;
+                        margin-top: 0.4em;
+
+                        span {
+                            vertical-align: middle;
+                            margin-right: 0.5em;
+                        }
+
+                        .starlevels {
+                            vertical-align: middle;
+                            line-height: 1;
+
+                            @include no-flicker;
+
+                            @include transform(translateY(-0.1em));
+                        }
+                    }
+
+                    .qualification {
+                        line-height: 1;
+
+                        span {
+                            margin-right: 1em;
+
+                            i {
+                                padding-right: 0.3em;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .weui_cell_ft {
+                @include flexbox;
+
+                @include flex-direction(column);
+
+                @include justify-content(center);
+
+                & > a {
+                    position: relative;
+                    padding-left: 12px;
+
+                    &:before {
+                        @include dividingline(left, #eee);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//选择颜色分类
+.choose_colorsize {
+    &.#{$page_ns} {
+        color: #333;
+        background-color: #fff;
+        margin-top: dimension-to-vw(18px);
+
+        &:before {
+            display: none;
+        }
+
+        &:active {
+            background-color: #fff;
+        }
+
+        .weui_cell_ft {
+            &:after {
+                top: -1px;
+            }
+        }
+    }
+}
+
+//reviewportal
+.reviewportal {
+    &.#{$page_ns} {
+        $father_reviewportal: #{&};
+
+        margin-top: dimension-to-vw(18px);
+
+        //reviewportal-title
+        @at-root .reviewportal-title {
+            &.#{$page_ns} {
+                @include flexbox;
+
+                @include flex-direction(row);
+
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                align-items: center;
+
+                & > .weui_cell_primary {
+                    -webkit-box-flex: 1;
+                    -moz-box-flex: 1;
+                    -webkit-flex: 1;
+                    -ms-flex: 1;
+                    flex: 1;
+                }
+
+                .weui_cell_ft{
+                    &:after{
+                        -webkit-transform: rotate(45deg);    
+            -moz-transform: rotate(45deg);       
+            -ms-transform: rotate(45deg);      
+            -o-transform: rotate(45deg);  
+                    }
+                }
+            }
+        }
+
+        @at-root .reviewportal-repet {
+            &.#{$page_ns} {
+                position: relative;
+                padding: 0 15px;
+
+                &:before {
+                    @include dividingline(top, #eee);
+                }
+
+                .who {
+                    padding: 8px 0 2px 0;
+
+                    .weui_cell_hd {
+                        width: dimension-to-vw(45px);
+                        height: dimension-to-vw(45px);
+
+                        img {
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .weui_cell_bd {
+                        padding: 0 0.5em;
+                    }
+                }
+
+                .words {
+                    line-height: 1.5;
+                }
+
+                .tags {
+                    padding-bottom: 0.5em;
+
+                    span {
+                        margin-right: 1em;
+                    }
+                }
+            }
+        }
+
+        @at-root .reviewportal-viewall {
+            &.#{$page_ns} {
+                color: #333;
+
+                @include flexbox;
+
+                @include flex-direction(row);
+
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                align-items: center;
+
+                &:before {
+                    left: 0;
+
+                    @include no-flicker;
+                }
+
+                .weui_cell_bd {
+                    text-align: center;
+                    -webkit-box-flex: 1;
+                    -moz-box-flex: 1;
+                    -webkit-flex: 1;
+                    -ms-flex: 1;
+                    flex: 1;
+                }
+            }
+        }
+    }
+}
+
+//主体页签:详情，评价，属性
+.displaytab {
+    &.#{$page_ns} {
+        $father_displaytab: #{&};
+
+        //weui_tabnav_item
+        margin-top: dimension-to-vw(18px);
+        overflow: hidden;
+
+        .weui_tabnav {
+            padding: 0 dimension-to-vw(40px);
+            background-color: #fff;
+             @include flexbox;
+
+    @include flex-direction(row);
+
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+
+
+            &.leaveout-trsi {
+                transition: all .3s;
+                transition: all .3s;
+                opacity: 1;
+
+                @include flexbox;
+
+                @include flex-direction(row);
+
+                -ms-flex-align: center;
+                -webkit-align-items: center;
+                -webkit-box-align: center;
+                align-items: center;
+            }
+
+            &.leaveout {
+                transform: rotateX(90deg);
+                -webkit-transform: rotateX(90deg);
+                opacity: 0;
+            }
+
+            @at-root #{$father_displaytab} {
+                .weui_tabnav_item {
+                    padding: 0px 0;
+                        -webkit-box-flex: 1;
+                        -moz-box-flex: 1;
+                        -webkit-flex: 1;
+                        -ms-flex: 1;
+                        flex: 1;
+
+                    &:after {
+                        display: none;
+                    }
+
+                    & > a {
+                        color: #333;
+                        display: inline-block;
+                        height: 100%;
+                        line-height: 2.8;
+                        padding: 0 0.5em;
+                    }
+
+                    &.weui_tab_item_on {
+                        background-color: #fff;
+                        
+
+                        & > a {
+                            color: #ff6d06;
+                            border-bottom: 2px solid #ff6d06;
+                        }
+                    }
+                }
+            }
+        }
+
+        //页签副本
+        &.copy {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 1;
+            margin-top: 0px;
+
+            @include no-flicker;
+
+            transition: -webkit-transform .3s;
+            transition: transform .3s;
+            transform-origin: center top;
+
+            &.leaveout {
+                transform: rotateX(90deg);
+                -webkit-transform: rotateX(90deg);
+                opacity: 0;
+            }
+        }
+    }
+}
+
+//display:商品属性表格
+.displayattrs {
+    &.#{$page_ns} {
+        position: relative;
+        padding: 0 15px;
+        background-color: #fff;
+
+        &:before {
+            @include dividingline(top, #eee);
+        }
+
+        & > table {
+            width: 100%;
+            background-color: #fff;
+
+            tr {
+                border-bottom: 1px solid #eee;
+                vertical-align: initial;
+
+                &:last-child {
+                    border-bottom-width: 0px;
+                }
+
+                td {
+                    padding: 0.7em 0;
+                    padding-right: 1em;
+                    line-height: 1.2;
+
+                    &:nth-child(odd) {
+                        min-width: 4em;
+                    }
+
+                    &:nth-child(even) {
+                        color: #999;
+                    }
+
+                    &:last-child {
+                        padding-right: 0;
+                    }
+                }
+            }
+        }
+
+        .noattr {
+            text-align: center;
+            line-height: 3;
+        }
+    }
+}
+
+//店主推荐
+.shopkeeper_recm {
+    &.#{$page_ns} {
+        margin-top: dimension-to-vw(18px);
+
+        @at-root .shopkeeper_recm-hd {
+            background-color: #fff;
+            text-align: center;
+            line-height: 2.5;
+            color: #333;
+        }
+
+        @at-root .shopkeeper_recm-bd {
+            position: relative;
+
+            &:before {
+                @include dividingline(top, #eee);
+            }
+        }
+    }
+}
+
+//邻家好货
+.nearbygoods {
+    &.#{$page_ns} {
+        margin-top: dimension-to-vw(18px);
+
+        @at-root .nearbygoods-hd {
+            background-color: #fff;
+            text-align: center;
+            line-height: 2.5;
+            color: #333;
+        }
+
+        @at-root .nearbygoods-bd {
+            position: relative;
+
+            &:before {
+                @include dividingline(top, #eee);
+            }
+        }
+    }
+}
+
+//底部操作面板
+.opera_panel {
+    &.#{$page_ns} {
+        position: fixed;
+        z-index: 423;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        &:before {
+            @include dividingline(top, #e0e0e0);
+        }
+
+        @include flexbox;
+
+        @include align-items(stretch);
+
+        @at-root .opera_panel-L {
+            @include flex(2);
+
+            @include flexbox;
+
+            @include justify-content(space-around);
+
+            @include align-items(flex-end);
+
+            padding: 5px 7px 8px 7px;
+
+            & > a {
+                text-align: center;
+
+                span {
+                    display: block;
+                    line-height: 1;
+                }
+
+                &.cart {
+                    $father_cart: #{&};
+
+                    div {
+                        display: inline;
+                        position: relative;
+
+                        @at-root #{$father_cart} {
+                            .cornernum {
+                                @include C-cornernum($dimension-rate: 1.2, $bgcolor: #e60012);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @at-root .opera_panel-R1 {
+            @include flex;
+
+            @include flexbox;
+
+            @include flex-direction(column);
+
+            @include justify-content(center);
+
+            @include align-items(center);
+
+            background-color: #fbb049;
+
+            a.addtocart {
+                line-height: 1;
+            }
+        }
+
+        @at-root .opera_panel-R2 {
+            @include flex;
+
+            @include flexbox;
+
+            @include flex-direction(column);
+
+            @include justify-content(center);
+
+            @include align-items(center);
+
+            a.buynow {
+                line-height: 1;
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<product/display.ftl*/

@@ -1,0 +1,386 @@
+@charset "utf-8";
+
+/*--------- 行业案例头部 function_head -----------*/
+
+div.case_head {
+	width: 100%;
+	height: 336px;
+	text-align: center;
+	background: url(../../../resources/pc/images/行业案例banner.png) no-repeat center;
+}
+
+div.case_head h3 {
+	text-align: center;
+	padding-top: 70px;
+	margin: 0;
+	font-size: 24px;
+	color: #666;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+div.case_head h1 {
+	margin: 0;
+	text-align: center;
+	padding: 25px 0;
+	font-size: 41px;
+	color: #0f94f2;
+	font-weight: 600;
+	line-height: 1.1;
+}
+
+div.case_head span {
+	width: 440px;
+	display: block;
+	margin: 0px auto;
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+/*-------------- 成功案例 successful_case --------------*/
+
+div.successful_case {
+	width: 100%;
+	background: #eff3f5;
+	padding-top: 50px;
+	padding-bottom: 100px; 
+}
+
+div.successful_case h1 {
+	margin: 0;
+	text-align: center;
+	/*padding: 25px 0;*/
+	font-size: 40px;
+	color: #333;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+div.successful_case .container {
+	width: 980px;
+}
+
+div.successful_case ul {
+	margin-left: -20px;
+}
+
+
+div.successful_case ul li {
+	float: left;
+	width: 478px;
+	height: auto;
+	background: #fff;
+	border: 1px solid #e4e4e4;
+	border-radius: 10px;
+	overflow: hidden;
+	margin-top: 40px;
+	margin-left: 20px;
+}
+
+div.successful_case ul li .case_box {
+	padding: 30px;
+	width: 418px;
+}
+
+div.successful_case ul li .case_box .top {
+	width: 418px;
+	height: 125px;
+	overflow: hidden;
+}
+
+div.successful_case ul li .case_box .top .img_icon {
+	float: left;
+	width: 125px;
+	height: 125px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+div.successful_case ul li .case_box .top .img_icon img {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+div.successful_case ul li .case_box .top .top_right {
+	float: right;
+	width: 270px;
+	height: 125px;
+	overflow: hidden;
+}
+
+div.successful_case ul li .case_box .top .top_right .img_logo {
+	width: 270px;
+	height: 63px;
+	overflow: hidden;
+}
+
+div.successful_case ul li .case_box .top .top_right .well {
+	margin-top: 8px;
+	padding: 5px 10px;
+	position: relative;
+	background: none;
+	font-size: 16px;
+	font-weight: normal;
+	color: #333;
+}
+
+div.successful_case ul li .case_box .top .top_right .well .left_corner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-left: 2px solid #ccc;
+	border-top: 2px solid #ccc;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+div.successful_case ul li .case_box .top .top_right .well .right_bottom_corner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-right: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+div.successful_case ul li .case_box .top .top_right .img_logo img {
+	display: block;
+	float: left;
+}
+
+div.successful_case ul li .case_box .bottom {
+	padding-top: 30px;
+	width: 100%;
+	height: auto;
+}
+
+div.successful_case ul li .case_box .bottom .title {
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+}
+
+div.successful_case ul li .case_box .bottom h2 {
+	font-size: 24px;
+	font-weight: 400;
+	color: #0058a2;
+	padding-bottom: 20px;
+	text-align: left;
+	line-height: 1.1;
+}
+
+div.successful_case ul li .case_box .bottom p {
+	font-size: 14px;
+	line-height: 2;
+	display: block;
+}
+
+div.successful_case ul li a {
+	display: block;
+	width: 100%;
+	height: 60px;
+	text-align: center;
+	background: #008cee;
+	color: #ffffff;
+	line-height: 60px;
+	font-size: 24px;
+}
+
+div.successful_case ul li a i {
+	padding-right: 30px;
+}
+
+/*-------------- 合作伙伴 partners --------------*/
+
+div.partners {
+	width: 100%;
+	background: #fff;
+	padding-top: 50px;
+	padding-bottom: 50px; 
+}
+
+div.partners .container {
+	width: 980px;
+}
+
+div.partners h1 {
+	margin: 0;
+	text-align: center;
+	/*padding: 25px 0;*/
+	font-size: 40px;
+	color: #333;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+div.partners ul li {
+	height: 440px;
+	width: 100%;
+	overflow: hidden;
+	margin-top: 30px;
+	float: left;
+	position: relative;
+}
+
+div.partners ul li .partners_left {
+	width: 280px;
+	height: 298px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	float: left;
+	padding: 70px 35px;
+}
+
+div.partners ul li .partners_left .img_icon img {
+	display: block;
+    margin: 0 auto;
+}
+
+div.partners ul li .partners_left .img_logo {
+	padding: 10px 0;
+}
+
+div.partners ul li .partners_left .img_logo img {
+	display: block;
+    margin: 0 auto;
+}
+
+div.partners ul li .partners_left .well {
+	margin-top: 8px;
+	padding: 20px 30px;
+	position: relative;
+	background: none;
+	font-size: 16px;
+	font-weight: normal;
+	line-height: 1.5;
+	color: #333;
+}
+
+div.partners ul li .partners_left .well .left_corner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-left: 2px solid #ccc;
+	border-top: 2px solid #ccc;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+div.partners ul li .partners_left .well .right_bottom_corner {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-right: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+
+div.partners ul li .partners_right {
+	width: 528px;
+	float: right;
+	height: 368px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	padding: 35px 40px;
+	position: relative;
+	z-index: 1;
+}
+
+div.partners ul li .partners_right h2 {
+	font-size: 24px;
+	font-weight: 400;
+	color: #0058a2;
+	padding-bottom: 20px;
+	text-align: left;
+	line-height: 1.1;
+	position: relative;
+}
+
+div.partners ul li .partners_right h2 a {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 16px;
+	color: #0f94f2;
+	display: block;
+	height: 25px;
+	line-height: 25px;
+}
+
+div.partners ul li .partners_right .title {
+	width: 100%;
+	height: 315px;
+	overflow: hidden;
+}
+
+div.partners ul li .partners_right .title p {
+	font-size: 14px;
+	line-height: 26px;
+	display: block;
+}
+
+div.partners ul li .partners_ico {
+	position: absolute;
+	right: 607px;
+	top: 130px;
+	display: inline-block;
+	background: #fff;
+	color: #ccc;
+	z-index: 2;
+	font-size: 36px;
+	font-weight: 400;
+	font-family: simsun;
+	height: 24px;
+	line-height: 24px;
+}
+
+/*-------------- 联系电话 phone --------------*/
+
+div.phone {
+	width: 100%;
+	background: #eff3f5;
+	padding-top: 60px;
+	padding-bottom: 60px; 
+}
+
+div.phone .container {
+	width: 980px;
+}
+
+div.phone h3 {
+	font-size: 18px;
+	font-weight: 400;
+	color: #0f94f2;
+	width: 100%;
+}
+
+div.phone h3 img {
+	display: block;
+	margin: 0px auto;
+}
+
+div.phone h3 span {
+	display: block;
+	padding-left: 360px;
+	padding-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

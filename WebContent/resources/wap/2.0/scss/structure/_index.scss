@@ -1,0 +1,93 @@
+///命名空间:IN
+/* >>index*/
+body.IN {
+    background-color: #eaeaea;
+    div, p, a, b, i, span {
+        font-family: "SimHei","STXihei","Microsoft YaHei";
+        //font-family: "黑体","微软雅黑";
+   
+    }
+}
+
+///usershow
+.usershow-R {
+    display: table;
+    width: 100%;
+    font-size: pxToEm(12);
+    height: pxToEm(125, 12);
+    background-image: url(../image/usershow-R-bgimg.jpg);
+    background-size: 100% 100%;
+    color: #fff;
+    @at-root .usershow {
+        display: table-cell;
+        padding-top: pxToEm(12, 12);
+        vertical-align: middle;
+        text-align: center;
+        img {
+            display: inline-block;
+            width: pxToEm(image-width("../image/usershow-avatar.png"), 12) / 2;
+            height: auto;
+            vertical-align: middle;
+        }
+        p.txt {
+            display: inline-block;
+            margin: 0;
+            line-height: pxToEm(16, 12);
+            vertical-align: middle;
+            text-align: left;
+            b {
+                font-weight: normal;
+                font-size: pxToEm(15, 12);
+            }
+        }
+    }
+    .menu {
+        position: absolute;
+        left: pxToEm(10, 12);
+        top: pxToEm(15, 12);
+        background-image: url(../image/menu.png);
+        width: pxToEm(image-width("../image/menu.png"), 12) / 2;
+        height: pxToEm(image-height("../image/menu.png"), 12) / 2;
+        background-size: 100% 100%;
+    }
+}
+
+///module_shelf
+.module_shelf {
+    padding: pxToEm(8) pxToEm(14);
+    //margin: pxToEm(8) pxToEm(14);
+    background-color: #fff;
+    .it {
+        float: left;
+        width: 25%;
+        min-height: pxToEm(85);
+        padding-top: pxToEm(6);
+        .img-R {
+            display: block;
+            min-height: pxToEm(55);
+            height: pxToEm(55);
+            position: relative;
+        }
+        img {
+            display: block;
+            position: absolute;
+            width: pxToEm(image-width("../image/module_shelf-2.png"), 12) / 2;
+            height: auto;
+            //width: 100%;
+            top: 50%;
+            left: 50%;
+            @include translate(-50%, -50%, false);
+            //margin: 0 auto;
+       
+        }
+        span {
+            display: block;
+            text-align: center;
+            line-height: pxToEm(24);
+            color: #666;
+        }
+    }
+}
+
+
+/* >>index,end*/

@@ -1,0 +1,64 @@
+/// namespace: MBPL
+/* >>page\member\promoting\_index*/
+$page_ns: "MBPL";
+
+///box_TEMP0628
+.box_pomoinfo {
+    &.#{$page_ns} {
+        font-family: "微软雅黑";
+        padding: 8px 10px;
+
+        ///weui_cell_hd
+        .weui_cell_hd {
+            padding-right: 8px;
+            a{
+                display: block;
+            }
+            img {
+                width: 16vw;
+            }
+        }
+
+        ///weui_cell_bd
+        .weui_cell_bd {
+            font-size: 14px;
+
+            & > p {
+                span {
+                    vertical-align: middle;
+                }
+
+                i {
+                    font-size: 0.75em;
+                    font-style: normal;
+                    vertical-align: middle;
+                    line-height: 2;
+                    color: #666;
+                }
+            }
+
+            & > a {
+                display: block;
+                color: #333;
+
+                span {
+                    vertical-align: middle;
+
+                    b {
+                        color: #2fa1f5;
+                        font-weight: normal;
+                        font-size: 0.9em;
+                    }
+                }
+            }
+        }
+
+        &:before {
+            left: 0 !important;
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>page\member\promoting\_index,end*/

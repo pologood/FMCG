@@ -1,0 +1,142 @@
+/// namespace: PCY
+/* >>product\_city_youpin*/
+///同城优品(文字)标识
+.youpin-symbol {
+    $father_youpin_symbol: #{&};
+
+    background-color: #fff;
+    padding: 8px 0;
+
+    .sec1 {
+        //width: 50px;
+        display: table;
+
+        //height: 37px;
+        width: 100%;
+        height: 14vw;
+        margin: 0 auto;
+        background: url(../images/youpin-symbol-bg.png) center center no-repeat transparent;
+        background-size: contain;
+        font-size: 8px;
+
+        @at-root #{$father_youpin_symbol} {
+            .sec1-inner {
+                color: #fff;
+                display: table-row;
+                height: 100%;
+
+                .table-cell {
+                    vertical-align: middle;
+                    text-align: center;
+                    line-height: 8px;
+                    text-indent: 0.3em;
+                    padding-top: 0.5em;
+
+                    & > span {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .sec2 {
+        text-align: center;
+
+        //font-size: 14px;
+        font-size: 5vw;
+        margin-top: 6px;
+    }
+}
+
+//优品项
+.displaybox {
+    $father_displaybox: #{&};
+
+    //图片部分
+    .sec-img {
+        $father_sec_img: #{&};
+
+        display: block;
+        position: relative;
+
+        & > img {
+            width: 100%;
+            height: auto;
+        }
+
+        @at-root #{$father_displaybox} {
+            &:nth-child(odd) {
+                .corner_indexmark {
+                    @include corner_indexmark(leftbottom);
+
+                    //缓动补丁
+                    .bg1, .bg2 {
+                        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                        -webkit-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                    }
+
+                    &.initial {
+                        @include corner_indexmark-animate-patch(leftbottom);
+                    }
+                }
+            }
+
+            &:nth-child(even) {
+                .corner_indexmark {
+                    @include corner_indexmark(rightbottom);
+
+                    //缓动补丁
+                    .bg1, .bg2 {
+                        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                        -webkit-transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+                    }
+
+                    &.initial {
+                        @include corner_indexmark-animate-patch(rightbottom);
+                    }
+                }
+
+                //@extend .corner_indexmark-rightbottom;
+           
+            }
+        }
+
+        @at-root #youpin .corner_indexmark {
+            &:nth-child(2n+1) {
+                //@include corner_indexmark(leftbottom);
+                //@extend .corner_indexmark-leftbottom;
+           
+            }
+
+            &:nth-child(2n) {
+                //@include corner_indexmark(rightbottom);
+                //@extend .corner_indexmark-rightbottom;
+           
+            }
+        }
+    }
+
+    //文字描述部分
+    .sec-txt {
+        .part1 {
+            padding-bottom: 0;
+
+            & > div {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                white-space: initial;
+                line-height: 1.2;
+            }
+        }
+
+        .part2 {
+            padding-top: 0;
+        }
+    }
+}
+
+/* >>product\_city_youpin,end*/

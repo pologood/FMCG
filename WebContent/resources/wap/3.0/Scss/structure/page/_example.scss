@@ -1,0 +1,13 @@
+/// namespace: AAA-BBB
+/* >>Html\page\page_example.html*/
+$page_ns: "AAA-BB";B
+
+.soga{
+	&.#{$page_ns} {
+		height: 100px;
+	}
+}
+
+$page_ns: "";
+
+/* <<Html\page\page_example.html*/

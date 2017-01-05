@@ -1,0 +1,92 @@
+/*佣金核算中的进度条样式 */
+.progressbar_1{
+	background-color:#eee;
+	color:#222;
+	height:16px;
+	width:150px;
+	
+	
+	border: 1px solid #eee;
+    -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px; 
+
+
+	text-align:center;
+	position:relative;
+}
+.progressbar_1 .bar_blue {
+	background-color:#8000ff;
+	height:16px;
+	width:0;
+
+	position:absolute;
+	left:0;
+	top:0;
+	
+	-moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px; 
+		
+	z-index:10;
+}
+
+.progressbar_1 .bar_red {
+	background-color:#ff80ff;
+	height:16px;
+	width:0;
+
+	position:absolute;
+	left:0;
+	top:0;
+
+	-moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px; 
+
+	z-index:10;
+}
+
+
+.progressbar_1 .bar_yellow {
+	background-color:#f0f581;
+	height:16px;
+	width:0;
+
+	position:absolute;
+	left:0;
+	top:0;
+
+	-moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px; 
+
+	z-index:10;
+}
+
+.progressbar_1 .bar_black {
+	background-color:#7a7e81;
+	height:16px;
+	width:0;
+
+	position:absolute;
+	left:0;
+	top:0;
+
+	-moz-border-radius: 10px; 
+    -webkit-border-radius: 10px; 
+    border-radius:10px; 
+
+	z-index:10;
+}
+
+.progressbar_1 .text_1 {
+	height:16px;
+	position:absolute;
+	left:0;
+	top:0;
+	width:235%;
+	line-height:16px;
+	
+	z-index:100;
+}

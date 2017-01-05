@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单确认</title>
+    
+<link rel="stylesheet" href="/app/style/wap.min.css"/>
+<script src="/app/js/zepto.min.js"></script>
+<script src="/app/js/handlebars.min.js"></script>
+<script src="/app/js/lazyload.min.js"></script>
+<script src="/app/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_confirmOrder">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    
+<div class="chooseWidget weui-tab__panel" style="width:100%;background: #FFFFFF;position: fixed;z-index: 1000;display: none; padding: 0">
+</div>
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+                
+<div class="confirmOrder">
+    <!--BEGIN accordion-->
+    <div class="accordion">
+        <div class="weui-flex  weui-cell_access" >
+            <input type="hidden" name="" value="x09">
+            <p class="weui-flex__item Ftitle">支付方式</p>
+            <p class="weui-flex__item changestyle f14" styleid="1" id="paymentMethodId">立即付款</p>
+
+            <span class="weui-cell__ft"></span>
+        </div>
+        <div class="erji f14">
+            <div class="weui-cells_radio">
+                <label class="weui-cell weui-check__label" for="x09">
+                    <div class="weui-cell__bd weui_cell_primary">
+                        <p data-id="1">立即付款</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio2" id="x09" checked="checked">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+            </div>
+            <div class="weui-cells_radio">
+                <label class="weui-cell weui-check__label" for="x01">
+                    <div class="weui-cell__bd weui_cell_primary">
+                        <p data-id="2">货到付款</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio2" id="x01">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="accordion">
+        <div class="weui-flex  weui-cell_access" >
+            <input type="hidden" name="" value="x10">
+            <p class="weui-flex__item Ftitle">配送方式：</p>
+            <p class="weui-flex__item changestyle f14" styleid="3" id="shippingMethodId">同城快递</p>
+            <span class="weui-cell__ft"></span>
+        </div>
+        <div class="erji f14">
+            <div class="weui-cells_radio">
+                <label class="weui-cell weui-check__label" for="x10">
+                    <div class="weui-cell__bd weui_cell_primary">
+                        <p data-id="3">同城快递</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio2" id="x10" checked="checked">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+            </div>
+            <div class="weui-cells_radio">
+                <label class="weui-cell weui-check__label" for="x11">
+                    <div class="weui-cell__bd weui_cell_primary">
+                        <p data-id="4">到店提货</p>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <input type="radio" class="weui-check" name="radio2" id="x11">
+                        <span class="weui-icon-checked"></span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="input-text">
+            <input class="weui-input" type="text" placeholder="订单补充说明" id="memo">
+        </div>
+
+    </div>
+
+    <!--END accordion-->
+    <div class="weui-cells receipt" id="myad">
+        <a class="weui-cell weui-cell_access" href="javascript:;" id="adBtn">
+            <div class="weui-cell__bd">
+                <p class="f14">
+                    收货人：<span class="orange">宛明</span>,&nbsp;<span class="orange">13691061201</span>
+                </p>
+                <p class="f12">
+                    <i class="icon iconfont icon-s-location"></i><span>安徽合肥蜀山区</span>,<span>紫云路292号15店12好楼15201sds是否废话上午师</span>
+                </p>
+            </div>
+        </a>
+    </div>
+
+    <div class="weui-cells store">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd f14">
+                <i class="icon iconfont icon-store-02"></i>美丽漫漫爸爸
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="product-list weui-cells">
+            <a class=" weui-cell_access" href="javascript:;">
+                <div class="weui-cell__hd">
+                    <img src="http://cdn.tiaohuo.com/upload/image/201606/30aae4e3-e089-4ad5-ba46-2fb6d79e4aa6-source.jpg@320w_320h_1e_1c_100Q"
+                         alt="">
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+                    <p class="size Ftext"><span>型号:<i class="orange">L</i></span><span>颜色:<i class="orange">红色</i></span></p>
+                    <p class="price f14"><span>￥89</span></p>
+                    <span class="num f12">x1</span>
+                </div>
+            </a>
+            <a class=" weui-cell_access" href="javascript:;">
+                <div class="weui-cell__hd">
+                    <img src="http://cdn.tiaohuo.com/upload/image/201606/30aae4e3-e089-4ad5-ba46-2fb6d79e4aa6-source.jpg@320w_320h_1e_1c_100Q"
+                         alt="">
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+                    <p class="size Ftext"><span>型号:<i class="orange">L</i></span><span>颜色:<i class="orange">红色</i></span></p>
+                    <p class="price f14"><span>￥89</span></p>
+                    <span class="num f12">x1</span>
+                </div>
+            </a>
+        </div>
+        <p class="Subtotal f14">小计:<span >￥21.6</span></p>
+    </div>
+
+    <div class="weui-cells store">
+        <a class="weui-cell weui-cell_access" href="javascript:;">
+            <div class="weui-cell__bd f14">
+                <i class="icon iconfont icon-store-02"></i>美丽漫漫爸爸
+            </div>
+            <div class="weui-cell__ft">
+            </div>
+        </a>
+        <div class="product-list weui-cells">
+            <a class=" weui-cell_access" href="javascript:;">
+                <div class="weui-cell__hd">
+                    <img src="http://cdn.tiaohuo.com/upload/image/201606/30aae4e3-e089-4ad5-ba46-2fb6d79e4aa6-source.jpg@320w_320h_1e_1c_100Q"
+                         alt="">
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="Ftitle">做旧时尚个性卡通印花卫衣潮</p>
+                    <p class="size Ftext"><span>型号:<i class="orange">L</i></span><span>颜色:<i class="orange">红色</i></span></p>
+                    <p class="price f14"><span>￥89</span></p>
+                    <span class="num f12">x1</span>
+                </div>
+            </a>
+        </div>
+        <p class="Subtotal f14">小计： <span >￥21.6</span></p>
+    </div>
+
+    <div class="weui-cell code">
+        <div class="weui-cell__hd"><label class="weui-label">邀请码：</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="number"  placeholder="请输入邀请码" id="ordercode">
+        </div>
+    </div>
+
+    <div class="sub">
+        <li>总计：￥305.51</li>
+        <li id="sendorder"><a href="javascript:;" >确认下单</a></li>
+    </div>
+
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+
+<script src="/app/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("confirmOrder");
+
+        //选择我的收货地址
+        $("#myad").click(function(){
+            choosead.bank();
+            choosead.callBack=function (bank) {
+                $("#myad").html(bank.html);
+            };
+        });
+
+
+        //检测下单邀请码是否合法
+        $('#ordercode').change(function(){
+            var code=$('#ordercode').val();
+            var od=new order(function(data){
+                console.log(data)
+            });
+            od.inviteCode({code:code});
+        })
+
+
+        //确认下单
+        $('#sendorder').click(function(){
+            var receiverId=$('#myad').find('a').attr('id');                 //收货地址编号
+            var paymentMethodId=$('#paymentMethodId').attr('styleid');      //付款方式编号
+            var shippingMethodId=$('#shippingMethodId').attr('styleid');    //配送方式编号
+            var memo=$("#memo").val();                                      //买家留言
+
+            var od=new order(function(data){
+                console.log(data);
+            });
+            od.create({receiverId:receiverId,paymentMethodId:paymentMethodId,shippingMethodId:shippingMethodId,memo:memo})
+        })
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
+
+

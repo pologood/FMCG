@@ -1,0 +1,553 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="icon" href="img/icon.jpg" type="image/x-icon" />
+<title>聚德汇订货网-8.28盛大开业 优惠全城</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<link rel="stylesheet" href="css/public.css" type="text/css" />
+<script src="js/jquery-3.1.0.js"></script>
+<script src="js/timers.js"></script>
+</head>
+<body>
+<!--头部开始-->
+<div class="header bg">
+    <!-- 顶部导航开始 -->
+<div class="topNav">
+    <div class="container">
+        <!--left-->
+        <div class="span8 topNavLeft">
+            <div class="loggedOut">
+                <span>欢迎来到聚德汇</span>
+                <a href="/b2b/login.jhtml?type=signin" target="_blank">请登录</a>
+                <i>|</i>
+                <a href="/b2b/register/register_company.jhtml" target="_blank">免费注册</a>
+            </div>
+        </div>
+        <!--right-->
+        <div class="span16">
+            <ul>
+                <li>
+                    <a href="/b2b/index.jhtml" target="_blank"><i class="icon06"></i>首页</a>
+                </li>
+                <li>
+                    <a href="/b2b/member/order/list.jhtml" target="_blank"><i class="icon01"></i>我的订单</a>
+                </li>
+
+                <li class="personal_center" style="padding-left: 0px;">
+                    <div class="dropdown">
+                        <a class="message_btn" href="/b2b/cart/list.jhtml" style="padding-left: 25px;" target="_blank">
+                            <i class="icon02"></i>
+                            购物车（<div id="navTopZone_CartSum" style="display:inline;color:red;">0</div>）
+                            <i class="message_down"></i>
+                        </a>
+                        <div class="dropdown-menu" style="display:none;">
+                            <span class="compass"></span>
+                            <h5 class="header-h5">最近加入的商品</h5>
+                            <div class="new-message-box" id="carBox" style="display:none;padding: 0 15px 0px 15px;">
+                                <table class="cart-header-table" width="100%" cellpadding="0" cellspacing="0">
+                                    <tbody id="carItemsList">
+                                        <tr valign="top" style="border-bottom: 1px solid #eee;">
+                                            <td valign="top" width="40" height="40">
+                                                <a class="header-cart-img" href="/product/i5134.html" target="_blank">
+                                                    <img src="http://cdn.zhaoqipei.com/upload/image/201510/1f5a238d-ce2c-4344-8d10-e023d8b72633-thumbnail.jpg" width="40" height="40">
+                                                </a>
+                                            </td>
+                                            <td valign="top">
+                                                <div class="cart-folder">
+                                                    <a href="/product/i5134.html" target="_blank">轮胎195/55R16,产地:安徽轮胎195/55R16,产地:安徽 轮胎195/55R16,产地:安徽</a>
+                                                </div>
+                                            </td>
+                                            <td valign="top" class="cart-folder-price" align="right">
+                                                <div class="red">x10000&nbsp;&nbsp;￥113700</div>
+                                                <a href="#" class="cart-folder-delete">删除</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="view-cart" style="display:none;margin-bottom:8px;margin-top: -1px;">
+                                <!-- p>
+                                    购物车里面还有
+                                    <i class="red" style="position: static;background: none;display: inline;">0</i>
+                                    件
+                                </p -->
+                                <a href="/b2b/cart/list.jhtml" target="_blank">查看购物车</a>
+                            </div>
+                           <!--  <div class="message-default-box" id="defaultBox"><img src="http://www.zhaoqipei.com/resources/b2b/images/v3.0/cart_default_img.jpg">您的购物车还没有任何商品</div> -->
+                        </div>
+                    </div>
+
+                </li>
+
+                <li>
+                    <a href="/b2b/member/favorite/list.jhtml" target="_blank"><i class="icon03"></i>我的收藏</a>
+                </li>
+                <li class="site-nav-menu">
+                    <div class="site-nav-menu-hd">
+                        <a href="/b2c/index.jhtml" target="_top">
+                            超市入口
+                        </a>
+                    </div>
+                    <div class="site-nav-menu-bd site-nav-menu-list">
+                        <div class="site-nav-menu-bd-panel menu-bd-panel">
+                            <a href="/b2b/index.jhtml" target="_top">超市入口</a>
+                            <a href="/helper/member/index.jhtml" target="_blank">服务端入口</a>
+                            <a href="/b2b/member/supplier/index.jhtml" target="_blank">供应商入口</a>
+                        </div>
+                    </div>
+                </li>
+
+
+                 <!-- <li>
+                    <a href="javascript:();"><i class="icon04"></i>客服中心</a>
+                </li>
+                <li>
+                    <a href="javascript:();"><i class="icon05"></i>网站导航</a>
+                </li -->
+           </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        refreshCartCount();
+    });
+    //刷新购物车数量
+    function refreshCartCount() {
+        var cartTimeout;
+        function getCartCount(){
+            clearTimeout(cartTimeout);
+            $.ajax({
+                url : "/b2c/cart/get_cart_count.jhtml",
+                type:"post",
+                dataType:"json",
+                success:function(data){
+                    $("#navTopZone_CartSum").text(data.count);
+
+//                    if(data.count>0){
+//                        $("#carBox").show();
+//                        $(".view-cart").show();
+//                        $("#defaultBox").hide();
+//                        var html = "";
+//                        for(var i =0;i<data.carItems.lenth;i++){
+//                            html += '<tr valign="top" style="border-bottom: 1px solid #eee;">'+
+//                                    '<td valign="top" width="40" height="40">'+
+//                                    '<a class="header-cart-img" href="/product/i5134.html" target="_blank">'+
+//                                    '<img src="http://cdn.zhaoqipei.com/upload/image/201510/1f5a238d-ce2c-4344-8d10-e023d8b72633-thumbnail.jpg" width="40" height="40">'+
+//                                    '</a>'+
+//                                    '</td>'+
+//                                    '<td valign="top">'+
+//                                    '<div class="cart-folder">'+
+//                                    '<a href="/product/i5134.html" target="_blank">轮胎195/55R16,产地:安徽轮胎195/55R16,产地:安徽 轮胎195/55R16,产地:安徽</a>'+
+//                                    '</div>'+
+//                                    '</td>'+
+//                                    '<td valign="top" class="cart-folder-price" align="right">'+
+//                                    '<div class="red">x10000&nbsp;&nbsp;￥113700</div>'+
+//                                    '<a href="#" class="cart-folder-delete">删除</a>'+
+//                                    '</td>'+
+//                                    '</tr>';
+//                        }
+//
+//                    }
+                }
+            });
+        }
+        cartTimeout = setTimeout(function() {getCartCount();}, 500);
+    }
+    function enter(obj){
+        if($(obj).val()=="market"){
+            location.href="/b2c/index.jhtml";
+        }else if($(obj).val()=="service"){
+            location.href="/helper/member/index.jhtml";
+        }else{
+            location.href="/b2c/member/supplier/index.jhtml";
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    //顶部导航超市入口js
+    $(document).ready(function(){
+        jQuery.navlevel2 = function(level1,dytime) {
+            var delytime;
+            //显示下拉
+            $(level1).mouseenter(function(){
+               var  varthis = $(this);
+                delytime=setTimeout(function(){
+                    varthis.find('div.site-nav-menu-bd').show();
+                },dytime);
+//                $('div.topNav .container').css("overflow","visible");
+            });
+            //隐藏下拉
+            $(level1).mouseleave(function(){
+                clearTimeout(delytime);
+                $(this).find('div.site-nav-menu-bd').hide();
+//                $('div.topNav .container').css("overflow","hidden");
+            });
+
+        };
+        //调用
+        $.navlevel2("div.header .topNav li.site-nav-menu",300);
+    });
+</script>    <!-- 顶部导航结束 -->
+    <!--logo 搜索开始-->
+<script type="text/javascript" src="/resources/b2b/js/common.js"></script>
+<!--<script type="text/javascript" src="/resources/b2c/js/jquery-1.8.0.min.js"></script>-->
+<!--<script type="text/javascript" src="/resources/b2c/js/city.js"></script>-->
+<link href="/resources/b2c/css/city.css" rel="stylesheet" type="text/css">
+
+<div class="container">
+    <div class="logo span5">
+        <a href="/b2b/index.jhtml" target="_blank">
+        </a>
+    </div>
+    <div class="area span7">
+        <div class="city">
+            <!--<span id="DY_site_name" class="city-name">合肥</span>-->
+            <!-- <div id="hide_city_menu_11" class="city-select cut_handdler"> -->
+                <!--<a href="javascript:void(0);" class="common-bg selector">切换城市</a>-->
+               <!--  <div id="header_city_bar_box" class="hide_city_group">
+                    <div class="hideMap">
+                        <div class="showPanel clearfix">
+                            <div class="Left mycity"> -->
+                                <!--<div id="current_city_box">
+                                    当前城市：<strong id="city_current_city">合肥</strong>
+                                    <a class="blue" style="" id="set_default_city_header" href="javascript:void(0);">[设为默认城市]</a>
+                                </div>-->
+                         <!--        <div id="default_city_delete" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="showPanel showPanel2 clearfix">
+                            <div class="hot_city" id="header_city_hot">
+                            </div> -->
+                            <!-- <div class="mt10">
+                                <input id="search_city_input_header" class="search_city_input" placeholder="输入城市名" value="输入城市名">
+                                <input type="button" id="search_city_submit_header" class="search_city_submit" value="搜索">
+                            </div> -->
+                            <!-- <div class="city_words mt10" id="header_city_char"></div>
+                        </div>
+                        <div class="scrollBody">
+                            <div class="cityMap clearfix">
+                                <table id="header_city_list" class="city_list" style="margin-top: 0px;">
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="scrollBar">
+                                <span id="header_city_bar" style="margin-top: 0px;"></span>
+                            </div>
+                        </div> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+            <!-- </div> -->
+            <!-- <span class="common-bg city-logo"></span> -->
+        </div>
+    </div>
+    <div class="search span12" style="float: right;">
+        <div class="span12">
+            <input id="keyword" value="" placeholder="请输入您要搜索的货品关键字" autocomplete="off" accesskey="s" type="text">
+            <button type="button" onclick="search('');">搜索</button>
+        </div>
+        <div class="span10">
+            <span>热门搜索：</span>
+                <a href="/b2b/product/list/0.jhtml?keyword=娃哈哈" target="_blank">娃哈哈</a>
+                <a href="/b2b/product/list/0.jhtml?keyword=农夫山泉" target="_blank">农夫山泉</a>
+                <a href="/b2b/product/list/0.jhtml?keyword=统一" target="_blank">统一</a>
+                <a href="/b2b/product/list/0.jhtml?keyword=康师傅" target="_blank">康师傅</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var city_id="";
+    document.getElementById("keyword").onkeydown = function (event) {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && e.keyCode == 13) { // enter 键
+            search('');
+        }
+    };
+
+    $(function(){
+        $.ajax({
+            url:"/common/area.jhtml",
+            type:"get",
+            data:{parentId:""},
+            dataType:"json",
+            success:function(map){
+                var html="";
+                $.each(map,function(id,name){
+                    html+="<a title="+name+" data-code="+id+" class='' onclick='get_province("+id+",this)'>"+name+"</a>";
+                });
+                $("#province").html(html);
+            }
+        });
+    
+    });
+    
+    function get_province(id,obj){
+        $(obj).addClass("active").siblings().removeClass("active");
+        city_id=id;
+        if($(".tog_button").attr("switch")=="true"){
+            toggle_city();
+        }else{
+            $("#city_tittle").addClass("active").siblings().removeClass("active");
+            $("#city_con").show();
+            $("#coun_con").hide();
+            $("#pro_con").hide();
+            $.ajax({
+                url:"/common/area.jhtml",
+                type:"get",
+                data:{parentId:id},
+                dataType:"json",
+                success:function(map){
+                    var html="";
+                    $.each(map,function(id,name){
+                        html+="<a title="+name+" data-code="+id+" class='' onclick='get_city("+id+",this)'>"+name+"</a>";
+                    });
+                    html+="</select>";
+                    $("#city").html(html);
+                }
+            });
+        }
+        
+    }
+
+    function get_city(id,obj){
+        $(obj).addClass("active").siblings().removeClass("active");
+        city_id=id;
+        if($(".tog_button").attr("switch")=="true"){
+            toggle_city();
+        }else{
+             $.ajax({
+                url:"/b2c/area/getbyid.jhtml",
+                type:"get",
+                data:{id:id},
+                dataType:"json",
+                success:function(flag){
+                    if(flag==true){
+                       $("#county_tittle").addClass("active").siblings().removeClass("active");
+                        $("#coun_con").show();
+                        $("#city_con").hide();
+                        $("#pro_con").hide();
+                        $.ajax({
+                            url:"/common/area.jhtml",
+                            type:"get",
+                            data:{parentId:id},
+                            dataType:"json",
+                            success:function(map){
+                                var html="";
+                                $.each(map,function(id,name){
+                                    html+="<a title="+name+" data-code="+id+" class='' onclick='get_county("+id+",this)'>"+name+"</a>";
+                                });
+                                $("#county").html(html);
+                            }
+                        });
+                    }
+                }
+            });
+        }      
+    }
+    function get_county(id,obj){
+        $(obj).addClass("active").siblings().removeClass("active");
+        city_id=id;
+        if($(".tog_button").attr("switch")=="true"){
+            toggle_city();
+        }
+    }
+    function toggle_city(){
+        if(city_id==""){
+            $.message("warn","您还没选择城市！");
+            return;
+        }
+        $(".tog_button").attr("switch","true");
+        $.ajax({
+            url:"/b2c/area/update_current.jhtml",
+            type:"get",
+            data:{id:city_id},
+            dataType:"json",
+            success:function(message){
+                if(message.type="success"){
+                    $.message("success",message.content);
+                    location.reload();
+                }else{
+                    $.message("error",message.content);
+                }
+            }
+        });
+    }
+</script>
+    <!--logo 搜索结束-->
+</div>
+<div id="timer">
+        <div class="timerBox">
+            <div class="topCountDownCon">
+                <span id="zDD">04</span>
+                <span id="zHH">22</span>
+                <span id="zMM">28</span>
+                <span id="zSS">56</span>
+            </div>
+        </div>
+  </div>
+
+<div class="top">
+<div class="ani"> 
+</div>
+<div class="shop_ani"> 
+  <div class="logo_left"></div>
+  <div class="logo_right"></div>
+</div>
+<div id="nav">
+  <ul>
+  <li><a href="javascript:;"><h2>第一重大礼</h2><span class="active">全场商品<em>3折</em>起&nbsp;来就送<em>五元红包</em></span></a></li>
+  <li><a href="javascript:;"><h2>第二重大礼</h2><span>一元抢购活动</span></a></li>
+  <li><a href="javascript:;"><h2>第三重大礼</h2><span>注册就送100元代金券</span></a></li>
+  <li><a href="javascript:;"><h2>第四重大礼</h2><span>关注就送精美礼品一份</span></a></li>
+  </ul>
+</div>
+</div>
+<div id="main">
+   <div class="shop_top">
+      <div class="shop_t_left fl"><img src="img/one_img_1.jpg" /></div>
+      <div class="shop_t_right fr">
+         <div class="shop_r_top">
+            <p>【农夫山泉 1*12瓶/箱矿泉水 取至深湖水】</p>
+            <span>疯狂秒杀 限时抢购</span>
+         </div>
+         <div class="shop_r_con">
+           <a href="/b2b/product/detail/3029.jhtml" target="_blank"><img src="img/one_btn_4.png" /></a>
+           <img class="shop_img1"src="img/one_btn_5.png" />
+           <img class="shop_img2"src="img/one_img_2.jpg" />
+           <img class="shop_img3"src="img/one_ico_1.png" />
+         </div>
+      </div>
+   </div>
+   <div class="shop_q">
+     <ul>
+      <li><a href="/b2b/member/coupon_code/coupon.jhtml" target="_blank"><img src="img/one_q_5.jpg" /></a></li>
+      <li><a href="/b2b/member/coupon_code/coupon.jhtml" target="_blank"><img src="img/one_q_10.jpg" /></a></li>
+      <li><a href="/b2b/member/coupon_code/coupon.jhtml" target="_blank"><img src="img/one_q_30.jpg" /></a></li>
+      <li><a href="/b2b/member/coupon_code/coupon.jhtml"target="_blank"><img src="img/one_q_100.jpg" /></a></li>
+     </ul>
+   </div>
+   <div class="ad_1">
+     <img src="img/one_ad_1.jpg" />
+   </div>
+   <div class="shop_list">
+     <ul>
+       <li><img src="img/one_shop_1.jpg" /><span>34.00</span><a href="../b2b/product/detail/2884.jhtml" target="_blank"></a></li>
+       <li><img src="img/one_shop_2.jpg" /><span>46.00</span><a href="../b2b/product/detail/2888.jhtml" target="_blank"></a></li>
+       <li><img src="img/one_shop_3.jpg" /><span>38.00</span><a href="../b2b/product/detail/2885.jhtml" target="_blank"></a></li>
+       <li><img src="img/one_shop_4.jpg" /><span>46.00</span><a href="../b2b/product/detail/2722.jhtml" target="_blank"></a></li>
+     </ul>
+   </div>
+   <div class="ad_2">
+     <img src="img/one_ad_2.jpg" />
+   </div>
+   <div class="ad_3">
+    <img src="img/one_ad_3.jpg" />
+   </div>
+   <div class="shop_list_2">
+     <ul>
+       <li><img src="img/one_shop_5.jpg" /><span class="sp_l1">20.50</span><a href="/b2b/product/detail/2926.jhtml" class="sa_l1" target="_blank">111</a></li>
+       <li><img src="img/one_shop_6.jpg"  /><span class="sp_l2">30.50</span><a href="/b2b/product/detail/2928.jhtml" class="sa_l2" target="_blank">222</a></li>
+       <li><img src="img/one_shop_7.jpg"  /><span class="sp_l3">3.00</span><a href="/b2b/product/detail/3037.jhtml" class="sa_l3" target="_blank">333</a></li>
+     </ul>
+   </div>
+   <div class="ad_4">
+    <img src="img/one_ad_4.jpg" />
+   </div>
+   <div class="shop_list_3">
+    <ul>
+      <li><img src="img/py_1.jpg" /><p>伊利优酸乳蓝莓</p><span>31.00</span><a href="/b2b/product/detail/2789.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_2.jpg" /><p>伊利舒化奶高钙型</p><span>43.00</span><a href="/b2b/product/detail/2875.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_3.jpg" /><p>伊利安慕希原味</p><span>51.50</span><a href="/b2b/product/detail/2798.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_4.jpg" /><p>上好佳鲜虾条</p><span>56.00</span><a href="/b2b/product/detail/2919.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_5.jpg" /><p>上好佳田园薯片</p><span>52.00</span><a href="/b2b/product/detail/2914.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_6.jpg" /><p>上好佳空心薯笛</p><span>52.00</span><a href="/b2b/product/detail/2841.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_7.jpg" /><p>上好佳鲜虾片</p><span>20.00</span><a href="/b2b/product/detail/2812.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_8.jpg" /><p>上好佳芝士条</p><span>56.00</span><a href="/b2b/product/detail/2920.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_9.jpg" /><p>德国古帝斯白酒</p><span>144.00</span><a href="/b2b/product/detail/3038.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_10.jpg" /><p>德国古帝斯黄酒</p><span>144.00</span><a href="/b2b/product/detail/3039.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_11.jpg" /><p>农夫山泉东方树叶</p><span>45.00</span><a href="/b2b/product/detail/2746.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+      <li><img src="img/py_12.jpg" /><p>农夫山泉茶π</p><span>57.00</span><a href="/b2b/product/detail/2739.jhtml" target="_blank"><img src="img/one_btn_2.png" /></a></li>
+    </ul>
+   </div>
+   <div class="ad_5">
+    <img src="img/one_ad_5.jpg" />
+   </div>
+</div>
+<!--底部开始-->
+<div class="btm_p"><p>开业盛典活动规则如有调整，请以聚德汇网站公告为准；聚德汇保留对此次活动最终解释权</p></div>
+<div class="footer">
+    <div class="container">
+                    <dl>
+                        <dt>
+                        购物指南
+                        </dt>
+                        <dd>
+                                    <div><a href="/helper/article/content/969.jhtml" title="订单状态" target="_blank">订单状态</a></div>
+                                    <div><a href="/helper/article/content/968.jhtml" title="常见问题" target="_blank">常见问题</a></div>
+                                    <div><a href="/helper/article/content/967.jhtml" title="品质保证" target="_blank">品质保证</a></div>
+                                    <div><a href="/helper/article/content/965.jhtml" title="购物流程" target="_blank">购物流程</a></div>
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>
+                        会员服务
+                        </dt>
+                        <dd>
+                                    <div><a href="/helper/article/content/980.jhtml" title="会员服务" target="_blank">会员服务</a></div>
+                                    <div><a href="/helper/article/content/979.jhtml" title="会员等级" target="_blank">会员等级</a></div>
+                                    <div><a href="/helper/article/content/978.jhtml" title="会员注册" target="_blank">会员注册</a></div>
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>
+                        配送服务
+                        </dt>
+                        <dd>
+                                    <div><a href="/helper/article/content/972.jhtml" title="配送范围及时间" target="_blank">配送范围及时间</a></div>
+                                    <div><a href="/helper/article/content/971.jhtml" title="验货签收" target="_blank">验货签收</a></div>
+                                    <div><a href="/helper/article/content/970.jhtml" title="送货上门" target="_blank">送货上门</a></div>
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>
+                        售后服务
+                        </dt>
+                        <dd>
+                                    <div><a href="/helper/article/content/975.jhtml" title="售后服务" target="_blank">售后服务</a></div>
+                                    <div><a href="/helper/article/content/974.jhtml" title="发票政策" target="_blank">发票政策</a></div>
+                                    <div><a href="/helper/article/content/973.jhtml" title="退款说明" target="_blank">退款说明</a></div>
+                        </dd>
+
+                    </dl>
+                    <dl>
+                        <dt>
+                        支付方式
+                        </dt>
+                        <dd>
+                                    <div><a href="/helper/article/content/977.jhtml" title="货到付款" target="_blank">货到付款</a></div>
+                                    <div><a href="/helper/article/content/976.jhtml" title="在线支付" target="_blank">在线支付</a></div>
+                        </dd>
+
+                    </dl>
+        <dl>
+            <dt>商家入驻</dt>
+            <dd>
+                <div><a href="/b2b/supplier/login.jhtml" target="_blank">供应商入口</a></div>
+                <div><a href="/helper/index.jhtml" target="_blank">服务站入口</a></div>
+            </dd>
+        </dl>
+        <div class="quickMark">
+            <div><img src="img/jdh_qr.jpg" style="width:105px;height:105px;margin-top:5px;"></div>
+            <span>微信扫描二维码</span>
+            <span>关注聚德汇官方微信</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

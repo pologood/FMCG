@@ -1,0 +1,34 @@
+{{! 页签导航模板}}
+{{! 不使用默认wrapper}}
+{{#if Ctrls.innermode}}
+<div id="{{hooks.wrapperid}}" class="weui_tab {{hooks.wrapperclass}}" data-plugintype="{{Ctrls.tplname}}">
+{{/if}}
+	{{#if Ctrls}}
+		{{#with Ctrls}}
+			{{#if tplname}}
+			    <div class="weui_tabnav">
+			    	{{#each @root.ctns.heads}}
+				        <div class="weui_tabnav_item {{@root.hooks.classes.weui_tabnav_item}}">
+				            {{{this}}}
+				        </div>			    	
+			    	{{/each}}
+			    </div>
+			    <div class="weui_tab_bd">
+				    {{#if @root.ctns.bodys}}
+						{{#each @root.ctns.bodys}}
+					        <div class="weui_tabbd_item {{@root.hooks.classes.weui_tabnav_item}}">
+					            {{{this}}}
+					        </div>
+						{{/each}}
+				    {{else}}
+			        	{{#each @root.ctns.heads}}
+					        <div class="weui_tabbd_item"></div>	
+			        	{{/each}}
+				    {{/if}}
+			    </div>
+		    {{/if}}
+	    {{/with}}
+    {{/if}}
+{{#if Ctrls.innermode}}
+</div>
+{{/if}}

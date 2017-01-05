@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>分类</title>
+    
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--商家首页-->
+<script type="text/html" id="tpl_tenant-index">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+</script>
+
+
+
+<!--模版-->
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+    {{#each this}}
+<div class="position">
+    <a class="weui-cell" href="../tenant/product-details.html?id={{id}}" data-id="{{id}}" >
+        <div id="fly_img" class="weui-cell__hd">
+            {{#compare thumbnail '!=' null}}
+                <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+                <img src="../images/placeholder/product.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{fullName}}</p>
+            <p class="tag_list">
+                {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}} <i class="marketPrice">￥{{marketPrice}}</i></span></p>
+            <p class="Fauxiliary">人气 {{favoriteCount}} /月销量 {{monthSales}}</p>
+            <span class="pingjia f12 orange">好评 {{positivePercent}}%</span>
+        </div>
+
+    </a>
+    <span class="cart fly_cart_start" data-id="{{id}}"><i class="icon iconfont"></i></span>
+</div>
+
+    {{/each}}
+<!-- product_list end -->
+<script>
+    $(function(){
+        //点击加入购物车
+        $(document).off("click").on('click','.cart',function(event){
+            var flycart = $(this);
+            var productCart;
+            productCart =$(this).attr('data-id');
+            var productCart1= new cart(function(data){
+                var img = flycart.parent().find('#fly_img img').attr('src');
+                var flyer = $('<img class="u-flyer" src="' + img + '">');
+                flyer.fly({
+                    start: {
+                        left: event.pageX - 20, //开始位置（必填）#fly元素会被设置成position: fixed
+                        top: event.pageY - 20 //开始位置（必填）
+                    },
+                    end: {
+                        left: event.pageX - 10, //结束位置（必填）
+                       // left:10,
+                        top:0,
+                        //top: offset.top + 10, //结束位置（必填）
+                        width: 0, //结束时宽度
+                        height: 0 //结束时高度
+                    },
+                    onEnd: function () { //结束回调
+                        this.destory(); //移除dom
+                    }
+                });
+                $(".weui-badge")[0].innerText=Number($(".weui-badge")[0].innerText)+1;
+            });
+            productCart1.add({id:productCart,quantity:1});
+        });
+    });
+</script>
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("tenant-index");
+    });
+</script>
+</body>
+</html>
+

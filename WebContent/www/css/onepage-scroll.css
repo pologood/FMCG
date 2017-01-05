@@ -1,0 +1,304 @@
+body, html {
+  margin: 0;
+  overflow: hidden;
+  -webkit-transition: opacity 400ms;
+  -moz-transition: opacity 400ms;
+  transition: opacity 400ms;
+}
+
+body, .onepage-wrapper, html {
+  display: block;
+  position: static;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.onepage-wrapper {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+  z-index: 0;
+  padding: 0;
+  -webkit-transform-style: preserve-3d;
+}
+
+.onepage-wrapper .section {
+  width: 100%;
+  height: 100%;
+}
+
+.onepage-pagination {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  z-index: 5;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.onepage-pagination li {
+  padding: 0;
+  text-align: center;
+}
+.onepage-pagination li a{
+  padding: 10px;
+  width: 4px;
+  height: 4px;
+  display: block;
+
+}
+.onepage-pagination li a:before{
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #333 !important;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+}
+
+.onepage-pagination li a.active:before{
+  width: 6px;
+  height: 6px;
+  background: none;
+  border: 1px solid #08c !important;
+
+}
+
+.disabled-onepage-scroll, .disabled-onepage-scroll .wrapper {
+  overflow: auto;
+}
+
+.disabled-onepage-scroll .onepage-wrapper .section {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+}
+.disabled-onepage-scroll .onepage-wrapper {
+  -webkit-transform: none !important;
+  -moz-transform: none !important;
+  transform: none !important;
+  -ms-transform: none !important;
+  min-height: 100%;
+}
+
+
+.disabled-onepage-scroll .onepage-pagination {
+  display: none;
+}
+
+body.disabled-onepage-scroll, .disabled-onepage-scroll .onepage-wrapper, html {
+  position: inherit;
+}
+.th_top {
+  width: 100%;
+  height: 44px;
+  position: fixed;
+  z-index: 999;
+  background-color: #323232;
+}
+.th_top>ul {
+  width: 980px;
+  margin: 0 auto;
+  line-height: 44px;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+.th_top>ul>li {
+  width: 163px;
+  line-height: 44px;
+  float: left;
+}
+.th_top>ul>li>a {
+  color: #fff;
+}
+.th_top>ul>li>a:hover {
+  color: #959595;
+}
+
+/*店家助手APP*/
+.dianjia {
+  width: 980px;
+  height:100%;
+  margin: 0 auto 0 auto;
+/*  background: url(../img/chanpin_2.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;*/
+  text-align: center;
+  vertical-align: middle;
+
+}
+.dianjia>img {
+  width: auto;
+  max-height: 100%;
+  vertical-align: middle;
+}
+.pingtai {
+    width: 980px;
+  height:100%;
+  margin: 0 auto 0 auto;
+/*  background: url(../img/cha.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;*/
+  text-align: center;
+  vertical-align: middle;
+}
+.pingtai>img {
+  width: auto;
+  max-height: 100%;
+  vertical-align: middle;
+}
+.Code {
+  width: 980px;
+  margin: 0 auto;
+  padding-top: 123px;
+  overflow: hidden;
+}
+.Code p {
+  line-height: 1;
+  font-size: 44px;
+  text-align: center;
+  color: #333333;
+  margin-bottom: 74px;
+}
+.Code_img {
+  width: 326px;
+  height: 154px;
+  margin: 0 auto;
+}
+.Code_1 {
+  height: 154px;
+  width: 116px;
+  float: left;
+  margin-bottom: 119px;
+}
+.Code_1>p {
+  text-align: center;
+  line-height: 1;
+  color: #333333;
+  font-size: 18px;
+}
+.Code_f {
+  width: 110px;
+  height: 110px;
+  border: 1px solid #bfbfbf;
+  float: left;
+  padding: 3px;
+  background-color: #fff;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.Code_f img {
+  vertical-align: middle;
+  line-height: 110px;
+}
+.footer {
+  width: 980px;
+  height: 84px;
+  margin: 0 auto;
+}
+.foot_1 {
+  font-size: 12px;
+  color: #999;
+  line-height: 1;
+  letter-spacing:1px;
+  text-align: left;
+  padding-bottom: 19px;
+  border-bottom: 1px solid #e3e3e3;
+  width: 100%;
+  float: left;
+}
+.foot_2 {
+  width: 100%;
+  float: left;
+}
+.foot_2 p {
+  line-height: 52px;
+  font-size: 12px;
+  color: #999;
+  text-align: left;
+}
+.foot_2 p a {
+  color: #999;
+}
+.foot_2 span {
+  float: right;
+}
+.foot_2 span a {
+  color: #999;
+}
+.Code_bg {
+  width: 100%;
+  background-color: #f2f2f2;
+  float: left;
+  border-top: 1px solid #e3e3e3;
+}
+.footer_bg {
+  width: 100%;
+  background-color: #f2f2f2;
+  float: left;
+  position: fixed;
+  bottom: -300%;
+  margin-top: -44px;
+  z-index: 888;
+}
+.pro_center {
+  width: 980px;
+  margin:0 auto;
+  height: 100%;
+/*  background: url(../img/chanpin_bg.png) no-repeat left center;
+  background-size: 769px 748px;*/
+}
+.pro_center_img {
+  width: 769px;
+  height: 630px;
+  float: left;
+  margin-top: -90px;
+  overflow: hidden;
+  z-index: 44;
+}
+.pro_center_img img {
+    width: 100%;
+    height: 100%;
+}
+.pro_center_right {
+  width: 300px;
+  height: 250px;
+  position: absolute;
+  top: 30%;
+  left: 60%;
+}
+.pro_center_right h1 {
+  font-size: 36px;
+  color: #323232;
+  margin-bottom: 15px;
+  text-align: left;
+  line-height: 1;
+  font-weight: 400;
+}
+.pro_center_right p {
+  font-size: 14px;
+  color: #666;
+  line-height: 22px;
+  text-align: left;
+  letter-spacing: 2px;
+}
+.pro_center_right_link {
+/*  width: 129px;
+  height: 34px;*/
+/*  margin-left:8px;*/
+  margin-top: 16px;
+
+}
+.pro_center_right_link a {
+ border: 1px solid #ea4001;
+  color: #ea4001;
+  font-size: 20px;
+  z-index: 100000;
+  padding: 6px 20px;
+}

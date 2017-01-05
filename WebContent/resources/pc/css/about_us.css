@@ -1,0 +1,720 @@
+@charset "utf-8";
+
+/*--------- 关于我们头部 about_us_head -----------*/
+
+div.about_us_head {
+	width: 100%;
+	height: 334px;
+	text-align: center;
+	background: url(../../../resources/pc/images/关于我们banner.png) no-repeat center;
+}
+
+div.about_us_head h1 {
+	margin: 0;
+	text-align: center;
+	padding-top: 80px;
+	font-size: 50px;
+	color: #0f94f2;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+div.about_us_head h3 {
+	text-align: center;	
+	padding: 25px 0;
+	margin: 0;
+	font-size: 24px;
+	color: #666666;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+div.about_us_head h3 span {
+	display: inline-block;
+	padding: 0px 65px;
+	position: relative;
+}
+
+div.about_us_head h3 span i {
+	width: 50px;
+	border-top: 1px solid #ccc;
+	display: block;
+	position: absolute;
+	top: 50%;
+	height: auto;
+}
+
+div.about_us_head h3 span .i_left {
+	left: 0;
+}
+
+div.about_us_head h3 span .i_right {
+	right: 0px;
+}
+
+div.about_us_head ul {
+	display: inline-block;
+	padding-top: 83px;
+}
+
+div.about_us_head ul li {
+	width: 168px;
+	height: 39px;
+	line-height: 39px;
+	float: left;
+	font-size: 16px;
+	border: 1px solid #0f94f2;
+	border-bottom: none;
+	margin:0 25px;
+}
+
+div.about_us_head ul li a {
+	display: block;
+	color: #0f94f2;
+}
+
+div.about_us_head ul li.active {
+	background: #0f94f2;
+}
+
+div.about_us_head ul li.active a {
+	color: #fff;
+}
+
+div.about_us_head ul li:hover {
+	background: #0f94f2;
+}
+
+div.about_us_head ul li:hover a {
+	color: #fff;
+}
+
+/*-------------- 平台定制 platform_custom ----------------*/
+
+div.platform_custom {
+	width: 100%;
+	text-align: center;
+	padding-top: 70px;
+}
+
+div.platform_custom .container {
+	width: 980px;
+}
+
+div.platform_custom h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #333;
+}
+
+div.platform_custom .introduce {
+	display: block;
+	font-size: 16px;
+	padding-top: 20px;
+	color: #333;
+}
+
+div.platform_custom .platform_custom_img {
+	width: 980px;
+	height: 316px;
+	padding: 90px 0px;
+}
+
+div.platform_custom .platform_custom_img img {
+	width: 100%;
+	height: 100%;
+	display: block;
+	margin: 0px auto;
+}
+
+div.platform_custom .platform_custom_trait {
+	color: #333;
+}
+
+div.platform_custom .platform_custom_trait h2 {
+	font-weight: 400;
+	line-height: 1.5;
+	font-size: 30px;
+	padding-bottom: 10px;
+}
+
+div.platform_custom .platform_custom_trait ul {
+	display: inline-block;
+	margin-left: -25px;
+}
+
+div.platform_custom .platform_custom_trait ul li {
+	margin: 60px 0px 60px 25px;
+	width: 308px;
+	height: 188px;
+	border: 1px solid #e4e4e4;
+	position: relative;
+	float: left;
+	z-index: 1;
+}
+
+div.platform_custom .platform_custom_trait ul li .img_ico {
+	position: absolute;
+	top: -45px;
+	left: 110px;
+	z-index: 2;
+	width: 89px;
+	height: 89px;
+}
+
+div.platform_custom .platform_custom_trait ul li .title {
+	padding-top: 60px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+div.platform_custom .platform_custom_trait ul li .title h3 {
+	padding-bottom: 25px;
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+div.platform_custom .platform_custom_trait ul li .title span {
+	display: block;
+	padding: 5px 0;
+	line-height: 1.1;
+}
+
+div.platform_custom .title_infor {
+	text-align: left;
+	color: #333;
+	margin-top: -30px;
+}
+
+div.platform_custom .title_infor h3 {
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding: 30px 0px;
+	color: #0f94f2;
+}
+
+div.platform_custom .title_infor p {
+	font-size: 16px;
+	line-height: 1.5;
+}
+
+div.platform_custom .title_infor .phone {
+	padding: 20px 0;
+}
+
+div.platform_custom .we_doing {
+	position: relative;
+	padding-top: 120px;
+	padding-bottom: 100px;
+}
+
+div.platform_custom .we_doing .title {
+	position: absolute;
+	top: 50px;
+	left: 330px;
+}
+
+div.platform_custom .we_doing .title h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.2;
+	color: #333;
+}
+
+div.platform_custom .we_doing .title .h1 {
+	font-style: italic;
+}
+
+/*--------------------- 代理平台 agency_platform-------------------------*/
+
+div.agency_platform {
+	width: 100%;
+	text-align: center;
+}
+
+div.agency_platform .container {
+	width: 980px;
+}
+
+div.agency_platform .cooperation_title {
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 100px;
+}
+
+div.agency_platform .cooperation_title h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding-top: 70px;
+	padding-bottom: 30px;
+	color: #333;
+}
+
+div.agency_platform .cooperation_title p {
+	text-align: left;
+	font-size: 16px;
+	line-height: 2;
+	color: #333;
+}
+
+div.agency_platform .cooperation_title p i {
+	display: inline-block;
+	width: 20px;
+}
+
+div.agency_platform .support {
+	background: #f1f0f0;
+	padding-bottom: 70px;
+}
+
+div.agency_platform .support .container {
+	width: 875px;
+}
+
+div.agency_platform .support h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding-top: 70px;
+	color: #333;
+}
+
+div.agency_platform .support ul {
+	margin-left: -95px;
+}
+
+div.agency_platform .support ul li {
+	float: left;
+	width: 389px;
+	height: auto;
+	overflow: hidden;
+	text-align: left;
+	margin-top: 40px;
+	margin-left: 95px;
+}
+
+div.agency_platform .support ul li .title {
+	width: 389px;
+	height: 38px;
+	background: url(../../../resources/pc/images/形状-7@2x.png) no-repeat center;
+	margin-bottom: 20px;
+}
+
+div.agency_platform .support ul li .title h2 {
+	height: 38px;
+	width: auto;
+	line-height: 38px;
+	color: #fff;
+	padding-left: 35px;
+	font-size: 20px;
+	font-weight: 400;
+}
+
+div.agency_platform .support ul li span {
+	display: block;
+	/*padding-top: 15px;*/
+	font-size: 16px;
+	padding-right: 10px;
+	line-height: 1.5;
+}
+
+div.agency_platform .support ul li span i {
+	color: #c9c9c9;
+	font-size: 20px;
+	padding-right: 5px;
+}
+
+div.advantage {
+	width: 100%;
+	padding-bottom: 30px;
+}
+
+div.advantage .container {
+	width: 880px;
+}
+
+div.advantage h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding-top: 70px;
+	color: #333;
+}
+
+div.advantage ul {
+	margin-left: -50px;
+}
+
+div.advantage ul li {
+	width: 260px;
+	height: auto;
+	float: left;
+	margin-top: 30px;
+	margin-left: 50px;
+	color: #333;
+}
+
+div.advantage ul li .image_ico {
+	width: 260px;
+	height: 136px;
+}
+
+div.advantage ul li .image_ico img {
+	display: block;
+	margin: 0px auto;
+	width: auto;
+	height: auto;
+}
+
+div.advantage ul li h3 {
+	font-size: 20px;
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-weight: 600;
+}
+
+div.advantage ul li .advantage_info {
+	position: relative;
+	text-align: left;
+	padding-left: 18px;
+}
+
+div.advantage ul li .advantage_info i {
+	color: #c9c9c9;
+	font-size: 20px;
+	position: absolute;
+	top: -2px;
+	left: 0px;
+	line-height: 1;
+}
+
+div.advantage ul li .advantage_info span {
+	font-size: 16px;
+	display: block;
+	line-height: 1.5;
+}
+
+div.join_process {
+	width: 100%;
+	padding-bottom: 100px;
+}
+
+div.join_process .container {
+	width: 880px;
+}
+
+div.join_process h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding-top: 70px;
+	padding-bottom: 30px;
+	color: #333;
+}
+
+div.join_process .img {
+	width: 880px;
+	height: 94px;
+}
+
+div.join_process .img img {
+	display: block;
+	float: left;
+}
+
+div.join_process ul li {
+	width: 880px;
+	height: auto;
+	float: left;
+	text-align: left;
+	margin-top: 40px;
+}
+
+div.join_process ul li h3 {
+	font-size: 18px;
+	line-height: 1.1;
+	color: #333;
+	padding-left: 20px;
+	padding-bottom: 10px;
+	font-weight: 600;
+}
+
+div.join_process ul li span {
+	font-size: 16px;
+	padding-left: 20px;
+	position: relative;
+	display: block;
+	color: #333;
+}
+
+div.join_process ul li span i {
+	color: #c9c9c9;
+	font-size: 20px;
+	position: absolute;
+	top: -2px;
+	left: 0px;
+	line-height: 1;
+}
+
+/*--------------------- 联系我们 contact_us-------------------------*/
+
+div.contact_us {
+	width: 100%;
+	padding-bottom: 50px;
+	text-align: center;
+}
+
+div.contact_us .container {
+	width: 980px;
+}
+
+div.contact_us h1 {
+	font-size: 40px;
+	font-weight: 400;
+	line-height: 1.1;
+	padding-top: 70px;
+	padding-bottom: 30px;
+	color: #333;
+}
+
+div.contact_us .title {
+	text-align: left;
+	font-size: 16px;
+	color: #333;
+	line-height: 1.5;
+}
+
+div.contact_us .title p {
+	padding-bottom: 10px;
+}
+
+div.contact_us .title p i {
+	display: inline-block;
+	width: 20px;
+}
+
+div.contact_us .title p em {
+	color: #0f94f2;
+}
+
+div.contact_us span {
+	display: block;
+	font-size: 20px;
+	padding-bottom: 30px;
+}
+
+div.contact_us .contact_us_title {
+	font-size: 48px;
+	padding-top: 70px;
+	font-weight: 400;
+	color: #0f94f2;
+}
+
+div.contact_us .contact_us_title i {
+	color: #333;
+	padding-left: 25px;
+	font-size: 40px;
+}
+
+div.contact_us .image {
+	width: 980px;
+	height: auto;
+
+}
+
+div.contact_us .image img {
+	display: block;
+	margin: 0 auto;
+	width: auto;
+	height: auto;
+}
+
+/*--------------------- 帮助中心 help_center-------------------------*/
+
+div.help_center {
+	width: 100%;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+div.help_center .container {
+	width: 980px;
+}
+
+div.help_center .container .left {
+	width: 205px;
+	min-height: 545px;
+	padding: 0 20px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	text-align: left;
+}
+
+div.help_center .container .content {
+	width: 727px;
+	min-height: 547px;
+}
+
+div.help_center .hot_article_category {
+	width: 205px;
+	line-height: 30px;
+	padding-top: 30px;
+	padding-bottom: 20px;
+	overflow: hidden;
+}
+
+div.help_center .hot_article_category h1 {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.1;
+	color: #0f94f2;
+	padding-bottom: 20px;
+}
+
+div.help_center .hot_article_category dl {
+	padding-bottom: 5px;
+}
+
+div.help_center .hot_article_category dl dt {
+	display: block;
+	width: 100%;
+	line-height: 35px;
+	padding-bottom: 5px;
+}
+
+div.help_center .hot_article_category dl dt a {
+	display: block;
+	padding-left: 15px;
+	font-size: 16px;
+	border-left: 4px solid #0f94f2;
+	background: #eee;
+	width: 80%;
+	color: #666;
+}
+
+div.help_center .hot_article_category dl dt a i {
+	font-family: simsun;
+	float: right;
+	padding-right: 10px;
+	font-weight: 600;
+}
+
+div.help_center .hot_article_category dl dd {
+	font-size: 16px;
+	width: 100%;
+}
+
+div.help_center .hot_article_category dl dd a {
+	display: block;
+	width: 70%;
+	padding-left: 40px;
+}
+
+div.help_center .hot_article_category dl dd a:hover {
+	color: #0f94f2;
+	text-decoration: underline; 
+}
+
+div.help_center .hot_article {
+	width: 205px;
+	line-height: 30px;
+	padding-bottom: 20px;
+	overflow: hidden;
+}
+
+div.help_center .hot_article h1 {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.1;
+	color: #0f94f2;
+	padding-bottom: 10px;
+}
+
+div.help_center .hot_article ul li {
+	font-size: 14px;
+	font-weight: 400;
+	width: 100%;
+	height: 30px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+div.help_center .hot_article ul li a:hover {
+	color: #0f94f2;
+}
+
+div.help_center .container .content .top {
+	width: 725px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    height: 48px;
+    line-height: 48px;
+    color: #0f94f2;
+    font-size: 16px;
+}
+
+div.help_center .container .content .top h4 {
+	font-size: 16px;
+    font-weight: 400;
+    float: left;
+    padding-left: 20px;
+}
+
+div.help_center .container .content .top .li {
+	float: left;
+}
+
+div.help_center .container .content .top .li i {
+	display: inline-block;
+    padding-left: 10px;
+    padding-right: 5px;
+}
+
+div.help_center .container .content .top .li a {
+	color: #0f94f2;
+}
+
+div.help_center .container .content .top .li a:hover {
+	color: #0f94f2;
+}
+
+div.help_center .container .content .bottom {
+	margin-top: 10px;
+	width: 685px;
+	padding: 0 20px;
+	min-height: 485px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+div.help_center .container .content .bottom ul {
+	margin-top: -1px;
+}
+
+div.help_center .container .content .bottom ul li {
+	border-top: 1px solid #ccc;
+	padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+div.help_center .container .content .bottom ul li a {
+	line-height: 40px;
+	color: #0f94f2;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+div.help_center .container .content .bottom ul li span {
+	color: #999;
+	font-size: 14px;
+}
+
+div.help_center .container .content .bottom ul li p {
+	line-height: 25px;
+	font-size: 16px;
+}

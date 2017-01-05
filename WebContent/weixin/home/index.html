@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>首页</title>
+    
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<!--首页-->
+<script type="text/html" id="tpl_main">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            
+<!--BEGIN top-nav-->
+<div class="nav_change">
+    <div id="run"></div>
+    <div class="topNav row">
+        <div class="col-5 position"><a href="javascript:pageManager.go('area');" id="area">合肥</a><i class="iconfont icon-down-01"></i></div>
+        <div class="weui-search-bar col-14" id="searchBars">
+            <form class="weui-search-bar__form">
+                <div class="weui-search-bar__box">
+                    <i class="weui-icon-search"></i>
+                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                </div>
+                <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
+                    <i class="weui-icon-search"></i>
+                    <span>搜索</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+        </div>
+        <div class="weui-cells searchbar-result" id="searchResult" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1); display: none;">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p>实时搜索文本</p>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p>实时搜索文本</p>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p>实时搜索文本</p>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd weui-cell_primary">
+                    <p>实时搜索文本</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-5 scan" id="scan_fun">
+            <i class="iconfont icon-sweep">
+                <span class="badge">10</span>
+            </i>
+
+        </div>
+    </div>
+</div>
+<!--END top-nav-->
+
+            <div class="weui-tab__panel pageable">
+                
+<!--BEGIN gallery-slider-->
+<div id="iSlider-wrapper" class="mask">
+    <img src="http://localhost:8080/app/images/pic_article.png" alt="">
+    <div class="mask-bg"></div>
+</div>
+<!--END gallery-slider-->
+
+                <!-- BEGIN 频道 -->
+                
+<!-- BEGIN channel-pic -->
+<div id="channel_pic" class="channel_pic">
+    <div class="kong"></div>
+</div>
+<!-- BEGIN channel-pic end-->
+
+
+                <!-- BEGIN 广告 -->
+                
+
+    <!--BEGIN single-ad-->
+    <div class="single-ad row">
+        <div class="col-9 single-ad1">
+            <a href="javascript:;" id="single_ad1"><img src="http://cdn.tiaohuo.com/upload/image/201608/4b27ba5a-b1a3-4915-892a-37da602a1662.png"/></a>
+        </div>
+        <div class="col-15 row">
+            <div class="col-24 single-ad2"><a href="javascript:;" id="single_ad2"><img src="http://cdn.tiaohuo.com/upl"/></a></div>
+            <div class="col-12 single-ad3"><a href="javascript:;" id="single_ad3"><img src="http://cdn.tiaohuo.com/upload/image/201608/33aa276b-4d37-4fea-8c0d-4ae32e4a3c53.png"/></a></div>
+            <div class="col-12"><a href="javascript:;" id="single_ad4"><img src="http://cdn.tiaohuo.com/upload/image/201608/bc267d2f-715d-466e-a280-f44a9b938fde.png"/></a></div>
+        </div>
+        <div class="kong"></div>
+    </div>
+    <!--END single-ad-->
+
+
+                <!--BEGIN title-->
+                <div class="title weui-cells f14">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><i class="iconfont icon-store-02"></i></div>
+                        <div class="weui-cell__bd">推荐商家</div>
+                    </div>
+                </div>
+                <!--END title-->
+
+                <div class="tenant weui-cells">
+                    <div class="tenant_list">
+
+                    </div>
+                </div>
+            </div>
+            
+
+    <div class="weui-tabbar foot_menu" style="position: fixed;">
+        <a href="../home/index.html" class="weui-tabbar__item weui-bar__item_on" id="nav1">
+            <i class="weui-tabbar__icon iconfont icon-l-home"></i>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="../productCategory/category.html" class="weui-tabbar__item" id="nav2">
+            <i class="weui-tabbar__icon iconfont icon-l-classify"></i>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <a href="../nearby/nearby.html" class="weui-tabbar__item" id="nav3">
+            <i class="weui-tabbar__icon iconfont icon-l-location"></i>
+            <p class="weui-tabbar__label">附近</p>
+        </a>
+        <a href="../carts/cart.html" class="weui-tabbar__item" id="nav4">
+            <i class="weui-tabbar__icon iconfont icon-l-sc"></i>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+            <i class="weui-tabbar__icon iconfont icon-l-me"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+    </div>
+    <script type="text/javascript" class="tabbar js_show">
+        $(function(){
+            /*$('.weui-tabbar__item').on('click', function () {
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            });*/
+            var str = window.location.href;
+            var index = str .lastIndexOf("\/");
+            str  = str .substring(index + 1, str .length);
+            if(str=="index.html"){
+                $("#nav1").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="category.html"){
+                $("#nav2").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="nearby.html"){
+                $("#nav3").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="cart.html"){
+                $("#nav4").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="member-home.html"){
+                $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+        });
+    </script>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        var ls=new lbs(function (data) {
+            console.log("当前城市：");
+            console.log(data);
+            var area = document.getElementById("area");
+            area.innerText=data.name;
+        });
+        ls.current();
+
+        weixin.location(function () {
+            console.log("定位到的经纬度：");
+            console.log("lat:" + weixin.lat);
+            console.log("lng:" + weixin.lng);
+            var ls=new lbs(function (data) {
+                console.log("经纬度获取到的城市：");
+                console.log(data);
+                if(data.update){
+                    if(confirm("检测当前所在城市为"+data.area.name+",是否切换当前城市？")){
+                        var l=new lbs(function (data) {
+                            location.reload();
+                        });
+                        l.update({
+                            lat:weixin.lat,
+                            lng:weixin.lng
+                        })
+                    }
+                }
+            });
+            ls.get({
+                lat:weixin.lat,
+                lng:weixin.lng
+            });
+        });
+
+
+
+        //顶部扫一扫scan_fun
+        $("#scan_fun").on('click', function () {
+            weixin.scanQRCode();
+        });
+
+        //顶部轮播图片
+        var ads = new ad(
+                function (data) {
+                    $("#iSlider-wrapper").silder(data);
+                }
+        );
+        ads.do(70);
+
+        //频道轮播
+        var pc = new productChannel(
+                function (data) {
+                    $("#channel_pic").silderProductChannel(data,0,8,0);
+                }
+        );
+        pc.list();
+
+        //四个广告位
+        var ad1 = new ad(function(data){
+            var obj = data[0];
+            if(obj.linkType=="tenant"){
+                $("#single_ad1").attr("href","tenant-home.html?id="+obj.linkId);
+            }else if(obj.linkType=="product"){
+                $("#single_ad1").attr("href","product_details?id="+obj.linkId);
+            }else if(obj.linkType=="none"){
+                $("#single_ad1").attr("href","javascript:;");
+            }
+
+            $("#single_ad1").find("img").attr("src",obj.image);
+        });
+        ad1.do(127);
+
+        var ad2 = new ad(function(data){
+            var obj = data[0];
+            if(obj.linkType=="tenant"){
+                $("#single_ad2").attr("href","tenant-home.html?id="+obj.linkId);
+            }else if(obj.linkType=="product"){
+                $("#single_ad2").attr("href","product_details?id="+obj.linkId);
+            }else if(obj.linkType=="none"){
+                $("#single_ad2").attr("href","javascript:;");
+            }
+            $("#single_ad2").find("img").attr("src",obj.image);
+        });
+        ad2.do(128);
+
+        var ad3 = new ad(function(data){
+            var obj = data[0];
+            if(obj.linkType=="tenant"){
+                $("#single_ad3").attr("href","tenant-home.html?id="+obj.linkId);
+            }else if(obj.linkType=="product"){
+                $("#single_ad3").attr("href","product_details?id="+obj.linkId);
+            }else if(obj.linkType=="none"){
+                $("#single_ad3").attr("href","javascript:;");
+            }
+            $("#single_ad3").find("img").attr("src",obj.image);
+        });
+        ad3.do(129);
+
+        var ad4 = new ad(function(data){
+            var obj = data[0];
+            if(obj.linkType=="tenant"){
+                $("#single_ad4").attr("href","tenant-home.html?id="+obj.linkId);
+            }else if(obj.linkType=="product"){
+                $("#single_ad4").attr("href","product_details?id="+obj.linkId);
+            }else if(obj.linkType=="none"){
+                $("#single_ad4").attr("href","javascript:;");
+            }
+            $("#single_ad4").find("img").attr("src",obj.image);
+        });
+        ad4.do(130);
+
+
+    });
+</script>
+
+</script>
+<!--区域选择-->
+<script type="text/html" id="tpl_area">
+<div class="page">
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <!--search-->
+            <div class="weui-search-bar citySearch" id="searchBar">
+                <form class="weui-search-bar__form">
+                    <div class="weui-search-bar__box">
+                        <i class="weui-icon-search"></i>
+                        <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="城市/行政区/拼音" required="">
+                        <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                    </div>
+                    <label class="weui-search-bar__label" id="searchText">
+                        <i class="weui-icon-search"></i>
+                        <span>搜索</span>
+                    </label>
+                </form>
+                <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+            </div>
+            <!--search end-->
+
+
+                <!--regionSelection -->
+                <div id="region" class="region">
+                    <div class="p10">
+                        <p class="region_title f14">定位城市</p>
+                        <div class="AreaClass_grid" id="locationCity">
+                            <p class="Ftext noData">暂无数据</p>
+                        </div>
+                        <p class="region_title f14">最近访问城市</p>
+                        <div class="AreaClass_grid" id="historyCity">
+                            <p class="Ftext noData">暂无数据</p>
+                        </div>
+                        <p class="region_title f14">热门城市</p>
+                        <div class="AreaClass_grid" id="hotCity">
+                            <p class="Ftext noData">暂无数据</p>
+                        </div>
+                    </div>
+
+                    <div class="weui-cells" id="aread"></div>
+
+                </div>
+
+                <!--regionSelection end-->
+
+
+        </div>
+    </div>
+</div>
+
+
+</script>
+
+<!--模版-->
+<!--推荐商家-->
+<script type="text/html" id="tpl_tenant-list">
+<!-- BEGIN tenant-list -->
+    {{#each this}}
+    <a href="../tenant/tenant-home.html?id={{id}}" class="weui-cells weui-cell_access weui-cells_border">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                {{#compare thumbnail '!=' null}}
+                    <img src="{{thumbnail}}" />
+                {{/compare}}
+                {{#compare thumbnail '==' null}}
+                    <img src="../images/placeholder/tenant.png" />
+                {{/compare}}
+            </div>
+            <div class="weui-cell__bd">
+                <p class="Ftitle tenant-name">{{name}}</p>
+                <p class="ico Fauxiliary">
+                    <span class="cf ft-bs starlevels"  data-starnum="{{grade}}" data-starlevelized="false">
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                    </span>
+                    <span class="add Fauxiliary">{{grade}}分</span><span class="add Fauxiliary">月售{{monthSales}}单</span>
+                </p>
+                <div class="weui-flex Fauxiliary">
+                    <div class="weui-flex__item">主营：{{tenantCategoryName}}</div>
+                    <div class="weui-flex__item">{{#ifcond distance -1}}{{distance}}km{{else}}{{/ifcond}}</div>
+                </div>
+            </div>
+        </div>
+        {{#if promotions}}
+            <div class="border-top Fauxiliary  weui-cell">
+                <div class="weui-cell__hd"></div>
+                <div class="weui-cell__bd">
+                    {{#each promotions}}
+                    <div><i class="iconfont icon-{{type}}"></i><p>{{name}}</p></div>
+                    {{/each}}
+                </div>
+            </div>
+        {{/if}}
+    </a>
+    {{/each}}
+<!-- END tenant-list -->
+<!--获取星星-->
+<script>
+    $(".starlevels").starLevelize();
+</script>
+<!--获取星星结束-->
+</script>
+
+<!--频道模版-->
+<script type="text/html" id="tpl_channelsNav">
+<!--BEGIN channels-nav-->
+<!--频道页导航-->
+    {{#each this}}
+        <a href="nearby.html" class="it">
+                <img class="channel_sign" src="{{image}}">
+            <p class="Ftext">{{name}}</p>
+        </a>
+    {{/each}}
+<!--END channels-nav-->
+</script>
+
+
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("main");
+
+        //点击搜索框跳转页面
+        $("#searchBars").on('click', function () {
+            window.location.href="../search/searchTenant.html?id=1";
+        });
+            //顶部搜索背景渐变
+            var run = document.getElementById("run");
+            var speed = 1;
+            var timer = null;
+            var alpha = 0;
+            // 顶部搜索背景渐变执行方法
+            function startrun(target){
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    if(target > alpha){
+                        speed = 1;
+                    }else{
+                        speed = -1;
+                    }
+                    if(alpha == target){
+                        clearInterval(timer);
+                    }
+                    else{
+                        alpha = alpha + speed;
+                        run.style.filter = 'alpha(opacity='+alpha+')';
+                        run.style.opacity = alpha/100;
+                    }
+                },10);
+            }
+
+            //推荐商家及顶部搜索背景渐变
+            var pged = $(".pageable").pageable({
+                        scrollFn:function (me) {
+                            var top = $("#channel_pic").offset().top;
+                            //console.log(top);
+                            var height = $("#iSlider-wrapper").height();
+                            //console.log('高度'+height);
+                            var scoll = height-top;
+                            //获取当前滑动位置与指定位置的百分比
+                            var opa = (scoll / height)*100;
+                            //滑动到该位置时执行代码
+                            if(scoll <= height){
+                                startrun(opa);
+                            }else{
+                                startrun(100);
+                            }
+                        },
+                        loadDownFn: function (me) {
+                            var td = new tenant(function (data) {
+                                me.pageNumber = me.pageNumber +1;
+                                var h = render.fill($("#tpl_tenant-list"), data);
+                                $(".pageable .tenant_list").append(h);
+
+                                if (data.length < 20) {
+                                    me.lock();
+                                    me.noData();
+                                }
+                                me.resetload();
+                            });
+                            td.list({pageNumber: me.pageNumber});
+                        }
+                    }
+            );
+    });
+</script>
+
+<!--区域选择-->
+<script type="text/javascript">
+    $().ready(function () {
+        //定位城市
+        weixin.location(function () {
+            new lbs(function (data) {
+                var html = '<ul class="Ftext">';
+                html += '<li><a class="cityA" href="javascript:void(0);">' + data.area.name + '</a></li>';
+                html += '</ul>';
+                html += '<div class="kong"></div>';
+                $("#locationCity").html(html);
+            }).get({
+                lat: weixin.lat,
+                lng: weixin.lng
+            });
+        });
+
+        //最近访问城市
+        var historyCityIdsStr = getCookie('historyCityIds');
+        console.log(historyCityIdsStr);
+        if (historyCityIdsStr != null && historyCityIdsStr != '') {
+            var historyCityIds = historyCityIdsStr.split(",");
+            var historyCities = getCitys(historyCityIds);
+            var html = '<ul class="Ftext">';
+            $.each(historyCities, function (index, city) {
+                html += '<li><a class="cityA" href="javascript:void(0);">' + city.name + '</a></li>';
+            });
+            html += '</ul>';
+            html += '<div class="kong"></div>';
+            $("#historyCity").html(html);
+        }
+
+        //热门城市
+        var hostCities = getHotCity();
+        var html = '';
+        if (hostCities.length > 0) {
+            html += '<ul class="Ftext">';
+            $.each(hostCities, function (index, city) {
+                html += '<li><a class="cityA" cityId="' + city.id + '" href="javascript:void(0);">' + city.name + '</a></li>';
+            });
+            html += '</ul>';
+            html += '<div class="kong"></div>';
+            $("#hotCity").html(html);
+        }
+
+        //读取js中的城市
+        var letter = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        for (var i = 0; i < letter.length; i++) {
+            var city = getAreas(letter[i].toLowerCase());
+            var html = "<p class='indexes f14' id='" + letter[i] + "'>" + letter[i] + "</p>";
+            html += "<div class='AreaClass_grid '><ul class='Ftext'>";
+            for (var j = 0; j < city.length; j++) {
+                html += "<li><a class='cityA' cityId='" + city[j].id + "' href='javascript:;'>" + city[j].name + "</a></li>";
+            }
+            html += "</ul><div class='kong'></div></div>";
+            if (city.length == 0) {
+                continue;
+            }
+
+            $("#aread").append(html);
+        }
+
+
+        // 定位当前地理位置
+        $("#resetPosition").on("click", function () {
+            showToast2({content: "正在定位....."});
+            // invokTips("warn","正在定位。。");
+            location.href = "vsstoo://location?url=/wap/delivery/list.jhtml";
+            return false;
+        });
+
+        $(".cityA").click(function () {
+            var cityId=$(this).attr("cityId");
+            var historyCityIdsStr = getCookie('historyCityIds');
+            var historyCityIds = [];
+            if (historyCityIdsStr != null && historyCityIdsStr != '') {
+                historyCityIds = historyCityIdsStr.split(",");
+            }
+            var exist = false;
+            for (var i = 0; i < historyCityIds.length; i++) {
+                if (historyCityIds[i]==cityId) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (!exist) {
+                historyCityIds.push(cityId);
+                if (historyCityIds.length > 0) setCookie("historyCityIds", historyCityIds.join(","), 1);
+            }
+
+            var lb = new lbs(function (data) {
+                location.href = 'index.html';
+            });
+            lb.update({
+                areaId: $(this).attr("cityId")
+            })
+        });
+    });
+
+    initCity();
+
+    function getHotCity() {
+        var areas = [];
+        for (var i = 0; i < citys.length; i++) {
+            if (citys[i].tag == 1) {
+                areas.push(citys[i]);
+            }
+        }
+        return areas;
+    }
+
+    function getCitys(cityIds) {
+        var result = [];
+        $.each(citys, function (index, city) {
+            $.each(cityIds, function (i, cityId) {
+                if (city.id == cityId) {
+                    result.push(city);
+                }
+            })
+        });
+        return result;
+    }
+
+    function setCookie(c_name, value, expiredays) {
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
+        document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
+    }
+
+    function getCookie(c_name) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=");
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+                c_end = document.cookie.indexOf(";", c_start);
+                if (c_end == -1) c_end = document.cookie.length;
+                return unescape(document.cookie.substring(c_start, c_end));
+            }
+        }
+        return "";
+    }
+</script>
+
+</body>
+</html>
+
+
+

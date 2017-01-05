@@ -1,0 +1,98 @@
+/// namespace: MBIN
+/* >>member\index*/
+///用户信息展示
+div.userInfor {
+    background-image: url(../images/headerbg.png);
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+
+    .headBox {
+        display: block;
+        width: 74px;
+        height: 74px;
+        margin: 0px auto;
+        margin-bottom: 0.5em;
+        border: none;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        overflow: hidden;
+        background-color: #e4e4e4;
+    }
+
+    span {
+        color: #fff;
+        font-size: 14px;
+        display: block;
+        line-height: 1;
+        text-align: center;
+
+        /* padding: 10px 0px;*/
+        /* text-shadow: black 0 0 1px;*/
+    }
+}
+
+///角标
+.spanRadius {
+    position: absolute;
+    right: 0;
+    margin-left: 15px;
+    transform: translate(50%, -50%);
+    -webkit-transform: translate(50%, -50%);
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    top: 0;
+    z-index: 80;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #ff0000;
+    text-align: center;
+
+    b {
+        font-weight: normal;
+        font-size: 10px;
+        vertical-align: middle;
+    }
+}
+
+///订单详细状态
+.myorder_shortcut {
+    &.MBIN {
+        $father_myorder_shortcut: #{&};
+
+        padding-bottom: 0.2em;
+
+        .orderR {
+            display: block;
+            position: relative;
+
+            @at-root #{$father_myorder_shortcut} {
+                .orderR-sym {
+                    height: 28px;
+                    padding: 0;
+                    line-height: 28px;
+                    font-size: 20px;
+
+                    //组件样式覆盖
+                    .spanRadius {
+                        height: 14px;
+                        width: 14px;
+                        line-height: 12px;
+                        left: 50%;
+                        margin-left: 0.25em;
+                        transform: none;
+
+                        b {
+                            font-size: 8px;
+                            //line-height: 8px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* >>member\index,end*/

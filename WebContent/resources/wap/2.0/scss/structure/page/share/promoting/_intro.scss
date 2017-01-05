@@ -1,0 +1,97 @@
+/// namespace: SEPGI
+/* >>page\share\promoting\_intro*/
+$page_ns: "SEPGI";
+
+//底部注册区域
+.btm-reg {
+    display: block;
+    height: 128px;
+    background-color: #b56b89;
+    padding-top: 30px;
+
+    & > a {
+        display: block;
+        position: relative;
+        width: 35vw;
+        margin: 0 auto;
+        font-size: 12px;
+        height: 12vw;
+        background-color: #cf763d;
+        font-family: "微软雅黑";
+
+        & > span {
+            position: absolute;
+            height: 80%;
+            width: 90%;
+            background-color: #ffe14f;
+            top: -20%;
+            left: 5%;
+            color: #f05a28;
+            font-weight: bold;
+            box-shadow: rgba(255, 255, 79, 0.2) 0px 6px 0px;
+
+            &.presseddown {
+                transform: translateY(3px);
+                -webkit-transform: translateY(3px);
+                box-shadow: rgba(255, 255, 79, 0.2) 0px 3px 0px;
+            }
+
+            & > b {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                font-size: 1.4em;
+                -webkit-transform: translate(-50%, -60%);
+                transform: translate(-50%, -60%);
+                display: block;
+                white-space: nowrap;
+            }
+        }
+
+        //finger-pressme
+        .finger-pressme {
+            position: absolute;
+            top: 30%;
+            left: 10%;
+            width: 70px;
+            height: 90px;
+            background: url(../images/finger-pressme.png) center top no-repeat transparent;
+            background-size: 71px 112px;
+            transition: 0.3s transform ease;
+            -webkit-transition: 0.3s transform ease;
+
+            &.anm-init {
+                transform: translateY(100px);
+                -webkit-transform: translateY(100px);
+            }
+
+            &.anm-in {
+                transform: translateY(0px);
+                -webkit-transform: translateY(0px);
+            }
+        }
+    }
+}
+
+//浮标 跳转到注册
+.downtoregister {
+    &.#{$page_ns} {
+        top: 35%;
+
+        .weui_positionscroller-bd {
+            a {
+                font-size: 10px;
+                padding: 0.2em 0.3em;
+                color: #fff;
+                background-color: #fb7401;
+                border: 1px solid #eeb00f;
+                border-radius: 0.4em;
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 3px;
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* >>page\share\promoting\_intro,end*/

@@ -1,0 +1,76 @@
+@charset "utf-8";
+/**
+ * COPYRIGHT 2016, TiaoHuo ALL RIGHTS RESERVED.
+ * by VST-UI
+ */
+//import compass/xxx
+@import "compass/css3";
+@import "compass/utilities/sprites";
+@import "./vendor/media-queries";
+@import "./vendor/flexbox";
+@import "./vendor/_animate/animate";
+
+/* foundation*/
+
+//@import "foundation/reset";
+@import "foundation/helpers";
+@import "foundation/config";
+//@import "foundation/base";
+@import "foundation/helpers/placeholder";
+
+/* foundation,end*/
+
+/* component*/
+
+//@import "component/tab";
+//@import "component/table";
+//@import "component/simicon";
+//@import "component/simbtn";
+@import "component/cornermark";
+@import "component/coupon-serration";
+
+/* >>custom_plugin*/
+@import "component/custom_plugin/islider";
+@import "component/custom_plugin/LCalendar";
+/* >>custom_plugin,end*/
+
+/* component,end*/
+
+/* structure*/
+
+//common
+@import "structure/common";
+@import "structure/page/index";
+@import "structure/page/social_circles/comment";
+@import "structure/page/tenant/list";
+@import "structure/page/productCategory/index";
+@import "structure/page/product/pfoot";
+@import "structure/page/product/city_youpin";
+@import "structure/page/delivery/starBusiness";
+@import "structure/page/tenant/index";
+@import "structure/page/tenant/contact";
+@import "structure/page/product/colorAndStyle_unit";
+@import "structure/page/product/product-product";
+@import "structure/page/member/index";
+@import "structure/page/member/set_info";
+@import "structure/page/member/purse/withdraw";
+@import "structure/page/cart/list";
+@import "structure/page/member/order/orderPay";
+@import "structure/page/member/order/order_evaluate";
+@import "structure/page/member/promoting/index";
+@import "structure/page/member/promoting/list";
+@import "structure/page/invite/download";
+@import "structure/page/share/promoting/intro";
+//temp style to do width
+@import "structure/page/temp";
+//header
+//@import "structure/header";
+//pages here
+//@import "structure/index";
+//@import "structure/page/subpage_example";
+//footer
+//@import "structure/footer";
+
+
+
+/* structure,end*/

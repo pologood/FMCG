@@ -1,0 +1,130 @@
+/// namespace: TT-IC
+/* >>tenant\indexC.ftl*/
+$page_ns: "TT-IC";
+$star: "*";
+
+.infoR {
+    &.#{$page_ns} {
+        @at-root .infoR-avatar {
+            &.#{$page_ns} {
+                $father_infoR-avatar: #{&};
+
+                position: relative;
+                height: 40vw;
+                overflow: hidden;
+
+                .operas {
+                    position: relative;
+                    padding: 0 1em;
+                    text-align: right;
+                    z-index: 3;
+
+                    @at-root #{$father_infoR-avatar} {
+                        .saveornot {
+                            display: inline-block;
+                            padding: 0.5em;
+
+                            &:before {
+                                content: "\e62c";
+                                color: #fff;
+                            }
+
+                            &.active {
+                                &:before {
+                                    content: "\e655";
+                                    color: #ff6d06;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .front {
+                    position: absolute;
+                    width: 16vw;
+                    height: 16vw;
+                    left: 50%;
+                    top: 50%;
+                    z-index: 2;
+                    transform: translate(-50%, -50%);
+                    -webkit-transform: translate(-50%, -50%);
+
+                    img {
+                        height: 100%;
+                        border-radius: 50%;
+                        border: 2px solid rgba(255, 255, 255, 0.4);
+                    }
+                }
+
+                .back {
+                    position: absolute;
+                    z-index: 1;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    transform: scale(1.2, 1.2);
+                    -webkit-transform: scale(1.2, 1.2);
+                    transform-origin: center center;
+                    -webkit-transform-origin: center center;
+                    background-position: center center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    -webkit-filter: blur(5px) brightness(2);
+                    filter: blur(5px) brightness(2);
+                }
+            }
+        }
+
+        @at-root .infoR-descs {
+            padding: 0px 15px 5px;
+            background-color: #fff;
+
+            .sec1 {
+                .tenantname {
+                    padding-top: 0.5em;
+                    font-weight: normal;
+                }
+
+                ///星级标志
+                .starlevelsR {
+                    line-height: 0;
+                }
+            }
+
+            .sec2 {
+                @include flexbox;
+
+                @include align-items(flex-end);
+
+                p {
+                    @include flex;
+
+                    color: #999;
+                }
+
+                a {
+                    padding: 0 0.2em 0 0.5em;
+                }
+            }
+        }
+
+        @at-root .infoR-address {
+            &:before {
+                left: 0;
+            }
+
+            .weui_cell_hd {
+                i {
+                    display: block;
+                    padding-top: 0.1em;
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+$star: "";
+
+/* <<tenant\indexC.ftl*/

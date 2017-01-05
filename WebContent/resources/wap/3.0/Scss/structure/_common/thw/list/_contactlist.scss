@@ -1,0 +1,51 @@
+// -------------------------------------
+// common:导购联系列表
+// -------------------------------------
+//
+.contactlists {
+    & > .weui_cells {
+        margin-top: 0;
+    }
+
+    //contactlists-title
+    @at-root .contactlists-title {
+        text-align: center;
+        margin-top: 0;
+    }
+
+    @at-root .contactlists-ctn {
+        max-height: 400px;
+        max-height: 60vh;
+        overflow-y: auto;
+
+        & > .weui_cell {
+            color: #888;
+            padding: 15px;
+        }
+
+        .weui_cell_bd {
+            span {
+                &:last-child {
+                    display: block;
+                    font-style: normal;
+                }
+            }
+        }
+
+        .weui_cell_ft {
+            a {
+                display: inline-block;
+                vertical-align: middle;
+                padding: 0.2em 0.5em;
+
+                &:nth-child(1) {
+                    color: #ff7936;
+                }
+
+                &:nth-child(2) {
+                    color: #00a0e9;
+                }
+            }
+        }
+    }
+}

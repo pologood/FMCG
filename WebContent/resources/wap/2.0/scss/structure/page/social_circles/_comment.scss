@@ -1,0 +1,65 @@
+/// namespace: SC
+/// 页面标识符：scc
+/* >>social_circles\comment*/
+.share_maskbox {
+    $father_share_maskbox: #{&};
+    display: none;
+    z-index: 1001;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 0 0.5em;
+
+    //文字提示
+    .txttip {
+        text-align: right;
+
+        img {
+            width: 70%;
+        }
+    }
+
+    //qrcode-R
+    .qrcode-R {
+    	font-size: 1em;
+        position: absolute;
+        margin: 0 20%;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        z-index: 3;
+        .hd {
+            font-size: 1em;
+            color: #fff;
+            margin-left: -2em;
+            margin-bottom: 1em;
+        }
+
+        @at-root #{$father_share_maskbox} .img-rap {
+            background-color: #fff;
+            padding: 7%;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .ft {
+        	font-size: 1em;
+            text-align: center;
+
+            @at-root #{$father_share_maskbox} .iknow {
+            	font-size: pxToEm(14);
+                line-height: 2;
+                display: inline-block;
+                margin: 1em 0.5em;
+            }
+        }
+    }
+}
+
+/* >>social_circles\comment,end*/

@@ -1,0 +1,90 @@
+// -------------------------------------
+// 店铺信息展示
+// -------------------------------------
+.store_symbol-info {
+    $father_store_symbol_info: #{&};
+
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    padding: 2vw 0;
+    color: #fff;
+
+    //background-color: rgba(0, 0, 0, 0.4);
+    z-index: 300;
+
+    &:before {
+        border-top-width: 0;
+    }
+
+    ///hd
+    .hd {
+        width: 15.625vw;
+        height: 15.625vw;
+        margin-left: 10px;
+        margin-right: 6px;
+
+        //保证权重不跳出嵌套
+        .hd-img {
+            width: 100%;
+            height: 100% !important;
+            border-radius: 50%;
+        }
+    }
+
+    ///bd
+    .bd {
+        p {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        span {
+            font-size: 12px;
+
+            b {
+                font-weight: normal;
+            }
+        }
+    }
+
+    ///
+    .ft {
+        @at-root %common_store_symbol_info-ft-opera {
+            width: 60px;
+            line-height: 30px;
+            text-align: center;
+            color: #fff;
+        }
+
+        @at-root #{$father_store_symbol_info} {
+            ///save_tenant
+            .save_tenant {
+                @extend %common_store_symbol_info-ft-opera;
+
+                background-color: #dc2727;
+                font-size: 16px;
+            }
+
+            ///follower
+            .follower {
+                @extend %common_store_symbol_info-ft-opera;
+
+                width: 60px;
+                position: relative;
+                overflow: hidden;
+                height: 30px;
+                background-color: #cf011b;
+
+                b, span {
+                    display: block;
+                    line-height: 15px;
+                    font-size: 12px;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+}

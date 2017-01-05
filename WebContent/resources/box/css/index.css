@@ -1,0 +1,100 @@
+@charset "utf-8";
+
+.nav-item-content{ float:left;width:980px;height:120;margin-top:10px;}
+.nav-item-content ul{ float:left;width:980px;height:120px;}
+.nav-item-content ul li{ float:left;width:318px;height:118px; background:#fff; border:#e4e4e4 1px solid;}
+.nav-item-content ul li:hover{ background:#e4e4e4;}
+.nav-item-content ul li a{ float:left;width:auto;height:80px;line-height:25px; text-align:center;margin:20px 0 0 20px;; text-decoration:none;}
+
+.nav-item-content2{ float:left;width:978px;height:100px;margin-top:10px;background:#fff; border:#e4e4e4 1px solid;}
+.nav-item-content2 ul{ width:820px;height:100px; margin:0 auto;}
+.nav-item-content2 ul li{ float:left;width:60px;height:60px; padding:10px 5px; margin:10px 5px 0 5px; text-align:center;border:#fff 1px solid;}
+.nav-item-content2 ul li:hover{background:#fff;border:#e4e4e4 1px solid; background:#e4e4e4;}
+.nav-item-content2 ul li a{ float:left;width:100%;height:100%; color:#000; text-decoration:none;}
+
+
+.login-banner{margin-top:20px;position:relative;width:100%;min-width:980px;height:350px;}
+.login-banner-imgs{width:100%;min-width:980px;overflow:hidden;}
+.login-banner-imgs li{position:absolute;top:0;left:0;right:0;z-index:0;}
+.login-banner-imgs li img{height:350px;text-align:center;}
+.login-banner-imgs li a{width:100%;height:100%;display:block;}
+.banner-img{width:980px;height:350px; margin:0 auto; }
+.banner-img img{float:left; margin-right:20px;}
+.login-box{position:absolute;width:980px;height:0;left:50%;margin-left:-490px;z-index:10;}
+.login-box-main{position:absolute;right:20px;top:30px;width:280px;height:300px;}
+.login-box-top{width:290px;height:40px;background:#f00;border: 1px solid #f00;}
+.login-box-top a{position:absolute;right:10px; height:40px;top:0;line-height:40px;color:#fff;text-decoration:underline;}
+.login-box-center{width:280px;height:240px;background:#fff;border: 1px solid #f1f1f1;border-top:0;}
+#pwdPlaceholder{float:left;width:211px;height:35px;margin-left:15px;margin-top:10px;padding-left:35px;background:url(../images/password.png) no-repeat;border:#e4e4e4 1px solid;line-height:35px;}
+.username{float:left;width:211px;height:35px;margin-left:15px;margin-top:10px;padding-left:35px;background:url(../images/username.png) no-repeat;border:#e4e4e4 1px solid; line-height:35px;}
+.userpassword{float:left;width:211px;height:35px;margin-left:15px;margin-top:10px;padding-left:35px;background:url(../images/password.png) no-repeat;border:#e4e4e4 1px solid;line-height:35px;}
+.login-button{float:left;width:250px;height:35px;margin-left:15px;margin-top:25px;background:#f00;text-align:center;line-height:35px; color:#FFF;border:none;}
+.login-button:hover{background:#ef0404;}
+.login-button a{float:left;width:250px;height:35px;color:#fff;text-decoration:none;}
+.check-code{float:right;width:96px;height:39px;margin-right:25px;margin-top:10px;background:#fff;}
+.check-code-input{float:left;width:96px;height:35px; padding-left:10px;margin-left:15px;margin-top:10px;border:#e4e4e4 1px solid; line-height:35px;}
+.forget{float:left;width:125px;_width:120px;height:35px;margin-left:15px;margin-top:0px;line-height:35px; color:#b3b3b3;}
+.forget a{ color:#b3b3b3;}
+.login-box-center2{width:290px;height:250px;background:#fff; }
+.remembername{position:absolute;top:188px;left:15px;}
+.remembername input{border:#e4e4e4 2px solid;}
+.h_banner_txt{
+	position:absolute;width:980px;height:0;left:50%;margin-left:-490px;
+bottom:10px;
+z-index: 999;
+}
+.h_banner_txt .num {
+position: absolute;
+bottom: 0px;
+left: 385px;
+z-index: 10;
+list-style: none;
+width: 250px;
+height: 25px;
+text-align: center;
+line-height: 25px;
+padding-left: 80px;
+}
+.h_banner_txt .num li {
+line-height: 15px;
+background: #eee;
+width: 15px;
+height: 15px;
+margin-right:5px;
+display: inline-block;
+list-style: none;
+cursor: pointer;
+float: left;
+}
+.h_banner_txt .num li.curr {
+line-height: 15px;
+background:#333;
+width: 15px;
+height: 15px;
+margin-right:5px;
+display: inline-block;
+list-style: none;
+cursor: pointer;
+}
+/*账户信息*/
+.account-info{width:260px;height:50px;margin-left:10px;border-bottom:solid 1px #f00;}
+.account-info a{color:#1faeff;}
+.account-name{float:left;width:auto;height:50px;line-height:60px;}
+.account-name p{ float:left;}
+.account-name a{width:136px;text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.real-name{ float:left;width:40px;text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+.account-identify{float:right;width:auto;height:35px; margin-right:10px;}
+.account-identify ul{float:left;}
+.account-identify ul li{float:left;width:16px;height:16px;text-align:center;margin-top:10px;margin-left:5px;}
+.account-balance{float:left;width:260px;height:40px;margin-left:10px;margin-top:10px;line-height:45px;}
+.account-balance p{float:left;}
+.account-operate{float:left;width:260px;height:40px;margin-left:10px;line-height:40px;}
+.transaction-records{float:left;width:260px;height:40px;}
+.transaction-records a{margin:0 10px; color:#1faeff;}
+.balance-operate{float:left;width:260px;height:40px; margin-top:10px;}
+.balance-operate a{ width:93px;}
+
+
+.login-box-center label{width: 10px; float: left; margin-top: 7px; margin-left: 5px; color:#cb0007;}
+
+

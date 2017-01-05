@@ -1,0 +1,446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="baidu-site-verification" content="7EKp4TWRZT" />
+	<title> 找汽配 </title>
+		<meta name="keywords" content="找汽配" />
+		<meta name="description" content="找汽配" />
+<link rel="shortcut icon" href="/zqp/resources/b2b/images/v2.0/favicon.ico" />
+<link href="/zqp/resources/b2b/css/v2.0/common.css" type="text/css" rel="stylesheet" />
+<link href="/zqp/resources/b2b/css/v2.0/index.css" type="text/css" rel="stylesheet" />
+
+<script src="/zqp/resources/b2b/js/v2.0/change_img.js"></script>
+<script src="/zqp/resources/b2b/js/v2.0/jquery_hdp.js"></script>
+<script src="/zqp/resources/b2b/js/v2.0/hdp.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/jquery.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/banner.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/jsbn.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/prng4.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/rng.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/rsa.js"></script>
+<script type="text/javascript" src="/zqp/resources/common/js/base64.js"></script>
+<script type="text/javascript" src="/zqp/resources/b2b/js/v2.0/index.js"></script>
+<script type="text/javascript" src="/zqp/resources/b2b/js/common.js"></script>
+<script type="text/javascript" src="/zqp/resources/data/data.js"></script>
+<!--[if lt IE 9]><script src="/zqp/resources/common/js/html5.js"></script><![endif]-->
+<script type="text/javascript" src="/zqp/resources/b2b/js/v2.0/search.js"></script>
+
+
+<script type="text/javascript">
+$(function(){
+	//检测是否IE浏览器
+	if (navigator.appName == "Microsoft Internet Explorer")
+	{
+		var $ie_b_version=navigator.appVersion;
+		
+		var $ie_version=$ie_b_version.split(";");
+		
+		var $ie_trim_Version=$ie_version[1].replace(/[ ]/g,"");
+	
+		if($ie_trim_Version=="MSIE6.0" || $ie_trim_Version == "MSIE7.0" || $ie_trim_Version ==  "MSIE8.0" || $ie_trim_Version ==  "MSIE9.0")
+		{
+		
+			$(".ie_browser_box").show();
+		
+		}else {
+			$(".ie_browser_box").remove();
+		}
+	}
+	
+	var host2=location.host;
+	$.ajax({
+		url : "/b2b/index/checkshop.jhtml?recurl="+host2,
+		type:"get",
+		dataType:"json",
+		success:function(message){
+			if (message.type == "success") {
+				location.href = message.content;
+			}
+		}
+
+	});
+	
+	var $loginForm = $("#loginForm");
+	var $username = $("#username");
+	var $login_bg = $("#login_bg");
+	var $nickName = $("#nickName");
+	var $password = $("#inputPass");
+	var $isRememberUsername = $("#isRememberUsername");
+	var $submit = $(":submit");
+	var $memberCenter = $("#memberCenter");
+	var $logout = $("#logout");
+	var username = getCookie("username");
+	// 记住用户名
+	if (getCookie("memberUsername") != null) {
+		$isRememberUsername.prop("checked", true);
+		$username.val(getCookie("memberUsername"));
+		$password.focus();
+	} else {
+		$isRememberUsername.prop("checked", false);
+		$username.focus();
+	}
+ 	if (username != null) {
+		 $nickName.text(username);
+		 $memberCenter.show();
+		 $logout.show();
+		 $login_bg.hide();
+	} else {
+	     $nickName.text("");
+	     $memberCenter.hide();
+		 $logout.hide();
+		 $login_bg.show();
+	}
+	$('input, textarea').placeholder();
+	
+	//输入框改变字体颜色
+	$(".search_input").keydown(function(){
+		if ($(this).val() != $(this).attr("placeholder"))
+		{
+			$(this).css("color","#000");
+		}
+	});
+	// 表单验证、记住用户名
+	$loginForm.validate({
+		rules: {
+			username: "required",
+			password: "required"
+		},
+		messages: {
+			username: {
+				required: ""
+			},
+			password: {
+				required: "",
+				pattern: ""
+			}
+		},
+		submitHandler: function(form) {
+			$.ajax({
+				url: "/zqp/common/public_key.jhtml",
+				type: "POST",
+				data : {local:true},
+				dataType: "json",
+				cache: false,
+				beforeSend: function() {
+					$submit.prop("disabled", true);
+				},
+				success: function(data) {
+					var rsaKey = new RSAKey();
+					rsaKey.setPublic(b64tohex(data.modulus), b64tohex(data.exponent));
+					var enPassword = hex2b64(rsaKey.encrypt($password.val()));
+					$.ajax({
+						url: $loginForm.attr("action"),
+						type: "POST",
+						data: {
+							username: $username.val(),
+							enPassword: enPassword
+						},
+						dataType: "json",
+						cache: false,
+						success: function(message) {
+							if ($isRememberUsername.prop("checked")) {
+								addCookie("memberUsername", $username.val(), {expires: 7 * 24 * 60 * 60});
+							} else {
+								removeCookie("memberUsername");
+							}
+							$submit.prop("disabled", false);
+							if (message.type == "success") {
+								$.message("success", "登录成功！正在为您跳转....");
+							    setTimeout(function(){
+										location.href = "/zqp/b2b/member/index.jhtml";
+			                   },1500);
+							} else {
+								var mess = message.content;
+								alert(message.type);
+								if(message.type == 'warn'){
+									alert(123);
+									$.message(message);
+								}else{
+									$(".error").html("*"+mess);
+								}
+							}
+						}
+					});
+				}
+			});
+		}
+	});
+	
+	function jumpSearchBrand(id,name)
+	{
+		//ie浏览器清除默认value值
+		if (navigator.userAgent.indexOf('MSIE') >= 0)
+		{
+			if ($("#"+id).val() == name)
+			{
+				$("#"+id).val("");
+			}
+		}
+	}
+	$(".prodUl li").click(function(){
+	     $("#product").val("");
+		 $("#product").css("color","#999");
+	     $("#tenant").val("");
+		 $("#tenant").css("color","#999");
+	     $("#brandName").text("选择车型");	
+		 $("#brandId").val("");
+	});
+	 
+	// 商品搜索 
+	$("#product_submit").click(function() {   
+		jumpSearchBrand("product","请输入商品名称、件号、分类或适用车型等");
+		var $method =$("#methodType").val();
+		location.href = "/zqp/b2b/product/list.jhtml?keyword="+$("#product").val()+"&brandId="+$("#brandId").val()+"&method="+$method;
+	});
+	$("#product").keydown(function(ev){
+		if (ev.keyCode == 13)
+		{
+			var $method =$("#methodType").val();
+			location.href = "/zqp/b2b/product/list.jhtml?keyword="+$("#product").val()+"&brandId="+$("#brandId").val()+"&method="+$method;	
+		};
+	});
+	// 商家搜索 
+	$("#tenant_submit").click(function() {
+		jumpSearchBrand("tenant","请输入商家名称、所在地或主营范围等");
+		location.href = "/zqp/b2b/tenant/list.jhtml?keyword="+$("#tenant").val()+"&brandId="+$("#brandId").val();
+	});
+	$("#tenant").keydown(function(ev){
+		if (ev.keyCode == 13)
+		{
+			location.href = "/zqp/b2b/tenant/list.jhtml?keyword="+$("#tenant").val()+"&brandId="+$("#brandId").val();
+		};
+	});
+	
+	var locationTimeout;
+
+	//获取购物车数量方法
+	function lbs(){
+		clearTimeout(locationTimeout);
+		$.ajax({
+			url : "/zqp/ajax/lbs/location.jhtml?force=true",
+			type:"get",
+			dataType:"json",
+			success:function(data){
+			}
+		});
+	};
+    locationTimeout = setTimeout(function() {
+							lbs();
+						}, 500);
+	
+	
+	var cartTimeout;
+
+	//获取购物车数量方法
+	function getCartCount(){
+		clearTimeout(cartTimeout);
+		$.ajax({
+			url : "/zqp/b2b/cart/get_cart_count.jhtml",
+			type:"get",
+			dataType:"json",
+			success:function(data){
+				//if(data.count>0){
+					$("#navTopZone_CartSum").each(function(){
+                        $(this).text('('+data.count+')');
+                    });
+					$("#navTopZone_CartSum_header").each(function(){
+                        $(this).text(data.count);
+                    });
+				//}
+			}
+		});
+	};
+    cartTimeout = setTimeout(function() {
+		getCartCount();
+	}, 500);
+	//友情链接
+	initfriendlinks();
+	var $friendlinkes = $("#friendlinkes");
+	for (var i=0;i<friendlinkes.length;i++)
+	{
+		$friendlinkes.append("<dd><a target='_brank' title='"+friendlinkes[i].name+"' href='"+friendlinkes[i].link+"' >"+friendlinkes[i].name+"</a></dd>");
+	}
+	
+});
+</script>
+
+</head>
+<body>
+<input type="hidden" id="methodType" name="methodType" value="" />
+  <!--IE浏览器提示更新start-->
+<div class="ie_browser_box">
+  <div class="ie_browser"><b onclick="$('.ie_browser_box').remove()" title="关闭">×</b>您的浏览器版本过低！为了您更好的体验《找汽配》，请您<a title="点击升级IE浏览器" href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie" target="_brank">升级IE浏览器</a>或者点击下载<a title="点击升级UC浏览器" href="http://www.uc.cn/" target="_brank">UC浏览器</a>或<a title="点击升级谷歌浏览器" href="http://www.google.cn/intl/zh-CN/chrome/browser/desktop/index.html" target="_brank">谷歌浏览器</a>！</div>
+</div>
+  <!--IE浏览器提示更新end-->
+  <!--头部开始-->
+   <div class="center">
+      <a href="/zqp/b2b/index.jhtml"><img alt="找汽配" src="/zqp/resources/b2b/images/v2.0/login_logo.png" class="f_left"/></a>
+      <div class="top f_right"><!--您好！<span id="nickName">，</span>欢迎来到找汽配 <a id="logout" href="/zqp/b2b/logout.jhtml">[注销]</a> | <a href="/zqp/b2b/index.html">首页</a> | <a href="/zqp/b2b/member/index.jhtml">个人中心</a> | <a href="/zqp/b2b/cart/list.jhtml">购物车<span id="navTopZone_CartSum">(0)</span></a> | <a href="javascript:shoucang('找汽配','http://www.zhaoqipei.com')" id="setfavorite">加入收藏</a>
+			              | <a href="/zqp//www/index.html"  target="_blank">软件下载</a>
+			        -->
+      </div>
+    </div>
+<!--banner开始-->	
+    <div class="clear login_index_div">
+	  <form id="loginForm" action="/zqp/b2b/login/submit.jhtml" method="post">
+       <div class="js" id="js" >
+            <!--登陆框开始-->	
+            <div class="login_bg" id="login_bg">
+            	<h1><a href="">登录</a></h1><h1><a href="/zqp/b2b/register.jhtml" class="zc_bg">快速注册</a></h1>
+                <input type="text"  name="username" id="username" placeholder="请输入手机号" class="input_bg1"/>
+                <input type="password" class="input_bg2 login_password" placeholder="请输入密码" name="password" id="inputPass"/>
+                <div class="error" id="error"></div>
+                <div class="input_bg3 f_left"><input type="checkbox" id="isRememberUsername" name="isRememberUsername" class="f_left"/><span>记住账户</span><a href="/zqp/b2b/password/find.jhtml" class="a_bg">忘记密码</a></div>
+                <input type="submit" value="登 录" class="btn_bg1"/>
+            </div>
+            
+            <!--图片滚动开始-->	
+            <a href="http://www.zhaoqipei.com/b2b/article/content/979.jhtml" target="_blank"><img  alt="找汽配活动返现"  src="/zqp/resources/b2b/images/v2.0/banner3.jpg" /></a>
+            <a href="javascript:;"><img  alt="汽车配件免费开店" style="display: none" src="/zqp/resources/b2b/images/v2.0/banner2.jpg"></a>
+            <a href="javascript:;"><img  alt="找汽配平台上线" style="display: none" src="/zqp/resources/b2b/images/v2.0/banner1.jpg"></a>
+            <a href="javascript:;"><img  alt="找汽配合作银行" style="display: none" src="/zqp/resources/b2b/images/v2.0/banner4.jpg"></a>
+            <a href="javascript:;"><img  alt="小祥快运同城配送" style="display: none" src="/zqp/resources/b2b/images/v2.0/banner5.jpg"></a>
+            <div class="jsNav" id="jsNav">
+                <A class="trigger imgSelected" href="javascript:void(0)"><img  alt="找汽配" src="/zqp/resources/b2b/images/v2.0/ico_bg1_a.png" /></A>
+                <A class="trigger" href="javascript:void(0)"><img  alt="找汽配" src="/zqp/resources/b2b/images/v2.0/ico_bg1_a.png" /></A>
+                <A class="trigger" href="javascript:void(0)"><img  alt="找汽配" src="/zqp/resources/b2b/images/v2.0/ico_bg1_a.png" /></A>
+                <A class="trigger" href="javascript:void(0)"><img  alt="找汽配" src="/zqp/resources/b2b/images/v2.0/ico_bg1_a.png" /></A>
+                <A class="trigger" href="javascript:void(0)"><img  alt="找汽配" src="/zqp/resources/b2b/images/v2.0/ico_bg1_a.png" /></A>
+            </div>
+       </div>
+	 </form>  
+    </div>
+<!--search开始-->	
+    <div class=" clear center search">
+         <!--search左边开始-->	 
+        <div class="search_bg1 f_left">
+			<input type="hidden" id="brandId" name="brandId"  value=""/>
+			<h3 class="btn_bg2" id="brandName" onClick="tabLayer('contentid','block',this)">选择车型</h3>
+         </div>
+         <!--search右边开始-->	 
+        <div class="search_bg2 su_top f_left ">
+            <!--search右上开始-->	 
+            <ul class="prodUl">
+                <li class="cur"><a href="javascript:;" >找商品</a></li>
+                <li ><a href="javascript:;">找商家</a></li>
+            </ul>
+            <!--<div class="search_tip"><a href="/zqp/b2b/product/list.jhtml" id="total">0个配件等您选购</a></div>-->
+            
+            <!--search右下开始-->	 
+            <div class="clear"></div>
+               <div class="showSearchDiv">
+					<input type="text" placeholder="请输入商品名称、件号、分类或适用车型等" value="" id="product" name="product" class="search_input" />
+					<input type="button" value="找一下" id="product_submit" class="btn_ss f_left" />
+			   </div>
+               <div class="showSearchDiv" style="display:none;">
+					<input type="text"  placeholder="请输入商家名称、所在地或主营范围等" value="" id="tenant" class="search_input" />
+					<input type="button" value="找一下" id="tenant_submit" class="btn_ss f_left" />
+			   </div>
+        </div>
+    </div>
+	<!--助手下载开始-->	 
+    <div class="clear center">
+		<dl class="new_login_index_dl">
+			<dt>
+				<img  class="zqp_helper" alt="配助手" title="配助手" src="/zqp/resources/b2b/images/v2.0/logo_bg2.jpg"/>
+				<div>
+					<strong>配助手</strong>
+					<p>为汽配人量身定制<br>线上线下无缝对接</p>
+				</div>
+				<span class="new_login_line"></span>
+			</dt>
+			<dd>
+				<img class="zqp_will" alt="基础功能终身免费,实力开发持续升级" title="基础功能终身免费,实力开发持续升级" src="/zqp/resources/b2b/images/v2.0/login_rx_incon.png"/>
+				<div>
+					<p>基础功能终身免费<br>实力开发持续升级</p>
+					<a href="/zqp/b2b/helper.jhtml">了解详情</a>
+				</div>
+			</dd>
+		</dl>
+    </div>
+	<!--底部信息开始-->
+	<div class="clear center">
+		<ul class="new_login_index_ul">
+			<li>
+				<img alt="开店零成本" title="开店零成本" src="/zqp/resources/b2b/images/v2.0/pic_bg1.png" />
+				<strong>开店零成本</strong>
+				<p>无押金不收会员费<br>销售价格分级可见</p>
+			</li>
+			<li>
+				<img alt="备货不花钱" title="备货不花钱" src="/zqp/resources/b2b/images/v2.0/pic_bg2.png" />
+				<strong>备货不花钱</strong>
+				<p>特别定制汽配云仓<br>自定义我的汽配圈</p>
+			</li>
+			<li>
+				<img alt="管理有助手" title="管理有助手" src="/zqp/resources/b2b/images/v2.0/pic_bg3.png" />
+				<strong>管理有助手</strong>
+				<p>线上线下统一管理<br>基础功能终身免费</p>
+			</li>
+			<li>
+				<img alt="买卖无边界" title="买卖无边界" src="/zqp/resources/b2b/images/v2.0/pic_bg4.png" />
+				<strong>买卖无边界</strong>
+				<p>全品类全区域覆盖<br>支持多种结算方式</p>
+			</li>
+		</ul>
+		<dl id="friendlinkes">
+			<dt>友情链接：</dt>
+		</dl>
+	</div>
+	
+﻿	<!-- footer start -->	
+	<div class="center clear footer">
+	   <!--
+		<p>客服电话：400-086-7676&nbsp;&nbsp;&nbsp;&nbsp;Copyright<span>&copy</span> 2013-2015&nbsp;&nbsp;找汽配&nbsp;&nbsp;南京祥运电子商务股份有限公司&nbsp;版权所有; 闽ICP备07049452号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://m.kuaidi100.com" target="_blank" class="queryExpress">快递查询</a> <a class="queryExpress" href="/sitemap.xml" target="_blank">站点地图</a><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256589108'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1256589108%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></p>
+		<p><a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">苏ICP备15001299-2</a> &nbsp;&nbsp;&nbsp;&nbsp;<span>增值电信业务经营许可证：<a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">苏B1.B2-20150147</a></span> </p>
+		-->
+		
+		<p>客服电话：400-086-7676&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.zhaoqipei.com/b2b/about.html" style="color:#fff;">关于我们</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.zhaoqipei.com/b2b/contact.html" style="color:#fff;">联系我们</a>&nbsp;&nbsp;&nbsp;&nbsp;Copyright<span>&copy</span> 2013-2015&nbsp;&nbsp;找汽配&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://m.kuaidi100.com" target="_blank" class="queryExpress">快递查询</a> <a class="queryExpress" href="/sitemap.xml" target="_blank">站点地图</a><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256589108'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1256589108%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script></p>
+		<p>南京祥运电子商务股份有限公司&nbsp;&nbsp;版权所有;<a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">苏ICP备15001299-2</a> &nbsp;&nbsp;&nbsp;&nbsp;<span>增值电信业务经营许可证：<a href="http://www.miitbeian.gov.cn" target="_blank" class="queryExpress">苏B1.B2-20150147</a></span> </p>
+	</div> 
+	<!-- footer end -->	
+<script>
+$(function(){
+	$("a[title='站长统计']").children("img").attr("src",$("a[title='站长统计']").children("img").attr("original"));
+})
+</script>
+	<!-- 客服与购物车的浮动层start -->
+	 
+	<div class="float_car_div">
+		<a href="/zqp/b2b/cart/list.jhtml" class="float_car_btn">购物车</a>
+		<a href="http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzkzODAxMTQwM18zMTA0NDFfNDAwMDg2NzY3Nl8yXw" target="_blank" class="float_service_btn">客服</a>
+		<a href="#" class="float_return_btn">回到<br />顶部</a>
+	</div>
+	
+	 
+	<style>.float_car_div { display:none;}</style>
+	
+   <!--车型选择开始--> 
+   <div id="layer_div"></div>
+   <div class="clear car_bg" id="contentid">
+    	<div class="car_title">
+        	<h1>选择车型</h1>
+            <input type="button"  value="" onClick="tabLayer('contentid','none')" class="gb"/>
+			<input type="button" onclick="deleteAllBrand()" value="全部品牌" class="btn_bg5" /> 
+        </div>
+		<div class="brand_btn_div" id="brand_panel"> 
+			<input type="button" brandid="0" onClick="getBrandTags(this)" value="乘用车" class="btn_bg4 btn_bg3 f_left clear" />  
+        	<input type="button" brandid="0" onClick="getBrandTags(this)" value="商用车" class="btn_bg4 f_left" /> 
+		</div>  
+        <div class="clear car_box" id="brandPanel">
+            <!--车型选择tab开始--> 
+            <div class="su_top2">
+            	<ul id="TabBrandBtn">
+                  
+               </ul>
+            </div>
+            <div id="TabBrandDiv">
+            </div>
+        </div>
+   </div>
+   <!--车型选择结束--> 
+
+	</body>
+</html>

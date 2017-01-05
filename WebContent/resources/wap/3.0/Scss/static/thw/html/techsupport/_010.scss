@@ -1,0 +1,33 @@
+/// namespace: STC-TS-10
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\010.html*/
+$page_ns: "STC-TS-10";
+
+//style here
+//技术支持010页面
+
+.multi_store {
+    &.STC-TS-5 {
+        &.STC-TS-8 {
+            &.STC-TS-10 {
+                //页面banner图
+                .adv_banner {
+                    height: dimension-to-vw(320px);
+                }
+
+                //一店变多店优点
+                .adv-1 {
+                    margin: dimension-to-vw(100px) 0 0 dimension-to-vw(130px);
+
+                    .icon {
+                        width: dimension-to-vw(40px);
+                    }
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

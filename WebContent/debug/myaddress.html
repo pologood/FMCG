@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>我的地址</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_myaddress">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    
+<div class="chooseWidget weui-tab__panel" style="width:100%;background: #FFFFFF;position: fixed;z-index: 1000;display: none;">
+</div>
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel pageable" style="background: #e9e9e9;">
+                <div class="user_address addmy"></div>
+            </div>
+
+        </div>
+        <div class="user_address">
+            <div class="add_address weui-btn-area">
+                <a class="weui-btn btn-default" href="javascript:">+添加新地址</a>
+            </div>
+        </div>
+        <div class="myaddressadd" style="position:absolute;top:0;  display: none; background: #f8f8f8; height: 100%; width:100%;">
+            <div class="weui-cells weui-cells_form" style="margin-top:0">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f14"><label class="weui-label">收货人</label></div>
+                    <div class="weui-cell__bd f14">
+                        <input class="weui-input" type="text" placeholder="请输入收货姓名" id="consignee"/>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f14"><label class="weui-label">联系方式</label></div>
+                    <div class="weui-cell__bd f14">
+                        <input class="weui-input" type="tel" pattern="[0-9]*" placeholder="请输入收货电话号" id="phone"/>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell" id="changeArea" >
+                    <div class="weui-cell__hd f14"><label class="weui-label">所在地区</label></div>
+                    <div class="weui-cell__bd f14">
+                        <span id="myarea"></span>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i class="icon iconfont icon-right-01"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f14"><label class="weui-label">详细地址</label></div>
+                    <div class="weui-cell__bd f14">
+                        <input class="weui-input" type="text" placeholder="请输入详细地址" id="address"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-btn-area" id="changead" style="position: fixed; bottom: 0; left: 0;">
+                <a class="weui-btn btn-default" href="javascript:" id="showTooltips" style="background:#fc560b;">保存</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>
+<script type="text/html" id="tpl_address">
+
+<!--获取我的地址模板-->
+
+{{#each this}}
+<div class="weui-cells weui-cells_radio weui-cells_checkbox" ad-id={{id}}>
+    <div class="address_item">
+        <p class="f14"><span>{{consignee}}</span><span>{{phone}}</span></p>
+        <p class="f14" area-id={{area.id}}>{{area.fullName}}{{address}}</p>
+    </div>
+    <label class="weui-cell weui-check__label" for='x{{id}}'>
+        <div class="weui-cell__ft f14">
+
+            {{#if isDefault}}
+            {{#compare isDefault '==' true}}
+            <input type="radio" class="weui-check ifcheck" name="radio1" id='x{{id}}' checked>
+            {{/compare}}
+            {{#compare credit '==' false}}
+            <input type="radio" class="weui-check ifcheck" name="radio1" id='x{{id}}'>
+            {{/compare}}
+            {{/if}}
+            <i class="weui-icon-checked"></i>
+        </div>
+        <div class="weui-cell__bd">
+            <p class="f12">默认地址</p>
+        </div>
+    </label>
+    <p class="edit f12"><span class="editad"><i class="icon iconfont icon-editor-01"></i>编辑</span><span class="deletead"><i class="icon iconfont icon-delete-01"></i>删除</span></p>
+
+</div>
+{{/each}}
+
+<script>
+    $(function(){
+        //删除收货地址
+        $(".deletead").click(function(){
+            var ad_id=$(this).parent().parent().attr('ad-id');
+
+            dialog.query("您确认删除该地址吗？",function () {
+                var re=new receiver(function(data){
+                    console.log(data);
+                    toast.show("删除成功");
+                    setTimeout(function () {
+                        location.reload();
+                    },500);
+                });
+                re.delete({id:ad_id});
+            });
+        });
+
+
+        //设为默认地址
+        $("label").click(function(){
+            var ad_id=$(this).parent().attr('ad-id');
+            var re=new receiver(function(data){
+                console.log(data);
+                toast.show("设置成功");
+                setTimeout(function () {
+                    location.reload();
+                },200);
+            });
+            re.setDefault({id:ad_id});
+        });
+
+
+        var ad_id;
+        //点击编辑地址
+        $(".editad").click(function(){
+            ad_id=$(this).parent().parent().attr('ad-id');
+            var re=new receiver(function(data){
+                console.log(data.area.id);
+                $("#consignee").val(data.consignee);
+                $("#myarea").html(data.area.fullName);
+                $("#myarea").attr('area-id',data.area.id)
+                $("#address").val(data.address);
+                $("#phone").val(data.phone);
+            });
+            re.view({id:ad_id});
+            $('.myaddressadd').css("display","block");
+        });
+
+
+        //保存修改好的地址
+        $("#changead").click(function(){
+            var area_id=$("#myarea").attr('area-id');
+            var consignee=$("#consignee").val();
+            var address=$("#address").val();
+            var phone=$("#phone").val();
+            var re=new receiver(function(data){
+                console.log(data);
+                toast.show("修改成功");
+                setTimeout(function () {
+                    $('.myaddressadd').css("display","none");
+                    location.reload();
+                },1000);
+            });
+            re.update({id:ad_id,areaId:area_id,consignee:consignee,address:address,phone:phone});
+        });
+
+
+
+    });
+</script>
+</script>
+
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        pageManager.show("myaddress");
+
+        $("#changeArea").click(function () {
+            choose.area();
+            choose.callBack=function (area) {
+                $("#myarea").text(area.fullName);
+                $("#myarea").attr('area-id',area.id); //绑定区域id
+            };
+        });
+
+        $('.add_address').click(function(){
+            window.location.href="myaddressadd.html";
+        });
+
+        //读取地址列表
+        var td = new receiver(function (data) {
+            var h = render.fill($("#tpl_address"),data);
+            $(".pageable .addmy").append(h);
+        });
+        td.list({pageNumber:1});
+
+
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
+
+

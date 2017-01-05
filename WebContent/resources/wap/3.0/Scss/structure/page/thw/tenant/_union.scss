@@ -1,0 +1,125 @@
+/// namespace: TT-UN
+/* >>tenant\union.ftl*/
+$page_ns: "TT-UN";
+
+.box1 {
+    &.#{$page_ns} {
+        background-color: #fff;
+        margin-bottom: 10px;
+        font-family: "微软雅黑";
+
+        //主体
+        @at-root .box1-s1 {
+            &.#{$page_ns} {
+                padding-top: 10px;
+                padding-bottom: 5px;
+                color: #999;
+
+                .weui_cell_hd {
+                    img {
+                        width: 16vw;
+                        height: 16vw;
+                        border-radius: 50%;
+
+                        //margin-right: 0.5em;
+                   
+                    }
+                }
+
+                .weui_cell_bd {
+                    padding-left: 0.5em;
+
+                    @at-root .box1-s1-sec1 {
+                        @include flexbox;
+
+                        @include align-items(flex-start);
+
+                        b {
+                            @include flex;
+
+                            font-weight: normal;
+                            color: #333;
+                            line-height: 1.2;
+                        }
+
+                        span {
+                            display: block;
+                            position: relative;
+                            font-size: 1em;
+                            padding: 0 0.2em 0 0.8em;
+
+                            &:before {
+                                @include dividingline(left, #eee);
+
+                                height: 80%;
+                                top: 10%;
+                            }
+                        }
+                    }
+
+                    @at-root .box1-s1-sec2 {
+                        @include flexbox;
+
+                        @include align-items(flex-start);
+
+                        line-height: 1.2;
+                        color: #777;
+
+                        span {
+                            &:nth-child(1) {
+                                @include flex;
+                            }
+
+                            &:nth-child(2) {
+                                font-size: 0.8em;
+                                color: #999;
+                            }
+
+                            i {
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+
+                    @at-root .box1-s1-sec3 {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+
+        //七天退货 担保交易
+        @at-root .box1-s2 {
+            &.#{$page_ns} {
+                position: relative;
+                line-height: 2;
+
+                i.blank {
+                    display: inline-block;
+                    visibility: hidden;
+                    width: 16vw;
+                    margin-right: 0.5em;
+                }
+
+                & > span {
+                    padding-right: 0.8em;
+                    font-size: 0.857em;
+
+                    i {
+                        font-size: 1.166em;
+                        vertical-align: middle;
+                    }
+                }
+
+                //上分割线
+                &:before {
+                    @include dividingline(top, #eee);
+                }
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<tenant\union.ftl*/

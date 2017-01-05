@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>实名认证</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_certification">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            
+
+<!--BEGIN certification-->
+<div class="certification">
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd f14"><label class="weui-label">姓名</label></div>
+            <div class="weui-cell__bd weui-cell_primary f14">
+                <input class="weui-input" type="tel" placeholder="真实姓名" id="name">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd f14"><label class="weui-label">身份证</label></div>
+            <div class="weui-cell__bd weui-cell_primary f14">
+                <input class="weui-input" type="tel" placeholder="请输入15或18位身份证号码" id="idcard">
+            </div>
+        </div>
+    </div>
+    <p class="f12" style="padding-top: 10vw">点击图片上传身份证正面照</p>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_warn">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <div class="item-charter-wrap">
+                        <div class="form-item">
+                            <img src="images/static/sfz1.png" id="img1" style="display: block; width: 112px; height: 80px;">
+                            <form id="idform1" enctype ="multipart/form-data">
+                                <input type="file" class="upload_img" name="file" id="idcard1" style="padding:8vw 0;position: absolute;top:3vw;opacity:0" onchange="getFullPath()">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell__bd f12">
+                    <p>1.要求全部信息无遮挡</p>
+                    <p>2.证件上文字清晰可识别</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p class="f12">点击图片上传身份证反面照</p>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_warn">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <div class="item-charter-wrap">
+                        <div class="form-item">
+                            <img src="images/static/sfz2.png" id="img2" style="display: block; width: 112px; height: 80px;">
+                            <form id="idform2" enctype ="multipart/form-data">
+                                <input type="file" class="upload_img" name="file" id="idcard2" style="padding:8vw 0;position: absolute;top:3vw;opacity:0" onchange="getFullPath2()">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell__bd f12">
+                    <p>1.要求全部信息无遮挡</p>
+                    <p>2.证件上文字清晰可识别</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="my_btn">
+    <div class="weui-btn-area">
+        <a class="weui-btn btn-default" href="javascript:" style="background: #dc1d29" id="sendcerti">提交</a>
+    </div>
+</div>
+
+
+
+</div>
+<!--END certification-->
+<script type="text/javascript">
+
+    //正面图片预览方法
+    function getFullPath() {
+        var file=document.getElementById('idcard1');
+        var fileList = file.files;
+        var img=document.getElementById("img1");
+        for(var i=0;i<fileList.length;i++){
+            if(file.files[0]){
+                img.style.display = 'block';
+                img.style.width = '112px';
+                img.style.height = '80px';
+                if (window.createObjectURL!=undefined) { // basic
+                    img.src = window.createObjectURL(file.files[0]);
+                } else if (window.URL!=undefined) { // mozilla(firefox)
+                    img.src = window.URL.createObjectURL(file.files[0]);
+                } else if (window.webkitURL!=undefined) { // webkit or chrome
+                    img.src = window.webkitURL.createObjectURL(file.files[0]);
+                }
+            }
+            var f_i= new FormData();
+            f_i.append("file",fileList[i])
+        }
+    }
+
+    //反面图片预览方法
+    function getFullPath2() {
+        var file=document.getElementById('idcard2');
+        var fileList = file.files;
+        var img=document.getElementById("img2");
+        for(var i=0;i<fileList.length;i++){
+            if(file.files[0]){
+                img.style.display = 'block';
+                img.style.width = '112px';
+                img.style.height = '80px';
+                if (window.createObjectURL!=undefined) { // basic
+                    img.src = window.createObjectURL(file.files[0]);
+                } else if (window.URL!=undefined) { // mozilla(firefox)
+                    img.src = window.URL.createObjectURL(file.files[0]);
+                } else if (window.webkitURL!=undefined) { // webkit or chrome
+                    img.src = window.webkitURL.createObjectURL(file.files[0]);
+                }
+            }
+            var f_i= new FormData();
+            f_i.append("file",fileList[i])
+        }
+    }
+</script>
+
+        </div>
+    </div>
+
+</div>
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("certification");
+
+        var img1src;
+        var img2src;
+
+
+        $("#idcard1").change(function () {
+            var fl = new file(function (data) {
+                img1src=data;
+            });
+            fl.uploadImage(new FormData($("#idform1")[0]));
+        });
+
+        $("#idcard2").change(function () {
+            var fl = new file(function (data) {
+                img2src=data;
+            });
+            fl.uploadImage(new FormData($("#idform2")[0]));
+        });
+
+        $("#sendcerti").click(function(){
+            var name=$("#name").val();
+            var idcard=$("#idcard").val();
+            var me=new member(function(data){
+                console.log(data);
+            });
+            me.realNameAuthen({name:name,idcard:idcard,pathFront:img1src,pathBack:img2src});
+            
+        })
+
+
+    });
+
+
+
+</script>
+
+
+</body>
+</html>

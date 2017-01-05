@@ -1,0 +1,118 @@
+/// namespace: PDF
+/* >>product\_pfoot*/
+//pdbottombar
+.pdbottombar {
+    //font base:12px
+    $father_pdbottombar: #{&};
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: #fff;
+    height: pxToEm(50, 12);
+
+    & > div {
+        width: 50%;
+    }
+
+    div.table {
+        height: 100%;
+    }
+
+    div.table-row {
+        height: 100%;
+    }
+
+    div.table-cell {
+        vertical-align: middle;
+        text-align: center;
+        height: 100%;
+    }
+
+    ///pdbottombar-L
+    @at-root .pdbottombar-L {
+        $father_pdbottombar_L: #{&};
+
+        height: 100%;
+        border-top: 1px solid #dadada;
+
+        ///table-cell
+        div.table-cell {
+            width: 33.333%;
+
+            &:last-child {
+                a {
+                    border-right-width: 0;
+                }
+            }
+
+            a {
+                display: block;
+                border-right: 1px solid #dadada;
+
+                i.iconfont {
+                    font-size: pxToEm(15, 12);
+
+                    &.shoppingcar {
+                        position: relative;
+                        display: inline-block;
+
+                        @at-root #{$father_pdbottombar} {
+                            //数字提示
+                            .carnumtipR.one {
+                                position: absolute;
+                                top: 0;
+                                right: 0;
+                                font-size: pxToEm(7, 15);
+                                width: pxToEm(9, 7);
+                                height: pxToEm(9, 7);
+                                transform: translate(50%, -30%);
+                                line-height: pxToEm(9, 7);
+                                text-align: center;
+                                background-color: #ff0000;
+                                border-radius: 50%;
+                                color: #fff;
+                            }
+
+                            @include mq($min-device-width: 320px, $max-device-width: 568px, $-webkit-device-pixel-ratio: 2) {
+                                @at-root & .carnumtipR.one {
+                                    line-height: pxToEm(9, 7) - 0.1em;
+                                }
+                            }
+
+
+                            @include mq($min-device-width: 414px, $max-device-width: 736px, $-webkit-device-pixel-ratio: 3) {
+                                @at-root & .carnumtipR.one {
+                                    line-height: pxToEm(9, 7) + 0.1em;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @at-root .pdbottombar-R {
+        height: 100%;
+	    border-top: 1px solid #dadada;
+        a.table-cell {
+            font-size: pxToEm(15, 12);
+            vertical-align: middle;
+            text-align: center;
+            color: #fff;
+
+            &.R-it1 {
+                background-color: #fbb049;
+            }
+
+            &.R-it2 {
+                background-color: #fc0303;
+            }
+        }
+    }
+}
+
+/* >>product\_pfoot,end*/

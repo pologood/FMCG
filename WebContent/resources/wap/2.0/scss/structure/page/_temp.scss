@@ -1,0 +1,28 @@
+/// namespace:
+/* >>_tempstyle*/
+
+//source:weui-wht.css
+//for weui_positionscroller,begin
+@-webkit-keyframes bounceInRight { 0% { opacity: 0; -webkit-transform: translateX(2000px); transform: translateX(2000px); }
+  60% { opacity: 1; -webkit-transform: translateX(-30px); transform: translateX(-30px); }
+  80% { -webkit-transform: translateX(10px); transform: translateX(10px); }
+  100% { -webkit-transform: translateX(0); transform: translateX(0); } }
+@keyframes bounceInRight { 0% { opacity: 0; -webkit-transform: translateX(2000px); transform: translateX(2000px); }
+  60% { opacity: 1; -webkit-transform: translateX(-30px); transform: translateX(-30px); }
+  80% { -webkit-transform: translateX(10px); transform: translateX(10px); }
+  100% { -webkit-transform: translateX(0); transform: translateX(0); } }
+  
+@-webkit-keyframes bounceOutRight { 0% { -webkit-transform: translateX(0); transform: translateX(0); }
+  20% { opacity: 1; -webkit-transform: translateX(-20px); transform: translateX(-20px); }
+  100% { opacity: 0; -webkit-transform: translateX(2000px); transform: translateX(2000px); } }
+@keyframes bounceOutRight { 0% { -webkit-transform: translateX(0); transform: translateX(0); }
+  20% { opacity: 1; -webkit-transform: translateX(-20px); transform: translateX(-20px); }
+  100% { opacity: 0; -webkit-transform: translateX(2000px); transform: translateX(2000px); } }
+
+.weui_positionscroller { position: fixed; right: 10px; bottom: 10%; display: none; text-align: center; color: #666; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.weui_positionscroller i { font-size: 16px; }
+.weui_positionscroller.anm-out { -webkit-animation-name: bounceOutRight; animation-name: bounceOutRight; -webkit-animation-iteration-count: 1; animation-iteration-count: 1; -webkit-animation-duration: 1s; animation-duration: 1s; -webkit-animation-delay: 0s; animation-delay: 0s; -webkit-animation-timing-function: ease; animation-timing-function: ease; -webkit-animation-fill-mode: both; animation-fill-mode: both; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.weui_positionscroller.anm-in { -webkit-animation-name: bounceInRight; animation-name: bounceInRight; -webkit-animation-iteration-count: 1; animation-iteration-count: 1; -webkit-animation-duration: 1s; animation-duration: 1s; -webkit-animation-delay: 0s; animation-delay: 0s; -webkit-animation-timing-function: ease; animation-timing-function: ease; -webkit-animation-fill-mode: both; animation-fill-mode: both; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.weui_positionscroller-bd { line-height: 1; }
+//for weui_positionscroller,end
+/* >>_tempstyle,end*/

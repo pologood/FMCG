@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>提现</title>
+    
+<link rel="stylesheet" href="/debug/style/wap.min.css"/>
+<script src="/debug/js/zepto.min.js"></script>
+<script src="/debug/js/handlebars.min.js"></script>
+<script src="/debug/js/lazyload.min.js"></script>
+<script src="/debug/js/iSlider.min.js"></script>
+<script src="/debug/js/iSlider.animate.min.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_mygetcash">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    
+<div class="chooseWidget weui-tab__panel" style="width:100%;background: #FFFFFF;position: fixed;z-index: 1000;display: none; padding: 0">
+</div>
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+                
+<!--BEGIN user_getcash-->
+<div class="user_getcash" page="1">
+    <div class="section1">
+        <p class="f14">当前余额</p>
+        <p class="f14">￥<span id="nowbalance">0.00</span></p>
+    </div>
+
+    <div class="weui-cells">
+        <a href="script:;">
+            <div class="weui-cell" id="choosemybank">
+                <div class="weui-cell__hd f14"><label class="weui-label">银行卡</label></div>
+                <div class="weui-cell__bd weui-cell_primary f14">
+                    <input class="weui-input" type="tel" placeholder="请选择银行" id="selbank">
+                </div>
+                <div class="weui-cell__ft">
+                    <i class="icon iconfont"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd f14"><label class="weui-label">提现金额￥</label></div>
+            <div class="weui-cell__bd weui-cell_primary f14">
+                <input class="weui-input" type="tel" placeholder="请输入提现金额" id="getcash">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd f14"><label class="weui-label">实际到账金额￥</label></div>
+            <div class="weui-cell__bd weui-cell_primary f14">
+                <input class="weui-input" type="tel" disabled value="" style="padding-left: 5vw;" id="trueamount">
+            </div>
+        </div>
+    </div>
+
+    <p class="tip">手续费：￥<span id="tip">0.00</span></p>
+
+    <div class="section3 my_btn">
+        <div class="weui-btn-area">
+            <a href="javascript:;" class="weui-btn btn-default">提交</a>
+        </div>
+    </div>
+
+
+    <div class="cashpay">
+        <p class="cs">请输入支付密码</p>
+        <p>零钱</p>
+        <p id="cashmoney">100.00</p>
+        <div class="pwd-box">
+            <input type="tel" maxlength="6" class="pwd-input" id="pwd-input">
+            <div class="fake-box">
+                <input type="password" readonly="">
+                <input type="password" readonly="">
+                <input type="password" readonly="">
+                <input type="password" readonly="">
+                <input type="password" readonly="">
+                <input type="password" readonly="">
+            </div>
+        </div>
+        <p><i class="icon iconfont icon-remove-02"></i></p>
+    </div>
+
+
+</div>
+
+<!--END user_recharge-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</script>
+
+
+<script src="/debug/js/wap.min.js"></script>
+
+
+<script src="js/jsbn.js"></script>
+<script src="js/prng4.js"></script>
+<script src="js/rng.js"></script>
+<script src="js/rsa.js"></script>
+<script src="js/base64.js"></script>
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("mygetcash");
+
+        //选择我的银行卡
+        $("#choosemybank").click(function () {
+            choosemybank.bank();
+            choosemybank.callBack=function (bank) {
+                $("#selbank").val(bank.name+bank.cardNo);
+                $("#selbank").attr('bankid',bank.id)
+
+            };
+        });
+
+
+        //显示当前余额
+        var me=new member(function(data){
+            $('#nowbalance').html(data.balance);
+        });
+        me.balance();
+
+
+        //根据提现金额计算手续费并显示
+        $('#getcash').change(function(){
+            var getcash=$('#getcash').val();  //提现金额
+            var me=new member(function(data){
+                console.log(data);
+                $('#tip').html(data);           //手续费
+                $('#trueamount').val(getcash-data); //实际到账金额
+            });
+            me.calcFee({amount:getcash});
+        });
+
+
+        //提交后弹开密码框
+        $('.user_getcash .section3').click(function(){
+            $('.user_getcash .cashpay').css("display",'block');
+            $("#cashmoney").html($("#getcash").val());   //同步到密码框里面的金额
+        });
+
+        //按钮关闭密码框
+        $(".user_getcash .icon-remove-02").click(function(){
+            $('.user_getcash .cashpay').css("display",'none');
+        })
+
+
+        //密码框js控制
+        var $input = $(".fake-box input");
+        $("#pwd-input").on("input", function() {
+            var pwd = $(this).val().trim();
+            for (var i = 0, len = pwd.length; i < len; i++) {
+                $input.eq("" + i + "").val(pwd[i]);
+            }
+            $input.each(function() {
+                var index = $(this).index();
+                if (index >= len) {
+                    $(this).val("");
+                }
+            });
+            if (len == 6) {
+                //密码到达6位数后执行接口
+                bankid=$('#selbank').attr('bankid');   //银行卡id
+                amount=$("#getcash").val();            //提现数额
+                var cm=new common(function (data){
+                    console.log(data);
+                    var rsaKey = new RSAKey();
+                    rsaKey.setPublic(b64tohex(data.modulus), b64tohex(data.exponent));
+                    var enPassword = hex2b64(rsaKey.encrypt(pwd));
+                    var me=new member(function(data){
+                        toast.show("提现成功");
+                        setTimeout(function () {
+                            location.reload();
+                        },1000);
+                    });
+                    me.cash({memberBankId:bankid,amount:amount,enPassword:enPassword})
+                });
+                cm.getPublicKey();
+
+            }
+        });
+
+});
+
+
+</script>
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,39 @@
+/// namespace: STC-TS
+/// description: 技术支持页面
+/* >>wap\html\techsupport.html*/
+$page_ns: "STC-TS-11-2";
+
+//style here
+//技术支持011页面
+
+.return {
+    &.#{$page_ns} {
+        padding: 0 dimension-to-vw(20px);
+        h1{
+            text-align: center;
+            margin-top: dimension-to-vw(40px);
+        }
+        .definition{
+            padding: dimension-to-vw(20px) 0;
+            position: relative;
+            &:after {
+                    @include dividingline(bottom, #e4e4e4);
+                }
+            h1{
+                text-align: left;
+                line-height: 2em;
+                margin-top: 0;
+            }
+            p{
+                line-height: 2em;
+            }
+            &.website{
+                padding-top: dimension-to-vw(50px);
+            }
+        }
+    }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/

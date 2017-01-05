@@ -1,0 +1,43 @@
+// -------------------------------------
+// tab页签模板1
+// -------------------------------------
+//in-tab2
+.tab {
+    .hd-rap {
+        font-size: 14px;
+        border-bottom: 1px solid #90c0f2;
+        a {
+            color: #555;
+        }
+        //tab index项
+        a.it {
+            display: block;
+            float: left;
+            padding: 4px 22px;
+            background-color: #eaeaea;
+            margin-right: 5px;
+            &:hover {
+                text-decoration: none;
+            }
+            &.act {
+                background-color: #5ca6f3;
+                color: #fff;
+            }
+        }
+        //more links rap
+        .more-rap{
+            padding: 4px 12px;
+            float: right;
+        }
+        a.more {
+            padding: 4px 12px;
+            float: right;
+        }
+    }
+    .ctt-rap {
+        table{
+            //@extend %table_youyou;
+        }
+    }
+}
+@import "tab/for-page-xxx";

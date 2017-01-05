@@ -1,0 +1,47 @@
+/// namespace: STC-TS-11-1
+/// description: 技术支持子页面
+/* >>wap\html\techsupport\011\011-1.html*/
+$page_ns: "STC-TS-11-1";
+
+//style here
+//技术支持011-1页面
+
+.promise {
+   
+        &.#{$page_ns} {
+             padding: 0 dimension-to-vw(20px);
+             //消费者保障承诺
+            .promise_mian{
+            	padding: dimension-to-vw(20px) 0 dimension-to-vw(60px);
+            	position: relative;
+                h1{
+                	line-height: 3em;
+                    text-align: center;
+                }
+                //购物过程中遇到的问题
+                .problem{
+                	margin-top: dimension-to-vw(50px);
+                    p{
+                        line-height: 2em;
+                    }
+                }
+                &:after {
+                    @include dividingline(bottom, #e4e4e4);
+                }
+            }
+            //提出消费者保障赔付的条件
+            .condition{
+            	padding: dimension-to-vw(20px) 0 dimension-to-vw(120px);
+            	p{
+            		line-height: 2em;
+            		&.website{
+            			margin-top: dimension-to-vw(50px);
+            		}
+            	}
+            }
+        }
+}
+
+$page_ns: "";
+
+/* <<wap\html\techsupport.html*/
