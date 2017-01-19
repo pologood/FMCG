@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <wit>
-	<setting name="siteName" value="睿商同城" />
-	<setting name="siteCompany" value="安徽威思通电子商务有限公司" />
-	<setting name="siteUrl" value="http://localhost:8080/tiaohuo" />
-	<setting name="webSite" value="http://localhost:8080/tiaohuo/www/index.html"/>
+	<setting name="siteName" value="德惠万家" />
+	<setting name="siteCompany" value="安徽省精诚蜂鸟网络科技股份有限公司" />
+	<setting name="siteUrl" value="http://localhost:8080/" />
+	<setting name="webSite" value="http://localhost:8080/www/index.html"/>
 	<setting name="logo" value="http://www.zhaoqipei.com/upload/image/201409/06dd9aa6-bcd1-4529-95a6-890716271db7.png" />
-	<setting name="hotSearch" value="睿商同城" />
-	<setting name="hotTenantSearch" value="睿商同城" />
-	<setting name="address" value="厦门市吕岭路250#301室" />
-	<setting name="phone" value="13860431130" />
-	<setting name="enterpriseqq" value="13860431130" />
+	<setting name="hotSearch" value="德惠万家" />
+	<setting name="hotTenantSearch" value="德惠万家" />
+	<setting name="address" value="安徽省安庆市宜秀区经十四路与九塘路交叉口电商园产业区" />
+	<setting name="phone" value="13955699119" />
+	<setting name="enterpriseqq" value="13955699119" />
 	<setting name="zipCode" value="400000" />
 	<setting name="email" value="30355701@qq.com"/>
 	<setting name="certtext" value="闽ICP备07049452号" />

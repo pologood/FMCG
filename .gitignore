@@ -8,3 +8,5 @@
 .DS_Store
 WebContent/.DS_Store
 WebContent/WEB-INF/.DS_Store
+out
+WebContent/WEB-INF/classes
