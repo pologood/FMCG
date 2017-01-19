@@ -171,7 +171,7 @@
 							<input type="checkbox" name="ids" value="${review.id}" />
 						</td>
 						<td>
-							<a href="${base}/helper/product/content/${review.product.id}.jhtml" title="${review.product.name}" target="_blank">${abbreviate(review.product.name, 50, "...")}</a>
+							<a href="${base}/b2b/product/detail/${review.product.id}.jhtml" title="${review.product.name}" target="_blank">${abbreviate(review.product.name, 50, "...")}</a>
 						</td>
 						<td>${review.score}</td>
 						<td>

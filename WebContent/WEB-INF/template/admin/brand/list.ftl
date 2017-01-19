@@ -127,7 +127,8 @@ $().ready(function() {
 					</td>
 					<td>
 						<a href="edit.jhtml?id=${brand.id}">[${message("admin.common.edit")}]</a>
-						<!-- a href="${base}/admin/brand/series/list.jhtml?brandId=${brand.id}">管理</a -->
+						&nbsp;
+						<a href="${base}/b2b/product/list/0.jhtml?brandId=${brand.id}" target="_blank">[预览]</a>
 					</td>
 				</tr>
 			[/#list]

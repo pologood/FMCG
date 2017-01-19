@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -149,8 +150,8 @@ public class CouponController extends BaseController {
 	public String list(Pageable pageable, ModelMap model) {
 		List<Filter> filters = new ArrayList<>();
 		List<Map<String ,Object>> maps = new ArrayList<Map<String ,Object>>();
-		pageable.setFilters(filters);
 		filters.add(new Filter("type", Filter.Operator.eq, Coupon.Type.multipleCoupon));
+		pageable.setFilters(filters);
 		for(Coupon coupon:couponService.findPage(pageable).getContent()){
 			Map<String,Object> map=new HashMap<String,Object>();
 			map.put("id",coupon.getId());
@@ -159,7 +160,11 @@ public class CouponController extends BaseController {
 			map.put("send_count",coupon.getSendCount());
 			map.put("used_count",coupon.getUsedCount());
 			if(couponNumberService.findCouponNumberList(coupon,null)!=null){
-				map.put("mark_count",couponNumberService.findCouponNumberList(coupon,null).size());
+				Integer count=0;
+				for(Map<String,Object> m:couponNumberService.findCouponNumberList(coupon,null)){
+					count+=Integer.valueOf(m.get("mark_count").toString());
+				}
+				map.put("mark_count",count);
 			}else{
 				map.put("mark_count","0");
 			}
@@ -266,23 +271,37 @@ public class CouponController extends BaseController {
 	
 	/** 列表 */
 	@RequestMapping(value = "/sendedList", method = RequestMethod.GET)
-	public String sendedList(Long id,Pageable pageable, ModelMap model) {
+	public String sendedList(String beginDate,String endDate,Pageable pageable,String keyword,Long id, ModelMap model) {
 		pageable.setPageSize(PAGE_SIZE);
+		Date beginTime = null;
+		Date endTime = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		if (StringUtils.isNotBlank(beginDate)) {
+			beginTime = sdf.parse(beginDate, new ParsePosition(0));
+		}
+		if (StringUtils.isNotBlank(endDate)) {
+			endTime = sdf.parse(endDate, new ParsePosition(0));
+		}
 		model.addAttribute("sendedListCouponId",id);
-		model.addAttribute("page", couponCodeService.findSendedCouponCodeByCoupon(couponService.find(id), pageable));
+//		model.addAttribute("page", couponCodeService.findDrawedCouponCodeByCoupon(beginTime,endTime,keyword,couponService.find(id), pageable));
+		model.addAttribute("page", couponCodeService.findPage(beginTime,endTime,keyword,couponService.find(id),null,pageable));
+		model.addAttribute("beginDate",beginDate);
+		model.addAttribute("endDate",endDate);
+		model.addAttribute("keyword",keyword);
 		return "/admin/coupon/sendedList";
 	}
 	
 	/** 列表 */
 	@RequestMapping(value = "/usedList", method = RequestMethod.GET)
-	public String usedList(Long id, Pageable pageable, ModelMap model) {
+	public String usedList(Long id,String keyword, Pageable pageable, ModelMap model) {
 		pageable.setPageSize(PAGE_SIZE);
 		model.addAttribute("usedListCouponId",id);
-		model.addAttribute("page", couponCodeService.findUsedCouponCodeByCoupon(couponService.find(id), pageable));
+		model.addAttribute("page", couponCodeService.findUsedCouponCodeByKeyword(keyword,couponService.find(id), pageable));
+		model.addAttribute("keyword",keyword);
 		return "/admin/coupon/usedList";
 	}
 
-	/** 登记详情列表 */
+	/** 平台套券》登记列表 */
 	@RequestMapping(value = "/markedList", method = RequestMethod.GET)
 	public String markedList(Long id, Pageable pageable,String keyword, ModelMap model) {
 		pageable.setPageSize(PAGE_SIZE);
@@ -297,6 +316,7 @@ public class CouponController extends BaseController {
 			map.put("tenant_category_name", m.get("tenant_category_name"));
 			map.put("area_name", m.get("area_name"));
 			map.put("guider_name", m.get("guider_name"));
+			map.put("guider_name_id", m.get("guider_name_id"));
 			maps.add(map);
 		}
 		model.addAttribute("maps",maps);
@@ -306,26 +326,62 @@ public class CouponController extends BaseController {
 		return "/admin/coupon/markedList";
 	}
 
-	/** 登记详情列表导出 */
-	@RequestMapping(value = "/markedList_export", method = RequestMethod.POST)
-	@ResponseBody
-	public List<Map<String,Object>> markedListExport(Long id, Pageable pageable,String keyword, ModelMap model) {
-		pageable.setPageSize(PAGE_SIZE);
-		List<Map<String,Object>> list=couponNumberService.findCouponNumberList(couponService.find(id),keyword);
-		List<Map<String, Object>> maps=new ArrayList<Map<String, Object>>();
-		for(Map<String, Object> m:list){
-			Map<String, Object> map=new HashMap<String,Object>();
-			map.put("mark_count", m.get("mark_count"));
-			map.put("user_count",m.get("user_count"));
-			map.put("brokerage", m.get("brokerage"));
-			map.put("tenant_name", m.get("tenant_name"));
-			map.put("tenant_category_name", m.get("tenant_category_name"));
-			map.put("area_name", m.get("area_name"));
-			map.put("guider_name", m.get("guider_name"));
-			maps.add(map);
-		}
-		return maps;
+	/** 平台套券》登记》已登记数量列表 */
+	@RequestMapping(value = "/marked_count_list", method = RequestMethod.GET)
+	public String markedCount(Long guideMemberId,Long couponId, Pageable pageable,String keyword, ModelMap model) {
+		Member guideMember=memberService.find(guideMemberId);
+		Coupon coupon=couponService.find(couponId);
+		List<Filter> filter = new ArrayList<Filter>();
+		filter.add(new Filter("status", Filter.Operator.eq, CouponNumber.Status.bound));
+		filter.add(new Filter("guideMember", Filter.Operator.eq, guideMember));
+		filter.add(new Filter("coupon", Filter.Operator.eq, coupon));
+		pageable.setFilters(filter);
+		Page<CouponNumber> page=couponNumberService.findPage(pageable);
+		model.addAttribute("page",page);
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("guideMemberId",guideMemberId);
+		model.addAttribute("couponId",couponId);
+		return "/admin/coupon/marked_count_list";
 	}
+
+	/** 平台套券》登记》已领用数量列表 */
+	@RequestMapping(value = "/token_count_list", method = RequestMethod.GET)
+	public String tokenCount(Long guideMemberId,Long couponId, Pageable pageable,String keyword, ModelMap model) {
+		Member guideMember=memberService.find(guideMemberId);
+		Coupon coupon=couponService.find(couponId);
+		List<Filter> filter = new ArrayList<Filter>();
+		filter.add(new Filter("status", Filter.Operator.eq, CouponNumber.Status.receive));
+		filter.add(new Filter("guideMember", Filter.Operator.eq, guideMember));
+		filter.add(new Filter("coupon", Filter.Operator.eq, coupon));
+		pageable.setFilters(filter);
+		Page<CouponNumber> page=couponNumberService.findPage(pageable);
+		model.addAttribute("page",page);
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("guideMemberId",guideMemberId);
+		model.addAttribute("couponId",couponId);
+		return "/admin/coupon/token_count_list";
+	}
+
+//	/** 已登记列表导出 */
+//	@RequestMapping(value = "/markedList_export", method = RequestMethod.POST)
+//	@ResponseBody
+//	public List<Map<String,Object>> markedListExport(Long id, Pageable pageable,String keyword, ModelMap model) {
+//		pageable.setPageSize(PAGE_SIZE);
+//		List<Map<String,Object>> list=couponNumberService.findCouponNumberList(couponService.find(id),keyword);
+//		List<Map<String, Object>> maps=new ArrayList<Map<String, Object>>();
+//		for(Map<String, Object> m:list){
+//			Map<String, Object> map=new HashMap<String,Object>();
+//			map.put("mark_count", m.get("mark_count"));
+//			map.put("user_count",m.get("user_count"));
+//			map.put("brokerage", m.get("brokerage"));
+//			map.put("tenant_name", m.get("tenant_name"));
+//			map.put("tenant_category_name", m.get("tenant_category_name"));
+//			map.put("area_name", m.get("area_name"));
+//			map.put("guider_name", m.get("guider_name"));
+//			maps.add(map);
+//		}
+//		return maps;
+//	}
 
 	/** 列表 */
 	@RequestMapping(value = "/get/code", method = RequestMethod.POST)

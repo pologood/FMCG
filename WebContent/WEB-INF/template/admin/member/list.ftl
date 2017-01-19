@@ -14,33 +14,33 @@
 <script type="text/javascript">
 $().ready(function() {
 	[@flash_message /]
-	var $listForm = $("#listForm");
-	var $filterSelect = $("#filterSelect");
-	var $filterOption = $("#filterOption a");
-	// 订单筛选
-	$filterSelect.mouseover(function() {
-		var $this = $(this);
-		var offset = $this.offset();
-		var $menuWrap = $this.closest("div.menuWrap");
-		var $popupMenu = $menuWrap.children("div.popupMenu");
-		$popupMenu.css({left: offset.left, top: offset.top + $this.height() + 2}).show();
-		$menuWrap.mouseleave(function() {
-			$popupMenu.hide();
-		});
-	});
+	// var $listForm = $("#listForm");
+	// var $filterSelect = $("#filterSelect");
+	// var $filterOption = $("#filterOption a");
+	// // 订单筛选
+	// $filterSelect.mouseover(function() {
+	// 	var $this = $(this);
+	// 	var offset = $this.offset();
+	// 	var $menuWrap = $this.closest("div.menuWrap");
+	// 	var $popupMenu = $menuWrap.children("div.popupMenu");
+	// 	$popupMenu.css({left: offset.left, top: offset.top + $this.height() + 2}).show();
+	// 	$menuWrap.mouseleave(function() {
+	// 		$popupMenu.hide();
+	// 	});
+	// });
 	
-	// 筛选选项
-	$filterOption.click(function() {
-		var $this = $(this);
-		var $dest = $("#" + $this.attr("name"));
-		if ($this.hasClass("checked")) {
-			$dest.val("");
-		} else {
-			$dest.val($this.attr("val"));
-		}
-		$listForm.submit();
-		return false;
-	});
+	// // 筛选选项
+	// $filterOption.click(function() {
+	// 	var $this = $(this);
+	// 	var $dest = $("#" + $this.attr("name"));
+	// 	if ($this.hasClass("checked")) {
+	// 		$dest.val("");
+	// 	} else {
+	// 		$dest.val($this.attr("val"));
+	// 	}
+	// 	$listForm.submit();
+	// 	return false;
+	// });
 	//导出
 	$("#export_ss").click(function () {
         if(confirm("导出是当前页面数据导出，如想导出多条数据，可选择每页显示数")){
@@ -59,6 +59,7 @@ $().ready(function() {
         
     });
 });
+
 </script>
 </head>
 <body>
@@ -75,7 +76,6 @@ $().ready(function() {
 				<!--<a href="javascript:;" id="deleteButton" class="iconButton disabled">
 					<span class="deleteIcon">&nbsp;</span>${message("admin.common.delete")}
 				</a>-->
-				<a href="javascript:;" id="export_ss" class="iconButton">导出</a>
 				<a href="javascript:;" id="refreshButton" class="iconButton">
 					<span class="refreshIcon">&nbsp;</span>${message("admin.common.refresh")}
 				</a>
@@ -111,7 +111,7 @@ $().ready(function() {
 			<div class="menuWrap">
 				<div class="search">
 					<input type="text" id="searchValue" name="searchValue" value="${page.searchValue}" maxlength="200" placeholder="名称、手机号"/>
-					<button type="submit">&nbsp;</button>
+					<button type="button" onclick="set_page_number()">&nbsp;</button>
 				</div>
 			</div>
 			<div class="menuWrap">
@@ -119,7 +119,8 @@ $().ready(function() {
 				&nbsp;-&nbsp;
 				<input type="text" id="endDate" name="endDate" class="text Wdate" value="[#if endDate??]${endDate?string("yyyy-MM-dd")}[/#if]" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd', minDate: '#F{$dp.$D(\'beginDate\')}'});" placeholder="注册结束日期"/>
 			</div>
-			<input type="submit" value="查询" class="bar buttonWrap button">
+			<input type="button" value="查询" class="bar buttonWrap button" onclick="set_page_number()">
+			<input type="button"id="export_ss" class="bar buttonWrap button" value="导出">
 		</div>
 		<table id="listTable" class="list table2excel">
 			<tr>
@@ -226,5 +227,11 @@ $().ready(function() {
 		[/@pagination]
 	</form>
 	<div id="trade_wrap"></div>
+	<script type="text/javascript">
+		function set_page_number(){
+			$("#pageNumber").val("1");
+			$("#listForm").submit();
+		}
+	</script>
 </body>
 </html>

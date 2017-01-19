@@ -11,10 +11,7 @@ import java.util.*;
 import javax.annotation.Resource;
 import javax.persistence.FlushModeType;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 import net.wit.Filter;
 import net.wit.Order;
@@ -28,6 +25,7 @@ import net.wit.entity.Coupon.Status;
 import net.wit.entity.model.CouponSumerModel;
 
 import net.wit.support.CouponComparatorByDistance;
+import net.wit.util.MapUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -108,15 +106,21 @@ public class CouponDaoImpl extends BaseDaoImpl<Coupon, Long> implements CouponDa
         }
     }
 
-    public Page<Coupon> findPage(Area area,Community community,TenantCategory tenantCategory, Boolean isExpired, Location location, String orderType, Pageable pageable) {
+    public Page<Coupon> findPage(Area area,Community community,TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Pageable pageable) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Coupon> criteriaQuery = criteriaBuilder.createQuery(Coupon.class);
         Root<Coupon> root = criteriaQuery.from(Coupon.class);
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
-        restrictions = criteriaBuilder.and(restrictions,
-                criteriaBuilder.equal(root.get("status"), Status.confirmed),
-                criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantBonus));
+        restrictions = criteriaBuilder.equal(root.get("status"), Status.confirmed);
+        if (isPromotion != null && isPromotion) {
+            restrictions = criteriaBuilder.and(restrictions,
+                    criteriaBuilder.or(criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantCoupon),
+                            criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantBonus)));
+        } else {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantBonus));
+        }
+
         if (area != null) {
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.equal(root.get("tenant").get("area"), area), criteriaBuilder.like(root.get("tenant").get("area").<String>get("treePath"), "%" + Area.TREE_PATH_SEPARATOR + area.getId() + Area.TREE_PATH_SEPARATOR + "%")));
         }
@@ -131,18 +135,32 @@ public class CouponDaoImpl extends BaseDaoImpl<Coupon, Long> implements CouponDa
                 restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("endDate"), new Date()));
             }
         }
-        if (community != null) {
-            List<DeliveryCenter> dlvs = deliveryCenterDao.findList(area, community);
-            List<Tenant> tenants=new ArrayList<>();
-            for (DeliveryCenter dc : dlvs) {
-                tenants.add(dc.getTenant());
-            }
-            if (tenants.size() > 0) {
-                restrictions = criteriaBuilder.and(restrictions, root.get("tenant").in(tenants));
-            } else {
-                return new Page<>(new ArrayList<Coupon>(), 0, pageable);
-            }
+
+        //子查询
+        Subquery<DeliveryCenter> subquery = criteriaQuery.subquery(DeliveryCenter.class);
+        Root<DeliveryCenter> subqueryRoot = subquery.from(DeliveryCenter.class);
+        subquery.select(subqueryRoot);
+        Predicate subRestrictions = criteriaBuilder.conjunction();
+        subRestrictions = criteriaBuilder.and(criteriaBuilder.equal(subqueryRoot.get("tenant"), root.get("tenant")));
+        if (area != null) {
+            subRestrictions = criteriaBuilder.and(subRestrictions,
+                    criteriaBuilder.or(criteriaBuilder.equal(subqueryRoot.get("area"), area), criteriaBuilder.like(subqueryRoot.get("area").<String>get("treePath"), "%" + Area.TREE_PATH_SEPARATOR + area.getId() + Area.TREE_PATH_SEPARATOR + "%")));
         }
+        if (community != null) {
+            subRestrictions = criteriaBuilder.and(subRestrictions,
+                    criteriaBuilder.equal(subqueryRoot.get("community"), community));
+        }
+        if (location != null && location.isExists() && distance != null) {
+            MapUtils mapUtils = new MapUtils(distance.doubleValue());
+            mapUtils.rectangle4Point(location.getLat().doubleValue(), location.getLng().doubleValue());
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.ge(subqueryRoot.get("location").<BigDecimal>get("lat"), mapUtils.getLeft_bottom().getLat()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.le(subqueryRoot.get("location").<BigDecimal>get("lat"), mapUtils.getLeft_top().getLat()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.ge(subqueryRoot.get("location").<BigDecimal>get("lng"), mapUtils.getLeft_top().getLng()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.le(subqueryRoot.get("location").<BigDecimal>get("lng"), mapUtils.getRight_bottom().getLng()));
+        }
+        subquery.where(subRestrictions);
+        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+
         criteriaQuery.where(restrictions);
         if (orderType != null) {
             if (orderType.equals("distance")) {
@@ -171,6 +189,78 @@ public class CouponDaoImpl extends BaseDaoImpl<Coupon, Long> implements CouponDa
             }
         }
         return super.findPage(criteriaQuery, pageable);
+    }
+
+    public List<Coupon> findList(Area area,Community community,TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Integer first, Integer count, List<Filter> filters, List<Order> orders) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Coupon> criteriaQuery = criteriaBuilder.createQuery(Coupon.class);
+        Root<Coupon> root = criteriaQuery.from(Coupon.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        restrictions = criteriaBuilder.equal(root.get("status"), Status.confirmed);
+        if (isPromotion != null && isPromotion) {
+            restrictions = criteriaBuilder.and(restrictions,
+                    criteriaBuilder.or(criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantCoupon),
+                            criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantBonus)));
+        } else {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), Coupon.Type.tenantBonus));
+        }
+        if (area != null) {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.equal(root.get("tenant").get("area"), area), criteriaBuilder.like(root.get("tenant").get("area").<String>get("treePath"), "%" + Area.TREE_PATH_SEPARATOR + area.getId() + Area.TREE_PATH_SEPARATOR + "%")));
+        }
+        if (tenantCategory != null) {
+            restrictions = criteriaBuilder.and(restrictions,
+                    criteriaBuilder.equal(root.get("tenant").get("tenantCategory"), tenantCategory));
+        }
+        if (isExpired != null) {
+            if (isExpired) {
+                restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.lessThan(root.<Date> get("endDate"), new Date()));
+            } else {
+                restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("endDate"), new Date()));
+            }
+        }
+        Subquery<DeliveryCenter> subquery = criteriaQuery.subquery(DeliveryCenter.class);
+        Root<DeliveryCenter> subqueryRoot = subquery.from(DeliveryCenter.class);
+        subquery.select(subqueryRoot);
+        Predicate subRestrictions = criteriaBuilder.conjunction();
+        subRestrictions = criteriaBuilder.and(criteriaBuilder.equal(subqueryRoot.get("tenant"), root.get("tenant")));
+        if (area != null) {
+            subRestrictions = criteriaBuilder.and(subRestrictions,
+                    criteriaBuilder.or(criteriaBuilder.equal(subqueryRoot.get("area"), area), criteriaBuilder.like(subqueryRoot.get("area").<String>get("treePath"), "%" + Area.TREE_PATH_SEPARATOR + area.getId() + Area.TREE_PATH_SEPARATOR + "%")));
+        }
+        if (community != null) {
+            subRestrictions = criteriaBuilder.and(subRestrictions,
+                    criteriaBuilder.equal(subqueryRoot.get("community"), community));
+        }
+        if (location != null && location.isExists() && distance != null) {
+            MapUtils mapUtils = new MapUtils(distance.doubleValue());
+            mapUtils.rectangle4Point(location.getLat().doubleValue(), location.getLng().doubleValue());
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.ge(subqueryRoot.get("location").<BigDecimal>get("lat"), mapUtils.getLeft_bottom().getLat()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.le(subqueryRoot.get("location").<BigDecimal>get("lat"), mapUtils.getLeft_top().getLat()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.ge(subqueryRoot.get("location").<BigDecimal>get("lng"), mapUtils.getLeft_top().getLng()));
+            subRestrictions = criteriaBuilder.and(subRestrictions, criteriaBuilder.le(subqueryRoot.get("location").<BigDecimal>get("lng"), mapUtils.getRight_bottom().getLng()));
+        }
+        subquery.where(subRestrictions);
+        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+        criteriaQuery.where(restrictions);
+        if (orderType != null) {
+            if (orderType.equals("distance")) {
+                List<Coupon> coupons = super.findList(criteriaQuery, 0, null, null, null);
+                CouponComparatorByDistance couponComparatorByDistance = new CouponComparatorByDistance();
+                couponComparatorByDistance.setLocation(location);
+                try {
+                    Collections.sort(coupons, couponComparatorByDistance);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return coupons;
+            } else if (orderType.equals("amountSize")) {
+                orders.clear();
+                orders.add(Order.desc("amount"));
+                return super.findList(criteriaQuery, first, count, filters, orders);
+            }
+        }
+        return super.findList(criteriaQuery, first, count, filters, orders);
     }
 
     public Page<Coupon> findPage(String status,Pageable pageable) {

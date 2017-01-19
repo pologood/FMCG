@@ -5,6 +5,7 @@
  */
 package net.wit.service.impl;
 
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.dao.BindUserDao;
@@ -61,7 +62,10 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, Long> implement
         super.save(message);
         messageDao.flush();
         try {
-            PushMessage.aliPush(message);
+            if (message.getReceiver() != null) {
+                Long unReadCount = messageDao.count(message.getReceiver(), false, null,null);
+                PushMessage.aliPush(message, unReadCount);
+            }
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e);
@@ -77,7 +81,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, Long> implement
                     if (message.getType().equals(Message.Type.account)) {
                         Deposit deposit = message.getDeposit();
                         if (deposit != null) {
-                            String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/wap/member/purse/index.jhtml");
+                            String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/weixin/member/purse/index.jhtml");
                             data = MessageManager.createDepsitTempelete(
                                     bindUser.getUsername(),
                                     "您好，账户余额发生变化：",
@@ -94,7 +98,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, Long> implement
                         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日 HH时MM分ss秒");
                         Trade trade = message.getTrade();
                         if (trade != null) {
-                            String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/wap/member/order/order_info.jhtml?id=" + trade.getId());
+                            String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/weixin/member/order/detail.jhtml?id=" + trade.getId());
                             data = MessageManager.createOrderTempelete(
                                     bindUser.getUsername(),
                                     "您好，订单状态发生变化：",
@@ -124,7 +128,7 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, Long> implement
                     //系统消息中实名认证
                     if (message.getType().equals(Message.Type.message) && message.getTitle().equals("实名认证")) {
                         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日 HH时MM分ss秒");
-                        String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/wap/member/index.jhtml");
+                        String url = MenuManager.codeUrlO2(bundle.getString("WeiXinSiteUrl") + "/weixin/member/index.jhtml");
                         data = MessageManager.createCertificationTempelete(
                                 bindUser.getUsername(),
                                 "您好，实名认证状态发生变化：",
@@ -195,12 +199,12 @@ public class MessageServiceImpl extends BaseServiceImpl<Message, Long> implement
 
     @Transactional(readOnly = true)
     public Long count(Member member, Boolean read) {
-        return messageDao.count(member, read, null);
+        return messageDao.count(member, read, null,null);
     }
 
     @Transactional(readOnly = true)
-    public Long count(Member member, Boolean read, Message.Type type) {
-        return messageDao.count(member, read, type);
+    public Long count(Member member, Boolean read, Message.Type type,List<Filter> filters) {
+        return messageDao.count(member, read, type,filters);
     }
 
     public void delete(Long id, Member member) {

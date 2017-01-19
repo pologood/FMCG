@@ -24,8 +24,7 @@ import net.wit.entity.Member;
 import net.wit.entity.PayBill;
 import net.wit.entity.Payment;
 import net.wit.entity.Trade;
-import net.wit.entity.Payment.Method;
-import net.wit.entity.Payment.Status;
+import net.wit.entity.Payment.Type;
 
 import org.springframework.stereotype.Repository;
 
@@ -103,17 +102,17 @@ public class PaymentDaoImpl extends BaseDaoImpl<Payment, Long> implements Paymen
 	 */
 
 	@Override
-	public Page<Payment> findPage(Method method, Status status, Date beginDate, Date endDate,String keyword, Pageable pageable) {
+	public Page<Payment> findPage(String paymentMethod, Type type, Date beginDate, Date endDate, String tenantName, String username, Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Payment> criteriaQuery = criteriaBuilder.createQuery(Payment.class);
 		Root<Payment> root = criteriaQuery.from(Payment.class);
 		criteriaQuery.select(root);
 		Predicate restrictions = criteriaBuilder.conjunction();
-		if (method != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("method"), method));
+		if (paymentMethod != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("paymentMethod"), paymentMethod));
 		}
-		if (status != null) {
-			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("status"), status));
+		if (type != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), type));
 		}
 		if (beginDate != null) {
 			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"), beginDate));
@@ -121,15 +120,11 @@ public class PaymentDaoImpl extends BaseDaoImpl<Payment, Long> implements Paymen
 		if (endDate != null) {
 			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.lessThanOrEqualTo(root.<Date> get("createDate"), endDate));
 		}
-		if(keyword!=null){
-			restrictions = criteriaBuilder.and(
-					restrictions,criteriaBuilder.or(
-							criteriaBuilder.equal(root.<String>get("paymentMethod"),keyword),
-							criteriaBuilder.like(root.<String>get("sn"), "%" + keyword + "%"),
-							criteriaBuilder.like(root.get("member").<String>get("name"), "%" + keyword + "%"),
-							criteriaBuilder.like(root.get("member").<String>get("mobile"), "%" + keyword + "%"),
-							criteriaBuilder.like(root.get("member").get("tenant").<String>get("name"), "%" + keyword + "%"))
-			);
+		if (tenantName!=null&&!"".equals(tenantName)) {
+			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("member").get("tenant").<String> get("name"), tenantName));
+		}
+		if (username!=null&&!"".equals(username)) {
+			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.equal(root.get("member").<String> get("name"), username),criteriaBuilder.equal(root.get("member").<String> get("username"), username)));
 		}
 		criteriaQuery.where(restrictions);
 		return super.findPage(criteriaQuery, pageable);

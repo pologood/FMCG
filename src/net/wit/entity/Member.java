@@ -879,11 +879,7 @@ public class Member extends BaseEntity {
                         try {
                             String propertyName = ATTRIBUTE_VALUE_PROPERTY_NAME_PREFIX + memberAttribute.getPropertyIndex();
                             PropertyUtils.setProperty(this, propertyName, JsonUtils.toJson(attributeValue));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (InvocationTargetException e) {
-                            e.printStackTrace();
-                        } catch (NoSuchMethodException e) {
+                        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                             e.printStackTrace();
                         }
                     }
@@ -893,11 +889,7 @@ public class Member extends BaseEntity {
                     try {
                         String propertyName = ATTRIBUTE_VALUE_PROPERTY_NAME_PREFIX + memberAttribute.getPropertyIndex();
                         PropertyUtils.setProperty(this, propertyName, attributeValue);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    } catch (NoSuchMethodException e) {
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                         e.printStackTrace();
                     }
                 }

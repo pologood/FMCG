@@ -31,7 +31,7 @@ $().ready(function() {
             			'<tr>'+
             				'<th>类型:</th>'+
             				'<td>'+
-            					'<select style="width:100px;" name="type" id="import_type">'+
+            					'<select style="width:100px;" name="type" id="import_type" onchange="judge_type(this)">'+
             						'<option value="recharge">充值</option>'+
             						'<option value="profit">分润</option>'+
             						'<option value="receipts">货款</option>'+
@@ -41,11 +41,12 @@ $().ready(function() {
             			'</tr>'+
             			'<tr>'+
             				'<th>模版信息:</th>'+
-            				'<td><textarea style="width:260px;height:60px;" name="message" id="import_message"></textarea></td>'+
+            				'<td><textarea style="width:260px;height:60px;" name="message" id="import_message" '+
+            				'placeholder="例：亲爱的用户name你好，平台已给您充值money元，请注意查收！"></textarea></td>'+
             			'</tr>'+
             			'<tr>'+
             				'<th>备注:</th>'+
-            				'<td><textarea style="width:260px;height:60px;" name="remark" id="import_remark"></textarea></td>'+
+            				'<td><textarea style="width:260px;height:60px;" name="remark" id="import_remark" placeholder="例：平台充值"></textarea></td>'+
             			'</tr>'+
             		'</table></form>',
         	[/@compress]
@@ -104,13 +105,29 @@ function confirm_recharge(id){
         }
     });
 }
+function judge_type(obj){
+	if($(obj).val()=="recharge"){
+		$("#import_message").attr("placeholder","例：亲爱的用户name你好，平台已给您充值money元，请注意查收！");
+		$("#import_remark").attr("placeholder","例：平台充值");
+	}else if($(obj).val()=="profit"){
+		$("#import_message").attr("placeholder","例：亲爱的用户name，您已收到平台分润money元，请注意查收！");
+		$("#import_remark").attr("placeholder","例：平台分润");
+	}else if($(obj).val()=="receipts"){
+		$("#import_message").attr("placeholder","例：亲爱的用户name，您已收到平台货款money元，请注意查收！");
+		$("#import_remark").attr("placeholder","例：平台货款");
+	}else{
+		$("#import_message").attr("placeholder","例：亲爱的用户name你好，平台已给您返回money元，请注意查收！");
+		$("#import_remark").attr("placeholder","例：其他收入");
+	}
+	
+}
 </script>
 </head>
 <body>
 	<div class="path">
 		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; 奖励补贴 <span>(${message("admin.page.total", page.total)})</span>
 	</div>
-	<form id="listForm" action="markedList.jhtml" method="get">
+	<form id="listForm" action="subsidy_list.jhtml" method="get">
 		<div class="bar">
 	        <div class="buttonWrap">
 	            <a href="javascript:;" id="subsidy_import" class="button">导入</a>

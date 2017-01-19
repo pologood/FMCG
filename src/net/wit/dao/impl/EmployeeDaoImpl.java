@@ -2,13 +2,11 @@ package net.wit.dao.impl;
 
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.entity.Member;
-import net.wit.entity.Tag;
-import net.wit.entity.Tenant;
+import net.wit.entity.*;
+import net.wit.support.EmployeeComparatorByDistance;
 import org.springframework.stereotype.Repository;
 
 import net.wit.dao.EmployeeDao;
-import net.wit.entity.Employee;
 
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
@@ -16,11 +14,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Repository("employeeDaoImpl")
 public class EmployeeDaoImpl extends BaseDaoImpl<Employee, Long> implements EmployeeDao {
-    public Page<Employee> findPage(Pageable pageable, Tag tag, String keyWord) {
+    public Page<Employee> findPage(Pageable pageable,TenantCategory tenantCategory, Tag tag, Location location, String keyWord, String orderType) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Employee> criteriaQuery = criteriaBuilder.createQuery(Employee.class);
         Root<Employee> root = criteriaQuery.from(Employee.class);
@@ -29,11 +30,30 @@ public class EmployeeDaoImpl extends BaseDaoImpl<Employee, Long> implements Empl
         if (keyWord != null) {
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.like(root.get("member").<String>get("username"), "%" + keyWord + "%"));
         }
-
         if (tag != null) {
             restrictions = criteriaBuilder.and(restrictions, root.join("tags").in(tag));
         }
+        if(tenantCategory!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("tenant").get("tenantCategory"),tenantCategory));
+        }
         criteriaQuery.where(restrictions);
+        if(orderType!=null){
+            if(Objects.equals(orderType, "distance")){
+                List<Employee> employees = super.findList(criteriaQuery, 0, null, null, null);
+                EmployeeComparatorByDistance comparatorByDistance = new EmployeeComparatorByDistance();
+                comparatorByDistance.setLocation(location);
+                Collections.sort(employees, comparatorByDistance);
+                int fromindex = (pageable.getPageNumber() - 1) * pageable.getPageSize();
+                int endindex = fromindex + pageable.getPageSize();
+                if (endindex > employees.size()) {
+                    endindex = employees.size();
+                }
+                if (endindex <= fromindex) {
+                    return new Page<>(new ArrayList<Employee>(), 0, pageable);
+                }
+                return new Page<>(new ArrayList<>(employees.subList(fromindex, endindex)), employees.size(), pageable);
+            }
+        }
         return super.findPage(criteriaQuery, pageable);
     }
 

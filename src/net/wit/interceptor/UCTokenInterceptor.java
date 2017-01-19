@@ -12,8 +12,6 @@ package net.wit.interceptor;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -137,12 +135,17 @@ public class UCTokenInterceptor extends HandlerInterceptorAdapter {
 					Tenant tenant = member.getTenant();
 					HttpSession session=request.getSession();
 					session.removeAttribute("hasTenant");
+
+//					System.out.println("has remove hasTenant");
+
 					session.removeAttribute("member_role");
 					if (tenant != null) {
 						Member owner  = tenant.getMember();
 						modelAndView.addObject("owner", owner);
 						if(!tenant.getStatus().equals(Tenant.Status.fail) && !tenant.getStatus().equals(Tenant.Status.none)){
 							session.setAttribute("hasTenant","true");
+
+//							System.out.println("add hasTenant");
 						}
 						String role="";
 //						if(member!=owner){

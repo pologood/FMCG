@@ -284,11 +284,11 @@ public class WeiXinNativeB2cPayPlugin extends PaymentPlugin {
 				} else if (status.equals("USERPAYING")) {
 					return "9999";
 				} else if (status.equals("NOTPAY")) {
-					return "9999";
-				} else {
 					return "0001";
+				} else {
+					return "9999";
 				}
-			} if (return_code.equals("FAIL")) {
+			} else if (return_code.equals("FAIL")) {
 				return "0001";
 			} else {
 				return "9999";

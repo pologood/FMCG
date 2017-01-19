@@ -51,6 +51,9 @@ public class CouponController extends BaseController {
     @Resource(name = "messageServiceImpl")
     private MessageService messageService;
 
+    @Resource(name = "promotionServiceImpl")
+    private PromotionService promotionService;
+
     /**
      * 首页
      */
@@ -114,6 +117,7 @@ public class CouponController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public DataBlock list(Long tenantId, Pageable pageable) {
+        Member member = memberService.getCurrent();
         Tenant tenant = tenantService.find(tenantId);
         if (tenant == null) {
             return DataBlock.error(DataBlock.TENANT_INVAILD);
@@ -124,7 +128,7 @@ public class CouponController extends BaseController {
         filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
         pageable.setFilters(filters);
         Page<Coupon> page = couponService.findPage("canUse", pageable);
-        return DataBlock.success(CouponModel.bindData(page.getContent()), "执行成功");
+        return DataBlock.success(CouponModel.bindData(page.getContent(), member), "执行成功");
     }
 
     /**
@@ -154,8 +158,6 @@ public class CouponController extends BaseController {
         if (couponCode == null) {
             return DataBlock.error("领取失败");
         }
-        coupon.setSendCount(coupon.getSendCount() + 1);
-        couponService.update(coupon);
         return DataBlock.success("success", "领取成功");
     }
 
@@ -269,7 +271,7 @@ public class CouponController extends BaseController {
         map.put("tenantId", coupon.getTenant().getId());
         map.put("tenantName", coupon.getTenant().getName());
         map.put("tenantGrade", coupon.getTenant().getScore());
-        map.put("tenantThumbnail", coupon.getTenant().getThumbnail());
+        map.put("tenantThumbnail", coupon.getTenant().getThumbnail()==null?coupon.getTenant().getLogo():coupon.getTenant().getThumbnail());
         if (coupon.getTenant().getTenantCategory() != null) {
             map.put("tenantCategoryName", coupon.getTenant().getTenantCategory().getName());
         } else {
@@ -277,6 +279,31 @@ public class CouponController extends BaseController {
         }
         map.put("address", coupon.getTenant().getAddress());
         return DataBlock.success(map, "执行成功");
+    }
+
+    /**
+     * 获取优惠信息
+     * @param id pomotionId
+     */
+    @RequestMapping(value = "/promotion", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock promotion(Long id){
+        Promotion promotion=promotionService.find(id);
+        if(promotion==null){
+            return DataBlock.error("无效Id");
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("promotionId",promotion.getId());
+        map.put("promotionName",promotion.getName());
+        map.put("introduction", promotion.getIntroduction());
+        map.put("startDate",promotion.getBeginDate()==null?null:new SimpleDateFormat("yyyy-MM-dd").format(promotion.getBeginDate()));
+        map.put("endDate",promotion.getEndDate()==null?null:new SimpleDateFormat("yyyy-MM-dd").format(promotion.getEndDate()));
+        map.put("tenantId",promotion.getTenant().getId());
+        map.put("tenantName",promotion.getTenant().getName());
+        map.put("tenantGrade", promotion.getTenant().getScore());
+        map.put("tenantThumbnail", promotion.getTenant().getThumbnail()==null?promotion.getTenant().getLogo():promotion.getTenant().getThumbnail());
+        map.put("address", promotion.getTenant().getAddress());
+        return DataBlock.success(map,"执行成功");
     }
 
     /**
@@ -320,12 +347,14 @@ public class CouponController extends BaseController {
      */
     @RequestMapping(value = "/record", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock record(Long id) {
+    public DataBlock record(Long id, Pageable pageable) {
+
         Coupon coupon = couponService.find(id);
         List<Filter> filters=new ArrayList<>();
         filters.add(new Filter("member", Filter.Operator.eq,memberService.getCurrent()));
         filters.add(new Filter("coupon", Filter.Operator.eq,coupon));
-        List<CouponCode> couponCodeList=couponCodeService.findList(null,filters,null);
-        return DataBlock.success(CouponNumberModel.bindData(couponCodeList),"执行成功");
+        pageable.setFilters(filters);
+        Page<CouponNumber> page=couponNumberService.findPage(pageable);
+        return DataBlock.success(CouponNumberModel.bindData(page.getContent()),"执行成功");
     }
 }

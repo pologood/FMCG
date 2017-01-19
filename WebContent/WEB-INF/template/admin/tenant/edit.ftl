@@ -56,8 +56,56 @@
 //                    },
                     "telephone": {
                         required: true
+                    },
+                    "code":{
+                    	digits:true ,
+                    	max:99999        
+                    }
+                },
+                message:{
+
+                    "name": {
+                        required: "必填"
+                    },
+                    "tenantType": {
+                        required: "必填"
+                    },
+                    "areaId": {
+                        required: "必填"
+                    },
+                    "address": {
+                        required: "必填"
+                    },
+//                    "linkman": {
+//                        required: true
+//                    },
+                    "telephone": {
+                        required: "必填"
+                    },
+                    "code":{
+                    	digits:"必须为[0-9]之间的整数" ,
+                    	max:"最多10位数"        
                     }
                 }
+        //         submitHandler: function (form) {
+        //             $.ajax({
+	       //              url: "${base}/admin/tenant/judge_code_only.jhtml",
+	       //              data: {
+	       //              	id: "${tenant.id}",
+	       //              	code:$("#text_code").val()
+	       //              },
+	       //              type: 'get',
+	       //              dataType: 'text',
+	       //              success: function (data) {
+	       //                 	if(data=="yes"){
+								// form.submit();
+	       //                  }else{
+	       //                  	$.message("warn","code已经存在，请重新输入");
+	       //                  }
+	       //              }
+	       //          });
+                    
+        //         }
             });
 
             // 增加商品图片
@@ -328,6 +376,14 @@
             </th>
             <td>
                 <input type="text" name="agency" class="text" value="${(tenant.agency)!}"/>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                企业二维码编码:
+            </th>
+            <td>
+                <input type="text" name="code" class="text" value="${(tenant.code)!}" id="text_code" />
             </td>
         </tr>
         <!--

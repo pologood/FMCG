@@ -136,22 +136,22 @@ public class CouponNumberDaoImpl extends BaseDaoImpl<CouponNumber ,Long> impleme
 
     public Page<Map<String, Object>> findCouponNumberPage(Coupon coupon, String keyword,Pageable pageable){
         String sql =
-                "SELECT a.markcount,a.usercount,m.name d,t.name h,c.name f,e.name g,a.bro " +
+                "SELECT a.markcount,a.usercount,m.name d,t.name h,c.name f,e.name g,a.bro,a.guide_member " +
                 "FROM " +
                 "(SELECT guide_member,count(guide_member) markcount,COUNT(member) usercount,SUM(brokerage) bro FROM `xx_coupon_number` where guide_member is NOT null and coupon=:coupon GROUP BY guide_member)a ,xx_tenant t,xx_member m,xx_tenant_category c,xx_area e " +
                 "where " +
                 "a.guide_member=m.id AND t.id=m.tenant and t.tenant_category=c.id and t.area=e.id ";
 
         String totalSql = "SELECT count(1)  from "
-                + "	(SELECT a.markcount,a.usercount,m.name v,t.name b,c.name n,e.name m,a.bro " +
+                + "	(SELECT a.markcount,a.usercount,m.name v,t.name b,c.name n,e.name m,a.bro,a.guide_member " +
                 "FROM " +
                 "(SELECT guide_member,count(guide_member) markcount,COUNT(member) usercount,SUM(brokerage) bro FROM `xx_coupon_number` where guide_member is NOT null and coupon=:coupon GROUP BY guide_member)a ,xx_tenant t,xx_member m,xx_tenant_category c,xx_area e " +
                 "where " +
                 "a.guide_member=m.id AND t.id=m.tenant and t.tenant_category=c.id and t.area=e.id  ";
 
         if(StringUtils.isNotBlank(keyword)){
-            sql=sql+"AND (m.name LIKE :keyword OR t.name LIKE :keyword)";
-            totalSql=totalSql+"AND (m.name LIKE :keyword OR t.name LIKE :keyword)";
+            sql=sql+"AND (m.name LIKE :keyword OR t.name LIKE :keyword OR e.name LIKE :keyword OR c.name LIKE :keyword)";
+            totalSql=totalSql+"AND (m.name LIKE :keyword OR t.name LIKE :keyword OR e.name LIKE :keyword OR c.name LIKE :keyword)";
         }
         totalSql=totalSql+") z";
 
@@ -187,6 +187,7 @@ public class CouponNumberDaoImpl extends BaseDaoImpl<CouponNumber ,Long> impleme
                 map.put("tenant_category_name", row[4]);
                 map.put("area_name", row[5]);
                 map.put("brokerage", row[6]);
+                map.put("guider_name_id", row[7]);
                 maps.add(map);
             }
         }

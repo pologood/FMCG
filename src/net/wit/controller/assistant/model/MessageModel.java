@@ -22,6 +22,8 @@ public class MessageModel extends BaseModel {
 	private Date create_date;
 	/*订单*/
 	private Long sid;
+	/*是否已读*/
+	private Boolean receiverRead;
 
 	public Long getId() {
 		return id;
@@ -72,12 +74,21 @@ public class MessageModel extends BaseModel {
 		this.sid = sid;
 	}
 
+	public Boolean getReceiverRead() {
+		return receiverRead;
+	}
+
+	public void setReceiverRead(Boolean receiverRead) {
+		this.receiverRead = receiverRead;
+	}
+
 	public void copyFrom(Message message) {
 		this.id = message.getId();
 		this.title = message.getTitle();
 		this.content = message.getContent();
 		this.create_date = message.getCreateDate();
 		this.image=message.getImage();
+		this.receiverRead = message.getReceiverRead();
 
 	}
 	

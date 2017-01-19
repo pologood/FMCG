@@ -75,6 +75,8 @@ public class Order extends BaseEntity {
 		unshipped,
 		/** 待支付 */
 		unpaid,
+		/** 已支付 */
+		paid,
 		/** 待签收/已发货 */
 		shipped,
 		/** 待退货 */

@@ -127,8 +127,8 @@
                             var $this = $(this);
                             $("#" + $this.attr("name")).val($this.val());
                         });
-                        // alert($("#tenantCategory_id").val());
                         $("#tenantCategoryId").val($("#tenantCategory_id").val());
+                        $("#is_union").val($("#is_union_select").val());
                         $listForm.submit();
                     }
                 });
@@ -195,12 +195,13 @@
     <input type="hidden" id="areaId" name="areaId" value="${(area.id)!}"/>
     <input type="hidden" id="tenantType" name="tenantType" value="${tenantType}"/>
     <input type="hidden" id="tenantCategoryId" name="tenantCategoryId" value="${tenantCategoryId}"/>
+    <input type="hidden" id="is_union" name="isUnion" value="${isUnion}"/>
 
     <input type="hidden" id="qrCodeStatus" name="qrCodeStatus" value="${qrCodeStatus}"/>
     <input type="hidden" id="marketableSize" name="marketableSize" value="${marketableSize}"/>
     <div class="bar">
         <div class="buttonWrap">
-            <a href="javascript:;" id="export_ss" class="button">导出</a>
+
             <a href="javascript:;" id="refreshButton" class="iconButton">
                 <span class="refreshIcon">&nbsp;</span>${message("admin.common.refresh")}
             </a>
@@ -259,22 +260,23 @@
         </div>
         <div class="menuWrap">
             <div class="search">
-                <input type="text" id="searchValue" name="searchValue" value="${keyword}" maxlength="200" placeholder="手机号、会员、店铺" style="width:190px;"/>
-                <button type="submit">&nbsp;</button>
+                <input type="text" id="searchValue" name="searchValue" value="${keyword}" maxlength="200" placeholder="名称、店主" style="width:190px;"/>
+                <button type="button" onclick="set_page_number()">&nbsp;</button>
             </div>
         </div>
         <div class="menuWrap">
             <input type="text" id="beginDate" name="beginDate" class="text Wdate"
                    value="[#if beginDate??]${beginDate?string("yyyy-MM-dd")}[/#if]"
                    onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd', maxDate: '#F{$dp.$D(\'endDate\')}'});"
-                   placeholder="入住开始日期"/>
+                   placeholder="入驻开始日期"/>
             &nbsp;-&nbsp;
             <input type="text" id="endDate" name="endDate" class="text Wdate"
                     value="[#if endDate??]${endDate?string("yyyy-MM-dd")}[/#if]"
                     onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd', minDate: '#F{$dp.$D(\'beginDate\')}'});"
-                    placeholder="入住结束日期"/>
+                    placeholder="入驻结束日期"/>
         </div>
-        <input type="submit" value="查询" class="bar buttonWrap button">
+        <input type="button" value="查询" class="bar buttonWrap button" onclick="set_page_number()">
+        <input type="button"id="export_ss" class="bar buttonWrap button" value="导出">
     </div>
     <table id="listTable" class="list table2excel">
         <tr>
@@ -288,7 +290,7 @@
                 <span>入驻时间</span>
             </th>
             <th>
-                <span>所属区域</span>
+                <span>所属区域/地址</span>
             </th>
             <th>
                 <span>店铺分类</span>
@@ -299,34 +301,34 @@
             <th>
                 <span>商品款数</span>
             </th>
+            [#--<th>--]
+                [#--<span>地址</span>--]
+            [#--</th>--]
             <th>
-                <span>地址</span>
+                <span>联系人</span>
             </th>
             <th>
-                <span>店主(电话)</span>
-            </th>
-            <th>
-                <span>缩略图</span>
+                <span>联系电话</span>
             </th>
             <th>
                 <span>审核状态</span>
             </th>
 
-            <th>
-                <span>是否推荐</span>
-            </th>
-            <th>
-                <span>是否加盟</span>
-            </th>
+            [#--<th>--]
+                [#--<span>是否推荐</span>--]
+            [#--</th>--]
+            [#--<th>--]
+                [#--<span>是否加盟</span>--]
+            [#--</th>--]
             <th>
                 <span>平台佣金</span>
             </th>
-            <th>
-                <span>推广分润</span>
-            </th>
-            <th>
-                <span>联盟佣金</span>
-            </th>
+            [#--<th>--]
+                [#--<span>推广分润</span>--]
+            [#--</th>--]
+            [#--<th>--]
+                [#--<span>联盟佣金</span>--]
+            [#--</th>--]
             <th>
                 <span>实名认证</span>
             </th>
@@ -354,7 +356,7 @@
             ${tenant.createDate?string("yyyy-MM-dd")}
             </td>
             <td>
-            ${(tenant.area.fullName)!}
+            ${(tenant.area.fullName)!}${(tenant.address)!}
             </td>
             <td>
             ${(tenant.tenantCategory.name)!}
@@ -365,32 +367,33 @@
             <td>
             ${(tenant.products?size)!}
             </td>
+            [#--<td>--]
+            [#--${(tenant.address)!}--]
+            [#--</td>--]
             <td>
-            ${(tenant.address)!}
+            ${(tenant.linkman)!'--'}
             </td>
             <td>
-            ${(tenant.member.displayName)!}&nbsp;(${(tenant.member.mobile)!})
-            </td>
-            <td>
-                [#if tenant.member.thumbnail??]是[#else ]否[/#if]
+            ${(tenant.telephone)!}
+                [#--[#if tenant.member.thumbnail??]是[#else ]否[/#if]--]
             </td>
             <td>
             ${message("Tenant.Status."+tenant.status)}
             </td>
-            <td>
-                [#assign isTag="否"]
-                [#list tags as tag]
-                [#if tenant.tags?seq_contains(tag)]
-                    [#assign isTag="是"]
-                    [#break /]
-                [/#if]
-            [/#list]
-                ${isTag}
-            </td>
-            <td>[#if tenant.isUnion]是[#else ]否[/#if]</td>
+            [#--<td>--]
+                [#--[#assign isTag="否"]--]
+                [#--[#list tags as tag]--]
+                [#--[#if tenant.tags?seq_contains(tag)]--]
+                    [#--[#assign isTag="是"]--]
+                    [#--[#break /]--]
+                [#--[/#if]--]
+            [#--[/#list]--]
+                [#--${isTag}--]
+            [#--</td>--]
+            [#--<td>[#if tenant.isUnion]是[#else ]否[/#if]</td>--]
             <td>${(tenant.brokerage)!}</td>
-            <td>${(tenant.generalize)!}</td>
-            <td>${(tenant.agency)!}</td>
+            [#--<td>${(tenant.generalize)!}</td>--]
+            [#--<td>${(tenant.agency)!}</td>--]
             <td>[#if tenant.member.idcard??]是[#else ]否[/#if]</td>
             <td>[#if tenant.member.memberBanks?size>0]是[#else ]否[/#if]</td>
             [#if versionType==0]
@@ -411,9 +414,9 @@
                 <a href="${base}/admin/tenant/view.jhtml?id=${tenant.id}">[详情]</a>
                 <a href="edit.jhtml?id=${tenant.id}">[${message("admin.common.edit")}]</a>
                 <a href="${base}/admin/product/list.jhtml?tenantId=${tenant.id}">[商品]</a>
-                <a href="${base}/admin/deposit/list.jhtml?memberId=${tenant.member.id}">账单</a>
+                <a href="${base}/admin/deposit/list.jhtml?memberId=${tenant.member.id}">[账单]</a>
                 [#if versionType==0]
-                    <a href="${base}/admin/product/oneKeyAdd.jhtml?tenantId=${tenant.id}">一键上架</a>
+                    <a href="${base}/admin/product/oneKeyAdd.jhtml?tenantId=${tenant.id}">[一键上架]</a>
                 [/#if]
             </td>
         </tr>
@@ -423,5 +426,11 @@
     [#include "/admin/include/pagination.ftl"]
 [/@pagination]
 </form>
+<script type="text/javascript">
+    function set_page_number(){
+        $("#pageNumber").val("1");
+        $("#listForm").submit();
+    }
+</script>
 </body>
 </html>

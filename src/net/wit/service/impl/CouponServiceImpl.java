@@ -5,11 +5,10 @@
  */
 package net.wit.service.impl;
 
-import net.wit.Page;
-import net.wit.Pageable;
-import net.wit.Setting;
+import net.wit.*;
 import net.wit.dao.*;
 import net.wit.entity.*;
+import net.wit.entity.Message;
 import net.wit.entity.Rebate.Status;
 import net.wit.entity.Rebate.Type;
 import net.wit.entity.model.CouponSumerModel;
@@ -73,8 +72,13 @@ public class CouponServiceImpl extends BaseServiceImpl<Coupon, Long> implements 
     }
 
     @Transactional(readOnly = true)
-    public Page<Coupon> findPage(Area area, Community community, TenantCategory tenantCategory, Boolean isExpired, Location location, String orderType, Pageable pageable) {
-        return couponDao.findPage(area, community, tenantCategory, isExpired, location, orderType, pageable);
+    public Page<Coupon> findPage(Area area, Community community, TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Pageable pageable) {
+        return couponDao.findPage(area, community, tenantCategory, isExpired, location, distance, orderType, isPromotion, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Coupon> findList(Area area, Community community, TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Integer first, Integer count, List<Filter> filters, List<net.wit.Order> orders) {
+        return couponDao.findList(area, community, tenantCategory, isExpired, location, distance, orderType, isPromotion, first, count, filters, orders);
     }
 
     @Transactional(readOnly = true)

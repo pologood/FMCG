@@ -27,6 +27,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.wit.entity.*;
 import net.wit.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,12 +42,6 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.wit.controller.app.BaseController;
 import net.wit.controller.app.model.DataBlock;
 import net.wit.controller.app.model.TenantModel;
-import net.wit.entity.DeliveryCenter;
-import net.wit.entity.Location;
-import net.wit.entity.Member;
-import net.wit.entity.Qrcode;
-import net.wit.entity.Tenant;
-import net.wit.entity.TenantWechat;
 import net.wit.support.EntitySupport;
 import net.wit.util.QRBarCodeUtil;
 import net.wit.weixin.main.MenuManager;
@@ -75,7 +70,9 @@ public class TenantController extends BaseController {
 
 	@Resource(name = "areaServiceImpl")
 	private AreaService areaService;
-	
+
+	@Resource(name = "employeeServiceImpl")
+	private EmployeeService employeeService;
 
 	@Resource(name = "qrcodeServiceImpl")
 	private QrcodeService qrcodeService;
@@ -164,6 +161,16 @@ public class TenantController extends BaseController {
 
 		TenantModel model = new TenantModel();
 		model.copyFrom(tenant);
+		Employee employee = employeeService.findMember(member,tenant);
+		if (employee==null) {
+			employee = new Employee();
+			employee.setMember(member);
+			employee.setRole(",owner");
+			employee.setDeliveryCenter(tenant.getDefaultDeliveryCenter());
+			employee.setTenant(tenant);
+			employee.setQuertity(0);
+			employeeService.save(employee);
+		}
 		return DataBlock.success(model,"执行成功");
 		
 	}

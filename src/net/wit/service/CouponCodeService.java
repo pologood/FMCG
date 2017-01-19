@@ -204,4 +204,17 @@ public interface CouponCodeService extends BaseService<CouponCode, Long> {
      * @return
      */
 	Page<CouponCode> sumerStatistics(Coupon coupon, Boolean isUsed, Pageable pageable);
+
+	/**
+	 * 运营山后台根据会员关键词查找
+	 * @param keyword
+	 * @param coupon
+	 * @param pageable
+	 * @return
+	 */
+	Page<CouponCode> findUsedCouponCodeByKeyword(String keyword,Coupon coupon, Pageable pageable);
+
+	Page<Tuple> findDrawedCouponCodeByCoupon(Date begin_date,Date end_date,String keyword,Coupon coupon, Pageable pageable);
+
+	Page<CouponCode> findPage(Date begin_date,Date end_date,String keyword,Coupon coupon,Boolean isUsed , Pageable pageable);
 }

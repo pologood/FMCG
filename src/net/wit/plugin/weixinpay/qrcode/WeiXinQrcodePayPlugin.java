@@ -275,7 +275,7 @@ public class WeiXinQrcodePayPlugin extends PaymentPlugin {
 				} else {
 					return "0001";
 				}
-			} if (return_code.equals("FAIL")) {
+			} else if (return_code.equals("FAIL")) {
 				return "0001";
 			} else {
 				return "9999";

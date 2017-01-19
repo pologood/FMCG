@@ -6,23 +6,20 @@
 package net.wit.controller.admin;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import net.wit.FileInfo.FileType;
+import net.wit.Filter;
 import net.wit.Message;
 import net.wit.Pageable;
-import net.wit.entity.Community;
-import net.wit.entity.Location;
-import net.wit.entity.ProductImage;
-import net.wit.entity.Tag;
+import net.wit.entity.*;
 import net.wit.entity.Tag.Type;
-import net.wit.service.AreaService;
-import net.wit.service.CommunityService;
-import net.wit.service.FileService;
-import net.wit.service.ProductImageService;
-import net.wit.service.TagService;
+import net.wit.service.*;
 import net.wit.util.LBSUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -54,6 +51,8 @@ public class CommunityController extends BaseController {
 	private ProductImageService productImageService;
 	@Resource(name = "tagServiceImpl")
 	private TagService tagService;
+	@Resource(name = "deliveryCenterServiceImpl")
+	private DeliveryCenterService deliveryCenterService;
 
 	/**
 	 * 添加
@@ -168,6 +167,99 @@ public class CommunityController extends BaseController {
 	Message delete(Long[] ids) {
 		communityService.delete(ids);
 		return SUCCESS_MESSAGE;
+	}
+
+	/**
+	 * 社区门店列表
+	 */
+	@RequestMapping(value = "/deliveryCenter_list", method = RequestMethod.GET)
+	public String deliveryCenterList(String keyword,Long id,Pageable pageable, ModelMap model) {
+		Community community=communityService.find(id);
+		List<Filter> filter = new ArrayList<Filter>();
+		filter.add(new Filter("community", Filter.Operator.eq, community));
+		pageable.setFilters(filter);
+		model.addAttribute("page", deliveryCenterService.findPage(keyword,pageable));
+		model.addAttribute("communityId", id);
+		model.addAttribute("keyword",keyword);
+		return "/admin/community/deliveryCenter_list";
+	}
+	/**
+	 * 所有门店列表
+	 */
+	@RequestMapping(value = "/deliveryCenter_add", method = RequestMethod.GET)
+	public String deliveryCenterAdd(Long communityId, String keyword,Pageable pageable, ModelMap model) {
+		model.addAttribute("page",deliveryCenterService.findPage(keyword,pageable));
+		model.addAttribute("keyword",keyword);
+		model.addAttribute("communityId",communityId);
+		return "/admin/community/deliveryCenter_add";
+	}
+
+	/**
+	 * 往商圈中添加数据
+	 */
+	@RequestMapping(value = "/deliveryCenter_save", method = RequestMethod.POST)
+	@ResponseBody
+	public Message deliverCenterSave(Long communityId,Long[] ids) {
+		Community community=communityService.find(communityId);
+		Integer successCount=0;
+		if(community!=null){
+			try {
+				Set<DeliveryCenter> deliveryCenters=community.getDeliveryCenters();
+				for(Long id:ids){
+                    DeliveryCenter deliveryCenter=deliveryCenterService.find(id);
+                    if(deliveryCenter!=null){
+                        deliveryCenters.add(deliveryCenter);
+						deliveryCenter.setCommunity(community);
+						deliveryCenterService.update(deliveryCenter);
+
+						community.setDeliveryCenters(deliveryCenters);
+                        successCount+=1;
+                    }else {
+                        continue;
+                    }
+                }
+				communityService.update(community);
+			} catch (Exception e) {
+				return Message.error("添加失败");
+			}
+		}else{
+			return Message.error("找不到社区");
+		}
+
+		return Message.success("添加成功"+successCount+"条数据");
+	}
+
+	/**
+	 * 往商圈中移除数据
+	 */
+	@RequestMapping(value = "/deliveryCenter_deleted", method = RequestMethod.POST)
+	@ResponseBody
+	public Message deliverCenterDelited(Long communityId,Long[] ids) {
+		Community community=communityService.find(communityId);
+		Integer successCount=0;
+		if(community!=null){
+			try {
+				Set<DeliveryCenter> deliveryCenters=community.getDeliveryCenters();
+				for(Long id:ids){
+					DeliveryCenter deliveryCenter=deliveryCenterService.find(id);
+					if(deliveryCenter!=null){
+						deliveryCenters.remove(deliveryCenter);
+						deliveryCenter.setCommunity(null);
+						deliveryCenterService.update(deliveryCenter);
+
+						community.setDeliveryCenters(deliveryCenters);
+						successCount+=1;
+					}else {
+						continue;
+					}
+				}
+			} catch (Exception e) {
+				return Message.error("添加失败");
+			}
+		}else{
+			return Message.error("找不到社区");
+		}
+		return Message.success("删除成功"+successCount+"条数据");
 	}
 
 }

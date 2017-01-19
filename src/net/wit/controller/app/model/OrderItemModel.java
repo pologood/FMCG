@@ -168,10 +168,12 @@ public class OrderItemModel extends BaseModel {
 		Set<SingleModel> promotions = new HashSet<SingleModel>();
 		if (orderItem.getProduct()!=null && orderItem.getProduct().getPromotions()!=null) {
 			for (Promotion promotion:orderItem.getProduct().getPromotions()) {
-				SingleModel model = new SingleModel();
-				model.setId(promotion.getId());
-				model.setName(promotion.getName());
-				promotions.add(model);
+				if(promotion!=null){
+					SingleModel model = new SingleModel();
+					model.setId(promotion.getId());
+					model.setName(promotion.getName());
+					promotions.add(model);
+				}
 			}
 			this.promotions = promotions;
 		}

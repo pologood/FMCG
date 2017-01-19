@@ -1,5 +1,6 @@
 package net.wit.controller.assistant.model;
 
+import net.wit.entity.Consumer;
 import net.wit.entity.Member;
 
 import java.util.ArrayList;
@@ -68,7 +69,9 @@ public class SevenAddListModel extends BaseModel {
 		this.memberRank = memberRank;
 	}
 
-	public void copyFrom(Member member) {
+	public void copyFrom(Consumer consumer) {
+		Member member = consumer.getMember();
+		if(member!=null){
         this.id = member.getId();
 		this.name =member.getName();
 		this.image = member.getHeadImg();
@@ -90,13 +93,14 @@ public class SevenAddListModel extends BaseModel {
 		}
 		this.createDate = member.getCreateDate();
 
+		}
 	}
 	
-	public static  List<SevenAddListModel> bindData(List<Member> members) {
+	public static  List<SevenAddListModel> bindData(List<Consumer> consumers) {
 		List<SevenAddListModel> models = new ArrayList<SevenAddListModel>();
-		for (Member member:members) {
+		for (Consumer consumer:consumers) {
 			SevenAddListModel model = new SevenAddListModel();
-			model.copyFrom(member);
+			model.copyFrom(consumer);
 			models.add(model);
 		}
 		return models;

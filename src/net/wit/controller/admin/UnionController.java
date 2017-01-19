@@ -40,9 +40,6 @@ public class UnionController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Pageable pageable, ModelMap model) {
-        List<Filter> filter = new ArrayList<Filter>();
-        filter.add(new Filter("type", Filter.Operator.eq, Union.Type.tenant));
-        pageable.setFilters(filter);
         Page<Union> page =unionService.findPage(pageable);
         model.addAttribute("page", page);
         return "/admin/union/list";
@@ -88,7 +85,6 @@ public class UnionController extends BaseController {
         Union union=new Union();
         union.setName(name);
         union.setBrokerage(brokerage_send);
-        union.setType(Union.Type.tenant);
         union.setTenantNumber(0);
         union.setPrice(price);
         if (file != null && !file.isEmpty()) {

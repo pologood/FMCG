@@ -29,6 +29,8 @@ public class TenantListModel extends BaseModel {
 	private Float grade;
 	/**佣金*/
 	private BigDecimal brokerage;
+	/**联盟佣金*/
+	private BigDecimal agency;
 
 	public Long getId() {
 		return id;
@@ -95,6 +97,14 @@ public class TenantListModel extends BaseModel {
 		this.brokerage = brokerage;
 	}
 
+	public BigDecimal getAgency() {
+		return agency;
+	}
+
+	public void setAgency(BigDecimal agency) {
+		this.agency = agency;
+	}
+
 	public void copyFrom(Tenant tenant) {
 		this.id = tenant.getId();
 		this.grade = tenant.getScore();
@@ -110,6 +120,7 @@ public class TenantListModel extends BaseModel {
 		}
 		this.address = tenant.getAddress();
 		this.brokerage = tenant.getBrokerage();
+		this.agency = tenant.getAgency();
 		this.products = tenant.getProducts().size();
 	}
 

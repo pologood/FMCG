@@ -219,4 +219,18 @@ public class ProductController extends BaseController {
         model.addAttribute("tscpath", "/wap/product/display");
         return "/wap/product/display";
     }
+
+    /**
+     * 商家红包页面
+     */
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String list(String extension,HttpServletRequest request){
+        if (extension != null) {
+            Member extensions = memberService.findByUsername(extension);
+            if (extensions != null) {
+                request.getSession().setAttribute(Member.EXTENSION_ATTRIBUTE_NAME, extensions.getUsername());
+            }
+        }
+        return "weixin/member/redPacket/index";
+    }
 }

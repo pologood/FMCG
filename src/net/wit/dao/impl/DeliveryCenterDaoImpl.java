@@ -40,6 +40,7 @@ import net.wit.support.DeliveryComparatorByDistance;
 import net.wit.support.EntitySupport;
 import net.wit.util.MapUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -469,5 +470,29 @@ public class DeliveryCenterDaoImpl extends BaseDaoImpl<DeliveryCenter, Long> imp
 
 		criteriaQuery.where(restrictions);
 		return super.findList(criteriaQuery, null, null, null, null);
+	}
+
+	/**
+	 * add by yw;time:20170110
+	 * 根据关键词过滤查找门店（可扩展）
+	 * @param keyword
+	 * @param pageable
+	 * @return
+	 */
+	public Page<DeliveryCenter> findPage(String keyword, Pageable pageable) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<DeliveryCenter> criteriaQuery = criteriaBuilder.createQuery(DeliveryCenter.class);
+		Root<DeliveryCenter> root = criteriaQuery.from(DeliveryCenter.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		if (StringUtils.isNotBlank(keyword)) { // 关键字
+			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(
+					criteriaBuilder.like(root.<String>get("name"), "%" + keyword + "%"),
+					criteriaBuilder.equal(root.<String>get("contact"),keyword ),
+					criteriaBuilder.like(root.get("tenant").<String>get("name"), "%" + keyword + "%"),
+					criteriaBuilder.equal(root.<String>get("phone"), keyword )));
+		}
+		criteriaQuery.where(restrictions);
+		return super.findPage(criteriaQuery, pageable);
 	}
 }

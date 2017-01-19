@@ -4,6 +4,7 @@ import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.controller.weixin.model.AdModel;
 import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.model.TenantListModel;
 import net.wit.entity.*;
 import net.wit.service.*;
 import net.wit.weixin.main.MenuManager;
@@ -77,17 +78,19 @@ public class ActivityController {
                 map.put("name", singleProductPosition.getName());
                 List<Map<String, Object>> list1 = new ArrayList<>();
                 for (SingleProduct singleProduct : singleProductPosition.getSingleProducts()) {
-                    Map<String, Object> map1 = new HashMap<>();
-                    map1.put("id", singleProduct.getProduct().getId());
-                    map1.put("title", singleProduct.getTitle());
-                    map1.put("thumbnail", singleProduct.getProduct().getThumbnail());
-                    map1.put("name", singleProduct.getProduct().getName());
-                    map1.put("fullName", singleProduct.getProduct().getFullName());
-                    map1.put("price", singleProduct.getProduct().calcEffectivePrice(null));
-                    map1.put("marketPrice", singleProduct.getProduct().getMarketPrice());
-                    map1.put("hits", singleProduct.getProduct().getHits());
-                    map1.put("monthSales", singleProduct.getProduct().getMonthSales());
-                    list1.add(map1);
+                    if(singleProduct.getProduct()!=null){
+                        Map<String, Object> map1 = new HashMap<>();
+                        map1.put("id", singleProduct.getProduct().getId());
+                        map1.put("title", singleProduct.getTitle());
+                        map1.put("thumbnail", singleProduct.getProduct().getThumbnail());
+                        map1.put("name", singleProduct.getProduct().getName());
+                        map1.put("fullName", singleProduct.getProduct().getFullName());
+                        map1.put("price", singleProduct.getProduct().calcEffectivePrice(null));
+                        map1.put("marketPrice", singleProduct.getProduct().getMarketPrice());
+                        map1.put("hits", singleProduct.getProduct().getHits());
+                        map1.put("monthSales", singleProduct.getProduct().getMonthSales());
+                        list1.add(map1);
+                    }
                 }
                 map.put("singleProducts", list1);
                 list.add(map);
@@ -107,5 +110,17 @@ public class ActivityController {
         data.put("adPosition", AdModel.bindData(adPage.getContent()));
         data.put("singleProductPositions", list);
         return DataBlock.success(data, "执行成功");
+    }
+
+    /**
+     * 活动商家
+     * @param linkId 广告位链接Id
+     */
+    @RequestMapping(value = "/tenant/list", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock tenantList(Long linkId) {
+        ActivityPlanning activityPlanning = activityPlanningService.find(linkId);
+        return DataBlock.success(TenantListModel.bindData(new ArrayList<>(activityPlanning.getTenants())), "执行成功");
+
     }
 }

@@ -198,7 +198,6 @@ public class ConsumerController extends BaseController {
 		filters.add(new Filter("member", Filter.Operator.eq, member));
 		List<Consumer> consumers = consumerService.findList(10, filters, null);
 
-		Map<String, Object> data = new HashMap<String, Object>();
 		MemberModel models = new MemberModel();
 		if (consumers.size()==0) {
 			models.copyFrom(member);

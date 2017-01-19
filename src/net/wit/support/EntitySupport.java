@@ -185,6 +185,7 @@ public class EntitySupport {
         tenant.setWifi(false);
         tenant.setCloudTenant(false);
         tenant.setEquipment(false);
+        tenant.setEnd(false);
 
         Setting setting = SettingUtils.get();
         tenant.setBrokerage(setting.getBrokerage());

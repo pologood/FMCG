@@ -113,9 +113,9 @@ public class MessageController extends BaseController {
 		Object data;
 		if (type!=null&&type.equals("1")) {
 			Map<String, Object> map = new HashMap<>();
-			map.put("order", messageService.count(member, false, Message.Type.order));
-			map.put("account", messageService.count(member, false, Message.Type.account));
-			map.put("message", messageService.count(member, false, Message.Type.message));
+			map.put("order", messageService.count(member, false, Message.Type.order,null));
+			map.put("account", messageService.count(member, false, Message.Type.account,null));
+			map.put("message", messageService.count(member, false, Message.Type.message,null));
 			Pageable pageable=new Pageable(1,1);
 			Page<Message> page;
 

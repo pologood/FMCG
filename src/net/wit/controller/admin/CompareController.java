@@ -99,8 +99,30 @@ public class CompareController extends BaseController {
                 PaymentPlugin paymentPlugin = pluginService.getPaymentPlugin(payment.getPaymentPluginId());
 
                 if (paymentPlugin == null || !paymentPlugin.getIsEnabled()) {
+                    String code="";
                     try {
-                        paymentService.close(payment);
+                        code=paymentService.opService(payment);
+                        if("0000".equals(code)){
+                            try {
+                                paymentService.handle(payment);
+                                successData.add(payment);
+                            } catch (Exception e) {
+                                // TODO Auto-generated catch block
+                                abnormalData.add(compareMap(payment));
+                                e.printStackTrace();
+                            }
+                        }else if("0001".equals(code)){
+                            try {
+                                paymentService.close(payment);
+                                errorData.add(payment);
+                            } catch (Exception e) {
+                                // TODO Auto-generated catch block
+                                abnormalData.add(compareMap(payment));
+                                e.printStackTrace();
+                            }
+                        }else{
+                            abnormalData.add(compareMap(payment));
+                        }
                     } catch (Exception e) {
                         // TODO Auto-generated catch block
                         abnormalData.add(compareMap(payment));
@@ -125,7 +147,7 @@ public class CompareController extends BaseController {
                                 abnormalData.add(compareMap(payment));
                                 e.printStackTrace();
                             }
-                        } else if (!resultCode.equals("9999")) {
+                        } else if (resultCode.equals("0001")) {
                             try {
                                 paymentService.close(payment);
                                 errorData.add(payment);
@@ -134,6 +156,8 @@ public class CompareController extends BaseController {
                                 abnormalData.add(compareMap(payment));
                                 e.printStackTrace();
                             }
+                        }else{
+                            abnormalData.add(compareMap(payment));
                         }
                     }
                 }
@@ -158,28 +182,42 @@ public class CompareController extends BaseController {
 
     public Map<String ,Object> compareMap(Payment payment){
         Map<String ,Object> map=new HashMap<String ,Object>();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        map.put("create_date",sdf.format(payment.getCreateDate()));
-        map.put("order_sn",payment.getOrder()!=null?payment.getOrder().getSn():"--");
-        map.put("payment_sn",payment.getSn());
-        map.put("amount",payment.getAmount());
-        map.put("member_name",payment.getMember()!=null?payment.getMember().getDisplayName():"--");
-        map.put("tenant_name",payment.getMember()!=null?payment.getMember().getTenant()!=null?payment.getMember().getTenant().getName():"--":"--");
-        if(payment.getMethod()== Payment.Method.deposit){
-            map.put("method","账单支付");
-        }else if(payment.getMethod()== Payment.Method.offline){
-            map.put("method","先下支付");
-        }else if(payment.getMethod()== Payment.Method.online){
-            map.put("method","线上支付");
+        try {
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            map.put("create_date",sdf.format(payment.getCreateDate()));
+            map.put("order_sn",payment.getOrder()!=null?payment.getOrder().getSn():"--");
+            map.put("payment_sn",payment.getSn());
+            map.put("amount",payment.getAmount());
+            map.put("member_name",payment.getMember()!=null?payment.getMember().getDisplayName():"--");
+            if(payment.getMember()!=null){
+                if(payment.getMember().getTenant()!=null){
+                    map.put("tenant_name",payment.getMember().getTenant()!=null);
+                }else{
+                    map.put("tenant_name","--");
+                }
+            }else{
+                map.put("tenant_name","--");
+            }
+
+            if(payment.getMethod()== Payment.Method.deposit){
+                map.put("method","账单支付");
+            }else if(payment.getMethod()== Payment.Method.offline){
+                map.put("method","先下支付");
+            }else if(payment.getMethod()== Payment.Method.online){
+                map.put("method","线上支付");
+            }
+            if(payment.getStatus()== Payment.Status.failure){
+                map.put("status","支付失败");
+            }else if(payment.getStatus()== Payment.Status.success){
+                map.put("status","支付成功");
+            }else if(payment.getStatus()== Payment.Status.wait){
+                map.put("status","待支付");
+            }
+            map.put("payment_method",payment.getPaymentMethod());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("程序异常");
         }
-        if(payment.getStatus()== Payment.Status.failure){
-            map.put("status","支付失败");
-        }else if(payment.getStatus()== Payment.Status.success){
-            map.put("status","支付成功");
-        }else if(payment.getStatus()== Payment.Status.wait){
-            map.put("status","待支付");
-        }
-        map.put("payment_method",payment.getPaymentMethod());
         return map;
     }
 }

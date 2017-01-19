@@ -77,7 +77,7 @@ public class AllUnionListModel extends BaseModel {
 		this.tenantNumber = union.getTenantNumber();
 		if(union.getUnionTenants().size()>0){
 			for(UnionTenant unionTenant:union.getUnionTenants()){
-				if(unionTenant.getTenant() == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed)){
+				if(unionTenant.getTenant() == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed) && unionTenant.getType().equals(UnionTenant.Type.tenant)){
 					this.isUnion = true;
 					break;
 				}else {
@@ -101,7 +101,7 @@ public class AllUnionListModel extends BaseModel {
 			if(status.equals("joined")){
 				if(union.getUnionTenants()!=null){
 					for(UnionTenant unionTenant:union.getUnionTenants()){
-						if(unionTenant.getTenant()  == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed)){
+						if(unionTenant.getTenant()  == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed) && unionTenant.getType().equals(UnionTenant.Type.tenant)){
 							newUnions.add(union);
 							break;
 						}
@@ -112,7 +112,7 @@ public class AllUnionListModel extends BaseModel {
 				newUnions.add(union);
 				if(union.getUnionTenants()!=null){
 					for(UnionTenant unionTenant:union.getUnionTenants()){
-						if(unionTenant.getTenant() == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed)){
+						if(unionTenant.getTenant() == tenant && unionTenant.getStatus().equals(UnionTenant.Status.confirmed) && unionTenant.getType().equals(UnionTenant.Type.tenant)){
 							newUnions.remove(union);
 							break;
 						}

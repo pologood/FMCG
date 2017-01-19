@@ -1,5 +1,6 @@
 package net.wit.controller.weixin;
 
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.Setting;
@@ -66,6 +67,9 @@ public class ProductController {
 
     @Resource(name = "visitRecordServiceImpl")
     private VisitRecordService visitRecordService;
+
+    @Resource(name = "unionTenantServiceImpl")
+    private UnionTenantService unionTenantService;
 
     /**
      * 商品详情页
@@ -163,7 +167,7 @@ public class ProductController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock list(Long productCategoryId, Long communityId, String keyword, Long[] tagIds, Long brandId, Long areaId, BigDecimal startPrice, BigDecimal endPrice, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Product.OrderType orderType, Pageable pageable) {
+    public DataBlock list(Long productCategoryId, Long communityId, String keyword, Long[] tagIds, Long brandId, Long areaId, BigDecimal startPrice, BigDecimal endPrice, Boolean isTop, Boolean isGift, Boolean isOutOfStock, Product.OrderType orderType, Location location, Pageable pageable) {
         Page<Product> page;
         List<ProductListModel> models;
         try {
@@ -183,7 +187,7 @@ public class ProductController {
             models = new ArrayList<>();
             for (Product product : page.getContent()) {
                 ProductListModel model = new ProductListModel();
-                model.copyFrom(product);
+                model.copyFrom(product, location);
                 Long positiveCount = reviewService.count(null, product, Review.Type.positive, null);
                 if (product.getReviews().size() > 0) {
                     model.setPositivePercent(new BigDecimal((positiveCount * 1.0 / product.getReviews().size())*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -209,7 +213,7 @@ public class ProductController {
      */
     @RequestMapping(value = "/list/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock list(@PathVariable Long id, Long productCategoryTenantId, String keyword, Long[] tagIds, Long brandId, BigDecimal startPrice, BigDecimal endPrice, Product.OrderType orderType, Pageable pageable) {
+    public DataBlock list(@PathVariable Long id, Long productCategoryTenantId, String keyword, Long[] tagIds, Long brandId, BigDecimal startPrice, BigDecimal endPrice, Product.OrderType orderType, Location location, Pageable pageable) {
         Page<Product> page = null;
         List<ProductListModel> models = null;
         try {
@@ -224,7 +228,7 @@ public class ProductController {
             models = new ArrayList<>();
             for (Product product:page.getContent()) {
                 ProductListModel model = new ProductListModel();
-                model.copyFrom(product);
+                model.copyFrom(product, location);
                 Long positiveCount=reviewService.count(null,product,Review.Type.positive,null);
                 if(product.getReviews().size()>0){
                     model.setPositivePercent(new BigDecimal((positiveCount*1.0/product.getReviews().size())*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -243,24 +247,46 @@ public class ProductController {
      * id 商家Id
      */
     @RequestMapping(value = "/unions", method = RequestMethod.GET)
-    public @ResponseBody DataBlock unions(Long id,Pageable pageable) {
+    public
+    @ResponseBody
+    DataBlock unions(Long id, Location location, Pageable pageable) {
         Tenant tenant = tenantService.find(id);
-        if (tenant==null) {
-            DataBlock.error("企业ID无效");
+        if (tenant == null) {
+            return DataBlock.error(DataBlock.TENANT_INVAILD);
         }
-        Long [] tagIds = {5L};
-        List<Tag> tags = tagService.findList(tagIds);
-        Page<Product> page = productService.openPage(pageable, tenant, null, true, true, null, null, tags, null, null, null, null, null, null, Product.OrderType.weight);
-        List<ProductListModel> models = new ArrayList<>();
-        for (Product product:page.getContent()) {
-            ProductListModel model = new ProductListModel();
-            model.copyFrom(product);
-            Long positiveCount=reviewService.count(null,product,Review.Type.positive,null);
-            if(product.getReviews().size()>0){
-                model.setPositivePercent(new BigDecimal((positiveCount*1.0/product.getReviews().size())*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+        List<UnionTenant> unionTenants=new ArrayList<>();
+        Union union = tenant.getUnion();
+        if(union!=null){
+            unionTenants=unionTenantService.findUnionTenantList(null,null,UnionTenant.Status.confirmed,union);
+        }
+        List<Tenant> tenants=new ArrayList<>();
+        for (UnionTenant unionTenant:unionTenants){
+            if(unionTenant.getTenant()!=null){
+                tenants.add(unionTenant.getTenant());
             }
-            models.add(model);
         }
+        List<ProductListModel> models = new ArrayList<>();
+        Page<Product> page;
+        if(tenants.size()>0){
+            Long [] tagIds = {5L};
+            List<Tag> tags = tagService.findList(tagIds);
+            List<Filter> filters=new ArrayList<>();
+            filters.add(new Filter("tenant", Filter.Operator.in,tenants));
+            pageable.setFilters(filters);
+            page= productService.openPage(pageable, null, null, true, true, null, null, tags, null, null, null, null, null, null, Product.OrderType.weight);
+            for (Product product:page.getContent()) {
+                ProductListModel model = new ProductListModel();
+                model.copyFrom(product, location);
+                Long positiveCount=reviewService.count(null,product,Review.Type.positive,null);
+                if(product.getReviews().size()>0){
+                    model.setPositivePercent(new BigDecimal((positiveCount*1.0/product.getReviews().size())*100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
+                models.add(model);
+            }
+        }else {
+            page=new Page<>(Collections.<Product>emptyList(), 0, pageable);
+        }
+
         return DataBlock.success(models,page,"执行成功");
     }
 
@@ -269,7 +295,9 @@ public class ProductController {
      * id 商品Id
      */
     @RequestMapping(value = "/recommend", method = RequestMethod.GET)
-    public @ResponseBody DataBlock recommend(Long id, Pageable pageable) {
+    public
+    @ResponseBody
+    DataBlock recommend(Long id, Location location, Pageable pageable) {
         Product product = productService.find(id);
         if (product == null) {
             return DataBlock.error("商品ID不存在");
@@ -280,7 +308,7 @@ public class ProductController {
         List<ProductListModel> models = new ArrayList<>();
         for (Product p : page.getContent()) {
             ProductListModel model = new ProductListModel();
-            model.copyFrom(p);
+            model.copyFrom(p, location);
             Long positiveCount = reviewService.count(null, p, Review.Type.positive, null);
             if (p.getReviews().size() > 0) {
                 model.setPositivePercent(new BigDecimal((positiveCount * 1.0 / p.getReviews().size()) * 100).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());

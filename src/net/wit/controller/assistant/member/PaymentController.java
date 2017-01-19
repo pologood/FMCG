@@ -127,6 +127,9 @@ public class PaymentController extends BaseController {
 	@ResponseBody
 	public DataBlock view(String sn,HttpServletRequest request) {
 		Payment  payment = paymentService.findBySn(sn);
+		if (payment==null) {
+			return DataBlock.error("无效订单号");
+		}
 		PaymentModel model = new PaymentModel();
 		model.copyFrom(payment);
 		return DataBlock.success(model,"执行成功");
@@ -213,7 +216,7 @@ public class PaymentController extends BaseController {
 			payment.setPaymentMethod(paymentPlugin.getPaymentName());
 			payment.setPaymentPluginId(paymentPluginId);
 			paymentService.update(payment);
-
+			paymentService.handle(payment);
 			Map<String, Object> data = paymentPlugin.getParameterMap(payment.getSn(), description, request, "/assistant");
 			if ("".equals(data.get("code_url"))) {
 				return DataBlock.error("提交微信服务器失败");
@@ -222,8 +225,9 @@ public class PaymentController extends BaseController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			return DataBlock.error("提交微信异常");
 		}
-		return DataBlock.error("提交微信异常");
+
 	}
 
 }

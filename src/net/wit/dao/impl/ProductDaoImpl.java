@@ -3484,6 +3484,7 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Long> implements Produc
 		if (StringUtils.isNotBlank(search_content)) { // 关键字
             restrictions = criteriaBuilder.and(restrictions,
                             criteriaBuilder.or(
+                                    criteriaBuilder.like(root.<String>get("name"), "%" + search_content + "%"),
                                     criteriaBuilder.like(root.<String>get("fullName"), "%" + search_content + "%"),
                                     criteriaBuilder.like(root.<String>get("sn"), "%" + search_content + "%"),
                                     criteriaBuilder.like(root.<String>get("seoKeywords"), "%" + search_content + "%"),
@@ -3559,7 +3560,7 @@ public class ProductDaoImpl extends BaseDaoImpl<Product, Long> implements Produc
         Long total = 0l;
         try {
             list = query.getResultList();
-            total = Long.parseLong(totalQuery.getSingleResult().toString());
+            total = totalQuery.getSingleResult().equals(0)?0:Long.parseLong(totalQuery.getSingleResult().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

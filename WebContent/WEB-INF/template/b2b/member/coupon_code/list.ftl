@@ -9,6 +9,8 @@
     <script type="text/javascript" src="${base}/resources/b2b/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="${base}/resources/b2b/js/index.js"></script>
     <script type="text/javascript" src="${base}/resources/b2b/js/payfor.js"></script>
+    <script type="text/javascript" src="${base}/resources/b2b/js/common.js"></script>
+    <script type="text/javascript" src="${base}/resources/b2b/js/creditcard.js"></script>
     <link href="${base}/resources/b2b/css/message.css" type="text/css" rel="stylesheet"/>
     <link rel="icon" href="${base}/resources/b2b/images/favicon.ico" type="image/x-icon" />
     <link href="${base}/resources/b2b/css/common.css" type="text/css" rel="stylesheet"/>
@@ -93,7 +95,7 @@
 
                             <div class="coupon-items">
                                 [#list page.content as couponCode]
-                                <div class="coupon-item coupon-item-d [#if couponCode.coupon.status=='Expired'||couponCode.coupon.status=='unBegin'||couponCode.isUsed==true]coupon-item-dgray[/#if]">
+                                <div class="coupon-item coupon-item-d [#if couponCode.coupon.hasExpired==true]coupon-item-dgray[/#if]">
                                     <div class="c-type">
                                         <div class="c-price">
                                             <strong>￥${couponCode.coupon.amount}</strong>
@@ -139,7 +141,7 @@
                                     [#if couponCode.isUsed==true]
                                         <div class="used-site"></div>
                                     [#else]
-                                        [#if couponCode.coupon.status=="Expired"]
+                                        [#if couponCode.coupon.hasExpired==true]
                                             <div class="overdued-site"></div>
                                         [#elseif couponCode.coupon.status=="unBegin"]
                                             <div class="c-del"></div>
@@ -157,7 +159,7 @@
     </div>
     <form id="listForm" action="list.jhtml" method="get">
         <input type="hidden" name="status" id="coupon_status">
-        <div class="ui-page-wrap clearfix" style="    padding-right: 100px;">
+        <div class="ui-page-wrap clearfix" style="padding-right: 100px;">
             [@pagination pageNumber = page.pageNumber totalPages = page.totalPages pattern = "?pageNumber={pageNumber}"]
                 [#include "/b2b/include/pagination.ftl"]
             [/@pagination]
@@ -215,7 +217,7 @@
         }else{
             if("lump" == selStyle){//块状
                 var couponItems = $('coupon-items');
-                $("#lump-icon").addClass('curr').siblings().removeClass('curr')
+                $("#lump-icon").addClass('curr').siblings().removeClass('curr');
                 if($('.coupon-items').hasClass('coupon-items02')) {
                     $('.coupon-items').removeClass('coupon-items02');
                 }
@@ -239,7 +241,7 @@
         $(obj).trigger('click');
     }
 
-    $(".tooltip").Jdropdown({"current": "hover"});
+    //$(".tooltip").Jdropdown({"current": "hover"});
 
     function get_status(obj){
         if($(obj).attr("sta")=="unuse"){

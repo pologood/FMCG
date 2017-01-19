@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.dao.MessageDao;
@@ -97,7 +98,7 @@ public class MessageDaoImpl extends BaseDaoImpl<Message, Long> implements Messag
 		return super.findPage(criteriaQuery, pageable);
 	}
 
-	public Long count(Member member, Boolean read, Message.Type type) {
+	public Long count(Member member, Boolean read, Message.Type type,List<Filter> filters) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Message> criteriaQuery = criteriaBuilder.createQuery(Message.class);
 		Root<Message> root = criteriaQuery.from(Message.class);
@@ -122,7 +123,7 @@ public class MessageDaoImpl extends BaseDaoImpl<Message, Long> implements Messag
 			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("type"),type));
 		}
 		criteriaQuery.where(restrictions);
-		return super.count(criteriaQuery, null);
+		return super.count(criteriaQuery, filters);
 	}
 
 	public void remove(Long id, Member member) {

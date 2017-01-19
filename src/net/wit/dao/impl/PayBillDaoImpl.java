@@ -162,10 +162,10 @@ public class PayBillDaoImpl extends BaseDaoImpl<PayBill, Long> implements PayBil
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
         if (tenantName!=null&&!"".equals(tenantName)) {
-            restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.like(root.get("tenant").<String> get("name"), "%" + tenantName+ "%"));
+            restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("tenant").<String> get("name"), tenantName));
         }
         if (username!=null&&!"".equals(username)) {
-            restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.like(root.get("member").<String> get("username"), "%" +username+ "%"));
+            restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.equal(root.get("member").<String> get("name"), username),criteriaBuilder.equal(root.get("member").<String> get("username"), username)));
         }
         if (paymentMethod != null) {
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("payment").get("paymentMethod"), paymentMethod));
@@ -176,10 +176,6 @@ public class PayBillDaoImpl extends BaseDaoImpl<PayBill, Long> implements PayBil
         if (endDate != null) {
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.lessThanOrEqualTo(root.get("payment").<Date> get("paymentDate"), endDate));
         }
-
-//        if (StringUtils.isNotBlank(keyword)) { // 拼音条件
-//            restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.like(root.get("order").<String> get("sn"), "%" + keyword + "%")));
-//        }
         criteriaQuery.where(restrictions);
         return super.findPage(criteriaQuery, pageable);
     }

@@ -396,6 +396,9 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             // if (shippingMethod != null && paymentMethod != null && paymentMethod.getShippingMethods().contains(shippingMethod)) {
             if (shippingMethod != null && !shippingMethod.getMethod().equals(ShippingMethod.Method.F2F)) {
                 BigDecimal freight = trade.getTenant().calculateFreight(trade.getWeight(), trade.getQuantity());
+                if(receiver!=null){
+                    freight = trade.getTenant().calculateTenantFreight(receiver.getArea(),trade.getWeight(), trade.getQuantity());
+                }
                 for (Promotion promotion : trade.getMailPromotions()) {
                     if (promotion.getIsFreeShipping()) {
                         freight = BigDecimal.ZERO;
@@ -2183,8 +2186,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             		rebateDao.persist(rebate);
             		resv = resv.add(guideAmount);
                     Message msg = EntitySupport.createInitMessage(Message.Type.account,
-                            "恭喜您，您的客户" + order.getMember().getDisplayName() + "给您带来" + guideAmount.toString() + "元的分润收入，已转入您账户",
-                            order.getSn(), guideMember, null);
+                            "恭喜您，您推广的客户" + order.getMember().getDisplayName() + "给您带来" + guideOwnerAmount.toString() + "元的店主分润收入，已转入您账户",
+                            order.getSn(), guideOwnerMember, null);
                     msg.setDeposit(deposit);
                     messageService.save(msg);
                 }
@@ -2223,7 +2226,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             		rebateDao.persist(rebate);
             		resv = resv.add(guideAmount);
                     Message msg = EntitySupport.createInitMessage(Message.Type.account,
-                            "恭喜您，您的会员" + order.getMember().getDisplayName() + "给您带来" + guideAmount.toString() + "元的分润收入，已转入您账户",
+                            "恭喜您，您的会员" + order.getMember().getDisplayName() + "给您带来" + shareAmount.toString() + "元的分润收入，已转入您账户",
                             order.getSn(), shareMember, null);
                     msg.setDeposit(deposit);
                     messageService.save(msg);
@@ -2263,7 +2266,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             		rebateDao.persist(rebate);
             		resv = resv.add(guideAmount);
                     Message msg = EntitySupport.createInitMessage(Message.Type.account,
-                            "恭喜您，您的会员" + order.getMember().getDisplayName() + "给您带来" + guideAmount.toString() + "元的分润收入，已转入您账户",
+                            "恭喜您，您发展的会员" + order.getMember().getDisplayName() + "给您带来" + shareOwnerAmount.toString() + "元的店主分润收入，已转入您账户",
                             order.getSn(), shareOwnerMember, null);
                     msg.setDeposit(deposit);
                     messageService.save(msg);

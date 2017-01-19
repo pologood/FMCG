@@ -46,10 +46,10 @@ public class WifiController extends BaseController {
 	public @ResponseBody Message notify(String[] mac,Long [] rf,String [] umac) {	 
 		for (int i=0;i<mac.length;i++) {
 			WifiRecord wifi = new WifiRecord();
-			wifi.setUuid(umac[i]);
-			wifi.setWuid(mac[i]);
+			wifi.setUuidd(umac[i]);
+			wifi.setWuidd(mac[i]);
 			wifi.setWifiType(WifiRecord.WifiType.member);
-            wifi.setSignal(rf[i]);
+            wifi.setSignall(rf[i]);
 			wifiRecordService.save(wifi);
 		}
 		return Message.success("success");

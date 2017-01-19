@@ -1,9 +1,8 @@
 package net.wit.controller.assistant.model;
 
-import net.wit.controller.assistant.model.BaseModel;
-import net.wit.controller.assistant.model.SingleModel;
 import net.wit.entity.OrderItem;
 import net.wit.entity.Promotion;
+import net.wit.entity.Review;
 import net.wit.entity.SpecificationValue;
 
 import java.math.BigDecimal;
@@ -45,7 +44,8 @@ public class OrderItemModel extends BaseModel {
 	private Date createDate;
 	/*颜色*/
 	private String color;
-
+	/*评价*/
+	private ReviewProductModel review;
 
 	public Long getId() {
 		return id;
@@ -158,6 +158,14 @@ public class OrderItemModel extends BaseModel {
 		this.color = color;
 	}
 
+	public ReviewProductModel getReview() {
+		return review;
+	}
+
+	public void setReview(ReviewProductModel review) {
+		this.review = review;
+	}
+
 	public void copyFrom(OrderItem orderItem) {
 		this.id = orderItem.getId();
 	    this.quantity = orderItem.getQuantity();
@@ -174,9 +182,15 @@ public class OrderItemModel extends BaseModel {
 	    	this.spec = this.fullName.substring(this.name.length());
 	    }
 	    this.originalPrice = orderItem.getOriginalPrice();
+		ReviewProductModel reviewModel = new ReviewProductModel();
 	    if (orderItem.getProduct()!=null) {
 	       this.productId = orderItem.getProduct().getId();
+			if(orderItem.getReview()!=null){
+				reviewModel.copyFrom(orderItem.getReview());
+			}
+           this.review = reviewModel;
 	    }
+
 		Set<SingleModel> promotions = new HashSet<SingleModel>();
 		if (orderItem.getProduct()!=null && orderItem.getProduct().getPromotions()!=null) {
 			for (Promotion promotion:orderItem.getProduct().getPromotions()) {

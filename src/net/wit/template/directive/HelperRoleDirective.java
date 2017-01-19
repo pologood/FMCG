@@ -6,7 +6,6 @@
 package net.wit.template.directive;
 
 import freemarker.core.Environment;
-import freemarker.template.Template;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
@@ -17,12 +16,9 @@ import net.wit.entity.*;
 import net.wit.service.*;
 import net.wit.util.FreemarkerUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.Writer;
 import java.util.*;
 
 /**

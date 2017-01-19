@@ -10,6 +10,7 @@ import net.wit.Message;
 import net.wit.Pageable;
 import net.wit.entity.*;
 import net.wit.service.*;
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,12 +58,18 @@ public class SingleProductController extends BaseController {
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(SingleProduct singleProduct, Long singleProductPositionId,Long linkId, RedirectAttributes redirectAttributes) {
-        singleProduct.setProduct(productService.find(linkId));
-        singleProduct.setSingleProductPosition(singleProductPositionService.find(singleProductPositionId));
-        if (!isValid(singleProduct)) {
-            return ERROR_VIEW;
+        try {
+            singleProduct.setOrder(singleProductService.findOrderMax(singleProductPositionId)+1);
+            singleProduct.setProduct(productService.find(linkId));
+            singleProduct.setSingleProductPosition(singleProductPositionService.find(singleProductPositionId));
+            if (!isValid(singleProduct)) {
+                return ERROR_VIEW;
+            }
+            singleProductService.save(singleProduct);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:list.jhtml";
         }
-        singleProductService.save(singleProduct);
         addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
         return "redirect:list.jhtml";
     }
@@ -154,6 +161,10 @@ public class SingleProductController extends BaseController {
             mapList.add(map);
         }
         return mapList;
+    }
+    @Test
+    public void test(){
+        System.out.println(singleProductService.findOrderMax(16l));
     }
 
 }

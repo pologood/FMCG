@@ -13,46 +13,21 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import net.wit.controller.b2b.BaseController;
+import net.wit.entity.*;
+import net.wit.service.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.wit.Filter;
 import net.wit.Message;
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.entity.Account;
-import net.wit.entity.Deposit;
-import net.wit.entity.Idcard;
-import net.wit.entity.Member;
-import net.wit.entity.OrderItem;
-import net.wit.entity.Product;
-import net.wit.entity.Purchase;
-import net.wit.entity.PurchaseReturns;
-import net.wit.entity.SpReturns;
 import net.wit.entity.SpReturns.ReturnStatus;
-import net.wit.entity.Tenant;
-import net.wit.entity.TenantRelation;
-import net.wit.entity.Trade;
-import net.wit.service.AccountService;
-import net.wit.service.DepositService;
-import net.wit.service.MemberService;
-import net.wit.service.OrderItemService;
-import net.wit.service.OrderService;
-import net.wit.service.ProductService;
-import net.wit.service.PurchaseReturnsService;
-import net.wit.service.PurchaseService;
-import net.wit.service.SpReturnsService;
-import net.wit.service.SupplierService;
-import net.wit.service.TenantRelationService;
-import net.wit.service.TenantService;
-import net.wit.service.TradeService;
 
 /**
  * 供应商后台
@@ -60,7 +35,7 @@ import net.wit.service.TradeService;
  */
 @Controller("b2bMemberSupplierController")
 @RequestMapping("b2b/member/supplier")
-public class SupplierController {
+public class SupplierController extends BaseController {
     @Resource(name = "supplierServiceImpl")
     private SupplierService supplierService;
     @Resource(name = "memberServiceImpl")
@@ -87,7 +62,10 @@ public class SupplierController {
     private OrderItemService orderItemService;
     @Resource(name = "tradeServiceImpl")
     private TradeService tradeService;
-
+    @Resource(name = "memberBankServiceImpl")
+    private MemberBankService memberBankService;
+    @Resource(name = "snServiceImpl")
+    private SnService snService;
     /**
      * 销售统计
      *
@@ -786,7 +764,7 @@ public class SupplierController {
      * @throws ParseException
      */
     @RequestMapping(value = "/order_settle_account", method = RequestMethod.GET)
-    public String settle_account(Pageable pageable, Long sellerId, String start_date, String end_date, String status, String date_range, String menu, ModelMap model,
+    public String settle_account(Pageable pageable, Long sellerId, String start_date, String end_date, Boolean status, String date_range, String menu, ModelMap model,
                                  RedirectAttributes redirectAttributes) {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -816,29 +794,34 @@ public class SupplierController {
         } else {
 //            end_time = now_date;
         }
-        if (status == null || status.equals("")) {
-            status = "结算状态";
-        }
-        Boolean b_status = null;
-        if ("已结算".equals(status) || status == "已结算") {
-            b_status = true;
-        } else if ("未结算".equals(status) || status == "未结算") {
-            b_status = false;
-        } else {
-            b_status = null;
-        }
+//        if (status == null || status.equals("")) {
+//            status = "结算状态";
+//        }
+//        Boolean b_status = null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//            b_status = true;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//            b_status = false;
+//        } else {
+//            b_status = null;
+//        }
 //        if (date_range == null || date_range.equals("")) {
 //            date_range = "昨天";
 //        }
         if (menu == null) {
             menu = "order_settle_account";
         }
-        model.addAttribute("page", orderItemService.findPage(b_status, start_time, end_time, member.getTenant(), pageable));
+        model.addAttribute("page", orderItemService.findPage(status, start_time, end_time, member.getTenant(), pageable));
         model.addAttribute("member", member);
         model.addAttribute("start_time",start_date);
         model.addAttribute("end_time", end_date);
         model.addAttribute("date_range", date_range);
-        model.addAttribute("status", status);
+        if(status==null){
+            model.addAttribute("status", "结算状态");
+        }else {
+            model.addAttribute("status", status?"已结算":"未结算");
+        }
+
         model.addAttribute("menu", menu);
         model.addAttribute("pageActive", 2);
         return "/b2b/member/supplier/order_settle_account";
@@ -915,7 +898,7 @@ public class SupplierController {
      * @throws ParseException
      */
     @RequestMapping(value = "/return_settle_account", method = RequestMethod.GET)
-    public String settle_accoun(Pageable pageable, String start_date, String end_date, String status, String date_range, String menu, ModelMap model, RedirectAttributes redirectAttributes) throws ParseException {
+    public String settle_accoun(Pageable pageable, String start_date, String end_date, Boolean status, String date_range, String menu, ModelMap model, RedirectAttributes redirectAttributes) throws ParseException {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
@@ -928,30 +911,34 @@ public class SupplierController {
         if (StringUtils.isNotBlank(end_date)) {
             end_time = simpleDateFormat.parse(end_date);
         }
-        if (status == null || status.equals("")) {
-            status = "结算状态";
-        }
-        Boolean b_status = null;
-        if ("已结算".equals(status) || status == "已结算") {
-            b_status = true;
-        } else if ("未结算".equals(status) || status == "未结算") {
-            b_status = false;
-        } else {
-            b_status = null;
-        }
+//        if (status == null || status.equals("")) {
+//            status = "结算状态";
+//        }
+//        Boolean b_status = null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//            b_status = true;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//            b_status = false;
+//        } else {
+//            b_status = null;
+//        }
 
         if (menu == null) {
             menu = "return_settle_account";
         }
         List<Filter> filters = new ArrayList<Filter>();
-        filters.add(new Filter("suppliered", Filter.Operator.eq, b_status));
+        filters.add(new Filter("suppliered", Filter.Operator.eq, status));
         pageable.setFilters(filters);
         model.addAttribute("page", spReturnsService.findBySupplier(start_time, end_time, member.getTenant(), null, pageable));
         model.addAttribute("member", member);
         model.addAttribute("start_time",start_date);
         model.addAttribute("end_time", end_date);
         model.addAttribute("date_range", date_range);
-        model.addAttribute("status", status);
+        if(status==null){
+            model.addAttribute("status", "结算状态");
+        }else {
+            model.addAttribute("status", status?"已结算":"未结算");
+        }
         model.addAttribute("menu", menu);
         model.addAttribute("pageActive", 2);
         return "/b2b/member/supplier/return_settle_account";
@@ -1009,14 +996,91 @@ public class SupplierController {
         }
        return maps;
     }
-    
+
+    /**
+     * 供应商的提现
+     */
+    @RequestMapping(value = "/withdraw/index", method = RequestMethod.GET)
+    public String index(ModelMap model,RedirectAttributes redirectAttributes,Pageable pageable) {
+        Member member = memberService.getCurrent();
+        if (member == null) {
+            return "redirect:/b2b/supplier/login.jhtml";
+        }
+        Page<TenantRelation> tenantRelations=tenantRelationService.findPage(member.getTenant(), net.wit.entity.TenantRelation.Status.success, pageable);
+        if(tenantRelations!=null&&tenantRelations.getContent().size()>0){
+            TenantRelation tenantRelation=tenantRelations.getContent().get(0);
+            model.addAttribute("tenant",tenantRelation.getTenant());
+        }else{
+            addFlashMessage(redirectAttributes, Message.error("您还没有合作伙伴，暂时不能提现"));
+            return "redirect:/b2b/member/supplier/index.jhtml";
+        }
+
+        Tenant tenant = member.getTenant();
+        Member owner = tenant.getMember();
+        if(member.getId()!= owner.getId()){
+            addFlashMessage(redirectAttributes, Message.warn("不好意思，您不能提现！"));
+            return "redirect:withdraw_index.jhtml";
+        }
+        List<MemberBank> memberBanks = memberBankService.findListByMember(member);
+        Map<Long, String> options = new HashMap<Long, String>();
+        if (memberBanks.size() > 0) {
+            for (MemberBank memberBank : memberBanks) {
+                options.put(memberBank.getId(), memberBank.getCardNo());
+            }
+        }
+        model.addAttribute("member", member);
+        model.addAttribute("options", options);
+        return "b2b/member/supplier/withdraw_index";
+    }
+
+    /**
+     * 供应商提现
+     * @param amount
+     * @param pageable
+     * @return
+     */
+    @RequestMapping(value = "/submit_withdraw", method = RequestMethod.POST)
+    @ResponseBody
+    public Message submit_withdraw(BigDecimal amount,Pageable pageable) {
+        Member member=memberService.getCurrent();
+        if(member==null){
+            return Message.error("没有找到用户");
+        }
+        if(amount==null){
+            return Message.error("请输入金额");
+        }
+        Account account =new Account();
+        Page<TenantRelation> tenantRelations=tenantRelationService.findPage(member.getTenant(), null, pageable);
+        if(tenantRelations!=null&&tenantRelations.getContent().size()>0){
+            TenantRelation tenantRelation=tenantRelations.getContent().get(0);
+            account.setTenant(tenantRelation.getTenant());
+        }else{
+            return Message.error("您还没有服务商，暂时不能体现");
+        }
+        if(member.getTenant().getBalance().compareTo(amount)==-1){
+            return Message.error("账户余额不足，不能体现");
+        }
+        member.getTenant().setBalance(member.getTenant().getBalance().subtract(amount));
+        tenantService.update(member.getTenant());
+        account.setAmount(amount);
+        account.setStatus(net.wit.entity.Account.Status.none);
+        account.setSn(snService.generate(Sn.Type.account));
+        account.setCreateDate(new Date());
+        account.setModifyDate(new Date());
+        if(member.getTenant()!=null){
+            account.setSupplier(member.getTenant());
+        }
+        accountService.save(account);
+        return Message.success("提现成功");
+    }
+
     /**
      * 提现结算列表
      *
      * @throws ParseException
      */
     @RequestMapping(value = "/withdraw_cash_settle_account", method = RequestMethod.GET)
-    public String withdraw_cash_settle_account(Pageable pageable, Long sellerId, String start_date, String end_date, String status, String date_range, String menu, ModelMap model,
+    public String withdraw_cash_settle_account(Pageable pageable, Long sellerId, String start_date, String end_date, Account.Status status, String date_range, String menu, ModelMap model,
                                  RedirectAttributes redirectAttributes) {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -1040,22 +1104,22 @@ public class SupplierController {
                 e.printStackTrace();
             }
         }
-        if (status == null || status.equals("")) {
-            status = "结算状态";
-        }
-        Account.Status b_status=null;
-        if ("已结算".equals(status) || status == "已结算") {
-        	b_status=Account.Status.success;
-        } else if ("未结算".equals(status) || status == "未结算") {
-        	b_status=Account.Status.none;
-        } else {
-            b_status = null;
-        }
+//        if (status == null || status.equals("")) {
+//            status = "结算状态";
+//        }
+//        Account.Status b_status=null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//        	b_status=Account.Status.success;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//        	b_status=Account.Status.none;
+//        } else {
+//            b_status = null;
+//        }
         if (menu == null) {
             menu = "withdraw_cash_settle_account";
         }
         List<Filter> filters=new ArrayList<Filter>();
-        filters.add(new Filter("status", Filter.Operator.eq,b_status));
+        filters.add(new Filter("status", Filter.Operator.eq,status));
     	pageable.setFilters(filters);
         model.addAttribute("page",accountService.findByTenant(member.getTenant(), start_time, end_time, null, pageable));
         model.addAttribute("member", member);

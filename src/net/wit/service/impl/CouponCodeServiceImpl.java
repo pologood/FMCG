@@ -118,10 +118,12 @@ public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> imp
             if (status.equals(CouponNumber.Status.receive)) {
                 couponNumber.setMember(member);
                 couponNumber.setCouponCode(couponCode);
+                couponNumber.setReceiveDate(new Date());
             } else if (status.equals(CouponNumber.Status.bound)) {
                 couponNumber.setGuideMember(member);
+                couponNumber.setMarkedDate(new Date());
             }
-            couponNumber.setReceiveDate(new Date());
+
             couponNumber.setBalance(coupon.getAmount());
             couponNumber.setStatus(status);
             couponNumber.setUseTimes(0L);
@@ -141,6 +143,8 @@ public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> imp
     }
 
     public List<CouponCode> buildRed(Coupon coupon, Member member, Integer count, Member guide) {
+        coupon.setSendCount(coupon.getSendCount() + 1);
+        couponDao.merge(coupon);
         if(coupon.getTenant()!=null){
             consumerService.becomvip(coupon.getTenant(), member);
         }
@@ -342,4 +346,17 @@ public class CouponCodeServiceImpl extends BaseServiceImpl<CouponCode, Long> imp
     public Page<CouponCode> sumerStatistics(Coupon coupon, Boolean isUsed, Pageable pageable) {
         return couponCodeDao.sumerStatistics(coupon, isUsed, pageable);
     }
+
+    public Page<CouponCode> findUsedCouponCodeByKeyword(String keyword,Coupon coupon, Pageable pageable) {
+        return couponCodeDao.findUsedCouponCodeByKeyword(keyword,coupon,pageable);
+    }
+
+    public Page<Tuple> findDrawedCouponCodeByCoupon(Date begin_date,Date end_date,String keyword,Coupon coupon, Pageable pageable) {
+        return couponCodeDao.findDrawedCouponCodeByCoupon(begin_date,end_date,keyword,coupon, pageable);
+    }
+
+    public Page<CouponCode> findPage(Date begin_date,Date end_date,String keyword,Coupon coupon,Boolean isUsed , Pageable pageable){
+        return couponCodeDao.findPage(begin_date,end_date,keyword,coupon,isUsed , pageable);
+    }
+
 }

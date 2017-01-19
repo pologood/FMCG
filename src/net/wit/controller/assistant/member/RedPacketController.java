@@ -131,30 +131,30 @@ public class RedPacketController {
         Map<String, Object> map = new HashMap<>();
         map.put("id", coupon.getId());
         map.put("sn", coupon.getPayment().getSn());
-        if(member.getTenant().getIsUnion()){
-            List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
-            for(UnionTenant unionTenant:unionTenants){
-                List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
-                for(Employee employee:employeeList){
-                    Message message = new Message();
-                    message.setType(Message.Type.activity);
-                    message.setCreateDate(new Date());
-                    message.setModifyDate(new Date());
-                    message.setContent(member.getTenant().getName()+"发了新红包快来看看吧！");
-                    message.setWay(Message.Way.tenant);
-                    message.setTitle("新红包");
-                    message.setIsDraft(false);
-                    message.setSenderRead(true);
-                    message.setReceiverRead(false);
-                    message.setSenderDelete(false);
-                    message.setReceiverDelete(false);
-                    message.setSender(member);
-                    message.setReceiver(employee.getMember());
-                    message.setIp(request.getRemoteAddr());
-                    messageService.save(message);
-                }
-            }
-        }
+//        if(member.getTenant().getIsUnion()){
+//            List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
+//            for(UnionTenant unionTenant:unionTenants){
+//                List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
+//                for(Employee employee:employeeList){
+//                    Message message = new Message();
+//                    message.setType(Message.Type.activity);
+//                    message.setCreateDate(new Date());
+//                    message.setModifyDate(new Date());
+//                    message.setContent(member.getTenant().getName()+"发了新红包快来看看吧！");
+//                    message.setWay(Message.Way.tenant);
+//                    message.setTitle("新红包");
+//                    message.setIsDraft(false);
+//                    message.setSenderRead(true);
+//                    message.setReceiverRead(false);
+//                    message.setSenderDelete(false);
+//                    message.setReceiverDelete(false);
+//                    message.setSender(member);
+//                    message.setReceiver(employee.getMember());
+//                    message.setIp(request.getRemoteAddr());
+//                    messageService.save(message);
+//                }
+//            }
+//        }
         return DataBlock.success(map, "执行成功");
     }
 
@@ -398,18 +398,15 @@ public class RedPacketController {
         if (member == null) {
             return DataBlock.error(DataBlock.SESSION_INVAILD);
         }
-
         List<RedPacketListModel> redPacketListModels = null;
         Page<CouponCode> couponCodes = null;
         if(type.equals("0")){//推广
             couponCodes = couponCodeService.findCoupon(member,type,pageable);
-            Page<Rebate> rebates = null;
-            CouponCode couponCode = null;
             redPacketListModels = RedPacketListModel.bindData(couponCodes.getContent());
             for(RedPacketListModel redPacketListModel:redPacketListModels){
-                couponCode =couponCodeService.find(redPacketListModel.getId());
-                rebates=rebateService.findPage(member,Rebate.Type.extension,couponCode,pageable);
-                for(Rebate rebate:rebates.getContent()){
+                CouponCode  couponCode = couponCodeService.find(redPacketListModel.getId());
+                List<Rebate>  rebates = rebateService.findList(member,Rebate.Type.extension,couponCode);
+                for(Rebate rebate:rebates){
                     if(redPacketListModel.getId().equals(rebate.getCouponCode().getId())){
                         redPacketListModel.setCommission(rebate.getAmount());
                     }
@@ -418,12 +415,10 @@ public class RedPacketController {
         }else if(type.equals("1")){//核销
              couponCodes = couponCodeService.findCoupon(member,type,pageable);
             redPacketListModels = RedPacketListModel.bindData(couponCodes.getContent());
-            Page<Rebate> rebates = null;
-            CouponCode couponCode = null;
-            for(RedPacketListModel redPacketListModel:redPacketListModels){
-                couponCode = couponCodeService.find(redPacketListModel.getId());
-                rebates = rebateService.findPage(member,Rebate.Type.sale,couponCode,pageable);
-                for(Rebate rebate:rebates.getContent()){
+             for(RedPacketListModel redPacketListModel:redPacketListModels){
+                CouponCode couponCode = couponCodeService.find(redPacketListModel.getId());
+                List<Rebate> rebates = rebateService.findList(member,Rebate.Type.sale,couponCode);
+                for(Rebate rebate:rebates){
                     if(redPacketListModel.getId().equals(rebate.getCouponCode().getId())){
                         redPacketListModel.setCommission(rebate.getAmount());
                     }

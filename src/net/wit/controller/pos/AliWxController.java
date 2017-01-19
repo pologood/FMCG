@@ -199,6 +199,9 @@ public class AliWxController extends BaseController {
 			String params = "data="+URLEncoder.encode(desStr)+"&sign="+sign;
 			
 			String rtn_msg = HttpClientUtil.doPost("http://222.92.116.42:18089/cloudsskyApi/opservice",params);
+		if ("".equals(rtn_msg)) {
+			return DataBlock.error("post error");
+		}
             JSONObject rtn = JSONObject.parseObject(rtn_msg);
             if (rtn.get("ret_code").equals("00")) {
             	payment.setPaySn(rtn.get("order_no").toString());
@@ -232,6 +235,9 @@ public class AliWxController extends BaseController {
 		if (payment== null) {
 			return DataBlock.success("99","success");
 		}
+		if (payment.getStatus().equals(Status.success)) {
+			return DataBlock.success("00","success");
+		}
 		PayBill payBill = payment.getPayBill();
 		Map<String,Object> data = new HashMap<String,Object>();
 		
@@ -247,6 +253,9 @@ public class AliWxController extends BaseController {
 			String params = "data="+URLEncoder.encode(desStr)+"&sign="+sign;
 			
 			String rtn_msg = HttpClientUtil.doPost("http://222.92.116.42:18089/cloudsskyApi/opservice",params);
+		    if ("".equals(rtn_msg)) {
+				return DataBlock.error("post error");
+			}
             JSONObject rtn = JSONObject.parseObject(rtn_msg);
             if (rtn.get("ret_code").equals("00")) {
             	try {

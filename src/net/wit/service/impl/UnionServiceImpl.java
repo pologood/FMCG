@@ -34,8 +34,8 @@ public class UnionServiceImpl extends BaseServiceImpl<Union,Long> implements Uni
 		return unionDao.findPage(pageable);
 	}
 	@Transactional(readOnly = true)
-	public Page<Union> findPage(Union.Type type ,String keyword, Pageable pageable){
-		return unionDao.findPage(type,keyword,pageable);
+	public Page<Union> findPage(String keyword, Pageable pageable){
+		return unionDao.findPage(keyword,pageable);
 	}
 
 	@Transactional(readOnly = true)

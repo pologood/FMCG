@@ -54,18 +54,18 @@
 				<property name="loginUrl" value="/b2b/login.jhtml" />
 			</bean>
 		</mvc:interceptor>
-		<!--<mvc:interceptor>-->
-			<!--<mvc:mapping path="/helper/member/**" />-->
-			<!--<bean id="helperInterceptor" class="net.wit.interceptor.UCTokenInterceptor">-->
-				<!--<property name="loginUrl" value="/helper/login.jhtml" />-->
-			<!--</bean>-->
-		<!--</mvc:interceptor>-->
 		<mvc:interceptor>
-			<mvc:mapping path="/store/member/**" />
+			<mvc:mapping path="/helper/member/**" />
 			<bean id="helperInterceptor" class="net.wit.interceptor.UCTokenInterceptor">
-				<property name="loginUrl" value="/store/login.jhtml" />
+				<property name="loginUrl" value="/helper/login.jhtml" />
 			</bean>
 		</mvc:interceptor>
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/store/member/**" />-->
+			<!--<bean id="helperInterceptor" class="net.wit.interceptor.UCTokenInterceptor">-->
+				<!--<property name="loginUrl" value="/store/login.jhtml" />-->
+			<!--</bean>-->
+		<!--</mvc:interceptor>-->
 
 		<mvc:interceptor>
 			<mvc:mapping path="/b2c/member/**" />
@@ -115,8 +115,15 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/weixin/**" />
 			<mvc:exclude-mapping path="/weixin/common/**" />
-			<mvc:exclude-mapping path="/weixin/core.jhtml " />
+			<mvc:exclude-mapping path="/weixin/core.jhtml" />
+			<mvc:exclude-mapping path="/weixin/coupon/view.jhtml" />
+			<mvc:exclude-mapping path="/weixin/index/check_login.jhtml" />
 			<bean id="WeiXinOpenIdInterceptor" class="net.wit.interceptor.WeiXinOpenIdInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/pad/order" />
+			<bean id="PadOpenIdInterceptor" class="net.wit.interceptor.WeiXinOpenIdInterceptor" />
 		</mvc:interceptor>
 		<!--<mvc:interceptor>-->
 			<!--<mvc:mapping path="/weixin/member/**" />-->

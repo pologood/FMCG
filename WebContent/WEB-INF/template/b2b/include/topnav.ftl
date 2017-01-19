@@ -288,7 +288,7 @@
         if(obj=="retailer"){
             window.open("${base}/b2b/index.jhtml");
         }else if(obj=="tenant"){
-            window.open("${base}/store/member/index.jhtml");
+            window.open("${base}/helper/index.jhtml");
         }else if(obj=="suppier"){
             window.open("${base}/b2b/supplier/login.jhtml");
         }

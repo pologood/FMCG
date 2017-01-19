@@ -111,4 +111,7 @@ public interface DeliveryCenterService extends BaseService<DeliveryCenter, Long>
 	 */
 	List<DeliveryCenter> findList(Set<TenantCategory> tenantCategorys, List<Tag> tenantTags, Area current, Community community, Integer count);
 	List<DeliveryCenter> findourStoreList(Tenant tenant );//我们的门店
+
+	Page<DeliveryCenter> findPage(String keyword, Pageable pageable);
+
 }

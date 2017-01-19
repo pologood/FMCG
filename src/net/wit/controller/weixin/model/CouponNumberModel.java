@@ -52,19 +52,19 @@ public class CouponNumberModel {
         this.balance = balance;
     }
 
-    public void copyFrom(CouponCode couponCode) {
-        if (couponCode.getCreateDate() != null) {
-            this.createDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(couponCode.getCreateDate());
+    public void copyFrom(CouponNumber couponNumber) {
+        if (couponNumber.getCreateDate() != null) {
+            this.createDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(couponNumber.getCreateDate());
         }
-        this.amount = couponCode.getCoupon().getAmount();
-        this.balance=couponCode.getBalance();
+        this.amount = couponNumber.getCoupon().getAmount();
+        this.balance=couponNumber.getBalance();
     }
 
-    public static List<CouponNumberModel> bindData(List<CouponCode> couponCodes) {
+    public static List<CouponNumberModel> bindData(List<CouponNumber> couponNumbers) {
         List<CouponNumberModel> models = new ArrayList<>();
-        for (CouponCode couponCode : couponCodes) {
+        for (CouponNumber couponNumber : couponNumbers) {
             CouponNumberModel model = new CouponNumberModel();
-            model.copyFrom(couponCode);
+            model.copyFrom(couponNumber);
             models.add(model);
         }
         return models;

@@ -7,6 +7,7 @@ package net.wit.dao;
 
 import java.util.List;
 
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.entity.Member;
@@ -70,7 +71,7 @@ public interface MessageDao extends BaseDao<Message, Long> {
 	 *            是否已读
 	 * @return 消息数量，不包含草稿
 	 */
-	Long count(Member member, Boolean read, Message.Type type);
+	Long count(Member member, Boolean read, Message.Type type,List<Filter> filters);
 
 	/**
 	 * 删除消息

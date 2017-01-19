@@ -17,8 +17,7 @@ import net.wit.Filter;
 import net.wit.Message;
 import net.wit.Pageable;
 import net.wit.entity.Payment;
-import net.wit.entity.Payment.Method;
-import net.wit.entity.Payment.Status;
+import net.wit.entity.Payment.Type;
 import net.wit.entity.Union;
 import net.wit.plugin.PaymentPlugin;
 import net.wit.service.PaymentService;
@@ -85,10 +84,25 @@ public class PaymentController extends BaseController {
                 }
             } else {
                 if (payment.getPaymentPluginId().equals("op_service_alipay_submit") || payment.getPaymentPluginId().equals("op_service_wechat_submit")) {
+                    String code="";
                     try {
-                        paymentService.opService(payment);
+                        code=paymentService.opService(payment);
                     } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                        e.printStackTrace();
+                    }
+                    if ("0000".equals(code)) {
+                        try {
+                            paymentService.handle(payment);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    if ("0001".equals(code)) {
+                        try {
+                            paymentService.close(payment);
+                        } catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
             }
@@ -103,13 +117,19 @@ public class PaymentController extends BaseController {
      * 列表
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String list(Date beginDate, Date endDate, Method method, Status status, String keyword,Pageable pageable, ModelMap model) {
+    public String list(Date beginDate, Date endDate, String paymentMethod, Type type, String tenantName, String username,Pageable pageable, ModelMap model) {
+        if(beginDate!=null&&endDate!=null){
+            Long time=endDate.getTime();
+            Long end=time+24*60*60*1000-1;
+            endDate=new Date(end);
+        }
         model.addAttribute("beginDate", beginDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("method", method);
-        model.addAttribute("status", status);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("page", paymentService.findPage(method, status, beginDate, endDate, keyword, pageable));
+        model.addAttribute("paymentMethod", paymentMethod);
+        model.addAttribute("type", type);
+        model.addAttribute("tenantName", tenantName);
+        model.addAttribute("username", username);
+        model.addAttribute("page", paymentService.findPage(paymentMethod, type, beginDate, endDate, tenantName,username, pageable));
         return "/admin/payment/list";
     }
 

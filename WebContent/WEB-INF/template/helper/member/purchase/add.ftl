@@ -39,7 +39,7 @@
                     $("#iframe_id").attr("height","10px;")
                 }else{
                     $("#iframe_id").attr("src","${base}/helper/member/purchase/supplier_list.jhtml?id="+supplierId);
-                    $("#iframe_id").attr("height","1232px;");
+                    $("#iframe_id").attr("height","800px;");
                 }
 
             });
@@ -56,8 +56,10 @@
                     $.message("warn", "请输入你希望搜索到的商品信息！");
                     return;
                 }
-                $(document.getElementById("iframe_id").contentWindow.document.body).find("#keywords").val(keyword);
-                $(document.getElementById("iframe_id").contentWindow.document.body).find("#listForm").submit();
+                $("#iframe_id").attr("src","${base}/helper/member/purchase/supplier_list.jhtml?id="+supplierId+"&keywords="+keyword);
+                $("#iframe_id").attr("height","800px;");
+                //$(document.getElementById("iframe_id").contentWindow.document.body).find("#keywords").val(keyword);
+                //$(document.getElementById("iframe_id").contentWindow.document.body).find("#listForm").submit();
                 // getSupplier(supplierId, keyword);
             });
 
@@ -238,7 +240,7 @@
                     <tr>
                         <td colspan="2">
                             <div class="list" style="border-top:0;text-align: center">
-                                <iframe src=""  frameborder="0" scrolling="no" width="100%" height="" id="iframe_id">
+                                <iframe  frameborder="0" scrolling="no" width="100%"  id="iframe_id">
                                     <!-- <form action="">
                                         <table class="list">
                                         </table>

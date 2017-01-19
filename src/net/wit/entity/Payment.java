@@ -62,15 +62,15 @@ public class Payment extends BaseEntity {
          */
         recharge,
         /**
-         * 线下代收
+         * 线下代收（收银台）
          */
         cashier,
         /**
          * 功能缴费
-         */
+        */
         function,
         /**
-         * 买单立减
+         * 优惠买单
          */
         paybill,
         /**
@@ -263,7 +263,7 @@ public class Payment extends BaseEntity {
      * 买单记录
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(updatable = false)
+    @JoinColumn(updatable = true)
     private UnionTenant unionTenant;
 
     /**

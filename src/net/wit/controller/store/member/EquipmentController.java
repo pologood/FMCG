@@ -50,60 +50,61 @@ public class EquipmentController extends BaseController {
         }
         pageable.setFilters(filters);
         Page<Equipment> page = equipmentService.findPage(keyWord,null,pageable);
-        List<Map<String, Object>> maps = new ArrayList<>();
-        for (Equipment equipment : page.getContent()) {
-            Area area;
-            if (type.equals("tenant")) {
-                area = equipment.getStore().getArea();
-            } else {
-                if(equipment.getDeliveryCenter()!=null){
-                    area = equipment.getDeliveryCenter().getArea();
-                }else{
-                    area = equipment.getTenant().getArea();
-                }
-            }
-            Area city = new Area();
-            if (area.getIsCity()) {
-                city = area;
-            } else {
-                if (area.getParent() == null) {
-                    city = area;
-                } else if (area.getParent().getParent() == null) {
-                    city = area;
-                } else if (area.getParent().getParent().getParent() == null) {
-                    city = area.getParent();
-                }
-            }
-            Map<String, Object> map = new HashMap<>();
-            TagModel tagModel = new TagModel();
-            map.put("id",equipment.getId());
-            map.put("areaName", city.getName());
-
-            System.out.println("----------------"+new Date().getTime()+"=================="+(new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000));
-
-            if (new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000) {
-                map.put("setStatus", "success");
-            } else {
-                map.put("setStatus", "none");
-            }
-            if(type.equals("tenant")) {
-                map.put("tenantName", equipment.getStore().getName());
-                map.put("tags", tagModel.bindData(equipment.getStore().getTags()));
-                map.put("address", area.getFullName() + equipment.getStore().getAddress());
-            }else{
-                if(equipment.getDeliveryCenter()!=null) {
-                    map.put("tenantName", equipment.getDeliveryCenter().getName());
-                    map.put("tags", tagModel.bindData(equipment.getDeliveryCenter().getTenant().getTags()));
-                    map.put("address", equipment.getDeliveryCenter().getAreaName() + equipment.getDeliveryCenter().getAddress());
-                }else{
-                    map.put("tenantName", equipment.getTenant().getName());
-                    map.put("tags", tagModel.bindData(equipment.getTenant().getTags()));
-                    map.put("address", area.getFullName() + equipment.getTenant().getAddress());
-                }
-            }
-            maps.add(map);
-        }
-        model.addAttribute("page", new Page<>(maps, page.getTotal(), pageable));
+//        List<Map<String, Object>> maps = new ArrayList<>();
+//        for (Equipment equipment : page.getContent()) {
+//            Area area;
+//            if (type.equals("tenant")) {
+//                area = equipment.getStore().getArea();
+//            } else {
+//                if(equipment.getDeliveryCenter()!=null){
+//                    area = equipment.getDeliveryCenter().getArea();
+//                }else{
+//                    area = equipment.getTenant().getArea();
+//                }
+//            }
+//            Area city = new Area();
+//            if (area.getIsCity()) {
+//                city = area;
+//            } else {
+//                if (area.getParent() == null) {
+//                    city = area;
+//                } else if (area.getParent().getParent() == null) {
+//                    city = area;
+//                } else if (area.getParent().getParent().getParent() == null) {
+//                    city = area.getParent();
+//                }
+//            }
+//            Map<String, Object> map = new HashMap<>();
+//            TagModel tagModel = new TagModel();
+//            map.put("id",equipment.getId());
+//            map.put("areaName", city.getName());
+//
+//            System.out.println("----------------"+new Date().getTime()+"=================="+(new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000));
+//
+//            if (new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000) {
+//                map.put("setStatus", "success");
+//            } else {
+//                map.put("setStatus", "none");
+//            }
+//            if(type.equals("tenant")) {
+//                map.put("tenantName", equipment.getStore().getName());
+//                map.put("tags", tagModel.bindData(equipment.getStore().getTags()));
+//                map.put("address", area.getFullName() + equipment.getStore().getAddress());
+//            }else{
+//                if(equipment.getDeliveryCenter()!=null) {
+//                    map.put("tenantName", equipment.getDeliveryCenter().getName());
+//                    map.put("tags", tagModel.bindData(equipment.getDeliveryCenter().getTenant().getTags()));
+//                    map.put("address", equipment.getDeliveryCenter().getAreaName() + equipment.getDeliveryCenter().getAddress());
+//                }else{
+//                    map.put("tenantName", equipment.getTenant().getName());
+//                    map.put("tags", tagModel.bindData(equipment.getTenant().getTags()));
+//                    map.put("address", area.getFullName() + equipment.getTenant().getAddress());
+//                }
+//            }
+//            maps.add(map);
+//        }
+//        model.addAttribute("page", new Page<>(maps, page.getTotal(), pageable));
+        model.addAttribute("page", page);
         model.addAttribute("type", type);
         model.addAttribute("keyWord", keyWord);
         model.addAttribute("menu","tenant_equiment");
@@ -132,45 +133,46 @@ public class EquipmentController extends BaseController {
             return ERROR_VIEW;
         }
 
-        Map<String, Object> memberMap = new HashMap<>();
-        memberMap.put("nickName", tenant.getMember().getDisplayName());
-        memberMap.put("role", ",owner");
-
-        List<Filter> filters = new ArrayList<>();
-        filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
-        List<Employee> employees = employeeService.findList(null, filters, null);
-
-        List<Map<String, Object>> employeeMaps = new ArrayList<>();
-        employeeMaps.add(memberMap);
-        for (Employee employee : employees) {
-            Map<String, Object> employeeMap = new HashMap<>();
-            employeeMap.put("nickName", employee.getMember().getDisplayName());
-            employeeMap.put("role", employee.getRole());
-            employeeMaps.add(employeeMap);
-        }
-
-        Map<String, Object> map = new HashMap<>();
-        TagModel tagModel = new TagModel();
-        map.put("tags", tagModel.bindData(tenant.getTags()));
-        map.put("name", tenant.getName());
-        map.put("address", tenant.getArea().getFullName() + tenant.getAddress());
-        if(!type.equals("tenant")&&equipment.getDeliveryCenter()!=null) {
-            map.put("name", equipment.getDeliveryCenter().getName());
-            map.put("address", equipment.getDeliveryCenter().getAreaName() + equipment.getDeliveryCenter().getAddress());
-        }
-        map.put("employees", employeeMaps);
-        map.put("total_amount", equipment.getTotalAmount());
-        map.put("total_sale_amount", equipment.getTotalSaleAmount());
-
-        System.out.println("----------------"+new Date().getTime());
-        if (new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000) {
-            map.put("setStatus", "success");
-        } else {
-            map.put("setStatus", "none");
-        }
-        map.put("status", equipment.getStatus());
-        model.addAttribute("equipment",map);
+//        Map<String, Object> memberMap = new HashMap<>();
+//        memberMap.put("nickName", tenant.getMember().getDisplayName());
+//        memberMap.put("role", ",owner");
+//
+//        List<Filter> filters = new ArrayList<>();
+//        filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
+//        List<Employee> employees = employeeService.findList(null, filters, null);
+//
+//        List<Map<String, Object>> employeeMaps = new ArrayList<>();
+//        employeeMaps.add(memberMap);
+//        for (Employee employee : employees) {
+//            Map<String, Object> employeeMap = new HashMap<>();
+//            employeeMap.put("nickName", employee.getMember().getDisplayName());
+//            employeeMap.put("role", employee.getRole());
+//            employeeMaps.add(employeeMap);
+//        }
+//
+//        Map<String, Object> map = new HashMap<>();
+//        TagModel tagModel = new TagModel();
+//        map.put("tags", tagModel.bindData(tenant.getTags()));
+//        map.put("name", tenant.getName());
+//        map.put("address", tenant.getArea().getFullName() + tenant.getAddress());
+//        if(!type.equals("tenant")&&equipment.getDeliveryCenter()!=null) {
+//            map.put("name", equipment.getDeliveryCenter().getName());
+//            map.put("address", equipment.getDeliveryCenter().getAreaName() + equipment.getDeliveryCenter().getAddress());
+//        }
+//        map.put("employees", employeeMaps);
+//        map.put("total_amount", equipment.getTotalAmount());
+//        map.put("total_sale_amount", equipment.getTotalSaleAmount());
+//
+//        System.out.println("----------------"+new Date().getTime());
+//        if (new Date().getTime() - equipment.getModifyDate().getTime() <= 30 * 60 * 1000) {
+//            map.put("setStatus", "success");
+//        } else {
+//            map.put("setStatus", "none");
+//        }
+//        map.put("status", equipment.getStatus());
+        model.addAttribute("equipment",equipment);
         model.addAttribute("type",type);
+        model.addAttribute("menu","tenant_equiment");
         return "store/member/equipment/detail";
     }
 }

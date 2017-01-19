@@ -34,12 +34,86 @@
         }
     </style>
     <script type="text/javascript">
+    //============================admin城市过滤=================================
+        var true_area_id;
         function getArealSelect() {
             var $areaId = $("#areaId2");
             $areaId.lSelect({
                 url: "${base}/common/area.jhtml"
-            });
+            }); 
         }
+        function select_area(){
+            var area_id="";
+            [#if area?has_content]
+                area_id="${area.id}";
+            [/#if]
+            if("${enterprise}"=="proxy"||area_id==""){
+                getArealSelect();
+                $(".fieldSet").show();
+                $("#city_select").hide();
+                $("#area_select").hide();
+            }else if("${enterprise}"=="province_proxy"){
+                $(".fieldSet").hide();
+                $("#city_select").show();
+                $("#area_select").hide();
+                $.ajax({
+                    url: "${base}/admin/area/getCitys.jhtml",
+                    data: {id: area_id},
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        var html='<option value="">--请选择--</option>';
+                        $.each(data,function(i,obj){
+                            if("${areaId}"==obj.id){
+                                html+='<option value="'+obj.id+'" selected="selected">'+obj.name+'</option>';
+                            }else{
+                                html+='<option value="'+obj.id+'">'+obj.name+'</option>';
+                            }
+                        });
+                        $("#city_select").html(html);
+                    }
+                });
+            }else if("${enterprise}"=="city_proxy"){
+                $(".fieldSet").hide();
+                change_area("city",area_id);
+            }
+        }
+        function change_area(type,obj){
+            var area_id="";
+            if(type=="province"){
+                area_id=$(obj).val();
+                $("#city_select").show();
+                $("#area_select").show();
+            }else{
+                $("#city_select").hide();
+                $("#area_select").show();
+                area_id=obj;
+            };
+            if(area_id!=''){
+                $.ajax({
+                    url: "${base}/admin/area/getCitys.jhtml",
+                    data: {id: area_id},
+                    dataType: "json",
+                    type: "post",
+                    success: function (data) {
+                        var html='<option value="">--请选择--</option>';
+                        $.each(data,function(i,obj){
+                            if("${areaId}"==obj.id){
+                                html+='<option value="'+obj.id+'" selected="selected">'+obj.name+'</option>';
+                            }else{
+                                html+='<option value="'+obj.id+'">'+obj.name+'</option>';
+                            }
+                        });
+                        $("#area_select").html(html);
+                        true_area_id=$("#city_select").val();
+                    }
+                });
+            }
+        }
+        function get_area_id(){
+            true_area_id=$("#area_select").val();
+        }
+        //============================admin城市过滤=================================
         $().ready(function () {
             var $listForm = $("#listForm");
             var $moreButton = $("#moreButton");
@@ -47,7 +121,7 @@
             var $filterSelect = $("#filterSelect");
             var $filterOption = $("#filterOption a");
 
-        [@flash_message /]
+            [@flash_message /]
 
             // 更多选项
             $moreButton.click(function () {
@@ -89,7 +163,20 @@
                             [/#list]
                         '<\/select><\/td><\/tr>' +
                         [/#if]
-                    '<tr><th>地区:<\/th><td><span class="fieldSet"><input type="hidden" id="areaId2" name="areaId" value="${(area.id)!}" treePath="${(area.treePath)!}" \/><\/span><script>getArealSelect()<\/script><\/td><\/tr><tr><th><\/table>',
+                    '<tr>'+
+                        '<th>地区:<\/th>'+
+                        '<td>'+
+                            '<span class="fieldSet">'+
+                                '<input type="hidden" id="areaId2" name="areaId" value="" treePath="${(area.treePath)!}" \/>'+
+                            '<\/span>'+
+                            '<script>select_area();<\/script>'+
+                            '<select id="city_select" onchange="change_area(\'province\',this)">'+
+                            '</select>'+
+                            '<select id="area_select" onchange="get_area_id()">'+
+                            '</select>'+
+                        '<\/td>'+
+                    '<\/tr>'+
+                '<\/table>',
                 [/@compress]
                     width: 470,
                     modal: true,
@@ -100,6 +187,11 @@
                             var $this = $(this);
                             $("#" + $this.attr("name")).val($this.val());
                         });
+                        
+                        if("${enterprise}"=="province_proxy"||"${enterprise}"=="city_proxy"){
+                            $("#areaId").val(true_area_id);
+                        }
+                        
                         $listForm.submit();
                     }
                 })
@@ -115,7 +207,7 @@
                         type: "get",
                         success: function (message) {
                             $.message("success", message.content);
-                            location.reload();
+                            location.reload(true);
                         }
                     });
                 }
@@ -128,8 +220,8 @@
                         dataType: "json",
                         type: "get",
                         success: function (message) {
-                            alert(message.content);
-                            location.reload();
+                            $.message("success", message.content);
+                            location.reload(true);
                         }
                     });
                 }
@@ -219,7 +311,6 @@
             });
         }
 
-
     </script>
 </head>
 <body>
@@ -273,22 +364,22 @@
                             <a href="javascript:;" name="isMarketable" val="false"[#if isMarketable?? && !isMarketable]
                                class="checked"[/#if]>${message("admin.product.notMarketable")}</a>
                         </li>
-                        <li class="separator">
-                            <a href="javascript:;" name="isList" val="true"[#if isList?? && isList]
-                               class="checked"[/#if]>${message("admin.product.isList")}</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" name="isList" val="false"[#if isList?? && !isList]
-                               class="checked"[/#if]>${message("admin.product.notList")}</a>
-                        </li>
-                        <li class="separator">
-                            <a href="javascript:;" name="isTop" val="true"[#if isTop?? && isTop]
-                               class="checked"[/#if]>${message("admin.product.isTop")}</a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" name="isTop" val="false"[#if isTop?? && !isTop]
-                               class="checked"[/#if]>${message("admin.product.notTop")}</a>
-                        </li>
+                        [#--<li class="separator">--]
+                            [#--<a href="javascript:;" name="isList" val="true"[#if isList?? && isList]--]
+                               [#--class="checked"[/#if]>${message("admin.product.isList")}</a>--]
+                        [#--</li>--]
+                        [#--<li>--]
+                            [#--<a href="javascript:;" name="isList" val="false"[#if isList?? && !isList]--]
+                               [#--class="checked"[/#if]>${message("admin.product.notList")}</a>--]
+                        [#--</li>--]
+                        [#--<li class="separator">--]
+                            [#--<a href="javascript:;" name="isTop" val="true"[#if isTop?? && isTop]--]
+                               [#--class="checked"[/#if]>${message("admin.product.isTop")}</a>--]
+                        [#--</li>--]
+                        [#--<li>--]
+                            [#--<a href="javascript:;" name="isTop" val="false"[#if isTop?? && !isTop]--]
+                               [#--class="checked"[/#if]>${message("admin.product.notTop")}</a>--]
+                        [#--</li>--]
                         <li class="separator">
                             <a href="javascript:;" name="isGift" val="true"[#if isGift?? && isGift]
                                class="checked"[/#if]>${message("admin.product.isGift")}</a>

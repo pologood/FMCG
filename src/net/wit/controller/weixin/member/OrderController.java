@@ -107,6 +107,21 @@ public class OrderController extends BaseController {
     }
 
     /**
+     * 订单明细
+     */
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String detail(String extension,Long id, HttpServletRequest request, Model model){
+        if (extension != null) {
+            Member extensions = memberService.findByUsername(extension);
+            if (extensions != null) {
+                request.getSession().setAttribute(Member.EXTENSION_ATTRIBUTE_NAME, extensions.getUsername());
+            }
+        }
+        model.addAttribute("id",id);
+        return "weixin/member/order/detail";
+    }
+
+    /**
      * 我的订单列表
      * type    unshipped 待发货; unpaid 待支付; unreciver 待签收; unreview 待评价
      */
@@ -361,11 +376,17 @@ public class OrderController extends BaseController {
                 cartService.bindActivity();
             }
         }
+        ReceiverModel receiverModel = null;
+        Receiver receiver = receiverService.findDefault(member);
+        if (receiver != null) {
+            receiverModel = new ReceiverModel();
+            receiverModel.copyFrom(receiver);
+        }
         List<PaymentMethod> paymentMethods = paymentMethodService.findAll();
         List<ShippingMethod> shippingMethods = shippingMethodService.findAll();
         PaymentMethod paymentMethod = paymentMethods.size() > 0 ? paymentMethods.get(0) : null;
         ShippingMethod shippingMethod = shippingMethods.size() > 0 ? shippingMethods.get(0) : null;
-        Order order = orderService.build(cart, null, paymentMethod, shippingMethod, null, false, null, false, null, null);
+        Order order = orderService.build(cart, receiver, paymentMethod, shippingMethod, null, false, null, false, null, null);
         ConfirmOrderModel model = new ConfirmOrderModel();
         List<CouponCode> codes = new ArrayList<>();
         if (member == null) {
@@ -385,15 +406,24 @@ public class OrderController extends BaseController {
         data.put("order", model);
         data.put("paymentMethods", PaymentMethodModel.bindData(paymentMethods));
         data.put("shippingMethods", ShippingMethodModel.bindData(shippingMethods));
-        ReceiverModel receiverModel = null;
-        Receiver receiver = receiverService.findDefault(member);
-        if (receiver != null) {
-            receiverModel = new ReceiverModel();
-            receiverModel.copyFrom(receiver);
-        }
         data.put("receiver", receiverModel);
         data.put("extension", request.getSession().getAttribute(Member.EXTENSION_ATTRIBUTE_NAME));
         return DataBlock.success(data, "执行成功");
+    }
+
+    /**
+     * 订单确认页
+     */
+    @RequestMapping(value = "/orderPay", method = RequestMethod.GET)
+    public String orderPay(String extension,String token_key,HttpServletRequest request,Model model){
+        if (extension != null) {
+            Member extensions = memberService.findByUsername(extension);
+            if (extensions != null) {
+                request.getSession().setAttribute(Member.EXTENSION_ATTRIBUTE_NAME, extensions.getUsername());
+            }
+        }
+        model.addAttribute("token_key", token_key);
+        return "weixin/member/order/orderPay";
     }
 
     /**
@@ -402,7 +432,7 @@ public class OrderController extends BaseController {
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
     public
     @ResponseBody
-    DataBlock calculate(Long paymentMethodId, Long shippingMethodId, String[] codes) {
+    DataBlock calculate(Long paymentMethodId, Long shippingMethodId, String[] codes,Long receiverId) {
         Map<String, Object> data = new HashMap<>();
         Cart cart = cartService.getCurrent();
         Member member = memberService.getCurrent();
@@ -421,7 +451,11 @@ public class OrderController extends BaseController {
                 couponCodes.add(couponCode);
             }
         }
-        Order order = orderService.build(cart, null, paymentMethod, shippingMethod, couponCodes, false, null, false, null, null);
+        Receiver receiver = null;
+        if(receiverId!=null&&!"".equals(receiverId)){
+            receiver = receiverService.find(receiverId);
+        }
+        Order order = orderService.build(cart, receiver, paymentMethod, shippingMethod, couponCodes, false, null, false, null, null);
 
         data.put("quantity", order.getQuantity());
         data.put("price", order.getPrice());
@@ -455,7 +489,7 @@ public class OrderController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public
     @ResponseBody
-    DataBlock create(Long receiverId, Long paymentMethodId, Long shippingMethodId, String[] codes, Long[] deliveryCenterIds, String memo, Long extensionId, HttpServletRequest request) {
+    DataBlock create(Long receiverId, Long paymentMethodId, Long shippingMethodId, String[] codes, Long[] deliveryCenterIds, String memo, Long extensionId, String token_key, HttpServletRequest request) {
         if (extensionId != null) {
             Member extension = memberService.find(extensionId);
             if (extension != null) {
@@ -487,7 +521,7 @@ public class OrderController extends BaseController {
         if (!paymentMethod.getShippingMethods().contains(shippingMethod)) {
             return DataBlock.error("ajax.order.deliveryUnsupported");
         }
-        Receiver receiver = receiverService.find(receiverId);
+        Receiver receiver = null;
         List<DeliveryCenter> deliveryCenters = new ArrayList<>();
         if (shippingMethod.getMethod() == ShippingMethod.Method.F2F) {
             if (deliveryCenterIds != null) {
@@ -496,8 +530,9 @@ public class OrderController extends BaseController {
                 }
             }
         } else {
+            receiver = receiverService.find(receiverId);
             if (receiver == null) {
-                return DataBlock.error("ajax.member.order.receiverNotExsit");
+                return DataBlock.error("请填写收货地址");
             }
         }
         String[] memos=null;
@@ -511,7 +546,7 @@ public class OrderController extends BaseController {
                 couponCodes.add(couponCode);
             }
         }
-        Order order = orderService.create(cart, receiver, paymentMethod, shippingMethod, couponCodes, false, null, false, null, memos, deliveryCenters, member, null, Order.OrderSource.app, null, null);
+        Order order = orderService.create(cart, receiver, paymentMethod, shippingMethod, couponCodes, false, null, false, null, memos, deliveryCenters, member, null, Order.OrderSource.app, null, token_key);
         return DataBlock.success(order.getSn(), "执行成功");
     }
 

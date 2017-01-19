@@ -222,4 +222,7 @@ public class DeliveryCenterServiceImpl extends BaseServiceImpl<DeliveryCenter, L
 	public List<DeliveryCenter> findourStoreList(Tenant tenant) {
 		return deliveryCenterDao.findourStoreList(tenant);
 	}
+	public Page<DeliveryCenter> findPage(String keyword, Pageable pageable){
+		return deliveryCenterDao.findPage(keyword, pageable);
+	}
 }

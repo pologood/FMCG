@@ -163,13 +163,6 @@ public interface TenantService extends BaseService<Tenant, Long> {
 	Page<Tenant> mobileFindPage(Set<TenantCategory> tenantCategorys, List<Tag> tags, Area area, Community community, Location location, BigDecimal distatce, Pageable pageable);
 
 	/**
-	 * 保存企业，更新member
-	 * @param name
-	 * @return
-	 */
-	public void save(Tenant tenant, Member member, Location location);
-
-	/**
 	 * 查找代理企业
 	 * @param member 销售员
 	 * @param status 状态
@@ -177,6 +170,13 @@ public interface TenantService extends BaseService<Tenant, Long> {
 	 * @return 企业
 	 */
 	public Page<Tenant> findAgency(Member member, Status status, Pageable pageable);
+
+	/**
+	 * 保存企业，更新member
+	 * @param name
+	 * @return
+	 */
+	public void save(Tenant tenant, Member member, Location location);
 
 	public long count(Member member, Date startTime, Date endTime, Status status);
 

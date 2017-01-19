@@ -57,14 +57,14 @@ $().ready(function() {
 			</div>
 			<div class="menuWrap">
 				<div class="search">
-					<span id="searchPropertySelect" class="arrow">&nbsp;</span>
-					<input type="text" id="searchValue" name="searchValue" value="${page.searchValue}" maxlength="200" />
+					<!-- <span id="searchPropertySelect" class="arrow">&nbsp;</span> -->
+					<input type="text" id="searchValue" name="searchValue" value="${page.searchValue}" maxlength="200" placeholder="搜索社区名称"/>
 					<button type="submit">&nbsp;</button>
 				</div>
 				<div class="popupMenu">
 					<ul id="searchPropertyOption">
 						<li>
-							<a href="javascript:;"[#if page.searchProperty == "name"] class="current"[/#if] val="title">社区名称</a>
+							<a href="javascript:;"[#if page.searchProperty == "name"] class="current"[/#if] val="name">社区名称</a>
 						</li>
 					</ul>
 				</div>
@@ -76,16 +76,22 @@ $().ready(function() {
 					<input type="checkbox" id="selectAll" />
 				</th>
 				<th>
+					<a href="javascript:;" class="sort" name="createDate">创建时间</a>
+				</th>
+				<th>
+					<a href="javascript:;" class="sort" name="status">状态</a>
+				</th>
+				<th>
 					<a href="javascript:;" class="sort" name="name">社区名称</a>
 				</th>
 				<th>
 					<a href="javascript:;" class="sort" name="area">行政区域</a>
 				</th>
 				<th>
-					<a href="javascript:;" class="sort" name="status">状态</a>
+					<a href="javascript:;" class="sort" name="area">地理位置</a>
 				</th>
 				<th>
-					<a href="javascript:;" class="sort" name="createDate">创建时间</a>
+					<a href="javascript:;" class="sort" name="area">门店数量</a>
 				</th>
 				<th>
 					<span>${message("admin.common.handle")}</span>
@@ -97,10 +103,7 @@ $().ready(function() {
 						<input type="checkbox" name="ids" value="${community.id}" />
 					</td>
 					<td>
-						<span title="${community.name}">${abbreviate(community.name, 50, "...")}</span>
-					</td>
-					<td>
-						${community.area.fullName}
+						<span title="${community.createDate?string("yyyy-MM-dd HH:mm:ss")}">${community.createDate}</span>
 					</td>
 					<td>
 					  [#if community.status="wait"]
@@ -112,7 +115,21 @@ $().ready(function() {
 					  [/#if]
 					</td>
 					<td>
-						<span title="${community.createDate?string("yyyy-MM-dd HH:mm:ss")}">${community.createDate}</span>
+						<span title="${community.name}">${abbreviate(community.name, 50, "...")}</span>
+					</td>
+					<td>
+						${community.area.fullName}
+					</td>
+					<td>
+						[#if community.location?has_content]经度：${community.location.lng} ，纬度：${community.location.lat}[#else]--[/#if]
+					</td>
+					<td>
+						[#if community.deliveryCenters?size>0]
+							${community.deliveryCenters?size}&nbsp;
+							<a href="${base}/admin/community/deliveryCenter_list.jhtml?id=${community.id}">[查看]</a>
+						[#else]
+							0&nbsp;&nbsp;<a href="${base}/admin/community/deliveryCenter_add.jhtml?communityId=${community.id}">[添加]</a>
+						[/#if]
 					</td>
 					<td>
 						<a href="edit.jhtml?id=${community.id}">[${message("admin.common.edit")}]</a>

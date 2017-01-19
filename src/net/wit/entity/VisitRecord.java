@@ -88,13 +88,10 @@ public class VisitRecord extends BaseEntity {
     @JoinColumn(updatable = false)
     private Tenant tenant;
 
-    /**
-     * 商品
-     * @return
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(updatable = false)
-    private Product product;
+    /** 商品编号 */
+     @Column( updatable = false)
+    private String sn;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -139,11 +136,11 @@ public class VisitRecord extends BaseEntity {
         this.machineType = machineType;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getSn() {
+        return sn;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setSn(String sn) {
+        this.sn = sn;
     }
 }

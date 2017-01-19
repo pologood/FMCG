@@ -78,10 +78,10 @@ public class UnionTenantScreenListModel extends BaseModel {
 			this.tenantName = unionTenant.getEquipment().getTenant().getName();
 		}
 
-		this.sales = unionTenant.getSales();
-		this.pay = unionTenant.getPay();
-		this.volume = unionTenant.getVolume();
-		this.unitPrice = unionTenant.getUnitPrice();
+		this.sales = unionTenant.getSales()==null?new BigDecimal(0):unionTenant.getSales();
+		this.pay = unionTenant.getPay()==null?new BigDecimal(0):unionTenant.getPay();
+		this.volume = unionTenant.getVolume()==null?new BigDecimal(0):unionTenant.getVolume();
+		this.unitPrice = unionTenant.getUnitPrice()==null?new BigDecimal(0):unionTenant.getUnitPrice();
 
 	}
 	

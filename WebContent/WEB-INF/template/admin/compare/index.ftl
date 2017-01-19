@@ -138,6 +138,10 @@ $().ready(function() {
 						dataType: "json",
 						success: function(message) {
 							$.message(message);
+							if(message.type=="success"){
+								$("#begin_compare").prop("disabled", true);
+								$("#against_compare").prop("disabled", false);
+							}
 							// window.location.reload();
 							
 						}
@@ -210,11 +214,10 @@ function aginst_capital(){
 					操作:
 				</th>
 				<td>
-					[#if is_capital=="false"]
-					<input type="submit" class="button" value="开始对账" />
-					[#else]
-					<input type="button" class="button" value="反结账" onclick="aginst_capital()" />
-					[/#if]
+					
+					<input type="submit" class="button" value="开始对账" [#if is_capital=="true"]disabled="true"[/#if] id="begin_compare"/>
+					
+					<input type="button" class="button" value="反结账" [#if is_capital=='true']onclick="aginst_capital()"[#else]disabled="true"[/#if] id="against_compare"/>
 					<input type="button" class="button" value="${message("admin.common.back")}" onclick="location.href='../common/index.jhtml'" />
 					<input type="button" class="button" value="刷新" onclick="location.reload();" id="refresh"/>
 					<input type="button" class="button red" value="查看平台资金流水" onclick="location.href='${base}/admin/statistics/platform_capital_total.jhtml'"/>

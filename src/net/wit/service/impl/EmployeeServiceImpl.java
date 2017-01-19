@@ -4,15 +4,12 @@ import javax.annotation.Resource;
 
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.entity.Member;
-import net.wit.entity.Tag;
-import net.wit.entity.Tenant;
+import net.wit.entity.*;
 import org.springframework.stereotype.Service;
 
 import com.fr.web.privilege.core.impl.SuperOrg;
 
 import net.wit.dao.EmployeeDao;
-import net.wit.entity.Employee;
 import net.wit.service.EmployeeService;
 
 import java.util.List;
@@ -28,7 +25,11 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee, Long> impleme
 	}
 
 	public Page<Employee> findPage(Pageable pageable, Tag tag, String keyWord){
-		return employeeDao.findPage(pageable,tag,keyWord);
+		return employeeDao.findPage(pageable,null,tag,null,keyWord,null);
+	}
+
+	public Page<Employee> findPage(Pageable pageable, TenantCategory tenantCategory, Tag tag, Location location, String keyWord, String orderType){
+		return employeeDao.findPage(pageable,tenantCategory,tag,location,keyWord,orderType);
 	}
 
 	public List<Employee> findList(Tenant tenant, Tag tag){

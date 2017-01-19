@@ -3,6 +3,8 @@ package net.wit.interceptor;
 import java.net.URLEncoder;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,20 @@ public class WeiXinOpenIdInterceptor extends HandlerInterceptorAdapter {
 
 	@Resource(name = "cartServiceImpl")
 	private CartService cartService;
-
+	public  String filterEmoji(String source) {
+		if(source != null)
+		{
+			Pattern emoji = Pattern.compile ("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",Pattern.UNICODE_CASE | Pattern . CASE_INSENSITIVE ) ;
+			Matcher emojiMatcher = emoji.matcher(source);
+			if ( emojiMatcher.find())
+			{
+				source = emojiMatcher.replaceAll("*");
+				return source ;
+			}
+			return source;
+		}
+		return source;
+	}
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
 			HttpSession session = request.getSession();
@@ -60,19 +75,24 @@ public class WeiXinOpenIdInterceptor extends HandlerInterceptorAdapter {
 				String openId = (String) request.getSession().getAttribute(Member.WEIXIN_OPENT_ID);
 				if (openId == null) {
 					String code = request.getParameter("code");
-					//System.out.println("===============================code:"+code);
 					ResourceBundle bundle = PropertyResourceBundle.getBundle("config");
 					if (code != null) {
 						AccessToken token = WeixinUtil.getOauth2AccessToken(bundle.getString("APPID"), bundle.getString("APPSECRET"), code);
-						openId = token.getOpenid();
-						request.getSession().setAttribute(Member.WEIXIN_OPENT_ID, openId);
+						if (token!=null) {
+							openId = token.getOpenid();
+							request.getSession().setAttribute(Member.WEIXIN_OPENT_ID, openId);
+						} else {
+							String redirectUrl = request.getQueryString() != null ? request.getRequestURI() + "?" + request.getQueryString() : request.getRequestURI();
+
+							redirectUrl = URLEncoder.encode(bundle.getString("WeiXinSiteUrl") + redirectUrl);
+							response.sendRedirect(MenuManager.codeUrlO2(redirectUrl));
+							return false;
+						}
 						
 					} else {
 						String redirectUrl = request.getQueryString() != null ? request.getRequestURI() + "?" + request.getQueryString() : request.getRequestURI();
 
 						redirectUrl = URLEncoder.encode(bundle.getString("WeiXinSiteUrl") + redirectUrl);
-						//System.out.println(request.getQueryString()+"   "+request.getRequestURI()+"===============================redirectUrl:"+redirectUrl);
-						//System.out.println("WeiXinOpenIdInterceptor==============redirectUrl:"+MenuManager.codeUrlO2(redirectUrl);
 				        response.sendRedirect(MenuManager.codeUrlO2(redirectUrl));
 						return false;
 					}
@@ -101,13 +121,13 @@ public class WeiXinOpenIdInterceptor extends HandlerInterceptorAdapter {
 					} else {
 						member = bindUser.getMember();
 					}
-						
+
 					if (member != null) {
-			            if (member.getJmessage() == null || !member.getJmessage()) {
-			                if (PushMessage.jpush_register(member.getUsername(), "rzico@2015")) {
-			                    member.setJmessage(true);
-			                }
-			            }
+			            //if (member.getJmessage() == null || !member.getJmessage()) {
+			            //    if (PushMessage.jpush_register(member.getUsername(), "rzico@2015")) {
+			            //        member.setJmessage(true);
+			            //    }
+			            //}
 			            if (member.getEmessage() == null || !member.getEmessage()) {
 			                if (PushMessage.ease_register(member.getId().toString(), "rzico@2015", member.getDisplayName())) {
 			                    member.setEmessage(true);
@@ -125,14 +145,14 @@ public class WeiXinOpenIdInterceptor extends HandlerInterceptorAdapter {
 								WebUtils.removeCookie(request, response, Cart.KEY_COOKIE_NAME);
 							}
 						}
-						
+
 					    if (member.getHeadImg()==null) {
 					       ResourceBundle bundle=PropertyResourceBundle.getBundle("config");
 						   AccessToken token = WeixinUtil.getAccessToken(bundle.getString("APPID"), bundle.getString("APPSECRET"));
 						   JSONObject userinfo = WeixinUtil.getUserInfo(token.getToken(), openId);
 						   if (userinfo.containsKey("nickname")) {
 							  // System.out.println("nickName"+userinfo.getString("nickname"));
-							   member.setNickName(userinfo.getString("nickname"));
+							   member.setNickName(filterEmoji(userinfo.getString("nickname")));
 							   member.setHeadImg(userinfo.getString("headimgurl"));
 							   //if (member.getName()==null) {
 								//   member.setName(member.getNickName());
@@ -144,7 +164,7 @@ public class WeiXinOpenIdInterceptor extends HandlerInterceptorAdapter {
 						return true;
 					}
 				}
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

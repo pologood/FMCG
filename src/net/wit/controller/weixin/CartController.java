@@ -74,6 +74,12 @@ public class CartController extends BaseController {
             return DataBlock.error("weixin.cart.notForSale");
         }
 
+        if(product.getTenant()!=null){
+            if(product.getTenant().getEnd()!=null&&product.getTenant().getEnd()){
+                return DataBlock.error("商家已打烊");
+            }
+        }
+
         Cart cart = cartService.getCurrent();
         Member member = memberService.getCurrent();
 

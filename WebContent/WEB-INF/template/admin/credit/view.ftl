@@ -603,8 +603,8 @@
                     [#if deposit.memo??]
                         [#if deposit.memo?index_of("单号")!=-1]
                             [#assign from=deposit.memo?index_of(":")]
-                            [#assign snkey=deposit.memo?substring(from+1)]
-                            <a href="${base}/admin/order/snview.jhtml?sn=${snkey}" target="_blank">${deposit.memo}</a>
+                            [#assign snkey=deposit.memo?substring(from+1)]${deposit.memo}
+                            <a href="${base}/admin/order/snview.jhtml?sn=${snkey}" target="_blank"></a>
                         [#else]
                         ${deposit.memo}
                         [/#if]

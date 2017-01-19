@@ -73,6 +73,30 @@ public class RebateDaoImpl extends BaseDaoImpl<Rebate, Long> implements RebateDa
 		return super.findPage(criteriaQuery, pageable);
 	}
 
+	@Override
+	public List<Rebate> findList(Member member, Rebate.Type type, CouponCode couponCode) {
+		if (member == null) {
+			return new ArrayList<>(Collections.<Rebate> emptyList());
+		}
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Rebate> criteriaQuery = criteriaBuilder.createQuery(Rebate.class);
+		Root<Rebate> root = criteriaQuery.from(Rebate.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("member"), member));
+
+		if(type!=null){
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), type));
+		}
+
+		if(couponCode!=null){
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("couponCode"), couponCode));
+		}
+
+		criteriaQuery.where(restrictions);
+		return super.findList(criteriaQuery, null,null,null,null);
+	}
+
 	/**
 	 * 获取分润佣金
 	 */
@@ -195,7 +219,7 @@ public class RebateDaoImpl extends BaseDaoImpl<Rebate, Long> implements RebateDa
 	@Override
 	public BigDecimal sumBrokerage(Member member, Rebate.Type type, Rebate.OrderType orderType) {
 
-		String jpql = "SELECT sum(a.brokerage) from Rebate a where  a.type=:type  and a.orderType=:orderType and a.member=:member " ;
+		String jpql = "SELECT sum(a.amount) from Rebate a where  a.type=:type  and a.orderType=:orderType and a.member=:member " ;
 		Object result = entityManager.createQuery(jpql).setFlushMode(FlushModeType.COMMIT).setParameter("type",type).setParameter("orderType",orderType).setParameter("member",member).getSingleResult();
 
 		return result==null?BigDecimal.ZERO:new BigDecimal(result.toString());

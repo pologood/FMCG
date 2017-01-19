@@ -583,12 +583,6 @@ public class Trade extends BaseEntity {
 					orderStatus.setStatus(Status.waitPay);
 					finalOrderStatus.add(orderStatus);
 				} else
-				if (orderStatus == OrderStatus.unconfirmed) {
-					FinalOrderStatus orderStatus = new FinalOrderStatus();
-					orderStatus.setDesc("待确认");
-					orderStatus.setStatus(Status.unconfirmed);
-					finalOrderStatus.add(orderStatus);
-				} else
 				if (paymentStatus == PaymentStatus.refundApply) {
 					FinalOrderStatus orderStatus = new FinalOrderStatus();
 					orderStatus.setDesc("待退款");
@@ -599,6 +593,12 @@ public class Trade extends BaseEntity {
 					FinalOrderStatus orderStatus = new FinalOrderStatus();
 					orderStatus.setDesc("待退货");
 					orderStatus.setStatus(Status.waitReturn);
+					finalOrderStatus.add(orderStatus);
+				} else
+				if (orderStatus == OrderStatus.unconfirmed) {
+					FinalOrderStatus orderStatus = new FinalOrderStatus();
+					orderStatus.setDesc("待确认");
+					orderStatus.setStatus(Status.unconfirmed);
 					finalOrderStatus.add(orderStatus);
 				} else
 				if (shippingStatus == ShippingStatus.unshipped || shippingStatus == ShippingStatus.partialShipment) {

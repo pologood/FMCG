@@ -29,6 +29,10 @@ public class DeliveryCenterModel extends BaseModel {
      * 经纬度
      */
     private Location location;
+    /**
+     * 电话
+     */
+    private String phone;
 
     public Long getId() {
         return id;
@@ -78,6 +82,14 @@ public class DeliveryCenterModel extends BaseModel {
         this.location = location;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public void copyFrom(DeliveryCenter deliveryCenter) {
         this.id = deliveryCenter.getId();
         this.name = deliveryCenter.getName();
@@ -85,6 +97,7 @@ public class DeliveryCenterModel extends BaseModel {
         this.address = deliveryCenter.getAddress();
         this.thumbnail = deliveryCenter.getTenant().getThumbnail() == null ? deliveryCenter.getTenant().getLogo() : deliveryCenter.getTenant().getThumbnail();
         this.location = deliveryCenter.getLocation();
+        this.phone=deliveryCenter.getPhone();
     }
 
 }

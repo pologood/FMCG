@@ -34,19 +34,19 @@ public class WifiRecord extends BaseEntity {
     @Column(nullable = false, updatable = false)
     private WifiType wifiType;
 
-    /** member */
+    /** 手机的设备号member */
     @Column(updatable = false)
-    private String uuid;
+    private String uuidd;
+
+
+    /** 路由器的设备号tennet */
+    @Column(updatable = false)
+    private String wuidd;
 
 
     /** tennet */
     @Column(updatable = false)
-    private String wuid;
-
-
-    /** tennet */
-    @Column(updatable = false)
-    private Long signal;
+    private Long signall;
 
 
     public WifiType getWifiType() {
@@ -57,27 +57,27 @@ public class WifiRecord extends BaseEntity {
         this.wifiType = wifiType;
     }
 
-    public String getUuid() {
-        return uuid;
+    public String getUuidd() {
+        return uuidd;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setUuidd(String uuidd) {
+        this.uuidd = uuidd;
     }
 
-    public String getWuid() {
-        return wuid;
+    public String getWuidd() {
+        return wuidd;
     }
 
-    public void setWuid(String wuid) {
-        this.wuid = wuid;
+    public void setWuidd(String wuidd) {
+        this.wuidd = wuidd;
     }
 
-    public Long getSignal() {
-        return signal;
+    public Long getSignall() {
+        return signall;
     }
 
-    public void setSignal(Long signal) {
-        this.signal = signal;
+    public void setSignall(Long signall) {
+        this.signall = signall;
     }
 }

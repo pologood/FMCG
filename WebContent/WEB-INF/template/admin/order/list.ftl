@@ -130,19 +130,19 @@
                 <span>${message("Order.amount")}</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="member">${message("Order.member")}</a>
+                <span>${message("Order.member")}</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="consignee">${message("Order.consignee")}</a>
+                <span>${message("Order.consignee")}</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="member">店铺名称</a>
+                <span>店铺名称</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="paymentMethodName">${message("Order.paymentMethodName")}</a>
+                <span>${message("Order.paymentMethodName")}</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="shippingMethodName">${message("Order.shippingMethodName")}</a>
+                <span>${message("Order.shippingMethodName")}</span>
             </th>
             <th>
                 <a href="javascript:;" class="sort" name="orderStatus">${message("Order.orderStatus")}</a>
@@ -178,7 +178,7 @@
             </td>
             <td>
                 [#if trade.order.member??]
-                ${trade.order.member.username}
+                ${trade.order.member.displayName}
                 [#else]
                     (该用户账户不存在)
                 [/#if]

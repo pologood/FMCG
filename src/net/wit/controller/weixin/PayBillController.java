@@ -49,7 +49,7 @@ public class PayBillController extends BaseController {
     /**
      * 根据用户输入的金额，获取平台立减和店铺优惠券
      */
-    @RequestMapping(value = "/get/amount", method = RequestMethod.POST)
+    @RequestMapping(value = "/get/amount")
     public
     @ResponseBody
     DataBlock getAmount(Long id, BigDecimal amount,@RequestParam(defaultValue = "0")BigDecimal noAmount,HttpServletRequest request) {
@@ -61,7 +61,6 @@ public class PayBillController extends BaseController {
 
         Promotion promotion = promotionService.getNowPromotion(Promotion.Type.discount,tenant);//买单折扣活动
         ActivityPlanning activityPlanning = activityPlanningService.getCurrent(tenant, ActivityPlanning.Type.random);//随机减活动
-
         BigDecimal _amout = amount.subtract(noAmount);      //参与活动的金额
         String promotionName="";                            //买单折扣名称
         BigDecimal promotionAmount = BigDecimal.ZERO;       //折扣金额

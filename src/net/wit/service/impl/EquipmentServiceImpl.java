@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
+import net.wit.entity.Tag;
 import net.wit.entity.Tenant;
 import org.springframework.stereotype.Service;
 
@@ -55,8 +56,13 @@ public class EquipmentServiceImpl extends BaseServiceImpl<Equipment, Long> imple
        return equipmentDao.findByTenant(tenant,filters);
    }
 
-   public Equipment findEquipment(Tenant tenant, List<Filter> filters){
-       return equipmentDao.findEquipment(tenant,filters);
+   public Equipment findEquipment(Tenant tenant, Equipment.Status status){
+       return equipmentDao.findEquipment(tenant,status);
    }
+
+    @Override
+    public Page<Equipment> findPage(Long unionId, String keyword, List<Tag> tags, Equipment.Status status, Pageable pageable) {
+        return equipmentDao.findPage(unionId,keyword,tags,status,pageable);
+    }
 }
 

@@ -215,7 +215,7 @@ public class PaymentController extends BaseController {
 			payment.setType(Type.recharge);
 			payment.setMethod(Method.online);
 			payment.setStatus(Status.wait);
-			payment.setPaymentMethod("");
+			payment.setPaymentMethod(paymentPlugin.getPaymentName());
 			payment.setFee(BigDecimal.ZERO);
 			payment.setAmount(amount.setScale(2));
 			payment.setPaymentPluginId(paymentPluginId);

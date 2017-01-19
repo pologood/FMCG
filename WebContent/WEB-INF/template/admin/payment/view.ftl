@@ -119,8 +119,10 @@ $().ready(function() {
 			<th>
 				${message("Payment.order")}:
 			</th>
-			<td>
-				<a href="${base}/admin/order/list.jhtml?searchValue=${payment.order.sn}">${(payment.order.sn)!"-"}</a>
+			<td>	
+				[#if payment.order??]
+					<a href="${base}/admin/order/list.jhtml?searchValue=${payment.order.sn}">${(payment.order.sn)!"-"}</a>
+				[#else]--[/#if]
 			</td>
 		</tr>
 		<tr>

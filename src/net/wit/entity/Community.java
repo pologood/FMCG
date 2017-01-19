@@ -89,6 +89,10 @@ public class Community extends BaseEntity {
 	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY)
 	private Set<Receiver> receivers = new HashSet<Receiver>();
 
+	/** 收货地址信息 */
+	@OneToMany(mappedBy = "community", fetch = FetchType.LAZY)
+	private Set<DeliveryCenter> deliveryCenters = new HashSet<DeliveryCenter>();
+
 	/** 经纬度 */
 	@Embedded
 	@JsonProperty
@@ -101,6 +105,12 @@ public class Community extends BaseEntity {
 		if (receivers != null) {
 			for (Receiver receiver : receivers) {
 				receiver.setCommunity(null);
+			}
+		}
+		Set<DeliveryCenter> deliveryCenters = getDeliveryCenters();
+		if (deliveryCenters != null) {
+			for (DeliveryCenter deliveryCenter : deliveryCenters) {
+				deliveryCenter.setCommunity(null);
 			}
 		}
 	}
@@ -246,4 +256,11 @@ public class Community extends BaseEntity {
 		this.receivers = receivers;
 	}
 
+	public Set<DeliveryCenter> getDeliveryCenters() {
+		return deliveryCenters;
+	}
+
+	public void setDeliveryCenters(Set<DeliveryCenter> deliveryCenters) {
+		this.deliveryCenters = deliveryCenters;
+	}
 }

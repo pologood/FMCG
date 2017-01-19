@@ -10,6 +10,7 @@ import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.entity.Equipment;
 import net.wit.entity.Member;
+import net.wit.entity.Tag;
 import net.wit.entity.Tenant;
 
 import java.util.List;
@@ -30,8 +31,18 @@ public interface EquipmentDao extends BaseDao<Equipment, Long> {
 	Equipment findByUUID(String uuid);
 
 	Page<Equipment> findPage(String keyWord,Equipment.Status status, Pageable pageable);
+	/**
+	 * 根据条件查询设备
+	 * @param unionId
+	 * @param keyword
+	 * @param tags
+	 * @param status
+	 * @param pageable
+	 * @return
+	 */
+	Page<Equipment> findPage(Long unionId, String keyword, List<Tag> tags, Equipment.Status status, Pageable pageable);
 
 	List<Equipment> findByTenant(Tenant tenant, List<Filter> filters);
 
-	Equipment findEquipment(Tenant tenant, List<Filter> filters);
+	Equipment findEquipment(Tenant tenant, Equipment.Status status);
 }

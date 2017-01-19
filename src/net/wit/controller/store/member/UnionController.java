@@ -15,6 +15,7 @@ import net.wit.entity.*;
 import net.wit.service.*;
 import net.wit.util.QRBarCodeUtil;
 import net.wit.weixin.main.MenuManager;
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,9 @@ public class UnionController extends net.wit.controller.store.BaseController {
     @Resource(name = "extendCatalogServiceImpl")
     private ExtendCatalogService extendCatalogService;
 
+    @Resource(name = "paymentServiceImpl")
+    private PaymentService paymentService;
+
 
     /**
      * 我的商盟
@@ -89,20 +93,19 @@ public class UnionController extends net.wit.controller.store.BaseController {
         }
         Tenant tenant=member.getTenant();
         List<UnionTenant> unionTenants=new ArrayList<UnionTenant>();
-        if(tenant!=null){
-            if(tenant.getStatus()==Tenant.Status.success&&tenant.getUnion()!=null){
-                unionTenants=unionTenantService.findUnionTenant(tenant.getUnion(),tenant,null);
-            }
+        if(tenant==null){
+            return "redirect:/store/login.jhtml";
         }
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
+        filter.add(new Filter("status", Filter.Operator.ne, Status.canceled));
+        unionTenants=unionTenantService.findUnionTenant(null,tenant,filter);
+
         if(unionTenants==null){
             return "redirect:all_union.jhtml";
         }else{
             if(unionTenants.size()<1){
                 return "redirect:all_union.jhtml";
-            }else{
-                if(unionTenants.get(0).getStatus()!= UnionTenant.Status.confirmed){
-                    return "redirect:all_union.jhtml";
-                }
             }
         }
         model.addAttribute("unionTenants",unionTenants);
@@ -115,43 +118,52 @@ public class UnionController extends net.wit.controller.store.BaseController {
      */
     @RequestMapping(value = "/all_union", method = RequestMethod.GET)
     public String unionList(ModelMap model,Pageable pageable) {
-
-        Member member=memberService.getCurrent();
-        if (member==null){
-            return "redirect:/store/login.jhtml";
-        }
-        Tenant tenant=member.getTenant();
-        if (tenant==null){
-            return "redirect:/store/login.jhtml";
-        }
-        List<Filter> filter = new ArrayList<Filter>();
-        filter.add(new Filter("type", Filter.Operator.eq, Union.Type.tenant));
-        pageable.setFilters(filter);
-        Page<Union> page=unionService.findPage(pageable);
-        List<UnionTenant> unionTenants=new ArrayList<UnionTenant>();
-        if(tenant!=null){
-            if(tenant.getStatus()==Tenant.Status.success){
-                unionTenants=unionTenantService.findUnionTenant(null,tenant,null);
-            }
-        }
-        if(unionTenants!=null){
-            if(unionTenants.size()>0){
-                if(unionTenants.get(0).getStatus()== UnionTenant.Status.canceled){
-                    model.addAttribute("has_union","none");
+        Member member= null;
+        Tenant tenant= null;
+        Page<Union> page=null;
+        List<Map<String, Object>> maps=new ArrayList<Map<String, Object>>();
+        try {
+            member = memberService.getCurrent();
+            tenant = member.getTenant();
+            page=unionService.findPage(pageable);
+            for(Union union:page.getContent()){
+                Map<String, Object> map=new HashMap<String,Object>();
+                map.put("name", union.getName());
+                map.put("brokerage",union.getBrokerage());
+                map.put("price", union.getPrice());
+                map.put("tenantNumber", union.getTenantNumber());
+                map.put("image", union.getImage());
+                map.put("id", union.getId());
+                map.put("create_date",union.getCreateDate());
+                List<UnionTenant> unionTenantList=new ArrayList<UnionTenant>();
+                unionTenantList.addAll(union.getUnionTenants());
+                if(unionTenantList.size()>0){
+                    if(unionTenantList.get(0).getTenant()==tenant && unionTenantList.get(0).getType()== UnionTenant.Type.tenant){
+                        if(unionTenantList.get(0).getStatus()==Status.unconfirmed){
+                            map.put("judge_status","unconfirmed");
+                        }else if(unionTenantList.get(0).getStatus()==Status.confirmed){
+                            map.put("judge_status","confirmed");
+                        }else if(unionTenantList.get(0).getStatus()==Status.freezed){
+                            map.put("judge_status","freezed");
+                        }else if(unionTenantList.get(0).getStatus()==Status.canceled){
+                            map.put("judge_status","canceled");
+                        }
+                    }else{
+                        map.put("judge_status","canceled");
+                    }
                 }else{
-                    model.addAttribute("has_union",unionTenants.get(0).getUnion());
+                    map.put("judge_status","canceled");
                 }
-                model.addAttribute("unionTenantId",unionTenants.get(0).getId());
-                model.addAttribute("union_status",unionTenants.get(0).getStatus());
-            }else{
-                model.addAttribute("has_union","none");
+                maps.add(map);
             }
-        }else{
-            model.addAttribute("has_union","none");
+
+        } catch (Exception e) {
+            return "/store/member/union/all_union";
         }
-        model.addAttribute("member",member);
+        model.addAttribute("maps",maps);
+        model.addAttribute("tenant",tenant);
         model.addAttribute("page",page);
-        model.addAttribute("menu","all_union");
+        model.addAttribute("menu","my_union");
         return "/store/member/union/all_union";
     }
 
@@ -169,12 +181,12 @@ public class UnionController extends net.wit.controller.store.BaseController {
             return "redirect:/all_union";
         }
         List<Filter> filter = new ArrayList<Filter>();
-        filter.add(new Filter("unions", Filter.Operator.eq, union));
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
         pageable.setFilters(filter);
-        Page<Tenant> page = tenantService.openPage(pageable, null, null, null, null, null, keywords, null, null,null,null);
+        Page<UnionTenant> page= unionTenantService.findPage(union,Status.confirmed,pageable);
         model.addAttribute("member",member);
         model.addAttribute("page",page);
-        model.addAttribute("menu","all_union");
+        model.addAttribute("menu","my_union");
         model.addAttribute("keywords",keywords);
         model.addAttribute("unionId",unionId);
         return "/store/member/union/union_tenant_list";
@@ -225,20 +237,17 @@ public class UnionController extends net.wit.controller.store.BaseController {
             return Message.error("系统内部找不到该商盟");
         }
         List<UnionTenant> unionTenants=new ArrayList<UnionTenant>();
-        if(tenant!=null){
-            if(tenant.getStatus()==Tenant.Status.success&&union!=null){
-                unionTenants=unionTenantService.findUnionTenant(null,tenant,null);
-            }
+        if(tenant.getStatus()==Tenant.Status.success&&union!=null){
+            List<Filter> filter = new ArrayList<Filter>();
+            filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
+            unionTenants=unionTenantService.findUnionTenant(union,tenant,filter);
         }
-        if(unionTenants!=null){
-            if(unionTenants.size()>0){
-                unionTenants.get(0).setStatus(UnionTenant.Status.unconfirmed);
-                unionTenants.get(0).setUnion(union);
-                unionTenants.get(0).setPrice(union.getPrice());
-                unionTenantService.update(unionTenants.get(0));
-                return Message.success(unionTenants.get(0).getId().toString());
-            }
+        if(unionTenants.size()>0){//已经加入过，改变状态
+            unionTenants.get(0).setStatus(UnionTenant.Status.unconfirmed);
+            unionTenantService.update(unionTenants.get(0));
+            return Message.success(unionTenants.get(0).getId().toString());
         }
+
         UnionTenant unionTenant= null;
         try {
             unionTenant = new UnionTenant();
@@ -247,10 +256,7 @@ public class UnionController extends net.wit.controller.store.BaseController {
             unionTenant.setEquipment(null);
             unionTenant.setPrice(union.getPrice());
             unionTenant.setStatus(UnionTenant.Status.unconfirmed);
-            Calendar curr = Calendar.getInstance();
-            curr.add(Calendar.YEAR, 1);
-            Date date=curr.getTime();
-            unionTenant.setExpire(date);
+            unionTenant.setType(UnionTenant.Type.tenant);
             unionTenantService.save(unionTenant);
         } catch (Exception e) {
             e.printStackTrace();
@@ -264,13 +270,15 @@ public class UnionController extends net.wit.controller.store.BaseController {
      */
     @RequestMapping(value = "/update_unionTenant", method = RequestMethod.POST)
     @ResponseBody
-    public Message updateUnionTenant(Long unionTenantId) {
+    public Message updateUnionTenant(Long unionTenantId,String sn) {
         Member member=memberService.getCurrent();
         if (member==null){
             return Message.error("会员不存在");
         }
         UnionTenant unionTenant=unionTenantService.find(unionTenantId);
-        unionTenant.setStatus(UnionTenant.Status.confirmed);
+        if (unionTenant==null){
+            return Message.error("申请记录不存在");
+        }
         Union union=unionTenant.getUnion();
         if (union==null){
             return Message.error("找不到该商盟");
@@ -279,18 +287,29 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if (tenant==null){
             return Message.error("店铺不存在");
         }
+        Payment payment=paymentService.findBySn(sn);
+        if(payment==null){
+            return Message.error("支付存在异常");
+        }
+
+        Calendar curr = Calendar.getInstance();
+        curr.add(Calendar.YEAR, 1);
+        Date date=curr.getTime();
+        unionTenant.setExpire(date);
+        unionTenant.setStatus(UnionTenant.Status.confirmed);
+        unionTenant.setPayment(payment);
+
+        union.setTenantNumber(union.getTenantNumber()+1);
+
+        if(tenant.getAgency().compareTo(union.getBrokerage())<0){
+            tenant.setAgency(union.getBrokerage());//店铺自己的佣金
+        }
         if(tenant.getIsUnion()==false){
-            union.setTenantNumber(union.getTenantNumber()+1);
             tenant.setIsUnion(true);
-            Calendar curr = Calendar.getInstance();
-            curr.add(Calendar.YEAR, 1);
-            Date date=curr.getTime();
-            unionTenant.setExpire(date);
         }
-        tenant.setUnion(union);
-        if(tenant.getBrokerage().compareTo(new BigDecimal(0.25))<0){
-            tenant.setBrokerage(new BigDecimal(0.25));//店铺自己的佣金
-        }
+
+        payment.setUnionTenant(unionTenant);
+        paymentService.update(payment);
         tenantService.update(tenant);
         unionService.update(union);
         unionTenantService.update(unionTenant);
@@ -318,29 +337,23 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if(union==null){
             return Message.error("系统内部找不到该商盟");
         }
-        List<UnionTenant> unionTenants=null;
-        if(tenant!=null){
-            if(tenant.getStatus()==Tenant.Status.success&&union!=null){
-                unionTenants=unionTenantService.findUnionTenant(union,tenant,null);
-            }
+        List<UnionTenant> unionTenants=new ArrayList<UnionTenant>();
+        if(tenant.getStatus()==Tenant.Status.success&&union!=null){
+            List<Filter> filter = new ArrayList<Filter>();
+            filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
+            unionTenants=unionTenantService.findUnionTenant(union,tenant,filter);
         }
-        if(unionTenants!=null){
-            if(unionTenants.size()>0){
-                if(union.getTenantNumber()>0){
-                    union.setTenantNumber(union.getTenantNumber()-1);
-                }
-                tenant.setIsUnion(false);
-                tenant.setUnion(union);
-                unionTenants.get(0).setStatus(UnionTenant.Status.canceled);
-                unionTenantService.update(unionTenants.get(0));
-                tenantService.update(tenant);
-                unionService.update(union);
-            }else{
-                return Message.warn("退出失败。");
+        if(unionTenants.size()>0){
+            if(union.getTenantNumber()>0){
+                union.setTenantNumber(union.getTenantNumber()-1);
             }
+            unionTenants.get(0).setStatus(UnionTenant.Status.canceled);
+            unionTenantService.update(unionTenants.get(0));
+            unionService.update(union);
         }else{
             return Message.warn("退出失败。");
         }
+
         return Message.success("退出成功，您可以选择新的联盟加入。");
     }
 
@@ -592,8 +605,14 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if (tenant==null){
             return "redirect:/store/login.jhtml";
         }
+
         Equipment equipment = equipmentService.findEquipment(tenant,null);
-        Page<Map<String,Object>> page = unionTenantService.findPage(equipment,"confirmed",pageable);
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        filter.add(new Filter("equipment", Filter.Operator.eq, equipment));
+        pageable.setFilters(filter);
+        Page<UnionTenant> page=unionTenantService.findPage(pageable);
+
         model.addAttribute("page",page);
         model.addAttribute("status","confirmed");
         model.addAttribute("menu","my_device");
@@ -615,7 +634,12 @@ public class UnionController extends net.wit.controller.store.BaseController {
             return "redirect:/store/login.jhtml";
         }
 
-        Page<Map<String,Object>> page = unionTenantService.findPage(tenant,"confirmed",pageable);
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        filter.add(new Filter("tenant", Filter.Operator.eq, tenant));
+        pageable.setFilters(filter);
+        Page<UnionTenant> page=unionTenantService.findPage(pageable);
+
         model.addAttribute("statuses", UnionTenant.Status.values());
         model.addAttribute("status","in_device");
         model.addAttribute("menu","my_device");
@@ -637,11 +661,23 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if (tenant==null){
             return "redirect:/store/login.jhtml";
         }
-        if(status==null){
-            status="unconfirmed";
+
+        Status status1=null;
+        if(status==null||status=="unconfirmed"){
+            status1=Status.unconfirmed;
+        }else if(status=="confirmed"){
+            status1=Status.confirmed;
+        }else if(status=="freezed"){
+            status1=Status.freezed;
+        }else if(status=="canceled"){
+            status1=Status.canceled;
         }
         Equipment equipment = equipmentService.findEquipment(tenant,null);
-        Page<Map<String,Object>> page = unionTenantService.findPage(equipment,status,pageable);
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        filter.add(new Filter("equipment", Filter.Operator.eq, equipment));
+        pageable.setFilters(filter);
+        Page<UnionTenant> page=unionTenantService.findPage(null,status1,pageable);
         model.addAttribute("page",page);
         model.addAttribute("status", status);
         model.addAttribute("statuses", UnionTenant.Status.values());
@@ -665,10 +701,22 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if(tenant ==null){
             return "redirect:/store/login.jhtml";
         }
-        if(status==null){
-            status="unconfirmed";
+        Status status1=null;
+        if(status==null||status=="unconfirmed"){
+            status1=Status.unconfirmed;
+        }else if(status=="confirmed"){
+            status1=Status.confirmed;
+        }else if(status=="freezed"){
+            status1=Status.freezed;
+        }else if(status=="canceled"){
+            status1=Status.canceled;
         }
-        Page<Map<String,Object>> page = unionTenantService.findPage(tenant,status,pageable);
+
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        filter.add(new Filter("tenant", Filter.Operator.eq, tenant));
+        pageable.setFilters(filter);
+        Page<UnionTenant> page=unionTenantService.findPage(null,status1,pageable);
         model.addAttribute("statuses", UnionTenant.Status.values());
         model.addAttribute("page",page);
         model.addAttribute("menu","my_device");
@@ -689,34 +737,10 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if (tenant==null){
             return "redirect:/store/login.jhtml";
         }
-        List<Filter> filter = new ArrayList<Filter>();
-        filter.add(new Filter("type", Filter.Operator.eq, Union.Type.device));
-        pageable.setFilters(filter);
         Page<Union> page=unionService.findPage(pageable);
-        List<UnionTenant> unionTenants=new ArrayList<UnionTenant>();
-        if(tenant!=null){
-            if(tenant.getStatus()==Tenant.Status.success){
-                unionTenants=unionTenantService.findUnionTenant(null,tenant,null);
-            }
-        }
-        if(unionTenants!=null){
-            if(unionTenants.size()>0){
-                if(unionTenants.get(0).getStatus()== UnionTenant.Status.canceled){
-                    model.addAttribute("has_union","none");
-                }else{
-                    model.addAttribute("has_union",unionTenants.get(0).getUnion());
-                }
-                model.addAttribute("unionTenantId",unionTenants.get(0).getId());
-                model.addAttribute("union_status",unionTenants.get(0).getStatus());
-            }else{
-                model.addAttribute("has_union","none");
-            }
-        }else{
-            model.addAttribute("has_union","none");
-        }
         model.addAttribute("member",member);
         model.addAttribute("page",page);
-        model.addAttribute("menu","all_union");
+        model.addAttribute("menu","my_device");
         return "/store/member/union/apply_in";
     }
 
@@ -733,27 +757,35 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if(union==null){
             return "redirect:/my_device";
         }
+        Tenant tenant=member.getTenant();
+        if (tenant==null){
+            return "redirect:/store/login.jhtml";
+        }
         List<Filter> filter = new ArrayList<Filter>();
-        filter.add(new Filter("unions", Filter.Operator.eq, union));
-        pageable.setFilters(filter);
-        Page<Tenant> page = tenantService.openPage(pageable, null, null, null, null, null, keywords, null, null,null,null);
-        model.addAttribute("member",member);
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        List<UnionTenant> unionTenants=unionTenantService.findUnionTenant(union,tenant,filter);
+        Page<Equipment> page=equipmentService.findPage(unionId,keywords,null,Equipment.Status.enabled,pageable);
+        model.addAttribute("union",union);
         model.addAttribute("page",page);
         model.addAttribute("menu","my_device");
         model.addAttribute("keywords",keywords);
         model.addAttribute("unionId",unionId);
+        if(unionTenants.size()>0){
+            model.addAttribute("unionTenant",unionTenants.get(0));
+        }else{
+            model.addAttribute("unionTenant",null);
+        }
         return "/store/member/union/equipment_tenant_list";
     }
 
     /**
-     * 加入购物屏
-     * @param tenantId
-     * @param unionId
+     * 检查是否加入该购物屏
+
      * @return
      */
-    @RequestMapping(value = "/apply_equipment",method = RequestMethod.POST)
+    @RequestMapping(value="check_apply",method = RequestMethod.POST)
     @ResponseBody
-    public Message applyEquipment(Long tenantId,Long unionId){
+    public Message checkApply(Long equipmentId,Long unionId){
         Member member=memberService.getCurrent();
         if (member==null){
             return Message.error("会员不存在");
@@ -763,10 +795,29 @@ public class UnionController extends net.wit.controller.store.BaseController {
             return Message.error("店铺不存在");
         }
         Union union = unionService.find(unionId);
-        UnionTenant unionTenant=null;
-        Equipment applyEquipment=null;
-        Tenant tenantapply = tenantService.find(tenantId);
-        Equipment equipment = equipmentService.findEquipment(tenantapply,null);
+        if (union==null){
+            return Message.error("联盟不存在");
+        }
+        Equipment  equipment = equipmentService.find(equipmentId);
+        if (equipmentId==null){
+            return Message.error("购物屏不存在");
+        }
+        if(equipment.getTenant()==tenant){
+            return Message.error("不能添加自己的屏");
+        }
+
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("equipment", Filter.Operator.eq, equipment));
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        List<UnionTenant> unionTenants=unionTenantService.findUnionTenant(union,tenant,filter);
+        if(unionTenants.size()>0){
+            unionTenants.get(0).setStatus(UnionTenant.Status.unconfirmed);
+            unionTenants.get(0).setType(UnionTenant.Type.device);
+            unionTenantService.update(unionTenants.get(0));
+            return Message.success(unionTenants.get(0).getId().toString());
+        }
+
+        UnionTenant unionTenant= null;
         try {
             unionTenant = new UnionTenant();
             unionTenant.setUnion(union);
@@ -774,26 +825,23 @@ public class UnionController extends net.wit.controller.store.BaseController {
             unionTenant.setEquipment(equipment);
             unionTenant.setPrice(union.getPrice());
             unionTenant.setStatus(UnionTenant.Status.unconfirmed);
-            Calendar curr = Calendar.getInstance();
-            curr.add(Calendar.YEAR, 1);
-            Date date=curr.getTime();
-            unionTenant.setExpire(date);
+            unionTenant.setType(UnionTenant.Type.device);
             unionTenantService.save(unionTenant);
+            return Message.success("申请成功");
         } catch (Exception e) {
             e.printStackTrace();
             return Message.error("申请失败");
         }
-        return Message.success("加入成功");
     }
 
     /**
-     * 检查是否加入该购物屏
-     * @param tenantId
+     * 加入购物屏
+     * @param unionId
      * @return
      */
-    @RequestMapping(value="check_apply",method = RequestMethod.POST)
+    @RequestMapping(value = "/apply_equipment",method = RequestMethod.POST)
     @ResponseBody
-    public Message checkApply(Long tenantId){
+    public Message applyEquipment(Long equipmentId,Long unionId,String sn){
         Member member=memberService.getCurrent();
         if (member==null){
             return Message.error("会员不存在");
@@ -802,13 +850,30 @@ public class UnionController extends net.wit.controller.store.BaseController {
         if (tenant==null){
             return Message.error("店铺不存在");
         }
-        Tenant applyTenant = tenantService.find(tenantId);
-        Equipment equipment = equipmentService.findEquipment(applyTenant,null);
-        Long num = unionTenantService.findUnionTenant(equipment,tenant);
-        if (num>0){
-            return Message.error("已加入当前购物屏");
+        Union union = unionService.find(unionId);
+        if (union==null){
+            return Message.error("联盟不存在");
+        }
+        Equipment  equipment = equipmentService.find(equipmentId);
+        if (equipmentId==null){
+            return Message.error("购物屏不存在");
+        }
+        if(equipment.getTenant()==tenant){
+            return Message.error("不能添加自己的屏");
+        }
+        Payment payment=paymentService.findBySn(sn);
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("equipment", Filter.Operator.eq, equipment));
+        filter.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.device));
+        List<UnionTenant> unionTenants=unionTenantService.findUnionTenant(union,tenant,filter);
+        if(unionTenants.size()>0){
+            unionTenants.get(0).setPayment(payment);
+            payment.setUnionTenant(unionTenants.get(0));
+            unionTenantService.update(unionTenants.get(0));
+            paymentService.update(payment);
+            return Message.success(unionTenants.get(0).getId().toString());
         }else{
-            return Message.success("可以加入");
+            return Message.error("加入失败");
         }
     }
 
@@ -823,7 +888,7 @@ public class UnionController extends net.wit.controller.store.BaseController {
         try {
             UnionTenant unionTenant = unionTenantService.find(uTenantId);
             unionTenant.setStatus(Status.canceled);
-            unionTenantService.save(unionTenant);
+            unionTenantService.cancel(unionTenant);
         } catch (Exception e) {
             e.printStackTrace();
             return Message.error("取消失败");
@@ -840,8 +905,12 @@ public class UnionController extends net.wit.controller.store.BaseController {
     public Message confirmApply(Long uTenantId){
         try {
             UnionTenant unionTenant = unionTenantService.find(uTenantId);
+            Calendar curr = Calendar.getInstance();
+            curr.add(Calendar.YEAR, 1);
+            Date date=curr.getTime();
+            unionTenant.setExpire(date);
             unionTenant.setStatus(Status.confirmed);
-            unionTenantService.save(unionTenant);
+            unionTenantService.update(unionTenant);
         } catch (Exception e) {
             e.printStackTrace();
             return Message.error("确认失败");
@@ -858,8 +927,8 @@ public class UnionController extends net.wit.controller.store.BaseController {
     public Message refuseApply(Long uTenantId){
         try {
             UnionTenant unionTenant = unionTenantService.find(uTenantId);
-            unionTenant.setStatus(Status.freezed);
-            unionTenantService.save(unionTenant);
+            unionTenant.setStatus(Status.canceled);
+            unionTenantService.cancel(unionTenant);
         } catch (Exception e) {
             e.printStackTrace();
             return Message.error("拒绝失败");

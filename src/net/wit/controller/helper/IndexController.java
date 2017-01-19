@@ -17,9 +17,9 @@ public class IndexController extends BaseController {
 	public String index(ModelMap model) {
 		model.addAttribute("captchaId", UUID.randomUUID().toString());
 
-		//return "/helper/login/index";
+		return "/helper/login/index";
 
-		return "redirect:/store/index.jhtml";
+//		return "redirect:/store/index.jhtml";
 	}
 
 }

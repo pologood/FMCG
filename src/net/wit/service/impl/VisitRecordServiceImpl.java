@@ -75,12 +75,22 @@ public class VisitRecordServiceImpl extends BaseServiceImpl<VisitRecord, Long> i
         visitRecord.setContent("通过" + visitType + "访问了你的" + (product == null ? "店铺" : "商品"));
         visitRecord.setMember(member);
         if (product != null) {
-            visitRecord.setProduct(product);
+            visitRecord.setSn(product.getSn());
         } else if (tenant != null) {
             visitRecord.setTenant(tenant);
         } else {
             return;
         }
         visitRecordDao.persist(visitRecord);
+    }
+
+    @Override
+    public Long count(Tenant tenant, Date beginDate, Date endDate, VisitRecord.VisitType visitType) {
+        return visitRecordDao.count(tenant,beginDate,endDate,visitType);
+    }
+
+    @Override
+    public Long uvCount(Tenant tenant, Date beginDate, Date endDate, VisitRecord.VisitType visitType) {
+        return visitRecordDao.uvCount(tenant,beginDate,endDate,visitType);
     }
 }

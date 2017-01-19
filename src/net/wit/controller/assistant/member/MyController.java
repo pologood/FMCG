@@ -62,18 +62,18 @@ public class MyController extends BaseController {
             return DataBlock.error(DataBlock.SESSION_INVAILD);
         }
         Map<String,Object> data = new HashMap<String,Object>();
-
+        DecimalFormat bdf = new DecimalFormat("#0.00");
         //销售金额
         data.put("salesTotal", taskService.sum("doSale",member,member.getTenant(),null));
         //分享商品
         data.put("shareTotal",taskService.sum("doShare",member,member.getTenant(),null));
-        data.put("shareAccountTotal",rebateService.sumBrokerage(member,Rebate.Type.sale,Rebate.OrderType.order));
+        data.put("shareAccountTotal",bdf.format(rebateService.sumBrokerage(member,Rebate.Type.sale,Rebate.OrderType.order)));
         //推广会员
         data.put("inviteTotal",taskService.sum("doInvite",member,member.getTenant(),null));
-        data.put("inviteAccountTotal",rebateService.sumBrokerage(member,Rebate.Type.extension,Rebate.OrderType.order));
+        data.put("inviteAccountTotal",bdf.format(rebateService.sumBrokerage(member,Rebate.Type.extension,Rebate.OrderType.order)));
         //推广红包
         data.put("couponTotal",taskService.sum("doCoupon",member,member.getTenant(),null));
-        data.put("couponAccountTotal",rebateService.sumBrokerage(member,Rebate.Type.extension,Rebate.OrderType.coupon));
+        data.put("couponAccountTotal",bdf.format(rebateService.sumBrokerage(member,Rebate.Type.extension,Rebate.OrderType.coupon)));
 
         //当前余额
         data.put("balance",member.getBalance());
@@ -88,14 +88,14 @@ public class MyController extends BaseController {
      */
   @RequestMapping(value = "/invite", method = RequestMethod.GET)
   @ResponseBody
-  public DataBlock invite() {
+  public DataBlock invite( Pageable pageable) {
       Member member = memberService.getCurrent();
       if (member == null) {
           return DataBlock.error(DataBlock.SESSION_INVAILD);
       }
-      List<Member> members = memberService.findList(member);
+      Page<Member> page = memberService.findPage(member,pageable);
 
-      return DataBlock.success(InviteListModel.bindData(members), "执行成功");
+      return DataBlock.success(InviteListModel.bindData(page.getContent()),page, "执行成功");
   }
     /**
      *  销售金额列表

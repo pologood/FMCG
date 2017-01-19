@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 import org.apache.commons.lang.time.DateUtils;
 
@@ -105,6 +106,11 @@ public class CouponCode extends BaseEntity {
 	@OneToOne(mappedBy = "couponCode", fetch = FetchType.LAZY)
 	@JoinColumn(name = "promotionMembers")
 	private PromotionMember promotionMember;
+
+	/** 使用次数 */
+	@Min(0)
+	@Column(nullable = false,columnDefinition = "int(11) default 0")
+	private Integer useCount = new Integer(0);
 
 	/** 删除前处理 */
 	@PreRemove
@@ -336,6 +342,14 @@ public class CouponCode extends BaseEntity {
 
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
+	}
+
+	public Integer getUseCount() {
+		return useCount;
+	}
+
+	public void setUseCount(Integer useCount) {
+		this.useCount = useCount;
 	}
 
 	public boolean isLocked(BigDecimal amount) {

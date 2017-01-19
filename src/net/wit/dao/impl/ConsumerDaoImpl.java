@@ -230,4 +230,30 @@ public class ConsumerDaoImpl extends BaseDaoImpl<Consumer, Long> implements Cons
 		criteriaQuery.orderBy(criteriaBuilder.desc(root.get("createDate")));
 		return super.findPage(criteriaQuery, pageable);
 	}
+
+	@Override
+	public Long count(Tenant tenant, Status status, Date beginDate, Date endDate) {
+		if (tenant == null) {
+			return 0l;
+		}
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Consumer> criteriaQuery = criteriaBuilder.createQuery(Consumer.class);
+		Root<Consumer> root = criteriaQuery.from(Consumer.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		if(tenant!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("tenant"),tenant));
+		}
+		if(status!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("status"),status));
+		}
+		if(beginDate!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.greaterThan(root.<Date>get("createDate"),beginDate));
+		}
+		if(endDate!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.lessThan(root.<Date>get("createDate"),endDate));
+		}
+		criteriaQuery.where(restrictions);
+		return super.count(criteriaQuery, null);
+	}
 }

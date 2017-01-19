@@ -466,8 +466,7 @@ public class CreditController extends BaseController {
 		model.addAttribute("status", status);
 		Page page = creditService.findPage(method, status,
 				beginDate, endDate,beginDates, endDates,searchValue, pageable);
-		model.addAttribute("page", creditService.findPage(method, status,
-				beginDate, endDate,beginDates, endDates,searchValue, pageable));
+		model.addAttribute("page", page);
 		return "/admin/credit/list";
 	}
 

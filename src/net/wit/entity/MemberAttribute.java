@@ -31,29 +31,32 @@ public class MemberAttribute extends OrderEntity {
 
 	private static final long serialVersionUID = 4513705276569738136L;
 
+	public static final long GUIDE_SIGNATUREID = 10L;
+	public static final long GUIDE_PERSONALITYTAGID = 11L;
+
 	/** 类型 */
 	public enum Type {
-		/** 姓名 */
+		/** 0姓名 */
 		name,
-		/** 性别 */
+		/** 1性别 */
 		gender,
-		/** 出生日期 */
+		/** 2出生日期 */
 		birth,
-		/** 地区 */
+		/** 3地区 */
 		area,
-		/** 地址 */
+		/** 4地址 */
 		address,
-		/** 邮编 */
+		/** 5邮编 */
 		zipCode,
-		/** 电话 */
+		/** 6电话 */
 		phone,
-		/** 手机 */
+		/** 7手机 */
 		mobile,
-		/** 文本 */
+		/** 8文本 */
 		text,
-		/** 单选项 */
+		/** 9单选项 */
 		select,
-		/** 多选项 */
+		/** 10多选项 */
 		checkbox
 	}
 

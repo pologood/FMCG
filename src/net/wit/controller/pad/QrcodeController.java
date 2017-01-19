@@ -68,6 +68,7 @@ public class QrcodeController extends BaseController {
         map.put("id",id);
         map.put("image",tenant.getThumbnail());
         map.put("url",url);
+        map.put("redUrl","tenant/product/index.jhtml?extension=");
         return DataBlock.success(map, "执行成功");
     }
 

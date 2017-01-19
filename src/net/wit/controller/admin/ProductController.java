@@ -449,8 +449,25 @@ public class ProductController extends BaseController {
 
         Admin admin = adminService.getCurrent();
         Area area = null;
+        Area area2 = null;
         if (admin != null && admin.getEnterprise() != null) {
-            area = admin.getEnterprise().getArea();
+            area2 = admin.getEnterprise().getArea();
+            if(admin.getEnterprise().getEnterprisetype()== Enterprise.EnterpriseType.proxy){
+                model.addAttribute("enterprise", "proxy");
+                area=areaService.find(areaId);
+			}else if(admin.getEnterprise().getEnterprisetype()== Enterprise.EnterpriseType.provinceproxy){
+                model.addAttribute("enterprise", "province_proxy");
+                area=areaService.find(areaId);
+			}else if(admin.getEnterprise().getEnterprisetype()== Enterprise.EnterpriseType.cityproxy){
+                model.addAttribute("enterprise", "city_proxy");
+                area=areaService.find(areaId);
+			}else if(admin.getEnterprise().getEnterprisetype()== Enterprise.EnterpriseType.countyproxy){
+                model.addAttribute("enterprise", "area_proxy");
+                area=area2;
+            }else{
+                model.addAttribute("enterprise", "personal_proxy");
+            }
+
         }
         ProductCategory productCategory = productCategoryService.find(productCategoryId);
         Set<ProductCategory> productCategories = new HashSet<ProductCategory>();
@@ -504,6 +521,8 @@ public class ProductController extends BaseController {
         model.addAttribute("supplierId", supplierId);
         model.addAttribute("beginDate", beginDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("area", area2);
+        model.addAttribute("areaId", areaId);
         List<Filter> filters2 = new ArrayList<Filter>();
         filters2.add(new Filter("tenantType", Filter.Operator.eq, TenantType.suppier));
         filters2.add(new Filter("status", Operator.eq, Tenant.Status.success));

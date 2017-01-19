@@ -28,4 +28,8 @@ public class SingleProductServiceImpl extends BaseServiceImpl<SingleProduct,Long
     public Page<SingleProduct> findPage(SingleProductPosition productPosition, Pageable pageable){
         return singleProductDao.findPage(productPosition,pageable);
     }
+
+    public Integer findOrderMax(Long id){
+        return singleProductDao.findOrderMax(id);
+    }
 }

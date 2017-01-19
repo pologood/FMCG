@@ -37,5 +37,6 @@ public interface UnionTenantDao extends BaseDao<UnionTenant,Long>{
     /**
      * 查询投放商家
      */
-    Page<UnionTenant>  findUnionTenantPage(Equipment equipment,Tenant tenant,UnionTenant.Status status,Pageable pageable);
+    Page<UnionTenant>  findUnionTenantPage(Equipment equipment,Tenant tenant,UnionTenant.Status status,Union union ,Pageable pageable);
+    List<UnionTenant>  findUnionTenantList(Equipment equipment,Tenant tenant,UnionTenant.Status status,Union union );
 }

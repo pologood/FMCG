@@ -225,6 +225,18 @@ public class TenantController extends BaseController {
         saveTenant.setTenantType(TenantType.tenant);
         //saveTenant.setStatus(Tenant.Status.confirm);
         tenantService.save(saveTenant, member, null);
+
+        Employee employee = employeeService.findMember(member,saveTenant);
+        if (employee==null) {
+            employee = new Employee();
+            employee.setMember(member);
+            employee.setRole(",owner");
+            employee.setDeliveryCenter(saveTenant.getDefaultDeliveryCenter());
+            employee.setTenant(saveTenant);
+            employee.setQuertity(0);
+            employeeService.save(employee);
+        }
+
         //// TODO: 2016/7/21 注册账号，并成功设置店铺名称，即完成任务
         activityDetailService.addPoint(null, saveTenant, activityRulesService.find(1L));
 
@@ -313,6 +325,7 @@ public class TenantController extends BaseController {
         saveTenant.setNoReason(tenant.getNoReason());
         saveTenant.setTamPo(tenant.getTamPo());
         saveTenant.setToPay(tenant.getToPay());
+        saveTenant.setEnd(tenant.getEnd());
 //        tenantService.save(saveTenant, member, null);
         tenantService.update(saveTenant);
         addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);

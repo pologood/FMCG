@@ -91,4 +91,8 @@ public class ConsumerServiceImpl extends BaseServiceImpl<Consumer, Long> impleme
 		consumerDao.persist(consumer);
 	}
 
+	@Override
+	public Long count(Tenant tenant, Status status, Date beginDate, Date endDate) {
+		return consumerDao.count(tenant,status,beginDate,endDate);
+	}
 }

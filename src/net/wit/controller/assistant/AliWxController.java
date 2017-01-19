@@ -154,6 +154,9 @@ public class AliWxController extends BaseController {
 			String params = "data="+URLEncoder.encode(desStr)+"&sign="+sign;
 			
 			String rtn_msg = HttpClientUtil.doPost("http://222.92.116.42:18089/cloudsskyApi/opservice",params);
+			if("".equals(rtn_msg)){
+				return DataBlock.error("提交支付失败");
+			}
             JSONObject rtn = JSONObject.parseObject(rtn_msg);
             if (rtn.get("ret_code").equals("00")) {
 				Map<String,Object> map = new HashedMap();
@@ -208,6 +211,9 @@ public class AliWxController extends BaseController {
 			String params = "data="+URLEncoder.encode(desStr)+"&sign="+sign;
 			
 			String rtn_msg = HttpClientUtil.doPost("http://222.92.116.42:18089/cloudsskyApi/opservice",params);
+			if("".equals(rtn_msg)){
+				return DataBlock.error("提交支付失败");
+			}
             JSONObject rtn = JSONObject.parseObject(rtn_msg);
             if (rtn.get("ret_code").equals("00")) {
             	try {

@@ -341,19 +341,19 @@ public class StatisticsController extends BaseController {
 				map.put("create_date",sdf.format(memberCapital.getCreateDate()));
 				map.put("name",memberCapital.getMember()!=null?memberCapital.getMember().getName():"--");
 				map.put("mobile",memberCapital.getMember()!=null?memberCapital.getMember().getUsername():"--");
-				map.put("credit",memberCapital.getCredit());
-				map.put("debit",memberCapital.getDebit());
-				map.put("recharge",memberCapital.getRecharge());
-				map.put("payment",memberCapital.getPayment());
-				map.put("withdraw",memberCapital.getWithdraw());
-				map.put("receipts",memberCapital.getReceipts());
-				map.put("profit",memberCapital.getProfit());
-				map.put("rebate",memberCapital.getRebate());
-				map.put("cashier",memberCapital.getCashier());
-				map.put("income",memberCapital.getIncome());
-				map.put("outcome",memberCapital.getOutcome());
-				map.put("coupon",memberCapital.getCoupon());
-				map.put("couponuse",memberCapital.getCouponuse());
+				map.put("credit",memberCapital.getCredit()!=null?memberCapital.getCredit():"0");
+				map.put("debit",memberCapital.getDebit()!=null?memberCapital.getDebit():"0");
+				map.put("recharge",memberCapital.getRecharge()!=null?memberCapital.getRecharge():"0");
+				map.put("payment",memberCapital.getPayment()!=null?memberCapital.getPayment():"0");
+				map.put("withdraw",memberCapital.getWithdraw()!=null?memberCapital.getWithdraw():"0");
+				map.put("receipts",memberCapital.getReceipts()!=null?memberCapital.getReceipts():"0");
+				map.put("profit",memberCapital.getProfit()!=null?memberCapital.getProfit():"0");
+				map.put("rebate",memberCapital.getRebate()!=null?memberCapital.getRebate():"0");
+				map.put("cashier",memberCapital.getCashier()!=null?memberCapital.getCashier():"0");
+				map.put("income",memberCapital.getIncome()!=null?memberCapital.getIncome():"0");
+				map.put("outcome",memberCapital.getOutcome()!=null?memberCapital.getOutcome():"0");
+				map.put("coupon",memberCapital.getCoupon()!=null?memberCapital.getCoupon():"0");
+				map.put("couponuse",memberCapital.getCouponuse()!=null?memberCapital.getCouponuse():"0");
 				maps.add(map);
 			}
 		}

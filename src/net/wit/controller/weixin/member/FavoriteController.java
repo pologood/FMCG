@@ -5,11 +5,15 @@
  */
 package net.wit.controller.weixin.member;
 
-import net.wit.*;
+import net.wit.Filter;
+import net.wit.Page;
+import net.wit.Pageable;
 import net.wit.controller.weixin.BaseController;
-import net.wit.controller.weixin.model.*;
+import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.model.FavoriteGuideListModel;
+import net.wit.controller.weixin.model.FavoriteTenantListModel;
+import net.wit.controller.weixin.model.ProductListModel;
 import net.wit.entity.*;
-import net.wit.entity.Message;
 import net.wit.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +54,7 @@ public class FavoriteController extends BaseController {
      */
     @RequestMapping(value = "/product/list", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock list(Pageable pageable) {
+    public DataBlock list(Pageable pageable, Location location) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return DataBlock.error(DataBlock.SESSION_INVAILD);
@@ -59,7 +63,7 @@ public class FavoriteController extends BaseController {
         List<ProductListModel> models = new ArrayList<>();
         for (Product product : page.getContent()) {
             ProductListModel model = new ProductListModel();
-            model.copyFrom(product);
+            model.copyFrom(product, location);
             Long positiveCount = reviewService.count(null, product, Review.Type.positive, null);
             if (product.getReviews().size() > 0) {
                 model.setPositivePercent((positiveCount * 1.0 / product.getReviews().size())*100);

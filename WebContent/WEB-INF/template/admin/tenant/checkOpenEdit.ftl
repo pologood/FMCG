@@ -17,9 +17,9 @@ $().ready(function() {
 
 	var $inputForm = $("#inputForm");
 	var $areaId = $("#areaId");
-	var timeout;
-	
+    var $browserButton = $("#browserButton");
 	[@flash_message /]
+    $browserButton.browser();
 		// 地区选择
 	$areaId.lSelect({
 		url: "${base}/common/area.jhtml"
@@ -124,105 +124,119 @@ $().ready(function() {
   						<a href="${tenant.licensePhoto}" target="_blank"><img src="${tenant.licensePhoto}" width="120px;" height="120px;" ></a>
 					</td>
 				</tr>
-				<!--[#list tenant.authen as authen]
-				[#if authen.authenType=="enterprise"]
-  				<tr>
-					<th align="right" valign="top"><span class="requiredField">*</span>营业执照：</th>
-					<td>
-						<div class="authen_upload">
-							<p class="up_p01">工商注册号：<input type="text" name="licenseCode" class="text" value="${tenant.licenseCode}" /></p>
-							<span class="fieldSet">
-  							<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>
-  							</span>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<th align="right"><span class="requiredField">*</span>法人代表：</th>
-					<td><input type="text" name="legalRepr" class="text" value="${tenant.legalRepr}" /></td>
-				</tr>
-				<tr>
-					<th align="right"><span class="requiredField">*</span>经营地址：</th>
-					<td><span class="fieldSet">
-							<input type="hidden" id="areaId" name="areaId" value="${(tenant.area.id)!}" treePath="${(tenant.area.treePath)!}" />
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<th align="right"></th>
-					<td><input type="text" name="address" class="text"  value="${(tenant.address)!}" />
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						<span class="requiredField">*</span>状态:
-					</th>
-					<td>
-						<select name="authenStatus">
-							<option value="">--请选择--</option>
-							<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>
-							<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>
-							<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>
-						</select>
-					</td>
-				</tr>
-				[/#if]
-				[#if authen.authenType=="certified"]
-  				<tr>
-					<th align="right" valign="top" width="140"><span class="requiredField">*</span>门店招牌：</th>
-					<td>
-						<span class="fieldSet">
-  							<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>
-  						</span>
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						<span class="requiredField">*</span>状态:
-					</th>
-					<td>
-						<select name="authenStatus">
-							<option value="">--请选择--</option>
-							<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>
-							<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>
-							<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>
-						</select>
-					</td>
-				</tr>
-				[/#if]
-				[#if authen.authenType=="manufacturers"]
-  				<tr>
-					<th align="right" width="140">厂家授权：</th>
-					<td>
-						<input name="authorization" type="text" class="text" value="${tenant.authorization}" />
-					</td>
-				</tr>
-				<tr>
-					<th align="right" valign="top">&nbsp;</th>
-					<td>
-						<span class="fieldSet">
-  							<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>
-  						</span>
-					</td>
-				</tr>
-				
-				<tr>
-					<th>
-						<span class="requiredField">*</span>状态:
-					</th>
-					<td>
-						<select name="authenStatus">
-							<option value="">--请选择--</option>
-							<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>
-							<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>
-							<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>
-						</select>
-					</td>
-				</tr>
-				[/#if]
-				[/#list]-->
+            <tr>
+                <th>
+                    营业执照:
+                </th>
+                <td>
+					<span class="fieldSet">
+						<input type="text" name="licensePhoto" class="text" value="${tenant.licensePhoto}" maxlength="200"/>
+						<input type="button" id="browserButton" class="button" value="${message("admin.browser.select")}"/>
+					[#if tenant.licensePhoto??]
+                        <a href="${tenant.licensePhoto}" target="_blank">${message("admin.common.view")}</a>
+					[/#if]
+					</span>
+                </td>
+            </tr>
+				[#--<!--[#list tenant.authen as authen]--]
+				[#--[#if authen.authenType=="enterprise"]--]
+  				[#--<tr>--]
+					[#--<th align="right" valign="top"><span class="requiredField">*</span>营业执照：</th>--]
+					[#--<td>--]
+						[#--<div class="authen_upload">--]
+							[#--<p class="up_p01">工商注册号：<input type="text" name="licenseCode" class="text" value="${tenant.licenseCode}" /></p>--]
+							[#--<span class="fieldSet">--]
+  							[#--<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>--]
+  							[#--</span>--]
+						[#--</div>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--<tr>--]
+					[#--<th align="right"><span class="requiredField">*</span>法人代表：</th>--]
+					[#--<td><input type="text" name="legalRepr" class="text" value="${tenant.legalRepr}" /></td>--]
+				[#--</tr>--]
+				[#--<tr>--]
+					[#--<th align="right"><span class="requiredField">*</span>经营地址：</th>--]
+					[#--<td><span class="fieldSet">--]
+							[#--<input type="hidden" id="areaId" name="areaId" value="${(tenant.area.id)!}" treePath="${(tenant.area.treePath)!}" />--]
+						[#--</span>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--<tr>--]
+					[#--<th align="right"></th>--]
+					[#--<td><input type="text" name="address" class="text"  value="${(tenant.address)!}" />--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#----]
+				[#--<tr>--]
+					[#--<th>--]
+						[#--<span class="requiredField">*</span>状态:--]
+					[#--</th>--]
+					[#--<td>--]
+						[#--<select name="authenStatus">--]
+							[#--<option value="">--请选择--</option>--]
+							[#--<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>--]
+							[#--<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>--]
+							[#--<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>--]
+						[#--</select>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--[/#if]--]
+				[#--[#if authen.authenType=="certified"]--]
+  				[#--<tr>--]
+					[#--<th align="right" valign="top" width="140"><span class="requiredField">*</span>门店招牌：</th>--]
+					[#--<td>--]
+						[#--<span class="fieldSet">--]
+  							[#--<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>--]
+  						[#--</span>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#----]
+				[#--<tr>--]
+					[#--<th>--]
+						[#--<span class="requiredField">*</span>状态:--]
+					[#--</th>--]
+					[#--<td>--]
+						[#--<select name="authenStatus">--]
+							[#--<option value="">--请选择--</option>--]
+							[#--<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>--]
+							[#--<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>--]
+							[#--<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>--]
+						[#--</select>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--[/#if]--]
+				[#--[#if authen.authenType=="manufacturers"]--]
+  				[#--<tr>--]
+					[#--<th align="right" width="140">厂家授权：</th>--]
+					[#--<td>--]
+						[#--<input name="authorization" type="text" class="text" value="${tenant.authorization}" />--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--<tr>--]
+					[#--<th align="right" valign="top">&nbsp;</th>--]
+					[#--<td>--]
+						[#--<span class="fieldSet">--]
+  							[#--<a href="${authen.pathFront}" target="_blank"><img src="${authen.pathFront}" width="120px;" height="120px;" ></a>--]
+  						[#--</span>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#----]
+				[#--<tr>--]
+					[#--<th>--]
+						[#--<span class="requiredField">*</span>状态:--]
+					[#--</th>--]
+					[#--<td>--]
+						[#--<select name="authenStatus">--]
+							[#--<option value="">--请选择--</option>--]
+							[#--<option value="wait" [#if ("wait" == (authen.authenStatus)!)] selected[/#if] >审核中</option>--]
+							[#--<option value="success" [#if ("success" == (authen.authenStatus)!)] selected[/#if] >已认证</option>--]
+							[#--<option value="fail" [#if ("fail" == (authen.authenStatus)!)] selected[/#if] >已驳回</option>--]
+						[#--</select>--]
+					[#--</td>--]
+				[#--</tr>--]
+				[#--[/#if]--]
+				[#--[/#list]--]
 				<tr>
 					<th>
 						<span class="requiredField">*</span>状态:
@@ -231,7 +245,7 @@ $().ready(function() {
 						<select name="status">
 							<option value="">--请选择--</option>
 							<option value="none" [#if ("none" == (tenant.status)!)] selected[/#if] >待审核</option>
-							<option value="confirm" [#if ("wait" == (tenant.status)!)] selected[/#if] >已审核</option>
+							<option value="confirm" [#if ("confirm" == (tenant.status)!)] selected[/#if] >已审核</option>
 							<option value="success" [#if ("success" == (tenant.status)!)] selected[/#if] >已开通</option>
 							<option value="fail" [#if ("fail" == (tenant.status)!)] selected[/#if] >已关闭</option>
 						</select>

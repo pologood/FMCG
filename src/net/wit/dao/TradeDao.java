@@ -241,4 +241,6 @@ public interface TradeDao extends BaseDao<Trade, Long> {
 	public List<Trade> findUnshippedListExport(Tenant tenant,QueryStatus queryStatus);
 
 	Page<Trade> findPage(String consignee, Area area, OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired, Date beginDate, Date endDate, String keyword,String tenantName,String userName, Pageable pageable);
+
+	long count(Tenant tenant,Date beginDate,Date endDate,QueryStatus queryStatus);
 }

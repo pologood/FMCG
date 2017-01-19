@@ -39,7 +39,7 @@ public class SingleProductPosition extends BaseEntity{
 
     /** 单品 */
     @OneToMany(mappedBy = "singleProductPosition", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    @OrderBy("id asc")
+    @OrderBy("order asc")
     private Set<SingleProduct> singleProducts = new HashSet<SingleProduct>();
 
     public Type getType() {

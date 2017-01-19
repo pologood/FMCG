@@ -46,14 +46,14 @@ public interface PaymentDao extends BaseDao<Payment, Long> {
 	/**
 	 * @Title：findPage
 	 * @Description：
-	 * @param method
-	 * @param status
+	 * @param paymentMethod
+	 * @param type
 	 * @param endDate 
 	 * @param beginDate 
 	 * @param pageable
 	 * @return Page<Payment>
 	 */
-	Page<Payment> findPage(Method method, Status status, Date beginDate, Date endDate,String keyword,  Pageable pageable);
+	Page<Payment> findPage(String paymentMethod, Payment.Type type, Date beginDate, Date endDate,String tenantName, String username, Pageable pageable);
 
 	/**
 	 * findWaitReleaseList

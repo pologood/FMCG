@@ -53,10 +53,10 @@
         <div class="select">
             <p data-value="${status}" id="current_account">${status}</p>
             <ul>
-                <li data-value="已结算" onclick="getAccountId(this)">
+                <li data-value="true" onclick="getAccountId(this)">
                     已结算
                 </li>
-                <li data-value="未结算" onclick="getAccountId(this)">
+                <li data-value="false" onclick="getAccountId(this)">
                     未结算
                 </li>
                 
@@ -123,14 +123,14 @@
             });
             $(".select ul li").click(function(e){
                 var _this=$(this);
-                $(".select > p").text(_this.attr('data-value'));
+                $(".select > p").text(_this.attr('data-value')=="true"?"已结算":"未结算");
                 _this.addClass("Selected").siblings().removeClass("Selected");
                 $(".select").removeClass("open");
                 e.stopPropagation();
             });
             $(document).on('click',function(){
                 $(".select").removeClass("open");
-            })
+            });
             //日期下拉列表
             $(".seone p").click(function(e){
                 $(".seone").toggleClass('open');
@@ -138,14 +138,14 @@
             });
             $(".seone ul li").click(function(e){
                 var _this=$(this);
-                $(".seone > p").text(_this.attr('data-value'));
+                $(".seone > p").text(_this.attr('data-value')=="true"?"已结算":"未结算");
                 _this.addClass("Selected").siblings().removeClass("Selected");
                 $(".seone").removeClass("open");
                 e.stopPropagation();
             });
             $(document).on('click',function(){
                 $(".seone").removeClass("open");
-            })
+            });
             //处理日期插件
             $('#js_inform').fdatepicker();
             var nowTemp = new Date();
@@ -156,7 +156,7 @@
                 }
             }).on('changeDate', function (ev) {
                 if (ev.date.valueOf() > checkout.date.valueOf()) {
-                    var newDate = new Date(ev.date)
+                    var newDate = new Date(ev.date);
                     newDate.setDate(newDate.getDate() + 1);
                     checkout.update(newDate);
                 }
@@ -176,7 +176,7 @@
             });
             //导出数据到excel
             $("#export_ss").click(function(){
-                $.message("success","正在帮您导出，请稍后")
+                $.message("success","正在帮您导出，请稍后");
                 $.ajax({
                     url:"${base}/b2b/member/supplier/order_settle_account_export.jhtml",
                     type:"get",
@@ -199,7 +199,7 @@
                                 '<th>结算日期</th>'+
                             '</tr>'+
                         '</thead>'+
-                        '<tbody>;'
+                        '<tbody>;';
                         $.each(data,function(i,obj){
                             html+='<tr>'+
                                         '<td>'+obj.sn+'</td>'+

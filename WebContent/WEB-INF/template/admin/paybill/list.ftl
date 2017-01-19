@@ -106,31 +106,31 @@
                 <a href="javascript:;" class="sort" name="createDate">付款日期</a>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="sn">订单</a>
+                <span>订单</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="sn">编号</a>
+                <span>编号</span>
             </th>
             <th>
                 <span>付款金额</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="member">会员</a>
+                <span>会员</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="consignee">店铺名称</a>
+                <span>店铺名称</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="paymentMethodName">状态</a>
+                <span>状态</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="shippingMethodName">类型</a>
+                <span>类型</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="orderStatus">方式</a>
+                <span>方式</span>
             </th>
             <th>
-                <a href="javascript:;" class="sort" name="paymentStatus">支付方式</a>
+                <span>支付方式</span>
             </th>
             <th>
                 <span>${message("admin.common.handle")}</span>
@@ -166,7 +166,7 @@
             </td>
             <td>
             [#if paybill.member??]
-                ${paybill.member.username}
+                ${paybill.member.displayName}
             [#else]
             -
             [/#if]

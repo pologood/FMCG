@@ -30,6 +30,8 @@ public class TenantListModel {
     private double distance;
     //店铺活动
     private List<TenantPromotionListModel> promotions;
+    //是否打烊
+    private boolean closed;
 
     public Long getId() {
         return id;
@@ -95,6 +97,14 @@ public class TenantListModel {
         this.promotions = promotions;
     }
 
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
     public void copyFrom(Tenant tenant) {
         this.id = tenant.getId();
         this.thumbnail = tenant.getThumbnail();
@@ -107,6 +117,7 @@ public class TenantListModel {
             this.tenantCategoryName = SpringUtils.abbreviate(tenant.getIntroduction(), 20, "..");
         }
         this.promotions = TenantPromotionListModel.bindData(new ArrayList<>(tenant.getVaildPromotions()));
+        this.closed=tenant.getEnd()==null?false:tenant.getEnd();
     }
 
     public static List<TenantListModel> bindData(List<Tenant> tenants) {

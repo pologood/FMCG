@@ -83,6 +83,9 @@
                 所属类别
             </th>
             <th>
+                <a href="javascript:;" class="sort" name="order">${message("admin.common.order")}</a>
+            </th>
+            <th>
                 <span>${message("admin.common.handle")}</span>
             </th>
         </tr>
@@ -102,6 +105,9 @@
             </td>
             <td>
             ${(singleProduct.singleProductPosition.name)!}
+            </td>
+            <td>
+            ${(singleProduct.order)!}
             </td>
             <td>
                 <a href="edit.jhtml?id=${singleProduct.id}">[${message("admin.common.edit")}]</a>

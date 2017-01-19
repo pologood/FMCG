@@ -19,6 +19,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import net.wit.entity.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
@@ -164,9 +165,9 @@ public class CouponCodeDaoImpl extends BaseDaoImpl<CouponCode, Long>implements C
 		
 		if (isExpired != null) {
 			if (isExpired) {
-				restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.isNull(root.<Date>get("expire")),criteriaBuilder.lessThan(root.<Date>get("expire"), new Date()) ));
+				restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.isNull(root.get("coupon").<Date>get("endDate")),criteriaBuilder.lessThan(root.get("coupon").<Date>get("endDate"), new Date()) ));
 			} else {
-				restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.isNull(root.<Date>get("expire")),criteriaBuilder.greaterThanOrEqualTo(root.<Date>get("expire"), new Date())));
+				restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.isNull(root.get("coupon").<Date>get("endDate")),criteriaBuilder.greaterThanOrEqualTo(root.get("coupon").<Date>get("endDate"), new Date())));
 			}
 		}
 		if (isUsed != null) {
@@ -463,7 +464,7 @@ public class CouponCodeDaoImpl extends BaseDaoImpl<CouponCode, Long>implements C
 		Predicate restrictions = criteriaBuilder.and(
 						criteriaBuilder.equal(root.get("coupon"), coupon),
 						criteriaBuilder.isNotNull(root.get("member")),
-						criteriaBuilder.equal(root.get("isUsed"), true));
+						criteriaBuilder.isNotNull(root.get("usedDate")));
 		criteriaQuery.where(restrictions);
 		return super.findPage(criteriaQuery, pageable);
 	}
@@ -662,6 +663,111 @@ public class CouponCodeDaoImpl extends BaseDaoImpl<CouponCode, Long>implements C
 		criteriaQuery.where(restrictions);
 		return super.findPage(criteriaQuery, pageable);
 	}
-	
-	
+
+	public Page<CouponCode> findUsedCouponCodeByKeyword(String keyword,Coupon coupon, Pageable pageable) {
+		if (coupon == null) {
+			return new Page<CouponCode>();
+		}
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CouponCode> criteriaQuery = criteriaBuilder.createQuery(CouponCode.class);
+		Root<CouponCode> root = criteriaQuery.from(CouponCode.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.and(
+				criteriaBuilder.equal(root.get("coupon"), coupon),
+				criteriaBuilder.isNotNull(root.get("member")),
+				criteriaBuilder.isNotNull(root.get("usedDate")));
+		if (StringUtils.isNotBlank(keyword)) { // 拼音条件
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.like(root.get("member").<String> get("username"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").<String> get("mobile"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").<String> get("name"), "%" + keyword + "%")));
+		}
+		criteriaQuery.where(restrictions);
+		return super.findPage(criteriaQuery, pageable);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public Page<Tuple> findDrawedCouponCodeByCoupon(Date begin_date,Date end_date,String keyword,Coupon coupon, Pageable pageable) {
+		if (coupon == null) {
+			return new Page<Tuple>();
+		}
+
+		// select member,coupon,count(1) from xx_coupon_code group by coupon,member having member is not null;
+
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Tuple> criteriaQuery = criteriaBuilder.createQuery(Tuple.class);
+		Root<CouponCode> root = criteriaQuery.from(CouponCode.class);
+
+//		criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.isNotNull(root.get("member")),criteriaBuilder.equal(root.get("coupon"), coupon)));
+		Predicate restrictions = criteriaBuilder.and(
+				criteriaBuilder.equal(root.get("coupon"), coupon),
+				criteriaBuilder.isNotNull(root.get("member"))
+		);
+		if(begin_date!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.greaterThan(root.<Date>get("createDate"),begin_date));
+		}
+		if(end_date!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.lessThan(root.<Date>get("createDate"),end_date));
+		}
+		if (StringUtils.isNotBlank(keyword)) { // 拼音条件
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.like(root.get("member").<String> get("username"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").get("tenant").<String>get("name"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").<String> get("name"), "%" + keyword + "%")));
+		}
+
+		criteriaQuery.where(restrictions);
+		criteriaQuery.groupBy(root.get("member"));
+
+		criteriaQuery.select(criteriaBuilder.tuple(criteriaBuilder.count(root.get("code")),root.get("member"),root.get("coupon")));
+
+		TypedQuery<Tuple> typedQuery = entityManager.createQuery(criteriaQuery);
+		List<Tuple> result = typedQuery.getResultList();
+		long total = result == null? 0 : result.size();
+		int totalPages = (int) Math.ceil((double) total / (double) pageable.getPageSize());
+		if (totalPages < pageable.getPageNumber()) {
+			return new Page<Tuple>(Collections.<Tuple> emptyList(),total,pageable);
+		}
+		typedQuery.setFirstResult((pageable.getPageNumber() - 1) * pageable.getPageSize());
+		typedQuery.setMaxResults(pageable.getPageSize());
+		return new Page<Tuple>(typedQuery.getResultList(), total, pageable);
+	}
+
+	/**
+	 * 领取数量
+	 */
+	public Page<CouponCode> findPage(Date begin_date,Date end_date,String keyword,Coupon coupon,Boolean isUsed , Pageable pageable) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<CouponCode> criteriaQuery = criteriaBuilder.createQuery(CouponCode.class);
+		Root<CouponCode> root = criteriaQuery.from(CouponCode.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		if (coupon != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("coupon"), coupon));
+		}
+		if (isUsed != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("isUsed"), isUsed));
+		}
+		if(begin_date!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.greaterThan(root.<Date>get("createDate"),begin_date));
+		}
+		if(end_date!=null){
+			restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.lessThan(root.<Date>get("createDate"),end_date));
+		}
+		if (StringUtils.isNotBlank(keyword)) { // 拼音条件
+			restrictions = criteriaBuilder.and(
+					restrictions,
+					criteriaBuilder.or(
+							criteriaBuilder.like(root.get("member").<String> get("username"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").get("tenant").<String>get("name"), "%" + keyword + "%"),
+							criteriaBuilder.like(root.get("member").<String> get("name"), "%" + keyword + "%")));
+		}
+		criteriaQuery.where(restrictions);
+		return super.findPage(criteriaQuery, pageable);
+	}
 }

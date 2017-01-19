@@ -130,7 +130,7 @@ public class IndexController extends BaseController {
 			model.addAttribute("member", member);
 			return "/helper/member/index";
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return "/helper/index";
 		}
 	}

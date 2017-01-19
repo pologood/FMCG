@@ -96,9 +96,7 @@ public class TenantController extends BaseController {
         }
         TenantViewModel model = new TenantViewModel();
         model.copyFrom(tenant);
-        List<Filter> filters = new ArrayList<>();
-        filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
-        Long employees = new Long(employeeService.findList(null, filters, null).size());
+        Long employees = employeeService.count(new Filter("tenant", Filter.Operator.eq, tenant));
         model.setEmployees(employees);
         return DataBlock.success(model, "执行成功");
     }
@@ -229,6 +227,13 @@ public class TenantController extends BaseController {
         model.copyFrom(tenant);
         Employee employee = employeeService.findMember(member,tenant);
         if (employee==null) {
+            employee = new Employee();
+            employee.setMember(member);
+            employee.setRole(",owner");
+            employee.setDeliveryCenter(tenant.getDefaultDeliveryCenter());
+            employee.setTenant(tenant);
+            employee.setQuertity(0);
+            employeeService.save(employee);
             model.setRole(",owner");
         } else {
             model.setRole(employee.getRole());

@@ -51,6 +51,11 @@ public class RebateServiceImpl extends BaseServiceImpl<Rebate, Long> implements 
 		return rebateDao.findPage(member,type, couponCode, pageable);
 	}
 
+	@Override
+	public List<Rebate> findList(Member member, Rebate.Type type, CouponCode couponCode) {
+		return rebateDao.findList(member,type, couponCode);
+	}
+
 	public BigDecimal getAmount(Member member, Rebate.Type type){
 		return rebateDao.getAmount(member, type);
 	}

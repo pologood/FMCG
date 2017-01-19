@@ -1,10 +1,13 @@
 package net.wit.controller.weixin.model;
 
 import net.wit.entity.Coupon;
+import net.wit.entity.CouponCode;
+import net.wit.entity.Member;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 优惠券
@@ -23,6 +26,10 @@ public class CouponModel {
      * 最小商品限额
      */
     private BigDecimal minimumPrice;
+    /**
+     * 是否已领取
+     */
+    private boolean hasReceived;
 
     public Long getId() {
         return id;
@@ -48,17 +55,34 @@ public class CouponModel {
         this.minimumPrice = minimumPrice;
     }
 
-    public void copyFrom(Coupon coupon){
+    public boolean isHasReceived() {
+        return hasReceived;
+    }
+
+    public void setHasReceived(boolean hasReceived) {
+        this.hasReceived = hasReceived;
+    }
+
+    public void copyFrom(Coupon coupon, Member member){
         this.id=coupon.getId();
         this.amount=coupon.getAmount();
         this.minimumPrice=coupon.getMinimumPrice();
+        this.hasReceived = false;
+        if (member != null) {
+            for (CouponCode couponCode : coupon.getCouponCodes()) {
+                if (Objects.equals(couponCode.getMember().getId(), member.getId())) {
+                    this.hasReceived = true;
+                    break;
+                }
+            }
+        }
     }
 
-    public static List<CouponModel> bindData(List<Coupon> coupons) {
+    public static List<CouponModel> bindData(List<Coupon> coupons, Member member) {
         List<CouponModel> models = new ArrayList<>();
         for (Coupon coupon:coupons) {
             CouponModel model = new CouponModel();
-            model.copyFrom(coupon);
+            model.copyFrom(coupon, member);
             models.add(model);
         }
         return models;

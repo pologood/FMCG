@@ -46,18 +46,6 @@ public class Union extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 类型 */
-	public enum Type {
-		/** 商家联盟 */
-		tenant,
-		/** 购物屏联盟  */
-		device
-	}
-
-	/** 联盟类型 */
-	@NotNull
-	private Type type;
-	
 	/** 联盟名称 */
 	@NotNull
 	@Length(max = 100)
@@ -96,14 +84,6 @@ public class Union extends BaseEntity {
 	
 	public String getName() {
 		return name;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 	public void setName(String name) {

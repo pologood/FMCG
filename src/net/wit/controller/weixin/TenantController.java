@@ -55,6 +55,64 @@ public class TenantController {
     private CartService cartService;
     @Resource(name = "visitRecordServiceImpl")
     private VisitRecordService visitRecordService;
+    @Resource(name = "couponServiceImpl")
+    private CouponService couponService;
+
+
+    /**
+     * 附近商圈列表
+     */
+    @RequestMapping(value = "/community", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock community(){
+        List<Community> communities = communityService.findList(areaService.getCurrent());
+        List<Map<String,Object>> communityMaps=new ArrayList<>();
+        for(Community community:communities){
+            List<Tenant> tenants=new ArrayList<>();
+            for(DeliveryCenter deliveryCenter:community.getDeliveryCenters()){
+                Tenant tenant=deliveryCenter.getTenant();
+                if(!tenants.contains(tenant)){
+                    boolean flag=false;
+                    for(Coupon coupon:tenant.getCoupons()){
+                        if((coupon.getType()== Coupon.Type.tenantCoupon|| coupon.getType()== Coupon.Type.tenantBonus)&&coupon.getExpired()){
+                            flag=true;
+                            break;
+                        }
+                    }
+                    if(!flag){
+                        for(Promotion promotion:tenant.getPromotions()){
+                            if(promotion.getType()== Promotion.Type.mail){
+                                flag=true;
+                                break;
+                            }
+                        }
+                    }
+                    if(flag){
+                        tenants.add(tenant);
+                    }
+                }
+            }
+            if(tenants.size()>0){
+                Map<String,Object> communityMap=new HashMap<>();
+                communityMap.put("id",community.getId());
+                communityMap.put("name",community.getName());
+                communityMap.put("lat",community.getLocation()!=null?community.getLocation().getLat():null);
+                communityMap.put("lng",community.getLocation()!=null?community.getLocation().getLng():null);
+                communityMap.put("tenantCount",tenants.size());
+
+                List<Map<String,Object>> tenantMaps=new ArrayList<>();
+                for(Tenant tenant:tenants){
+                    Map<String,Object> tenantMap=new HashMap<>();
+                    tenantMap.put("id",tenant.getId());
+                    tenantMap.put("name",tenant.getName());
+                    tenantMaps.add(tenantMap);
+                }
+                communityMap.put("tenants",tenantMaps);
+                communityMaps.add(communityMap);
+            }
+        }
+        return DataBlock.success(communityMaps,"执行成功");
+    }
 
     /**
      * 优惠买单
@@ -260,6 +318,38 @@ public class TenantController {
         return DataBlock.success(models, page, "执行成功");
     }
 
+
+    /**
+     * 店主
+     * @param id 店铺Id
+     */
+    @RequestMapping(value = "/owner", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock owner(Long id) {
+        Tenant tenant = tenantService.find(id);
+        if (tenant == null) {
+            return DataBlock.error(DataBlock.TENANT_INVAILD);
+        }
+        Member owner=tenant.getMember();
+        Member member=memberService.getCurrent();
+        Employee employee=employeeService.findMember(owner,tenant);
+        Map map=new HashMap();
+        map.put("id",owner.getId());
+        map.put("name",owner.getDisplayName());
+        map.put("headImg",owner.getHeadImg());
+        map.put("tenantName",tenant.getName());
+        if(employee==null){
+            map.put("quertity",0);
+        }else{
+            map.put("quertity",employeeService.findByMember(owner).size());
+        }
+        map.put("fansCount",memberService.findFans(owner).size());
+        map.put("hasFavorited",member != null && member.getFavoriteMembers().contains(owner));
+        map.put("phone",owner.getMobile());
+        return DataBlock.success(map, "执行成功");
+    }
+
+
     /**
      * 热门搜索
      */
@@ -328,7 +418,7 @@ public class TenantController {
             return DataBlock.error(DataBlock.TENANT_INVAILD);
         }
         List<Product> products = productService.findByBarcode(tenant, barcode);
-        return DataBlock.success(ProductListModel.bindData(products), "执行成功");
+        return DataBlock.success(ProductListModel.bindData(products,null), "执行成功");
     }
 
 

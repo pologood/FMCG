@@ -11,4 +11,6 @@ import net.wit.entity.SingleProductPosition;
 public interface SingleProductService extends BaseService<SingleProduct,Long> {
 
     Page<SingleProduct> findPage(SingleProductPosition productPosition, Pageable pageable);
+
+    Integer findOrderMax(Long id);
 }

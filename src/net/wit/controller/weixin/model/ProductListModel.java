@@ -1,5 +1,6 @@
 package net.wit.controller.weixin.model;
 
+import net.wit.entity.Location;
 import net.wit.entity.Product;
 
 import java.math.BigDecimal;
@@ -51,6 +52,18 @@ public class ProductListModel {
      * 好评度
      */
     private Double positivePercent;
+    /**
+     * 商家名称
+     */
+    private String tenantName;
+    /**
+     * 距离
+     */
+    private double distance;
+    /**
+     * 点击数
+     */
+    private Long hits;
 
 
     public Long getId() {
@@ -133,7 +146,31 @@ public class ProductListModel {
         this.positivePercent = positivePercent;
     }
 
-    public void copyFrom(Product product) {
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public Long getHits() {
+        return hits;
+    }
+
+    public void setHits(Long hits) {
+        this.hits = hits;
+    }
+
+    public void copyFrom(Product product, Location location) {
         this.id = product.getId();
         this.name = product.getName();
         this.fullName = product.getFullName();
@@ -144,13 +181,21 @@ public class ProductListModel {
         this.monthSales = product.getMonthSales();
         this.promotions = PromotionModel.bindData(new ArrayList<>(product.getValidPromotions()));
         this.positivePercent = 98D;
+        if (product.getTenant() != null) {
+            this.tenantName = product.getTenant().getName();
+            this.distance = product.getTenant().distatce(location);
+            if (this.distance != -1) {
+                this.distance = Double.parseDouble(String.format("%.2f", this.distance / 1000));
+            }
+        }
+        this.hits = product.getHits();
     }
 
-    public static List<ProductListModel> bindData(List<Product> products) {
+    public static List<ProductListModel> bindData(List<Product> products, Location location) {
         List<ProductListModel> models = new ArrayList<>();
         for (Product product : products) {
             ProductListModel model = new ProductListModel();
-            model.copyFrom(product);
+            model.copyFrom(product, location);
             models.add(model);
         }
         return models;

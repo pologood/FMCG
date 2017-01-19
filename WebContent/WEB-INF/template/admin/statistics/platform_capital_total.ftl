@@ -74,7 +74,6 @@
     <form id="listForm" action="platform_capital_total.jhtml" method="get">
         <div class="bar">
             <div class="buttonWrap">
-                <a href="javascript:;" id="export_ss" class="button">导出</a>
                 <a href="javascript:;" id="refreshButton" class="iconButton">
                     <span class="refreshIcon">&nbsp;</span>${message("admin.common.refresh")}
                 </a>
@@ -105,6 +104,7 @@
                 <input type="text" id="endDate" name="endDate" class="text Wdate" value="${(endDate)!}" placeholder="对账结束时间" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd', minDate: '#F{$dp.$D(\'beginDate\')}'});" style="text-align:center;"/>
             </div>
             <input type="submit" class="button" value="查询" />
+            <input type="button"id="export_ss" class="buttonWrap button" value="导出">
         </div>
         <table id="listTable" class="list table2excel">
             <tr>

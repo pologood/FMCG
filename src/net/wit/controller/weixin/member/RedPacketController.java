@@ -4,6 +4,7 @@ import com.google.zxing.WriterException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.Setting;
@@ -20,7 +21,6 @@ import net.wit.util.SettingUtils;
 import net.wit.weixin.main.MenuManager;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -72,6 +73,55 @@ public class RedPacketController extends BaseController {
 
     @Resource(name = "taskServiceImpl")
     private TaskService taskService;
+
+    @Resource(name = "promotionServiceImpl")
+    private PromotionService promotionService;
+
+    @Resource(name = "deliveryCenterServiceImpl")
+    private DeliveryCenterService deliveryCenterService;
+
+    /**
+     * 优惠雨
+     */
+    @RequestMapping(value = "/promotions", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock promotions(Long communityId){
+        Community community=null;
+        if (communityId != null) {
+            community = communityService.find(communityId);
+            if(community==null){
+                return DataBlock.error("无效商圈Id");
+            }
+        }
+        List<Coupon> coupons = couponService.findList(null, community, null, false, null, null, null, true, null,null,null,null);
+        List<Filter> filters=new ArrayList<>();
+        List<Promotion.Type> list=new ArrayList<>();
+        list.add(Promotion.Type.buyfree);
+        list.add(Promotion.Type.seckill);
+        list.add(Promotion.Type.mail);
+        filters.add(new Filter("type", Filter.Operator.in,list));
+        List<Promotion> promotions = promotionService.findByCommunity(null, community,false,null,null,filters,null);
+        Set set = new HashSet();
+        for (Coupon coupon : coupons) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id", coupon.getId());
+            map.put("type", coupon.getType());
+            map.put("amount", coupon.getAmount());
+            map.put("minimumPrice", coupon.getMinimumPrice());
+            map.put("tenantName", coupon.getTenant().getName());
+            set.add(map);
+        }
+        for (Promotion promotion : promotions) {
+            Map<String,Object> map = new HashMap<>();
+            map.put("id", promotion.getId());
+            map.put("type", promotion.getType());
+            map.put("amount", null);
+            map.put("minimumPrice", promotion.getMinimumPrice());
+            map.put("tenantName", promotion.getTenant().getName());
+            set.add(map);
+        }
+        return DataBlock.success(set,"执行成功");
+    }
 
     /**
      * 商家红包页面
@@ -119,11 +169,12 @@ public class RedPacketController extends BaseController {
      * @param categoryId 分类Id
      * @param orderType 排序类型（distance 按距离排序;amountSize 按红包大小排序）
      * @param location  地理经纬度（lng 经度，lat 纬度）
+     * @param distance  距离
      * @param pageable  分页参数
      */
     @RequestMapping(value = "/tenant/list", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock tenantList(Long areaId, Long communityId, Long categoryId, String orderType, Location location, Pageable pageable) {
+    public DataBlock tenantList(Long areaId, Long communityId, Long categoryId, String orderType, Location location, BigDecimal distance, Pageable pageable) {
         Member member = memberService.getCurrent();
         Object data = null;
         Page<Coupon> page = new Page<>();
@@ -134,7 +185,7 @@ public class RedPacketController extends BaseController {
             }
             TenantCategory tenantCategory = tenantCategoryService.find(categoryId);
             Community community=communityService.find(communityId);
-            page = couponService.findPage(area, community, tenantCategory, false, location, orderType, pageable);
+            page = couponService.findPage(area, community, tenantCategory, false, location, distance, orderType, false, pageable);
             data = TenantRedPacketListModel.bindData(page.getContent(), location, member);
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,8 +250,6 @@ public class RedPacketController extends BaseController {
         if (couponCodes == null || couponCodes.size() == 0) {
             return DataBlock.error("领取失败");
         }
-        coupon.setSendCount(coupon.getSendCount() + 1);
-        couponService.update(coupon);
         if(extention!=null){
             Long month = Long.parseLong(new SimpleDateFormat("yyyyMM").format(new Date()));
             Task task=taskService.findByMember(extention,month);

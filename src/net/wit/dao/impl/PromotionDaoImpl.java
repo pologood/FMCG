@@ -5,38 +5,21 @@
  */
 package net.wit.dao.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.persistence.FlushModeType;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
-
 import net.wit.Filter;
 import net.wit.Order;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.dao.DeliveryCenterDao;
 import net.wit.dao.PromotionDao;
-import net.wit.entity.Area;
-import net.wit.entity.Community;
-import net.wit.entity.DeliveryCenter;
-import net.wit.entity.Location;
-import net.wit.entity.Product;
-import net.wit.entity.ProductCategory;
-import net.wit.entity.Promotion;
+import net.wit.entity.*;
 import net.wit.entity.Promotion.Type;
-import net.wit.entity.Tenant;
-
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import javax.persistence.FlushModeType;
+import javax.persistence.criteria.*;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Dao - 促销
@@ -151,6 +134,67 @@ public class PromotionDaoImpl extends BaseDaoImpl<Promotion, Long> implements Pr
 
     }
 
+    public Page<Promotion> findByCommunity(Type type, Community community, Pageable pageable) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Promotion> criteriaQuery = criteriaBuilder.createQuery(Promotion.class);
+        Root<Promotion> root = criteriaQuery.from(Promotion.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        if (type != null) {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), type));
+        }
+        if(community!=null){
+            Subquery<DeliveryCenter> subquery = criteriaQuery.subquery(DeliveryCenter.class);
+            Root<DeliveryCenter> subqueryRoot = subquery.from(DeliveryCenter.class);
+            subquery.select(subqueryRoot);
+            Predicate subRestrictions = criteriaBuilder.conjunction();
+            subRestrictions = criteriaBuilder.and(criteriaBuilder.equal(subqueryRoot.get("tenant"), root.get("tenant")));
+//            if (community != null) {
+                subRestrictions = criteriaBuilder.and(subRestrictions,
+                        criteriaBuilder.equal(subqueryRoot.get("community"), community));
+//            }
+            subquery.where(subRestrictions);
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+        }
+        criteriaQuery.where(restrictions);
+        return super.findPage(criteriaQuery, pageable);
+
+    }
+
+    public List<Promotion> findByCommunity(Type type, Community community, Boolean isExpired, Integer first, Integer count, List<Filter> filters, List<Order> orders) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Promotion> criteriaQuery = criteriaBuilder.createQuery(Promotion.class);
+        Root<Promotion> root = criteriaQuery.from(Promotion.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        if (type != null) {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("type"), type));
+        }
+        if (isExpired != null) {
+            if (isExpired) {
+                restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.lessThan(root.<Date>get("endDate"), new Date()), criteriaBuilder.isNull(root.<Date>get("endDate"))));
+            } else {
+                restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.greaterThanOrEqualTo(root.<Date>get("endDate"), new Date()), criteriaBuilder.isNull(root.<Date>get("endDate"))));
+            }
+        }
+        if(community!=null){
+            Subquery<DeliveryCenter> subquery = criteriaQuery.subquery(DeliveryCenter.class);
+            Root<DeliveryCenter> subqueryRoot = subquery.from(DeliveryCenter.class);
+            subquery.select(subqueryRoot);
+            Predicate subRestrictions = criteriaBuilder.conjunction();
+            subRestrictions = criteriaBuilder.and(criteriaBuilder.equal(subqueryRoot.get("tenant"), root.get("tenant")));
+//            if (community != null) {
+                subRestrictions = criteriaBuilder.and(subRestrictions,
+                        criteriaBuilder.equal(subqueryRoot.get("community"), community));
+//            }
+            subquery.where(subRestrictions);
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+        }
+        criteriaQuery.where(restrictions);
+        return super.findList(criteriaQuery, first, count, filters, orders);
+
+    }
+
     /**
      * 查找指定商品促销
      *
@@ -218,6 +262,8 @@ public class PromotionDaoImpl extends BaseDaoImpl<Promotion, Long> implements Pr
             subquery.select(productRoot);
             subquery.where(criteriaBuilder.equal(productRoot, root), productRoot.join("promotionProducts").isNotNull());
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.lessThanOrEqualTo(root.<Date>get("beginDate"), new Date()));
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.greaterThanOrEqualTo(root.<Date>get("endDate"), new Date()));
         }
 
         criteriaQuery.where(restrictions);

@@ -9,26 +9,80 @@
 <script type="text/javascript" src="${base}/resources/admin/js/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/common.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/list.js"></script>
+<script type="text/javascript" src="${base}/resources/admin/js/jquery.table2excel.js"></script>
 <script type="text/javascript">
 $().ready(function() {
-
 	[@flash_message /]
+	$("#export_ss").click(function(){
+        $.message("success","正在帮您导出，请稍后");
+
+    	//导出数据到excel
+	    $(".table2excel").table2excel({
+	        exclude: ".noExl",
+	        name: "已使用列表",
+	        filename: "已使用列表",
+	        fileext: ".xls",
+	        exclude_img: true,
+	        exclude_links: false,
+	        exclude_inputs: true
+	    });
+	});
 
 });
 </script>
 </head>
 <body>
 	<div class="path">
-		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; ${message("admin.coupon.list")} <span>(${message("admin.page.total", page.total)})</span>
+		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; 已使用列表 <span>(${message("admin.page.total", page.total)})</span>
 	</div>
 	<form id="listForm" action="usedList.jhtml" method="get">
 		<div class="bar">
-			<a href="list.jhtml" class="iconButton">
-				<span class="moveIcon">&nbsp;</span>返回到列表
-			</a>
+			<div class="buttonWrap">
+				<a href="javascript:history.go(-1);" class="iconButton">
+					<span class="moveIcon">&nbsp;</span>返回到列表
+				</a>
+				<a href="javascript:;" id="refreshButton" class="iconButton">
+	                <span class="refreshIcon">&nbsp;</span>刷新
+	            </a>
+	            <div class="menuWrap">
+	                <a href="javascript:;" id="pageSizeSelect" class="button">
+	                ${message("admin.page.pageSize")}<span class="arrow">&nbsp;</span>
+	                </a>
+	                <div class="popupMenu">
+	                    <ul id="pageSizeOption">
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 10] class="current"[/#if] val="10">10</a>
+	                        </li>
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 20] class="current"[/#if] val="20">20</a>
+	                        </li>
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 50] class="current"[/#if] val="50">50</a>
+	                        </li>
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 100] class="current"[/#if] val="100">100</a>
+	                        </li>
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 500] class="current"[/#if] val="500">500</a>
+	                        </li>
+	                        <li>
+	                            <a href="javascript:;"[#if page.pageSize == 1000] class="current"[/#if] val="1000">1000</a>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
+
+	            <a href="javascript:;" id="export_ss" class="button">导出</a>
+            </div>
+            <div class="menuWrap">
+	            <div class="search">
+	                <input type="text" name="keyword" placeholder="使用会员" value="${keyword}" maxlength="200"/>
+	                <button type="submit">&nbsp;</button>
+	            </div>
+	        </div>
 		</div>
 		<input type="hidden" name="id" value="${usedListCouponId}" />
-		<table id="listTable" class="list">
+		<table id="listTable" class="list table2excel">
 			<tr>
 				<th>
 					<a>红包名称</a>
@@ -47,6 +101,9 @@ $().ready(function() {
 				</th>
 				<th>
 					<a>使用会员</a>
+				</th>
+				<th>
+					<a>使用次数</a>
 				</th>
 			</tr>
 			[#list page.content as couponCode]
@@ -68,6 +125,9 @@ $().ready(function() {
 					</td>
 					<td>
 						${couponCode.member.username}
+					</td>
+					<td>
+						${couponCode.useCount}
 					</td>
 				</tr>
 			[/#list]

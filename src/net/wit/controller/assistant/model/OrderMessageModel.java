@@ -29,6 +29,8 @@ public class OrderMessageModel extends BaseModel {
 	private BigDecimal price;
 	/*时间*/
 	private Date create_date;
+	/*是否已读*/
+	private Boolean receiverRead;
 
 	public Date getCreate_date() {
 		return create_date;
@@ -95,6 +97,14 @@ public class OrderMessageModel extends BaseModel {
 		this.tradeId = tradeId;
 	}
 
+	public Boolean getReceiverRead() {
+		return receiverRead;
+	}
+
+	public void setReceiverRead(Boolean receiverRead) {
+		this.receiverRead = receiverRead;
+	}
+
 	public void copyFrom(Message message) {
 		this.id = message.getId();
 		this.content = message.getContent();
@@ -106,6 +116,7 @@ public class OrderMessageModel extends BaseModel {
 			this.image=message.getTrade().getOrder().getMember().getHeadImg();
 		}
 		this.create_date = message.getCreateDate();
+		this.receiverRead = message.getReceiverRead();
 
 	}
 	

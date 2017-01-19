@@ -29,7 +29,7 @@ public interface RebateDao extends BaseDao<Rebate, Long> {
 	Page<Rebate> findPage(Member member, Pageable pageable);
 
 	Page<Rebate> findPage(Member member, Rebate.Type type, CouponCode couponCode, Pageable pageable);
-
+	List<Rebate> findList(Member member, Rebate.Type type, CouponCode couponCode);
 	BigDecimal getAmount(Member member, Rebate.Type type);
 
 	List<Rebate> openCodeRebate(CouponCode couponCode,Member member);

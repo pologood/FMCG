@@ -316,7 +316,7 @@ public class TradeModel extends BaseModel {
 		this.promotionDiscount = trade.getPromotionDiscount();
 		this.discount = trade.getDiscount();
     	ReceiverModel receiver = new ReceiverModel();
- 	    receiver.setAddress(trade.getOrder().getAddress());
+ 	    receiver.setAddress(trade.getOrder().getAreaName()+trade.getOrder().getAddress());
  	    AreaModel area = new AreaModel();
  	    if (trade.getOrder().getArea()!=null) {
  	        area.copyFrom(trade.getOrder().getArea());

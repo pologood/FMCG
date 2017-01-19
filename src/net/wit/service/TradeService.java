@@ -238,4 +238,14 @@ public interface TradeService extends BaseService<Trade, Long> {
 	public List<Trade> findUnshippedListExport(Tenant tenant,QueryStatus queryStatus);
 
 	Page<Trade> findPage(String consignee,Area area,OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired, Date beginDate, Date endDate,String keyword, String tenantName,String userName, Pageable pageable);
+
+	/**
+	 *	时间段内订单/发货/下单数
+	 * @param tenant
+	 * @param beginDate
+	 * @param endDate
+	 * @param queryStatus
+	 * @return
+	 */
+	long count(Tenant tenant,Date beginDate,Date endDate,QueryStatus queryStatus);
 }

@@ -13,11 +13,9 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.wit.Filter;
+import net.wit.*;
 import net.wit.Filter.Operator;
 import net.wit.Message;
-import net.wit.Page;
-import net.wit.Pageable;
 import net.wit.entity.*;
 import net.wit.entity.Authen.AuthenStatus;
 import net.wit.entity.Tag.Type;
@@ -89,6 +87,9 @@ public class TenantController extends BaseController {
     @Resource(name = "unionTenantServiceImpl")
     private UnionTenantService unionTenantService;
 
+    @Resource(name = "roleServiceImpl")
+    private RoleService roleService;
+
     /**
      * 获取社区信息
      */
@@ -150,7 +151,7 @@ public class TenantController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Date beginDate, Date endDate, Status status, Long tagId, Long areaId,String tenantType, Long tenantCategoryId,
-                       String qrCodeStatus, String marketableSize,
+                       String qrCodeStatus, String marketableSize,Boolean isUnion,
                        String keyword, Pageable pageable, ModelMap model) {
         try {
             Tag tag = tagService.find(tagId);
@@ -200,6 +201,7 @@ public class TenantController extends BaseController {
 //                filter.add(new Filter("qrcodes", Operator.eq,  new Qrcode()));
 //            }
             filter.add(new Filter("tenantCategory", Operator.eq, tenantCategory));
+            filter.add(new Filter("isUnion", Operator.eq, isUnion));
             pageable.setFilters(filter);
             pageable.setOrderProperty(null);
             keyword = pageable.getSearchValue();
@@ -216,6 +218,7 @@ public class TenantController extends BaseController {
 			model.addAttribute("keyword",keyword);
             model.addAttribute("tenantCategorys",tenantCategoryService.findList(null,null,null));
             model.addAttribute("tenantCategoryId",tenantCategoryId);
+            model.addAttribute("isUnion",isUnion);
         } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
@@ -337,12 +340,32 @@ public class TenantController extends BaseController {
      * 查看
      */
     @RequestMapping(value = "/view", method = RequestMethod.GET)
-    public String view(Long id, ModelMap model) {
+    public String view(Long id, ModelMap model,Pageable pageable) {
         Tenant tenant=tenantService.find(id);
         List<Employee> employees=employeeService.findList(tenant,null);
         List<Filter> filter = new ArrayList<Filter>();
         filter.add(new Filter("status", Filter.Operator.eq, UnionTenant.Status.confirmed));
         List<UnionTenant> unionTenants=unionTenantService.findUnionTenant(null,tenant,filter);
+
+        List<Filter> filters = new ArrayList<>();
+        filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
+        pageable.setFilters(filters);
+        Page<Employee> page = employeeService.findPage(pageable,null, null);
+        //model.addAttribute("keyWord", keyWord);
+        model.addAttribute("page", page);
+        //角色
+        pageable=new Pageable();
+        filters = new ArrayList<>();
+        if (tenant==null){
+            filters.add(new Filter("isSystem", Filter.Operator.eq, true));
+        }else{
+            filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
+        }
+        pageable.setFilters(filters);
+        Page<Role> _page = roleService.findPage(Role.RoleType.helper, pageable);
+        model.addAttribute("roles", _page.getContent());
+
+
         model.addAttribute("tenant", tenant);
         model.addAttribute("employeeSize", employees.size());
         model.addAttribute("productSize", tenant.getProducts().size());
@@ -391,6 +414,11 @@ public class TenantController extends BaseController {
             saveTenant.setTenantCategory(tenantCategoryService.find(tenantCategoryId));
             saveTenant.setGeneralize(tenant.getGeneralize());
             saveTenant.setAgency(tenant.getAgency());
+            if(tenant.getCode()==null){
+                saveTenant.setCode("0");
+            }else{
+                saveTenant.setCode(tenant.getCode());
+            }
             tenantService.save(saveTenant);
 
             addFlashMessage(redirectAttributes, SUCCESS_MESSAGE);
@@ -646,6 +674,7 @@ public class TenantController extends BaseController {
         Tenant saveTenant = null;
         saveTenant = tenantService.find(id);
         //saveTenant.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
+        saveTenant.setLicensePhoto(tenant.getLicensePhoto());
         saveTenant.setStatus(status);
         saveTenant.setTenantType(tenant.getTenantType());
         saveTenant.setTenantCategory(tenantCategoryService.find(tenantCategoryId));
@@ -869,5 +898,30 @@ public class TenantController extends BaseController {
     public @ResponseBody Message adDelete(Long[] ids) {
         adService.delete(ids);
         return SUCCESS_MESSAGE;
+    }
+
+    /**
+     * 编辑店铺查看保存的code是否唯一
+     * @param code
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/judge_code_only", method = RequestMethod.GET)
+    @ResponseBody
+    public String judgeCode(String code,Long id){
+        List<Filter> filter = new ArrayList<Filter>();
+        filter.add(new Filter("code", Filter.Operator.eq, code));
+        List<Tenant> tenants=tenantService.findList(null,null,null,filter,null);
+        if(tenants.size()<=0){
+            return "yes";
+        }else if(tenants.size()==1){
+            if(tenants.get(0).getId().equals(id)){
+                return "yes";
+            }else{
+                return "no";
+            }
+        }else{
+            return "no";
+        }
     }
 }

@@ -1589,7 +1589,7 @@ public class TradeDaoImpl extends BaseDaoImpl<Trade, Long> implements TradeDao {
 			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("tenant").<String> get("name"), tenantName));
 		}
 		if (userName!=null&&!"".equals(userName)) { // 拼音条件
-			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("order").get("member").<String> get("username"), userName));
+			restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.or(criteriaBuilder.equal(root.get("order").get("member").<String> get("name"), userName),criteriaBuilder.equal(root.get("order").get("member").<String> get("username"), userName)));
 		}
 		if (area != null) {
 			restrictions = criteriaBuilder.and(restrictions,
@@ -1624,5 +1624,28 @@ public class TradeDaoImpl extends BaseDaoImpl<Trade, Long> implements TradeDao {
 
 		criteriaQuery.where(restrictions);
 		return super.findPage(criteriaQuery, pageable);
+	}
+
+	public long count(Tenant tenant,Date beginDate,Date endDate,QueryStatus queryStatus){
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Trade> criteriaQuery = criteriaBuilder.createQuery(Trade.class);
+		Root<Trade> root = criteriaQuery.from(Trade.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("tenant"), tenant));
+		if (queryStatus.equals(QueryStatus.paid)) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("paymentStatus"), PaymentStatus.paid));
+		}
+		if (queryStatus.equals(QueryStatus.shipped)) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("shippingStatus"), ShippingStatus.shipped));
+		}
+		if (beginDate != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"), beginDate));
+		}
+		if (endDate != null) {
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.lessThanOrEqualTo(root.<Date> get("createDate"), endDate));
+		}
+		criteriaQuery.where(restrictions);
+		return super.count(criteriaQuery, null);
 	}
 }

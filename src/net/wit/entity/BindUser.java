@@ -34,7 +34,9 @@ public class BindUser extends BaseEntity {
 		/** 设备号 */
 		_mac,
 		/** 摄像头 */
-		dahua
+		dahua,
+		/** 智能wifi获取用户设备号 */
+		wifi
 	}
 
 	/** 用户名 */

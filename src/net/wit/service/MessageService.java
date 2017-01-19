@@ -7,6 +7,7 @@ package net.wit.service;
 
 import java.util.List;
 
+import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.entity.Member;
@@ -80,7 +81,7 @@ public interface MessageService extends BaseService<Message, Long> {
 	 */
 	Long count(Member member, Boolean read);
 
-	Long count(Member member, Boolean read, Message.Type type);
+	Long count(Member member, Boolean read, Message.Type type,List<Filter> filters);
 
 	/**
 	 * 删除消息

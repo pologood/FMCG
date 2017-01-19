@@ -6,7 +6,9 @@
 package net.wit.controller.assistant.member;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -127,6 +131,11 @@ public class ProductController extends BaseController {
 		}
 		ProductModel model = new ProductModel();
 		model.copyFrom(product);
+		String images = null;
+		if(product.getDescriptionapp()!=null){
+			 images =   getImgs(product.getDescriptionapp());
+		}
+		model.setDescriptionapp(images);
 		model.bind(product.getGoods());
 		return DataBlock.success(model, "执行成功");
 	}
@@ -287,30 +296,30 @@ public class ProductController extends BaseController {
 				activityDetailService.addPoint(null,memberService.getCurrent().getTenant(),activityRulesService.find(19L));
 			}
 		}
-		if(member.getTenant().getIsUnion()&&isMarketable){
-			List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
-			for(UnionTenant unionTenant:unionTenants){
-				List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
-				for(Employee employee:employeeList){
-					Message message = new Message();
-					message.setType(Message.Type.activity);
-					message.setCreateDate(new Date());
-					message.setModifyDate(new Date());
-					message.setContent(member.getTenant().getName()+"上传了新商品快来看看吧！");
-					message.setWay(Message.Way.tenant);
-					message.setTitle("新商品");
-					message.setIsDraft(false);
-					message.setSenderRead(true);
-					message.setReceiverRead(false);
-					message.setSenderDelete(false);
-					message.setReceiverDelete(false);
-					message.setSender(member);
-					message.setReceiver(employee.getMember());
-					message.setIp(request.getRemoteAddr());
-					messageService.save(message);
-				}
-			}
-		}
+//		if(member.getTenant().getIsUnion()&&isMarketable){
+//			List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
+//			for(UnionTenant unionTenant:unionTenants){
+//				List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
+//				for(Employee employee:employeeList){
+//					Message message = new Message();
+//					message.setType(Message.Type.activity);
+//					message.setCreateDate(new Date());
+//					message.setModifyDate(new Date());
+//					message.setContent(member.getTenant().getName()+"上传了新商品快来看看吧！");
+//					message.setWay(Message.Way.tenant);
+//					message.setTitle("新商品");
+//					message.setIsDraft(false);
+//					message.setSenderRead(true);
+//					message.setReceiverRead(false);
+//					message.setSenderDelete(false);
+//					message.setReceiverDelete(false);
+//					message.setSender(member);
+//					message.setReceiver(employee.getMember());
+//					message.setIp(request.getRemoteAddr());
+//					messageService.save(message);
+//				}
+//			}
+//		}
 		return DataBlock.success("success", "执行成功");
 	}
 
@@ -426,7 +435,7 @@ public class ProductController extends BaseController {
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public
 	@ResponseBody
-	DataBlock save(Product product, Long productCategoryId, Long productCategoryTenantId, Long brandId, Long[] tagIds, Long[] specificationIds, String[] specificationTitles, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	DataBlock save(Product product, Long productCategoryId, Long productCategoryTenantId, Long brandId, Long[] tagIds, Long[] specificationIds, String[] specificationTitles,Boolean isMarketable, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Member member = memberService.getCurrent();
 		if (member == null) {
 			return DataBlock.error(DataBlock.SESSION_INVAILD);
@@ -441,6 +450,44 @@ public class ProductController extends BaseController {
 				continue;
 			}
 		}
+			String  html = null;
+			String htmlMiddle= null;
+			String htmlHead = "<html lang=\"zh-cmn-Hans\"><head>\n" +
+					"    <meta charset=\"UTF-8\">\n" +
+					"    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,user-scalable=0\">\n" +
+					"    <title>预览</title>\n" +
+					"    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\">\n" +
+					"    <meta http-equiv=\"Pragma\" content=\"no-cache\">\n" +
+					"    <meta http-equiv=\"Expires\" content=\"0\">\n" +
+					"    <style type=\"text/css\">\n" +
+					"    \tbody,h2 {padding: 2%;margin: 0;font-family: Microsoft YaHei,-apple-system-font,Helvetica Neue,Helvetica,sans-serif;font-size: 14px;line-height: 1;color: #333;}\n" +
+					"    \timg {max-width: 100%;height: auto;line-height: 0;display: block;}\n" +
+					"    </style>\n" +
+					"</head>\n" +
+					"<body ontouchstart=\"\">\n" +
+					"<!--BEGIN previewIcons-->\n" +
+					"<h2>当前为预览模式：</h2>\n" +
+					"<div id=\"previewIcons\">";
+
+
+			 String htmlFoot = "\n" +
+					"</div>\n" +
+					"<!--END previewIcons-->\n" +
+					"\n" +
+					"\n" +
+					"\n" +
+					"</body></html>";
+			if(product.getDescriptionapp()!=null){
+              String[] images = product.getDescriptionapp().split("@");
+				for(int i=0;i<images.length;i++){
+					htmlMiddle = "<img src="+images[i]+" />";
+				}
+				html = htmlHead+htmlMiddle+htmlFoot;
+			}else{
+				html = htmlHead+htmlFoot;
+			}
+		product.setDescriptionapp(html);
+
 		product.setProductCategory(productCategoryService.find(productCategoryId));
 		product.setProductCategoryTenant(productCategoryTenantService.find(productCategoryTenantId));
 		product.setBrand(brandService.find(brandId));
@@ -487,7 +534,7 @@ public class ProductController extends BaseController {
 		product.setOrderItems(null);
 		product.setGiftItems(null);
 		product.setProductNotifies(null);
-		product.setIsMarketable(true);
+		product.setIsMarketable(isMarketable);
 		if (product.getFee() == null) {
 			product.setFee(BigDecimal.ZERO);
 		}
@@ -653,30 +700,30 @@ public class ProductController extends BaseController {
 		if(!activityDetailService.isActivity(null,member.getTenant(),activityRulesService.find(49L))){
 			activityDetailService.addPoint(null,member.getTenant(),activityRulesService.find(49L));
 		}
-		if(member.getTenant().getIsUnion()){
-			List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
-			for(UnionTenant unionTenant:unionTenants){
-				List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
-				for(Employee employee:employeeList){
-					Message message = new Message();
-					message.setType(Message.Type.activity);
-					message.setCreateDate(new Date());
-					message.setModifyDate(new Date());
-					message.setContent(member.getTenant().getName()+"上传了新商品快来看看吧！");
-					message.setWay(Message.Way.tenant);
-					message.setTitle("新商品");
-					message.setIsDraft(false);
-					message.setSenderRead(true);
-					message.setReceiverRead(false);
-					message.setSenderDelete(false);
-					message.setReceiverDelete(false);
-					message.setSender(member);
-					message.setReceiver(employee.getMember());
-					message.setIp(request.getRemoteAddr());
-					messageService.save(message);
-				}
-			}
-		}
+//		if(member.getTenant().getIsUnion()){
+//			List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(member.getTenant().getUnion(), null, null);
+//			for(UnionTenant unionTenant:unionTenants){
+//				List<Employee> employeeList = employeeService.findList(unionTenant.getTenant(),null);
+//				for(Employee employee:employeeList){
+//					Message message = new Message();
+//					message.setType(Message.Type.activity);
+//					message.setCreateDate(new Date());
+//					message.setModifyDate(new Date());
+//					message.setContent(member.getTenant().getName()+"上传了新商品快来看看吧！");
+//					message.setWay(Message.Way.tenant);
+//					message.setTitle("新商品");
+//					message.setIsDraft(false);
+//					message.setSenderRead(true);
+//					message.setReceiverRead(false);
+//					message.setSenderDelete(false);
+//					message.setReceiverDelete(false);
+//					message.setSender(member);
+//					message.setReceiver(employee.getMember());
+//					message.setIp(request.getRemoteAddr());
+//					messageService.save(message);
+//				}
+//			}
+//		}
 
 		return DataBlock.success("success", "保存成功");
 	}
@@ -688,7 +735,7 @@ public class ProductController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public
 	@ResponseBody
-	DataBlock update(Product product, Long productCategoryId, Long productCategoryTenantId, Long brandId, Long[] tagIds, Long[] specificationIds,String [] specificationTitles, Long[] specificationProductIds, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+	DataBlock update(Product product, Long productCategoryId, Long productCategoryTenantId, Long brandId, Long[] tagIds, Long[] specificationIds,String [] specificationTitles, Long[] specificationProductIds,Boolean isMarketable, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		Member member = memberService.getCurrent();
 		if (member == null) {
 			DataBlock.error(DataBlock.SESSION_INVAILD);
@@ -704,7 +751,44 @@ public class ProductController extends BaseController {
 				continue;
 			}
 		}
+		String  html = null;
+		String htmlMiddle= null;
+		String htmlHead = "<html lang=\"zh-cmn-Hans\"><head>\n" +
+				"    <meta charset=\"UTF-8\">\n" +
+				"    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,user-scalable=0\">\n" +
+				"    <title>预览</title>\n" +
+				"    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\">\n" +
+				"    <meta http-equiv=\"Pragma\" content=\"no-cache\">\n" +
+				"    <meta http-equiv=\"Expires\" content=\"0\">\n" +
+				"    <style type=\"text/css\">\n" +
+				"    \tbody,h2 {padding: 2%;margin: 0;font-family: Microsoft YaHei,-apple-system-font,Helvetica Neue,Helvetica,sans-serif;font-size: 14px;line-height: 1;color: #333;}\n" +
+				"    \timg {max-width: 100%;height: auto;line-height: 0;display: block;}\n" +
+				"    </style>\n" +
+				"</head>\n" +
+				"<body ontouchstart=\"\">\n" +
+				"<!--BEGIN previewIcons-->\n" +
+				"<h2>当前为预览模式：</h2>\n" +
+				"<div id=\"previewIcons\">";
 
+
+		String htmlFoot = "\n" +
+				"</div>\n" +
+				"<!--END previewIcons-->\n" +
+				"\n" +
+				"\n" +
+				"\n" +
+				"</body></html>";
+		if(product.getDescriptionapp()!=null){
+			String[] images = product.getDescriptionapp().split("@");
+			for(int i=0;i<images.length;i++){
+				htmlMiddle += "<img src="+images[i]+" />";
+			}
+			html = htmlHead+htmlMiddle+htmlFoot;
+		}else{
+			html = htmlHead+htmlFoot;
+		}
+		product.setDescriptionapp(html);
+		product.setIsMarketable(isMarketable);
 		product.setProductCategory(productCategoryService.find(productCategoryId));
 		product.setProductCategoryTenant(productCategoryTenantService.find(productCategoryTenantId));
 		product.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
@@ -926,5 +1010,34 @@ public class ProductController extends BaseController {
 		return DataBlock.success("success", "修改成功");
 	}
 
+	/**
+	 * 取出html中img的路径
+	 * @param content
+     * @return
+     */
+	private String getImgs(String content) {
+		String img = "";
+		Pattern p_image;
+		Matcher m_image;
+		String str = "";
+		String regEx_img = "(<img.*src\\s*=\\s*(.*?)[^>]*?>)";
+		p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+		m_image = p_image.matcher(content);
+		while (m_image.find()) {
+			img = m_image.group();
+			Matcher m = Pattern.compile("src\\s*=\\s*\"?(.*?)(\"|>|\\s+)")
+					.matcher(img);
+			while (m.find()) {
+				String tempSelected = m.group(1);
+				if ("".equals(str)) {
+					str = tempSelected;
+				} else {
+					String temp = tempSelected;
+					str = str + "@" + temp;
+				}
+			}
+		}
+		return str;
+	}
 
 }

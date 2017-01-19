@@ -19,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * Entity - 联盟商家
@@ -43,6 +44,19 @@ public class UnionTenant extends BaseEntity {
 		/** 已取消  */
 		canceled
 	}
+
+	/** 类型 */
+	public enum Type {
+		/** 商家联盟 */
+		tenant,
+		/** 购物屏联盟  */
+		device
+	}
+
+
+	/** 联盟类型 */
+	@NotNull
+	private Type type;
 
 	/** 状态 */
 	@Expose
@@ -84,6 +98,13 @@ public class UnionTenant extends BaseEntity {
 	/** 客单价 */
 	private BigDecimal unitPrice;
 
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
 
 	/** 有效期 */
 	private Date expire;
@@ -175,4 +196,5 @@ public class UnionTenant extends BaseEntity {
 	public void setSales(BigDecimal sales) {
 		this.sales = sales;
 	}
+
 }

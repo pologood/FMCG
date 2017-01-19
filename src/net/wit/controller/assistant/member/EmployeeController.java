@@ -27,6 +27,7 @@ import net.wit.support.EntitySupport;
 import net.wit.util.SettingUtils;
 import net.wit.util.SpringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -172,10 +173,41 @@ public class EmployeeController extends BaseController {
 	    if (deliveryCenterId!=null) {
 		    employee.setDeliveryCenter(deliveryCenterService.find(deliveryCenterId));
 	    }
+		StringBuffer stringBuffer =new StringBuffer();
+		String[] qr = null;
+		if(roles!=null){
+			qr = roles.split(",");
+		}
+       String[] r = null;
+		if(employee.getRole()!=null && employee.getRole()!=""){
+			int k =0;
+			r = employee.getRole().split(",");
+			for(int i=0;i<r.length;i++){
+				for(int j=0;j<qr.length;j++){
+					if(r[i].equals(qr[j])){
+						k=1;
+						break;
+					}
+				}
+				if(k==0){
+					stringBuffer.append(r[i]);
+					stringBuffer.append(",");
+				}
 
-	    if (roles!=null) {
-            employee.setRole(roles);
-	    }
+			}
+			for(int i=0;i<qr.length;i++){
+				stringBuffer.append(qr[i]);
+				stringBuffer.append(",");
+			}
+			employee.setRole(stringBuffer.toString());
+		}else{
+			if (roles!=null) {
+				employee.setRole(roles);
+			}
+		}
+
+
+
 
 		employee.setTags(new HashSet<Tag>(tagService.findList(tagIds)));
         employeeService.update(employee);
@@ -366,25 +398,7 @@ public class EmployeeController extends BaseController {
 		emp.setDeliveryCenter(deliveryCenter);
 		emp.setMember(employee);
 		emp.setTenant(tenant);
-		Pageable pageable = new Pageable();
-		List<Filter> filters = new ArrayList<Filter>();
-		filters.add(new Filter("tenant", Operator.eq, tenant));
-		pageable.setFilters(filters);
-		Page<Role> roleList=roleService.findPage(Role.RoleType.helper,pageable);
-//		if (roleList.getContent().size()<0){
-//			filters.clear();
-//			filters.add(new Filter("roleType", Filter.Operator.eq, 1));
-//			pageable.setFilters(filters);
-//			roleList=roleService.findPage(Role.RoleType.guide,pageable);
-//		}
-		if(roleList.getContent().size()>0)
-		{
-			emp.setRole(",guide,"+roleList.getContent().get(0).getId());
-		}else{
-			return DataBlock.error("导购权限未设置,请先设置角色权限");
-		}
-
-	    emp.setQuertity(0);
+		emp.setQuertity(0);
 	    employeeService.save(emp);
 
 		if(!activityDetailService.isActivity(null,tenant, activityRulesService.find(8L))){

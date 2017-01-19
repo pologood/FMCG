@@ -48,4 +48,9 @@ public interface ConsumerService extends BaseService<Consumer, Long> {
 	 */
 	public Page<Consumer> findByAddPage(Tenant tenant, Date beginDate, Date endDate, Pageable pageable);
 	public List<Consumer> findByAddList(Tenant tenant, Date beginDate, Date endDate);
+
+	/**
+	 * 根据时间统计会员
+	 */
+	public Long count(Tenant tenant, Status status, Date beginDate, Date endDate);
 }

@@ -5,12 +5,11 @@
  */
 package net.wit.dao;
 
-import net.wit.Filter;
-import net.wit.Page;
-import net.wit.Pageable;
+import net.wit.*;
 import net.wit.entity.*;
 import net.wit.entity.model.CouponSumerModel;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +21,9 @@ import java.util.List;
  */
 public interface CouponDao extends BaseDao<Coupon, Long> {
 
-    Page<Coupon> findPage(Area area, Community community, TenantCategory tenantCategory, Boolean isExpired, Location location, String orderType, Pageable pageable);
+    Page<Coupon> findPage(Area area, Community community, TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Pageable pageable);
+
+    List<Coupon> findList(Area area,Community community,TenantCategory tenantCategory, Boolean isExpired, Location location, BigDecimal distance, String orderType, Boolean isPromotion, Integer first, Integer count, List<Filter> filters, List<net.wit.Order> orders);
 
     Page<Coupon> findPage(String status,Pageable pageable);
 

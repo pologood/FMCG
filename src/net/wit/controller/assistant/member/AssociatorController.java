@@ -52,14 +52,14 @@ public class AssociatorController extends BaseController {
             return DataBlock.error(DataBlock.TENANT_INVAILD);
         }
         Map<String, Object> data = new HashMap<String, Object>();
-        Page<Consumer> page = consumerService.findPage(tenant, Consumer.Status.enable, pageable);
+        Page<Consumer> page = consumerService.findPage(tenant, keyword,Consumer.Status.enable,null, pageable);
         data.put("members", ConsumerModel.bindData(page.getContent()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
         Date endDate = DateUtil.changeStrToDate(sdf.format(new Date().getTime()+1 * 24 * 60 * 60 * 1000));
         Date beginDate = DateUtil.changeStrToDate(sdf.format(new Date().getTime()-6 * 24 * 60 * 60 * 1000));
-        data.put("sevenVisit",visitRecordService.findByVisitRecordList(tenant,beginDate,endDate).size());
-        data.put("sevenAdd",memberService.findByAddList(member,beginDate,endDate).size());
-        data.put("payAttention",memberService.findFavoriteList(member).size());
+        data.put("sevenVisit",visitRecordService.count(tenant,beginDate,endDate,null));
+        data.put("sevenAdd",consumerService.count(tenant,null,beginDate,endDate));
+        data.put("payAttention",consumerService.count(tenant,Consumer.Status.enable,null,null));
 
         return DataBlock.success(data, "执行成功");
     }
@@ -174,7 +174,7 @@ public class AssociatorController extends BaseController {
             Date begin_date = DateUtil.changeStrToDate(m.get("startTime"));
             Date end_date = DateUtil.changeStrToDate(m.get("endTime"));
 
-            List<Member> list = memberService.findByAddList(member,begin_date,end_date);
+            List<Consumer> list = consumerService.findByAddList(tenant,begin_date,end_date);
             maps.put("day"+g, SevenAddListModel.bindData(list));
             mapWeeks.add(begin_date);
             g--;

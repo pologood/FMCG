@@ -46,7 +46,7 @@ public class CouponController extends BaseController {
         if (member == null) {
             return DataBlock.error(DataBlock.SESSION_INVAILD);
         }
-        Page<CouponCode> page = couponCodeService.findPage(member, null, false, pageable);
+        Page<CouponCode> page = couponCodeService.findPage(member, false, false, pageable);
         return DataBlock.success(CouponCodeModel.bindData(page.getContent()), page, "执行成功");
     }
 

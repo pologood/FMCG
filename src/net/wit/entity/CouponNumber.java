@@ -26,6 +26,9 @@ public class CouponNumber extends BaseEntity {
     /** 領取日期 */
     private Date receiveDate;
 
+    /** 登记日期 */
+    private Date markedDate;
+
     /** 优惠券 */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, updatable = false)
@@ -39,7 +42,7 @@ public class CouponNumber extends BaseEntity {
     private Long code;
 
     /**优惠码*/
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private CouponCode couponCode;
 
     /**余额*/
@@ -139,5 +142,14 @@ public class CouponNumber extends BaseEntity {
     public void setStatus(Status status) {
         this.status = status;
     }
-    
+
+    public Date getMarkedDate() {
+        return markedDate;
+    }
+
+    public void setMarkedDate(Date date) {
+        this.markedDate = date;
+    }
+
+
 }

@@ -20,7 +20,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,22 +29,18 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Where;
-import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.NumericField;
 import org.hibernate.search.annotations.Similarity;
 import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.Length;
-import org.wltea.analyzer.lucene.IKAnalyzer;
 import org.wltea.analyzer.lucene.IKSimilarity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.Expose;
 
 import net.wit.constant.SettingConstant;
-import net.wit.entity.BaseEntity.Save;
 import net.wit.entity.Promotion.Type;
 
 /**
@@ -436,6 +431,10 @@ public class Tenant extends BaseEntity {
 	/** 营业执照 **/
 	private String licensePhoto;
 
+	/** 是否打烊 */
+	@Column(nullable = false)
+	private Boolean isEnd;
+
 	/** 标签 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "xx_tenant_tag")
@@ -489,6 +488,16 @@ public class Tenant extends BaseEntity {
 	@JsonProperty
 	@OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Member> members = new HashSet<Member>();
+
+	/** 运费模板 */
+	@OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OrderBy("createDate desc")
+	private Set<TenantFreightTemplate> tenantFreightTemplates = new HashSet<TenantFreightTemplate>();
+
+	/** 区域运费 */
+	@OneToMany(mappedBy = "tenant", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OrderBy("createDate desc")
+	private List<TenantFreight> tenantFreights = new ArrayList<TenantFreight>();
 
 	/** 展示图片 */
 	@JsonProperty
@@ -944,6 +953,22 @@ public class Tenant extends BaseEntity {
 		this.favoriteMembers = favoriteMembers;
 	}
 
+	public Set<TenantFreightTemplate> getTenantFreightTemplates() {
+		return tenantFreightTemplates;
+	}
+
+	public void setTenantFreightTemplates(Set<TenantFreightTemplate> tenantFreightTemplates) {
+		this.tenantFreightTemplates = tenantFreightTemplates;
+	}
+
+	public List<TenantFreight> getTenantFreights() {
+		return tenantFreights;
+	}
+
+	public void setTenantFreights(List<TenantFreight> tenantFreights) {
+		this.tenantFreights = tenantFreights;
+	}
+
 	/**
 	 * 获取页面标题
 	 * @return 页面标题
@@ -1318,6 +1343,110 @@ public class Tenant extends BaseEntity {
 		} else {
 			return freight.calculateFreight(amount);
 		}
+	}
+
+	/**
+	 * 计算运费_运费模版
+	 * @param weight 重量
+	 * @return 运费
+	 */
+	public BigDecimal calculateTenantFreight(Area area,Integer weight, Integer amount) {
+		//店铺有运费模版
+		if(getTenantFreights().size()>0){
+			for(TenantFreight tenantFreight:getTenantFreights()){
+				//该区域有运费模版
+				if(tenantFreight.getArea().getId().equals(area.getId())){
+					BigDecimal tFreight = new BigDecimal(0);
+					if (freight.getFreightType().equals(Freight.Type.weight)) {
+						if (weight==0) {
+							weight = amount;
+						}
+					} else {
+						weight = amount;
+					}
+					if (weight != null) {
+						if (weight <= tenantFreight.getFirstWeight() || tenantFreight.getContinuePrice().compareTo(new BigDecimal(0)) == 0) {
+							return tFreight = tenantFreight.getFirstPrice();
+						} else {
+							double contiuneWeightCount;
+							if(tenantFreight.getContinueWeight()==0){
+								contiuneWeightCount=0;
+							}else{
+								contiuneWeightCount = Math.ceil((weight - tenantFreight.getFirstWeight()) / (double) tenantFreight.getContinueWeight());
+							}
+							return tFreight = tenantFreight.getFirstPrice().add(tenantFreight.getContinuePrice().multiply(new BigDecimal(contiuneWeightCount)));
+						}
+					}
+				}
+			}
+			Area pArea = area.getParent();
+			if(pArea!=null&&!"".equals(pArea)){
+				for(TenantFreight tenantFreight:getTenantFreights()){
+					//该区域有运费模版
+					if(tenantFreight.getArea().getId().equals(pArea.getId())){
+						BigDecimal tFreight = new BigDecimal(0);
+						if (freight.getFreightType().equals(Freight.Type.weight)) {
+							if (weight==0) {
+								weight = amount;
+							}
+						} else {
+							weight = amount;
+						}
+						if (weight != null) {
+							if (weight <= tenantFreight.getFirstWeight() || tenantFreight.getContinuePrice().compareTo(new BigDecimal(0)) == 0) {
+								return tFreight = tenantFreight.getFirstPrice();
+							} else {
+								double contiuneWeightCount;
+								if(tenantFreight.getContinueWeight()==0){
+									contiuneWeightCount=0;
+								}else{
+									contiuneWeightCount = Math.ceil((weight - tenantFreight.getFirstWeight()) / (double) tenantFreight.getContinueWeight());
+								}
+								return tFreight = tenantFreight.getFirstPrice().add(tenantFreight.getContinuePrice().multiply(new BigDecimal(contiuneWeightCount)));
+							}
+						}
+					}
+				}
+			}
+			Area pPArea = pArea.getParent();
+			if(pPArea!=null&&!"".equals(pPArea)){
+				for(TenantFreight tenantFreight:getTenantFreights()){
+					//该区域有运费模版
+					if(tenantFreight.getArea().getId().equals(pPArea.getId())){
+						BigDecimal tFreight = new BigDecimal(0);
+						if (freight.getFreightType().equals(Freight.Type.weight)) {
+							if (weight==0) {
+								weight = amount;
+							}
+						} else {
+							weight = amount;
+						}
+						if (weight != null) {
+							if (weight <= tenantFreight.getFirstWeight() || tenantFreight.getContinuePrice().compareTo(new BigDecimal(0)) == 0) {
+								return tFreight = tenantFreight.getFirstPrice();
+							} else {
+								double contiuneWeightCount;
+								if(tenantFreight.getContinueWeight()==0){
+									contiuneWeightCount=0;
+								}else{
+									contiuneWeightCount = Math.ceil((weight - tenantFreight.getFirstWeight()) / (double) tenantFreight.getContinueWeight());
+								}
+								return tFreight = tenantFreight.getFirstPrice().add(tenantFreight.getContinuePrice().multiply(new BigDecimal(contiuneWeightCount)));
+							}
+						}
+					}
+				}
+			}
+		}
+		//如果该区域没有设置过运费模版，走tenant中默认freight
+			if (freight.getFreightType().equals(Freight.Type.weight)) {
+				if (weight==0) {
+					weight = amount;
+				}
+				return freight.calculateFreight(weight);
+			} else {
+				return freight.calculateFreight(amount);
+			}
 	}
 
 	public String getRangeInfo() {
@@ -1752,5 +1881,13 @@ public class Tenant extends BaseEntity {
 
 	public void setEquipment(Boolean equipment) {
 		isEquipment = equipment;
+	}
+
+	public Boolean getEnd() {
+		return isEnd;
+	}
+
+	public void setEnd(Boolean end) {
+		isEnd = end;
 	}
 }

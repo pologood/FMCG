@@ -118,7 +118,12 @@ public class Freight implements Serializable {
 			if (weight <= getFirstWeight() || getContinuePrice().compareTo(new BigDecimal(0)) == 0) {
 				freight = getFirstPrice();
 			} else {
-				double contiuneWeightCount = Math.ceil((weight - getFirstWeight()) / (double) getContinueWeight());
+				double contiuneWeightCount;
+				if(getContinueWeight()==0){
+					contiuneWeightCount=0;
+				}else{
+					contiuneWeightCount = Math.ceil((weight - getFirstWeight()) / (double) getContinueWeight());
+				}
 				freight = getFirstPrice().add(getContinuePrice().multiply(new BigDecimal(contiuneWeightCount)));
 			}
 		}

@@ -80,40 +80,65 @@ public class UnionTenantServiceImpl extends BaseServiceImpl<UnionTenant,Long> im
     }
 
     @Override
-    public Page<UnionTenant> findUnionTenantPage(Equipment equipment, Tenant tenant, UnionTenant.Status status, Pageable pageable) {
-        return unionTenantDao.findUnionTenantPage(equipment,tenant,status, pageable);
+    public Page<UnionTenant> findUnionTenantPage(Equipment equipment, Tenant tenant, UnionTenant.Status status,Union union ,Pageable pageable) {
+        return unionTenantDao.findUnionTenantPage(equipment,tenant,status,union, pageable);
+    }
+
+    @Override
+    public List<UnionTenant> findUnionTenantList(Equipment equipment, Tenant tenant, UnionTenant.Status status,Union union) {
+        return unionTenantDao.findUnionTenantList(equipment,tenant,status,union);
     }
 
     @Override
     public void pay(UnionTenant unionTenant, Payment payment) {
+        if(unionTenant.getId()!=null){
+            unionTenant.setPayment(payment);
+            unionTenantDao.merge(unionTenant);
+            payment.setUnionTenant(unionTenant);
+            paymentDao.persist(payment);
+        }else{
+            paymentDao.persist(payment);
+            unionTenant.setPayment(payment);
+            unionTenantDao.persist(unionTenant);
+            payment.setUnionTenant(unionTenant);
+            paymentDao.merge(payment);
 
-        unionTenant.setPayment(payment);
-        unionTenantDao.merge(unionTenant);
-        paymentDao.persist(payment);
+        }
+
     }
     public void payment(Payment payment, Member operator) {
         UnionTenant unionTenant = payment.getUnionTenant();
         if (unionTenant.getStatus().equals(UnionTenant.Status.confirmed)) {
             return;
         };
-        unionTenant.setStatus(UnionTenant.Status.confirmed);
+        if(unionTenant.getType() ==UnionTenant.Type.device){
+            unionTenant.setStatus(UnionTenant.Status.freezed);
+        }else{
+            unionTenant.setStatus(UnionTenant.Status.confirmed);
+        }
+
         Union union=unionTenant.getUnion();
         Tenant tenant=unionTenant.getTenant();
         if(tenant.getIsUnion()==false){
-            union.setTenantNumber(union.getTenantNumber()+1);
             tenant.setIsUnion(true);
-            Calendar curr = Calendar.getInstance();
-            curr.add(Calendar.YEAR, 1);
-            Date date=curr.getTime();
-            unionTenant.setExpire(date);
-            if(tenant.getAgency().compareTo(BigDecimal.ZERO)==0){
-                tenant.setAgency(union.getBrokerage());//店铺的联盟佣金
-            }
+        }
+        union.setTenantNumber(union.getTenantNumber()+1);
+        Calendar curr = Calendar.getInstance();
+        curr.add(Calendar.YEAR, 1);
+        Date date=curr.getTime();
+        unionTenant.setExpire(date);
+        if(tenant.getAgency().compareTo(BigDecimal.ZERO)==0){
+            tenant.setAgency(union.getBrokerage());//店铺的联盟佣金
         }
         tenant.setUnion(union);
         tenantDao.merge(tenant);
         unionDao.merge(union);
         unionTenantDao.merge(unionTenant);
-        return;
+     }
+
+    @Override
+    public void cancel(UnionTenant unionTenant) {
+        unionTenantDao.merge(unionTenant);
     }
+
 }

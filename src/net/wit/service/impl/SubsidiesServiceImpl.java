@@ -137,7 +137,7 @@ public class SubsidiesServiceImpl extends BaseServiceImpl<Subsidies, Long> imple
 				deposit.setBalance(member.getBalance());
 				deposit.setOperator("--");
 				deposit.setMember(member);
-				deposit.setMemo("平台奖励补贴");
+				deposit.setMemo(subsidies.getRemark()!=null?subsidies.getRemark():"平台补贴");
 				deposit.setOrder(null);
 				deposit.setStatus(Deposit.Status.complete);
 				depositDao.persist(deposit);
@@ -148,6 +148,7 @@ public class SubsidiesServiceImpl extends BaseServiceImpl<Subsidies, Long> imple
 					mess=mess.replace("name",subsidiesItem.getUsername()).replace("money",subsidiesItem.getAmount().toString());
 					Message mes = EntitySupport.createInitMessage(Message.Type.account,mess,null, member, null);
 					mes.setWay(Message.Way.all);
+					mes.setDeposit(deposit);
 					messageService.save(mes);
 				} catch (Exception e) {
 					e.printStackTrace();

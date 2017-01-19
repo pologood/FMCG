@@ -6,15 +6,15 @@
 <meta name="author" content="rsico Team" />
 <meta name="copyright" content="rsico" />
 <link href="${base}/resources/admin/css/common.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+	table tr th{
+		background-color:#3c8dbc;
+	}
+</style>
 <script type="text/javascript" src="${base}/resources/admin/js/jquery.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/jquery.tools.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/common.js"></script>
 <script type="text/javascript" src="${base}/resources/admin/js/input.js"></script>
-<script type="text/javascript">
-	function getval(){
-		alert($("#directory").val())
-	}
-</script>
 </head>
 <body>
 	<div class="path">
@@ -24,9 +24,11 @@
 		<li>
 			<input type="button" value="店铺详情" />
 		</li>
+        <li>
+            <input type="button" value="员工信息" />
+        </li>
 	</ul>
 	<table class="input tabContent">
-		
 		<tr>
 			<th>
 				编号
@@ -128,7 +130,6 @@
 				门店数量:
 			</th>
 			<td>
-				
 				${(deliveryCenterSize)!'0'}
 			</td>
 		</tr>
@@ -173,89 +174,111 @@
 			<td>
 				[#if tenant.isUnion=="true"]已开通[#else]未开通[/#if]
 			</td>
-			<th>
-				屏联盟数量:
-			</th>
-			<td>
-				${(unionTenants)!'0'}
-			</td>
-		</tr>
-		
-		<tr>
-			<th>
-				商家联盟:
-			</th>
-			<td>
-				[#if tenant.unions??]${tenant.unions.name}[#else]--[/#if]
-			</td>
-			<th>
-				联盟佣金:
-			</th>
-			<td>
-				[#if tenant.unions??]${tenant.unions.brokerage}[#else]--[/#if]
-			</td>
-		</tr>
-		
-		<tr>
+
 			<th>
 				平台佣金:
 			</th>
 			<td>
 				${tenant.brokerage}
 			</td>
-			<th>
-				是否开通wifi:
-			</th>
-			<td>
-				[#if tenant.isWifi=="true"]已开通[#else]未开通[/#if]
-			</td>
 		</tr>
-		
 		<tr>
-			<th>
-				是否开通云看店:
-			</th>
-			<td>
-				[#if tenant.isCloudTenant=="true"]已开通[#else]未开通[/#if]
+			<td colspan="4">
+                <table class="input">
+                    <tr style="text-align: center">
+                        <th style="text-align: center">
+                            logo
+                        </th>
+                        <th style="text-align: center;border-right:1px solid #dde9f5;border-left:1px solid #dde9f5;">
+                            缩略图
+                        </th>
+                        <th style="text-align: center">
+                            营业执照
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="${tenant.logo}" width="300" height="200">
+                        </td>
+                        <td style="text-align: center;border-right:1px solid #dde9f5;border-left:1px solid #dde9f5;">
+                            <img src="${tenant.thumbnail}" width="300" height="200">
+                        </td>
+                        <td>
+                            <img src="${tenant.licensePhoto}" width="300" height="200">
+                        </td>
+                    </tr>
+                </table>
 			</td>
-			<th>
-				是否开通购物屏:
-			</th>
-			<td>
-				[#if tenant.isEquipment=="true"]已开通[#else]未开通[/#if]
-			</td>
+            [#--<th style="text-align: center">--]
+                [#--logo--]
+            [#--</th>--]
+            [#--<th style="text-align: center;border-right:1px solid #dde9f5;border-left:1px solid #dde9f5;">--]
+                [#--缩略图--]
+            [#--</th>--]
+            [#--<th style="text-align: center">--]
+                [#--营业执照--]
+            [#--</th>--]
 		</tr>
-		
-		<tr>
-			<th>
-				logo:
-			</th>
-			<td>
-				<img src="${tenant.logo}" width="300" height="200">
-			</td>
-			<th>
-				缩略图:
-			</th>
-			<td>
-				<img src="${tenant.thumbnail}" width="300" height="200">
-			</td>
-		</tr>
-		
-		<tr>
-			<th>
-				营业执照:
-			</th>
-			<td>
-				<img src="${tenant.licensePhoto}" width="300" height="200">
-			</td>
-			<th>
-				
-			</th>
-			<td>
-				
-			</td>
-		</tr>
-	</table>
+    </table>
+
+        <table class="list tabContent" >
+            <tr>
+                <th>注册日期</th>
+                <th>用户名</th>
+                <th>员工姓名</th>
+                <th>余额</th>
+                <th>积分</th>
+                <th>角色</th>
+                <th>所属门店</th>
+                <th>最近登录时间</th>
+                <th>状态</th>
+            </tr>
+		[#list page.content as employee ]
+            <tr>
+                <td>
+                    <span title="${employee.createDate?string("yyyy-MM-dd HH:mm:ss")}">${employee.createDate?string("yyyy-MM-dd HH:mm:ss")}</span>
+                </td>
+                <td>
+				${employee.member.username}
+                </td>
+                <td>
+				${employee.member.name}
+                </td>
+                <td>
+				${currency(employee.member.balance, true)}
+                </td>
+                <td>
+				${employee.member.point}
+                </td>
+                <td>
+				${employee.role}-
+					[#list roles as rl]
+						[#if employee.role?exists]
+							[#list employee.role?split(",") as fileName]
+								[#if fileName!=""]
+									[#if fileName?contains(rl.id.toString())]${rl.name}&nbsp;[/#if]
+								[/#if]
+							[/#list]
+						[/#if]
+					[#if employee.role?contains(rl.id.toString())]${rl.name}&nbsp;[/#if]
+					[/#list]
+                </td>
+                <td>
+				${(employee.deliveryCenter.name)!}
+                </td>
+                <td>
+					[#if employee.member.loginDate!=null]${employee.member.loginDate?string("yyyy-MM-dd HH:mm:ss")!"-"}[/#if]
+                </td>
+                <td style="border-right: 0px">
+					[#if member.isEnabled ]
+                        正常
+					[#else]
+                        禁用
+					[/#if]
+                </td>
+            </tr>
+		[/#list]
+        </table>
 	<table class="input">
 		<tr>
 			<th>

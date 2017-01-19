@@ -535,6 +535,12 @@ public class Product extends OrderEntity {
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Consultation> consultations = new HashSet<Consultation>();
 
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private Set<ExtendCatalog> extendCatalogs = new HashSet<ExtendCatalog>();
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private Set<SingleProduct> singleProducts = new HashSet<SingleProduct>();
+
 	/** 标签 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "xx_product_tag")
@@ -2746,4 +2752,59 @@ public class Product extends OrderEntity {
 		}
 	}
 
+	public Boolean getMarketable() {
+		return isMarketable;
+	}
+
+	public void setMarketable(Boolean marketable) {
+		isMarketable = marketable;
+	}
+
+	public Boolean getList() {
+		return isList;
+	}
+
+	public void setList(Boolean list) {
+		isList = list;
+	}
+
+	public Boolean getTop() {
+		return isTop;
+	}
+
+	public void setTop(Boolean top) {
+		isTop = top;
+	}
+
+	public Boolean getGift() {
+		return isGift;
+	}
+
+	public void setGift(Boolean gift) {
+		isGift = gift;
+	}
+
+	public Boolean getLimit() {
+		return isLimit;
+	}
+
+	public void setLimit(Boolean limit) {
+		isLimit = limit;
+	}
+
+	public Set<ExtendCatalog> getExtendCatalogs() {
+		return extendCatalogs;
+	}
+
+	public void setExtendCatalogs(Set<ExtendCatalog> extendCatalogs) {
+		this.extendCatalogs = extendCatalogs;
+	}
+
+	public Set<SingleProduct> getSingleProducts() {
+		return singleProducts;
+	}
+
+	public void setSingleProducts(Set<SingleProduct> singleProducts) {
+		this.singleProducts = singleProducts;
+	}
 }

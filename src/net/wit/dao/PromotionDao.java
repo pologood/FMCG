@@ -42,7 +42,8 @@ public interface PromotionDao extends BaseDao<Promotion, Long> {
 	 */
 	List<Promotion> findList(Type type, Boolean hasBegun, Boolean hasEnded, Area area, Integer count, List<Filter> filters, List<Order> orders);
 	Page<Promotion> findPage(Type type, Area area, Boolean hasBegun, Boolean hasEnded, Boolean periferal, Community community,Location location, BigDecimal distance, ProductCategory productCategory, Pageable pageable);
-
+	Page<Promotion> findByCommunity(Type type, Community community, Pageable pageable);
+	List<Promotion> findByCommunity(Type type, Community community, Boolean isExpired, Integer first, Integer count, List<Filter> filters, List<Order> orders);
 	/**
 	 * 查找指定商品促销
 	 * @param type 

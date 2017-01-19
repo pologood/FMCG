@@ -273,8 +273,8 @@ public class UnionTenantDaoImpl extends BaseDaoImpl<UnionTenant,Long> implements
         return new Page<Map<String, Object>>(maps,total,pageable);
     }
     public Long findUnionTenant(Equipment equipment,Tenant tenant){
-        String totalSql="SELECT count(0) FROM xx_union_tenant where equipment=:equipment and tenant=:tenant";
-        Query totalQuery = entityManager.createNativeQuery(totalSql).setFlushMode(FlushModeType.COMMIT).setParameter("equipment", equipment).setParameter("tenant",tenant);
+        String totalSql="SELECT count(0) FROM xx_union_tenant where equipment=:equipment and tenant=:tenant and status=:status";
+        Query totalQuery = entityManager.createNativeQuery(totalSql).setFlushMode(FlushModeType.COMMIT).setParameter("equipment", equipment).setParameter("tenant",tenant).setParameter("status","canceled");
         Long total = null;
         try {
             total = Long.parseLong(totalQuery.getSingleResult().toString());
@@ -321,7 +321,7 @@ public class UnionTenantDaoImpl extends BaseDaoImpl<UnionTenant,Long> implements
     }
 
     @Override
-    public Page<UnionTenant> findUnionTenantPage(Equipment equipment, Tenant tenant, UnionTenant.Status status, Pageable pageable) {
+    public Page<UnionTenant> findUnionTenantPage(Equipment equipment, Tenant tenant, UnionTenant.Status status,Union union , Pageable pageable) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<UnionTenant> criteriaQuery = criteriaBuilder.createQuery(UnionTenant.class);
         Root<UnionTenant> root = criteriaQuery.from(UnionTenant.class);
@@ -336,8 +336,37 @@ public class UnionTenantDaoImpl extends BaseDaoImpl<UnionTenant,Long> implements
         if(status!=null){
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("status"),status));
         }
+        if(union!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("unions"),union));
+        }
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("sales")));
         criteriaQuery.where(restrictions);
         return super.findPage(criteriaQuery,pageable);
+    }
+    @Override
+    public List<UnionTenant> findUnionTenantList(Equipment equipment, Tenant tenant, UnionTenant.Status status,Union union) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<UnionTenant> criteriaQuery = criteriaBuilder.createQuery(UnionTenant.class);
+        Root<UnionTenant> root = criteriaQuery.from(UnionTenant.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        if(equipment!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("equipment"),equipment));
+        }
+        if(tenant!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("tenant"),tenant));
+        }
+        if(status!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("status"),status));
+        }
+        if(union!=null){
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("unions"),union));
+        }
+        if(equipment==null) {
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNotNull(root.get("equipment")));
+        }
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("sales")));
+        criteriaQuery.where(restrictions);
+        return super.findList(criteriaQuery,null,null,null,null);
     }
 }

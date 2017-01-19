@@ -165,7 +165,7 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 		};
 	}
 
-	public void opService(Payment payment) throws Exception {
+	public String  opService(Payment payment) throws Exception {
 		paymentDao.refresh(payment, LockModeType.PESSIMISTIC_WRITE);
 		Map<String,Object> data = new HashMap<String,Object>();
 
@@ -183,20 +183,24 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 		String rtn_msg = HttpClientUtil.doPost("http://222.92.116.42:18089/cloudsskyApi/opservice",params);
 		JSONObject rtn = JSONObject.parseObject(rtn_msg);
 		if (rtn.get("ret_code").equals("00")) {
-			try {
-				handle(payment);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				handle(payment);
+				return "0000";
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//				return "9999";
+//			}
+		} else if (rtn.get("ret_code").equals("01")) {
+//			System.out.println(URLDecoder.decode(rtn.get("ret_msg").toString()));
+//			payment.setStatus(Status.failure);
+//			paymentDao.merge(payment);
+			return "0001";
 		} else {
-			if (rtn.get("ret_code").equals("01")) {
-				System.out.println(URLDecoder.decode(rtn.get("ret_msg").toString()));
-			} else {
-				payment.setStatus(Status.failure);
-				paymentDao.merge(payment);
-			}
+			return "9999";
 		}
+
+
 	}
 
 	/**
@@ -212,8 +216,8 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Payment> findPage(Method method, Status status, Date beginDate, Date endDate,String keyword,  Pageable pageable) {
-		return paymentDao.findPage(method, status, beginDate, endDate,keyword,pageable);
+	public Page<Payment> findPage(String paymentMethod, Type type, Date beginDate, Date endDate,String tenantName,String username,  Pageable pageable) {
+		return paymentDao.findPage(paymentMethod, type, beginDate, endDate,tenantName,username,pageable);
 	}
 	@Override
 	public Payment findByTrade(Trade trade,Payment.Status status) {

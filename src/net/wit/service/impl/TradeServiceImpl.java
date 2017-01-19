@@ -480,4 +480,8 @@ public class TradeServiceImpl extends BaseServiceImpl<Trade, Long> implements Tr
 	public Page<Trade> findPage(String consignee,Area area,OrderStatus orderStatus, PaymentStatus paymentStatus, ShippingStatus shippingStatus, Boolean hasExpired, Date beginDate, Date endDate,String keyword, String tenantName,String userName, Pageable pageable){
 		return tradeDao.findPage(consignee,area,orderStatus,paymentStatus,shippingStatus,hasExpired,beginDate,endDate,keyword,tenantName,userName,pageable);
 	}
+
+	public long count(Tenant tenant,Date beginDate,Date endDate,QueryStatus queryStatus){
+		return tradeDao.count(tenant,beginDate,endDate,queryStatus);
+	}
 }

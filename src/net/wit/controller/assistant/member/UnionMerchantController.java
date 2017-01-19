@@ -66,16 +66,17 @@ public class UnionMerchantController extends BaseController {
         }
         List<Filter> filters = new ArrayList<Filter>();
         filters.add(new Filter("status", Filter.Operator.eq, UnionTenant.Status.confirmed));
-        List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(tenant.getUnion(), tenant, filters);
-        if(unionTenants.size()>0){
+        filters.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
+        List<UnionTenant> unionTenants = unionTenantService.findUnionTenant(null, tenant, filters);
+      /*  if(unionTenants.size()>0){
             if((unionTenants.get(0).getUnion().getBrokerage().compareTo(tenant.getAgency()))>0){
                 tenant.setAgency(unionTenants.get(0).getUnion().getBrokerage());
                 tenant.setModifyDate(new Date());
                 tenantService.update(tenant);
             }
-        }
+        }*/
 
-        return DataBlock.success(UnionTenantListModel.bindData(unionTenants, tenant), "执行成功");
+        return DataBlock.success(UnionTenantListModel.bindData(unionTenants, tenant), "查询成功");
     }
     /**
      * 修改我的佣金
@@ -127,11 +128,9 @@ public class UnionMerchantController extends BaseController {
         if (tenant.getStatus() != Tenant.Status.success) {
             return DataBlock.error("请先开通店铺");
         }
-        List<Filter> filters = new ArrayList<Filter>();
-        filters.add(new Filter("type", Filter.Operator.eq, Union.Type.tenant));
-        List<Union> unions = unionService.findList(null,filters,null);
+        List<Union> unions = unionService.findList(null,null,null);
 
-        return DataBlock.success(AllUnionListModel.bindData(unions,tenant,status), "执行成功");
+        return DataBlock.success(AllUnionListModel.bindData(unions,tenant,status), "查询成功");
     }
 
     /**
@@ -159,7 +158,9 @@ public class UnionMerchantController extends BaseController {
             return DataBlock.error("该商盟不存在");
         }
         Map<String,Object> map = new HashMap<String,Object>();
-        List<UnionTenant> unionTenants = unionTenants=unionTenantService.findUnionTenant(null,tenant,null);
+        List<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Filter("type", Filter.Operator.eq, UnionTenant.Type.tenant));
+        List<UnionTenant> unionTenants = unionTenants = unionTenantService.findUnionTenant(union ,tenant,filters);
             if(unionTenants.size()>0){
                 unionTenants.get(0).setStatus(UnionTenant.Status.unconfirmed);
                 unionTenants.get(0).setUnion(union);
@@ -169,13 +170,14 @@ public class UnionMerchantController extends BaseController {
                 map.put("price",unionTenants.get(0).getPrice());
                 map.put("unionBrokerage",unionTenants.get(0).getUnion().getBrokerage());
                 map.put("tenentBrokerage",tenant.getBrokerage());
-                return DataBlock.success(map,"执行成功");
+                return DataBlock.success(map,"加入成功");
             }
         UnionTenant unionTenant= null;
         try {
             unionTenant = new UnionTenant();
             unionTenant.setUnion(union);
             unionTenant.setTenant(tenant);
+            unionTenant.setType(UnionTenant.Type.tenant);
             unionTenant.setEquipment(null);
             unionTenant.setPrice(union.getPrice());
             unionTenant.setStatus(UnionTenant.Status.unconfirmed);
@@ -193,7 +195,7 @@ public class UnionMerchantController extends BaseController {
         map.put("price",unionTenant.getPrice());
         map.put("unionBrokerage",unionTenant.getUnion().getBrokerage());
         map.put("tenentBrokerage",tenant.getBrokerage());
-        return DataBlock.success(map, "执行成功");
+        return DataBlock.success(map, "加入成功");
     }
     /**
      * 生成支付单号
@@ -227,9 +229,10 @@ public class UnionMerchantController extends BaseController {
             payment.setAmount(unionTenant.getPrice());
             payment.setPaymentPluginId("");
             payment.setExpire(DateUtils.addMinutes(new Date(), 3600));
+            payment.setUnionTenant(unionTenant);
 
             unionTenantService.pay(unionTenant,payment);
-            return DataBlock.success(payment.getSn(),"执行成功");
+            return DataBlock.success(payment.getSn(),"提交成功");
     } catch (Exception e) {
              e.printStackTrace();
             return DataBlock.error("提交支付异常");
@@ -238,9 +241,9 @@ public class UnionMerchantController extends BaseController {
 
     }
     /**
-     * 支付完成后调用该方法
+     * 支付完成后调用该方法(已废除但不能删除该方法)
      */
-    @RequestMapping(value = "/update_unionTenant", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/update_unionTenant", method = RequestMethod.POST)
     @ResponseBody
     public DataBlock updateUnionTenant(Long unionTenantId) {
         Member member = memberService.getCurrent();
@@ -273,7 +276,7 @@ public class UnionMerchantController extends BaseController {
         unionService.update(union);
         unionTenantService.update(unionTenant);
         return DataBlock.success("success","加入成功");
-    }
+    }*/
 
     /**
      * 退出商盟
@@ -303,14 +306,12 @@ public class UnionMerchantController extends BaseController {
             if (union.getTenantNumber() > 0) {
                 union.setTenantNumber(union.getTenantNumber() - 1);
             }
-            tenant.setIsUnion(false);
             unionTenants.get(0).setStatus(UnionTenant.Status.canceled);
             unionTenantService.update(unionTenants.get(0));
-            tenantService.update(tenant);
             unionService.update(union);
-            return DataBlock.success("success", "执行成功");
+            return DataBlock.success("success", "退出成功");
         } else {
-            return DataBlock.error("error", "执行失败");
+            return DataBlock.error("error", "退出失败");
         }
 
     }
@@ -345,7 +346,6 @@ public class UnionMerchantController extends BaseController {
             map.put("i_to_he_amount",0);
             map.put("i_to_he_total",0);
         }
-
 
 
         Set<Member> members=tenant.getMembers();

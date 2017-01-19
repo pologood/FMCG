@@ -26,10 +26,8 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.aliyuncs.push.model.v20150827.PushRequest;
 import com.aliyuncs.push.model.v20150827.PushResponse;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import net.wit.entity.Member;
 import net.wit.util.JsonUtils;
 import net.wit.util.RandomGUID;
 import org.apache.commons.net.util.Base64;
@@ -122,11 +120,11 @@ public class PushMessage {
             }
         } catch (ClientProtocolException e) {
             //e.printStackTrace();
-            System.out.println("PushMessage--->jpush_register 出错 ");
+            //System.out.println("PushMessage--->jpush_register 出错 ");
             return false;
         } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println("PushMessage--->jpush_register 出错 ");
+            //System.out.println("PushMessage--->jpush_register 出错 ");
             return false;
         } finally {
             httpClient.getConnectionManager().shutdown();
@@ -149,7 +147,7 @@ public class PushMessage {
             String easeSecret = bundle.getString("easeSecret");
             String easeAppId = bundle.getString("easeAppId");
 
-            HttpPost httpPost = new HttpPost("https://a1.easemob.com/"+easeAppId+"/token");
+            HttpPost httpPost = new HttpPost("https://a1.easemob.com/" + easeAppId + "/token");
             httpPost.addHeader("Content-Type", "application/json");
             String jso = "{\"grant_type\":\"client_credentials\",\"client_id\":\"" + easeKey + "\",\"client_secret\":\"" + easeSecret + "\"}";
             httpPost.setEntity(new StringEntity(jso, "utf-8"));
@@ -157,12 +155,12 @@ public class PushMessage {
             HttpEntity httpEntity = (HttpEntity) httpResponse.getEntity();
             result = EntityUtils.toString(httpEntity);
 
-            System.out.println("result="+result);
+            System.out.println("result=" + result);
 
             JSONObject js = JSON.parseObject(result);
             String token = js.get("access_token").toString();
 
-            HttpPost httpUser = new HttpPost("https://a1.easemob.com/"+easeAppId+"/users");
+            HttpPost httpUser = new HttpPost("https://a1.easemob.com/" + easeAppId + "/users");
             httpUser.addHeader("Authorization", "Bearer " + token);
             httpUser.addHeader("Content-Type", "application/json");
             String jsuser = "[{\"username\":\"" + username + "\",\"password\":\"" + password + "\",\"nickname\":\"" + nickname + "\"}]";
@@ -172,15 +170,19 @@ public class PushMessage {
             result = EntityUtils.toString(userEntity);
 
             JSONObject ujs = JSON.parseObject(result);
-            System.out.println("环信注册result:"+result);
-            return ujs.containsKey("entities");
+            //System.out.println("环信注册result:"+result);
+            if (ujs.containsKey("entities")) {
+                return true;
+            } else {
+                return ujs.getString("error").equals("duplicate_unique_property_exists");
+            }
         } catch (ClientProtocolException e) {
             //e.printStackTrace();
-            System.out.println("PushMessage--->ease_register 出错 ");
+            // System.out.println("PushMessage--->ease_register 出错 ");
             return false;
         } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println("PushMessage--->ease_register 出错 ");
+            //System.out.println("PushMessage--->ease_register 出错 ");
             return false;
         } finally {
             httpClient.getConnectionManager().shutdown();
@@ -191,7 +193,7 @@ public class PushMessage {
     public static boolean send(String msg, String url, String user) throws UnsupportedEncodingException {
         // String gbk = new String(msg.getBytes("GBK"),"GBK");
         // System.out.print(gbk.getBytes("GBK").length);
-        if(user==null){
+        if (user == null) {
             return false;
         }
         RandomGUID myGUID = new RandomGUID();
@@ -230,7 +232,7 @@ public class PushMessage {
             return true;
         } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println("PushMessage--->send 出错 ");
+            //System.out.println("PushMessage--->send 出错 ");
         }
         return false;
     }
@@ -318,40 +320,46 @@ public class PushMessage {
      *
      * @param message 消息
      */
-    public static boolean aliPush(net.wit.entity.Message message) {
+    public static boolean aliPush(net.wit.entity.Message message, Long unReadCount) {
+        if (message.getReceiver() == null) return false;
+
         MessageModel model = new MessageModel();
-        model.id = message.getId();
-        model.msg = message.getContent();
-        if (message.getReceiver() == null) {
-            return false;
-        }
-        model.title = message.getTitle();
-        model.type = message.getType();
+        model.setId(message.getId());
+        model.setMsg(message.getContent());
+        model.setTitle(message.getTitle());
+        model.setType(message.getType());
+        model.setCreate_date(message.getCreateDate());
         if (message.getTrade() != null) {
             model.setSid(message.getTrade().getId());
         }
-        model.setCreate_date(message.getCreateDate());
-        if(message.getWay()==null){
+        if (message.getWay() == null) {
             message.setWay(net.wit.entity.Message.Way.all);
         }
-        String receiver=message.getReceiver().getId().toString();
-        if(message.getWay()== net.wit.entity.Message.Way.all){
-            return PushMessage.aliPush(model, receiver, net.wit.entity.Message.Way.member, "account", 3)&&
-                    PushMessage.aliPush(model, receiver, net.wit.entity.Message.Way.tenant, "account", 3);
+
+        if (unReadCount == null) {
+            unReadCount = 0L;
         }
-        return PushMessage.aliPush(model, receiver, message.getWay(), "account", 3);
+        unReadCount++;
+
+        String receiver = message.getReceiver().getId().toString();
+
+        if (message.getWay() == net.wit.entity.Message.Way.all) {
+            return PushMessage.aliPush(model, receiver, net.wit.entity.Message.Way.member, unReadCount, "account", 3) &&
+                    PushMessage.aliPush(model, receiver, net.wit.entity.Message.Way.tenant, unReadCount, "account", 3);
+        }
+        return PushMessage.aliPush(model, receiver, message.getWay(), unReadCount, "account", 3);
     }
 
     /**
      * 阿里云推送高级接口
      */
-    public static boolean aliPush(MessageModel message, String receiver, net.wit.entity.Message.Way way, String target, Integer deviceType) {
+    public static boolean aliPush(MessageModel message, String receiver, net.wit.entity.Message.Way way, Long unReadCount, String target, Integer deviceType) {
         try {
             ResourceBundle bundle = PropertyResourceBundle.getBundle("config");
             Long appKey = null;
-            if(way== net.wit.entity.Message.Way.member){
+            if (way == net.wit.entity.Message.Way.member) {
                 appKey = Long.parseLong(bundle.getString("ali-appKey"));
-            }else if(way== net.wit.entity.Message.Way.tenant){
+            } else if (way == net.wit.entity.Message.Way.tenant) {
                 appKey = Long.parseLong(bundle.getString("ali-b-appKey"));
             }
             String accessKeyId = bundle.getString("ali-accessKeyId");
@@ -374,10 +382,10 @@ public class PushMessage {
             pushRequest.setSummary(message.getMsg()); // iOS通知内容
 
             // 推送配置: iOS
-//		    pushRequest.setiOSBadge("5"); // iOS应用图标右上角角标
+            pushRequest.setiOSBadge(unReadCount.toString()); // iOS应用图标右上角角标
             pushRequest.setiOSMusic("default"); // iOS通知声音
             pushRequest.setiOSExtParameters("{\"type\":\"" + message.getType() + "\",\"id\":\"" + message.getId() + "\",\"create_date\":\"" + message.getCreate_date() + "\",\"sid\":\"" + message.getSid() + "\"}"); //自定义的kv结构,开发者扩展用 针对iOS设备
-            pushRequest.setApnsEnv("DEV");
+//            pushRequest.setApnsEnv("DEV");
             pushRequest.setRemind(true); // 当APP不在线时候，是否通过通知提醒
 
             // 推送配置: Android
@@ -395,14 +403,10 @@ public class PushMessage {
 //			pushRequest.setBatchNumber("100010"); // 批次编号,用于活动效果统计. 设置成业务可以记录的字符串
 
             PushResponse pushResponse = client.getAcsResponse(pushRequest);
-           // System.out.printf("RequestId: %s, ResponseId: %s, message: %s\n",
-           //         pushResponse.getRequestId(), pushResponse.getResponseId(), pushResponse.getMessage());
-        } catch (ClientException e) {
-           // System.out.print("云推送接口调用失败：");
-            //e.printStackTrace();
-            return false;
+//            System.out.printf("RequestId: %s, ResponseId: %s, message: %s\n",
+//                    pushResponse.getRequestId(), pushResponse.getResponseId(), pushResponse.getMessage());
         } catch (Exception e) {
-           // System.out.print("云推送接口调用失败：");
+            // System.out.print("云推送接口调用失败：");
             //e.printStackTrace();
             return false;
         }
@@ -439,13 +443,13 @@ public class PushMessage {
     }
 
     @Test
-    public void easeTest(){
+    public void easeTest() {
         MessageModel model = new MessageModel();
-        model.msg = "mss";
-        model.title = "tt";
-        model.type = net.wit.entity.Message.Type.account;
-        PushMessage.aliPush(model, "478", net.wit.entity.Message.Way.tenant, "account", 3);
-        PushMessage.aliPush(model, "478", net.wit.entity.Message.Way.member, "account", 3);
+        model.msg = "1";
+        model.title = "1";
+        model.type = net.wit.entity.Message.Type.order;
+        PushMessage.aliPush(model, "370", net.wit.entity.Message.Way.tenant, 1L, "account", 3);
+        PushMessage.aliPush(model, "370", net.wit.entity.Message.Way.member, 1L, "account", 3);
 //        System.out.println(ease_register("9994","rzico@2015","测试账号"));
     }
 }

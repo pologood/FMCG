@@ -7,20 +7,16 @@ package net.wit.dao.impl;
 
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
+import javax.persistence.criteria.*;
 
 import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.entity.Tenant;
+import net.wit.entity.*;
 import org.springframework.stereotype.Repository;
 
 import net.wit.dao.EquipmentDao;
-import net.wit.entity.Equipment;
-import net.wit.entity.Product;
 
 import java.util.List;
 
@@ -98,15 +94,58 @@ public class EquipmentDaoImpl extends BaseDaoImpl<Equipment, Long> implements Eq
 		return  super.findList(criteriaQuery,null,null,filters,null);
 	}
 
-	public Equipment findEquipment(Tenant tenant,List<Filter> filters){
-		String jpql = "SELECT equipment FROM Equipment equipment where equipment.tenant = :tenant";
+	public Equipment findEquipment(Tenant tenant,Equipment.Status status){
+
 		if (tenant==null){
 			return null;
 		}
+		String jpql = "SELECT equipment FROM Equipment equipment where equipment.tenant = :tenant";
+		if(status!=null){
+			jpql+=" and equipment.status =:status ";
+		}
 		try {
-			return entityManager.createQuery(jpql, Equipment.class).setFlushMode(FlushModeType.COMMIT).setParameter("tenant", tenant).getSingleResult();
+			Query query =  entityManager.createQuery(jpql).setFlushMode(FlushModeType.COMMIT);
+			query.setParameter("tenant", tenant);
+			if(status!=null){
+				query.setParameter("status", status);
+			}
+			return  (Equipment)query.getSingleResult();
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	@Override
+	public Page<Equipment> findPage(Long unionId, String keyWord, List<Tag> tags, Equipment.Status status, Pageable pageable) {
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Equipment> criteriaQuery = criteriaBuilder.createQuery(Equipment.class);
+		Root<Equipment> root = criteriaQuery.from(Equipment.class);
+		criteriaQuery.select(root);
+		Predicate restrictions = criteriaBuilder.conjunction();
+		if(unionId!=null){
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("unions"),unionId));
+		}
+		if (keyWord != null) {
+			restrictions = criteriaBuilder.and(
+					restrictions,criteriaBuilder.or(
+							criteriaBuilder.like(root.<String>get("uuid"), "%" + keyWord + "%"),
+							criteriaBuilder.like(root.get("tenant").<String>get("name"), "%" + keyWord + "%"),
+							criteriaBuilder.like(root.get("tenant").<String>get("telephone"), "%" + keyWord + "%"))
+			);
+		}
+		if (tags != null && tags.size() > 0) {
+				Subquery<Tenant> subquery = criteriaQuery.subquery(Tenant.class);
+				Root<Tenant> subqueryRoot = subquery.from(Tenant.class);
+				subquery.select(subqueryRoot);
+				subquery.where(criteriaBuilder.equal(subqueryRoot, root.get("tenant")), subqueryRoot.join("tags").in(tags));
+				restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.exists(subquery));
+
+		}
+		if(status!=null){
+			restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.<Equipment.Status>get("status"),status));
+		}
+		criteriaQuery.where(restrictions);
+		criteriaQuery.orderBy(criteriaBuilder.desc(root.get("tenant")));
+		return super.findPage(criteriaQuery, pageable);
 	}
 }

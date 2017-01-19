@@ -53,10 +53,10 @@
         <div class="select">
             <p data-value="${status}" id="current_account">${status}</p>
             <ul>
-                <li data-value="已结算" onclick="getAccountId(this)">
+                <li data-value="true" onclick="getAccountId(this)">
                     已结算
                 </li>
-                <li data-value="未结算" onclick="getAccountId(this)">
+                <li data-value="false" onclick="getAccountId(this)">
                     未结算
                 </li>
             </ul>
@@ -125,7 +125,7 @@
             });
             $(".select ul li").click(function(e){
                 var _this=$(this);
-                $(".select > p").text(_this.attr('data-value'));
+                $(".select > p").text(_this.attr('data-value')=="true"?"已结算":"未结算");
                 _this.addClass("Selected").siblings().removeClass("Selected");
                 $(".select").removeClass("open");
                 e.stopPropagation();
@@ -140,7 +140,7 @@
             });
             $(".seone ul li").click(function(e){
                 var _this=$(this);
-                $(".seone > p").text(_this.attr('data-value'));
+                $(".seone > p").text(_this.attr('data-value')=="true"?"已结算":"未结算");
                 _this.addClass("Selected").siblings().removeClass("Selected");
                 $(".seone").removeClass("open");
                 e.stopPropagation();

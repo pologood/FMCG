@@ -1877,7 +1877,7 @@ public class TradeController extends BaseController {
     public DataBlock batchExport(Long tradeId) {
         Member member = memberService.getCurrent();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        List<Trade> trades=new ArrayList<Trade>();
+//        List<Trade> trades=new ArrayList<Trade>();
         List<Map<String, Object>> maps=new ArrayList<Map<String, Object>>();
         if (member == null) {
             return DataBlock.error("会员不存在");
@@ -1893,20 +1893,26 @@ public class TradeController extends BaseController {
                     trade.setPrint(1);
                 }
                 tradeService.update(trade);
-                trades.add(trade);
+//                trades.add(trade);
             }
             for(OrderItem orderItem :trade.getOrderItems()) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("create_date", sdf.format(trade.getCreateDate()));
                 map.put("order_sn", trade.getOrder().getSn());
-                map.put("delivery_center", trade.getDeliveryCenter() != null ? trade.getDeliveryCenter().getName() : "--");
-                map.put("address",trade.getOrder() != null ? trade.getOrder().getAddress() : "--");
-                map.put("trade_name",trade.getOrder() != null ? trade.getOrder().getOperator()!=null?trade.getOrder().getOperator().getName():"--" : "--");
+                map.put("delivery_center_address", trade.getDeliveryCenter() != null ? trade.getDeliveryCenter().getAreaName()+trade.getDeliveryCenter().getAddress() : "--");//发货地址
+                map.put("delivery_center_name", trade.getDeliveryCenter() != null ? trade.getDeliveryCenter().getTenant().getLinkman() : "--");//发货人
+                map.put("delivery_center_telephone", trade.getDeliveryCenter() != null ? trade.getDeliveryCenter().getPhone() : "--");//发货人电话
+
+                map.put("consignee_address",trade.getOrder() != null ? trade.getOrder().getAreaName()+trade.getOrder().getAddress() : "--");//收货人地址
+                map.put("consignee_name", trade.getOrder() != null ? (trade.getOrder().getConsignee()!=null?trade.getOrder().getConsignee():"--" ): "--");//收货人
+                map.put("consignee_telephone", trade.getOrder() != null ? (trade.getOrder().getPhone()!=null?trade.getOrder().getPhone():"--" ): "--");//收货人电话
+
                 map.put("trade_amount", trade.getAmount());
                 map.put("product_name", orderItem.getFullName());
                 map.put("product_price", orderItem.getPrice());
                 map.put("product_num", orderItem.getQuantity());
                 map.put("product_sn", orderItem.getSn());
+                map.put("product_barcode", orderItem.getProduct()!=null?orderItem.getProduct().getBarcode():"--");
                 maps.add(map);
             }
         } catch (Exception e) {

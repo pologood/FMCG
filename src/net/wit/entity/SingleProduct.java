@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "xx_single_product")
 @SequenceGenerator(name = "sequenceGenerator", sequenceName = "xx_single_product_sequence")
-public class SingleProduct extends BaseEntity {
+public class SingleProduct extends OrderEntity {
 
     private static final long serialVersionUID = -1307743303786909390L;
 
@@ -20,6 +20,7 @@ public class SingleProduct extends BaseEntity {
     /** 标题 */
     @NotEmpty
     @Length(max = 200)
+
     @Column(nullable = false)
     private String title;
 

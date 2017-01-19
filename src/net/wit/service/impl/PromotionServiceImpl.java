@@ -100,6 +100,13 @@ public class PromotionServiceImpl extends BaseServiceImpl<Promotion, Long> imple
 			Pageable pageable) {
 		return promotionDao.findPage(type, area, hasBegun, hasEnded, periferal, community, location, distance, productCategory, pageable);
 	}
+
+	public Page<Promotion> findByCommunity(Type type, Community community, Pageable pageable) {
+		return promotionDao.findByCommunity(type, community, pageable);
+	}
+	public List<Promotion> findByCommunity(Type type, Community community, Boolean isExpired, Integer first, Integer count, List<Filter> filters, List<Order> orders) {
+		return promotionDao.findByCommunity(type, community, isExpired, first, count, filters, orders);
+	}
 	/**
 	 * 查找指定商品促销
 	 * @param type 

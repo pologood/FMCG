@@ -114,4 +114,6 @@ public interface DeliveryCenterDao extends BaseDao<DeliveryCenter, Long> {
 
 	List<DeliveryCenter> findourStoreList(Tenant tenant);//我们的门店
 
+	Page<DeliveryCenter> findPage(String keyword, Pageable pageable);
+
 }

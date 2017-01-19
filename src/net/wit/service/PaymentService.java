@@ -13,8 +13,7 @@ import net.wit.Pageable;
 import net.wit.entity.Member;
 import net.wit.entity.PayBill;
 import net.wit.entity.Payment;
-import net.wit.entity.Payment.Method;
-import net.wit.entity.Payment.Status;
+import net.wit.entity.Payment.Type;
 import net.wit.entity.Trade;
 
 /**
@@ -53,7 +52,7 @@ public interface PaymentService extends BaseService<Payment, Long> {
 	 * @param payment 收款单
 	 */
 	void close(Payment payment) throws Exception;
-	void opService(Payment payment) throws Exception;
+	String opService(Payment payment) throws Exception;
 	/**
 	 * 待支付查询
 	 * @param payment 收款单
@@ -65,14 +64,14 @@ public interface PaymentService extends BaseService<Payment, Long> {
 	/**
 	 * @Title：findPage
 	 * @Description：
-	 * @param method
+	 * @param paymentMethod
 	 * @param status
 	 * @param endDate
 	 * @param beginDate
 	 * @param pageable
 	 * @return Object
 	 */
-	Page<Payment> findPage(Method method, Status status, Date beginDate, Date endDate,String keyword,   Pageable pageable);
+	Page<Payment> findPage(String paymentMethod, Type type, Date beginDate, Date endDate, String tenantName, String username, Pageable pageable);
 
 	/**
 	 * 根据买单立减查询账单

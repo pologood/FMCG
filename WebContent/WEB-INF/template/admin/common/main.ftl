@@ -166,21 +166,21 @@
                        target="iframe">${message("admin.main.productCategory")}</a>
                 </dd>
             [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:productChannel"]
-                <dd>
-                    <a href="../product_channel/list.jhtml" target="iframe">分类频道</a>
-                </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:productChannel"]--]
+                [#--<dd>--]
+                    [#--<a href="../product_channel/list.jhtml" target="iframe">分类频道</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
             [@shiro.hasPermission name="admin:parameterGroup"]
                 <dd>
                     <a href="../parameter_group/list.jhtml" target="iframe">${message("admin.main.parameterGroup")}</a>
                 </dd>
             [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:attribute"]
-                <dd>
-                    <a href="../attribute/list.jhtml" target="iframe">${message("admin.main.attribute")}</a>
-                </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:attribute"]--]
+                [#--<dd>--]
+                    [#--<a href="../attribute/list.jhtml" target="iframe">${message("admin.main.attribute")}</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
             [@shiro.hasPermission name="admin:specification"]
                 <!-- dd>
                     <a href="../specification/list.jhtml" target="iframe">${message("admin.main.specification")}</a>
@@ -399,34 +399,34 @@
             </dl>
             <dl id="marketing">
                 <dt>营销管理</dt>
-            [@shiro.hasPermission name="admin:promotion"]
-                <dd>
-                    <a href="../promotion/buyfree/list.jhtml" target="iframe">买赠管理</a>
-                </dd>
-                <!--dd>
-                    <a href="../promotion/groupon/list.jhtml" target="iframe">${message("admin.main.groupon")}</a>
-                </dd-->
-                <dd>
-                    <a href="../promotion/seckill/list.jhtml" target="iframe">秒杀管理</a>
-                </dd>
-                <dd>
-                    <a href="../promotion/points/list.jhtml" target="iframe">赠品管理</a>
-                </dd>
-                <!--<dd>
-                    <a href="../promotion/coupon/list.jhtml" target="iframe">红包活动管理</a>
-                </dd>-->
-            [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:union"]
-                <dd>
-                    <a href="../union/list.jhtml" target="iframe">联盟管理</a>
-                </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:promotion"]--]
+                [#--<dd>--]
+                    [#--<a href="../promotion/buyfree/list.jhtml" target="iframe">买赠管理</a>--]
+                [#--</dd>--]
+                [#--<!--dd>--]
+                    [#--<a href="../promotion/groupon/list.jhtml" target="iframe">${message("admin.main.groupon")}</a>--]
+                [#--</dd-->--]
+                [#--<dd>--]
+                    [#--<a href="../promotion/seckill/list.jhtml" target="iframe">秒杀管理</a>--]
+                [#--</dd>--]
+                [#--<dd>--]
+                    [#--<a href="../promotion/points/list.jhtml" target="iframe">赠品管理</a>--]
+                [#--</dd>--]
+                [#--<!--<dd>--]
+                    [#--<a href="../promotion/coupon/list.jhtml" target="iframe">红包活动管理</a>--]
+                [#--</dd>-->--]
+            [#--[/@shiro.hasPermission]--]
+            [#--[@shiro.hasPermission name="admin:union"]--]
+                [#--<dd>--]
+                    [#--<a href="../union/list.jhtml" target="iframe">联盟管理</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
 
-            [@shiro.hasPermission name="admin:coupon"]
-            <dd>
-                <a href="../coupon/list.jhtml" target="iframe">平台套券管理</a>
-            </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:coupon"]--]
+            [#--<dd>--]
+                [#--<a href="../coupon/list.jhtml" target="iframe">平台套券管理</a>--]
+            [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
             [@shiro.hasPermission name="admin:seo"]
                 <dd>
                     <a href="../seo/list.jhtml" target="iframe">SEO设置</a>
@@ -473,16 +473,16 @@
                     <a href="${base}/admin/statistics/member_capital_total.jhtml" target="iframe">会员台帐流水</a>
                 </dd>
             [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:statistics"]
-                <dd>
-                    <a href="../statistics/sign.jhtml" target="iframe">自动签收</a>
-                </dd>
-            [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:statistics"]
-                <dd>
-                    <a href="../statistics/review.jhtml" target="iframe">自动评价</a>
-                </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:statistics"]--]
+                [#--<dd>--]
+                    [#--<a href="../statistics/sign.jhtml" target="iframe">自动签收</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
+            [#--[@shiro.hasPermission name="admin:statistics"]--]
+                [#--<dd>--]
+                    [#--<a href="../statistics/review.jhtml" target="iframe">自动评价</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
             [@shiro.hasPermission name="admin:statistics"]
                 <dd>
                     <a href="../profit/index.jhtml" target="iframe">分润报表</a>
@@ -562,11 +562,11 @@
                     <a href="../area/list.jhtml" target="iframe">${message("admin.main.area")}</a>
                 </dd>
             [/@shiro.hasPermission]
-            [@shiro.hasPermission name="admin:community"]
-                <dd>
-                    <a href="../community/list.jhtml" target="iframe">社区维护</a>
-                </dd>
-            [/@shiro.hasPermission]
+            [#--[@shiro.hasPermission name="admin:community"]--]
+                [#--<dd>--]
+                    [#--<a href="../community/list.jhtml" target="iframe">社区维护</a>--]
+                [#--</dd>--]
+            [#--[/@shiro.hasPermission]--]
 
             [#if versionType==0]
                 [@shiro.hasPermission name="admin:community"]

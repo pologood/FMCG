@@ -219,4 +219,11 @@ public interface CouponCodeDao extends BaseDao<CouponCode, Long> {
      */
 	Page<CouponCode> sumerStatistics(Coupon coupon,Boolean isUsed, Pageable pageable);
 
+
+	Page<CouponCode> findUsedCouponCodeByKeyword(String keyword,Coupon coupon, Pageable pageable);
+
+	Page<Tuple> findDrawedCouponCodeByCoupon(Date begin_date,Date end_date,String keyword,Coupon coupon, Pageable pageable);
+
+	Page<CouponCode> findPage(Date begin_date,Date end_date,String keyword,Coupon coupon,Boolean isUsed , Pageable pageable);
+
 }

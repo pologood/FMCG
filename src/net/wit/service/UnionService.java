@@ -23,7 +23,7 @@ public interface UnionService extends BaseService<Union,Long>{
 	 *            分页信息
      * @return
      */
-	Page<Union> findPage(Union.Type type,String keyword, Pageable pageable);
+	Page<Union> findPage(String keyword, Pageable pageable);
 
 	Page<Tenant> findTenant(Union union,Pageable pageable);
 }

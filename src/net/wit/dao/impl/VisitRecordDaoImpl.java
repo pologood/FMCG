@@ -10,6 +10,8 @@ import net.wit.entity.Union;
 import net.wit.entity.VisitRecord;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.FlushModeType;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -37,7 +39,7 @@ public class VisitRecordDaoImpl extends BaseDaoImpl<VisitRecord,Long> implements
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
         restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("tenant"), tenant));
-        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNull(root.get("product")));
+        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNull(root.get("sn")));
         if(beginDate!=null){
             restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"),beginDate));
         }
@@ -60,7 +62,7 @@ public class VisitRecordDaoImpl extends BaseDaoImpl<VisitRecord,Long> implements
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
         restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.equal(root.get("tenant"), tenant));
-        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNull(root.get("product")));
+        restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNull(root.get("sn")));
         if(beginDate!=null){
             restrictions = criteriaBuilder.and(restrictions,criteriaBuilder.greaterThanOrEqualTo(root.<Date> get("createDate"),beginDate));
         }
@@ -69,5 +71,72 @@ public class VisitRecordDaoImpl extends BaseDaoImpl<VisitRecord,Long> implements
         }
         criteriaQuery.where(restrictions);
         return super.findList(criteriaQuery, null, null, null, null);
+    }
+
+    @Override
+    public Long count(Tenant tenant, Date beginDate, Date endDate, VisitRecord.VisitType visitType) {
+        if (tenant == null) {
+            return 0l;
+        }
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<VisitRecord> criteriaQuery = criteriaBuilder.createQuery(VisitRecord.class);
+        Root<VisitRecord> root = criteriaQuery.from(VisitRecord.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        if(tenant!=null){
+            restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("tenant"),tenant));
+            restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.isNull(root.get("sn")));
+        }
+        if(visitType!=null){
+            restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("visitType"),visitType));
+        }
+        if(beginDate!=null){
+            restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.greaterThan(root.<Date>get("createDate"),beginDate));
+        }
+        if(endDate!=null){
+            restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.lessThan(root.<Date>get("createDate"),endDate));
+        }
+        criteriaQuery.where(restrictions);
+        return super.count(criteriaQuery, null);
+    }
+
+    public Long uvCount(Tenant tenant, Date beginDate, Date endDate, VisitRecord.VisitType visitType) {
+        if (tenant == null) {
+            return 0l;
+        }
+        String sql = "SELECT count(DISTINCT member,date_format(a.create_date,'%Y-%m-%d')) from xx_visit_record a WHERE a.tenant =:tenant ";
+        if(beginDate!=null){
+            sql+= " and a.create_date>=:beginDate" ;
+        }
+        if(endDate!=null){
+            sql+=  " and a.create_date<=:endDate" ;
+        }
+        if(visitType!=null){
+            if(visitType == VisitRecord.VisitType.web){
+                sql+= " and a.visit_type=0" ;
+            }
+            if(visitType == VisitRecord.VisitType.app){
+                sql+= " and a.visit_type=1" ;
+            }
+            if(visitType == VisitRecord.VisitType.pad){
+                sql+= " and a.visit_type=2" ;
+            }
+            if(visitType == VisitRecord.VisitType.weixin){
+                sql+= " and a.visit_type=3" ;
+            }
+
+        }
+            Query query = entityManager.createNativeQuery(sql).setFlushMode(FlushModeType.COMMIT);
+        if(tenant!=null){
+            query.setParameter("tenant",tenant);
+        }
+        if(beginDate!=null){
+            query.setParameter("beginDate",beginDate);
+        }
+        if(endDate!=null){
+            query.setParameter("endDate",endDate);
+        }
+            Object result = query.getSingleResult();
+        return result==null?0l:Long.parseLong(result.toString());
     }
 }

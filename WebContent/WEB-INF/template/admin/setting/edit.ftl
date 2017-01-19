@@ -887,7 +887,7 @@ $().ready(function() {
 			</tr>
 			<tr>
 				<th>
-					<span class="requiredField">*</span>推广分润比例: 
+					<span class="requiredField">*</span>发展会员分润比例:
 				</th>
 				<td>
 					<input type="text" name="sharePercent" class="text" value="${setting.sharePercent}" maxlength="7" />
@@ -895,7 +895,7 @@ $().ready(function() {
 			</tr>
 			<tr>
 				<th>
-					<span class="requiredField">*</span>推广店主分润比例:
+					<span class="requiredField">*</span>发展会员店主分润比例:
 				</th>
 				<td>
 					<input type="text" name="shareOwnerPercent" class="text" value="${setting.shareOwnerPercent}" maxlength="7" />
@@ -909,6 +909,15 @@ $().ready(function() {
 					<input type="text" name="bonusPercent" class="text" value="${setting.bonusPercent}" maxlength="7" />
 				</td>
 			</tr>
+            <tr>
+                <th>
+                    <span class="requiredField">*</span>平台佣金比例:
+                </th>
+                <td>
+                    <input type="text" name="brokerage" class="text" value="${setting.brokerage}" maxlength="7" />
+                </td>
+            </tr>
+
 
             <tr>
                 <th>
@@ -1086,6 +1095,8 @@ $().ready(function() {
 				</td>
 			</tr>
 		</table>
+        <input type="hidden" name="cashBackPercent" value="0" />
+        <input type="hidden" name="withdrawCashAddScale" value="0" />
 	</form>
 </body>
 </html>

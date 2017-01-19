@@ -35,11 +35,17 @@ public interface UnionTenantService extends BaseService<UnionTenant,Long>{
     /**
      * 查询投放商家
      */
-    Page<UnionTenant>  findUnionTenantPage(Equipment equipment,Tenant tenant,UnionTenant.Status status,Pageable pageable);
+    Page<UnionTenant>  findUnionTenantPage(Equipment equipment,Tenant tenant,UnionTenant.Status status,Union union,Pageable pageable);
+    List<UnionTenant>  findUnionTenantList(Equipment equipment,Tenant tenant,UnionTenant.Status status,Union union);
 
     /**
      * 生成支付单号
      */
     void pay(UnionTenant unionTenant,Payment payment);
     void payment(Payment payment, Member operator);
+    /**
+     * 撤销申请、拒绝申请
+     */
+    void cancel(UnionTenant unionTenant);
+
 }

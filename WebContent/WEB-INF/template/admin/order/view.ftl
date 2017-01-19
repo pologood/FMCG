@@ -1066,9 +1066,14 @@
         ${rebates.description}
         </td>
         <td>
-            [#if rebates.member==null]平台[/#if]
-            [#if rebates.member!=null&&rebates.member.id==rebates.member.tenant.member.id]店主(${rebates.member.tenant.name})[/#if]
-            [#if rebates.member!=null&&rebates.member.id!=rebates.member.tenant.member.id]用户[/#if]
+            [#if rebates.member?has_content]
+                [#if rebates.member.tenant?has_content]
+                    [#if rebates.member.id==rebates.member.tenant.member.id]
+                        店主(${rebates.member.tenant.name})
+                    [#else]用户[/#if]
+                [#else]用户
+                [/#if]
+            [#else]平台[/#if]
         </td>
         <td>
         ${message("Rebate.Type." + rebates.type)}

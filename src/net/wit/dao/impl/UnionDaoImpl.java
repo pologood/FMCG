@@ -35,15 +35,12 @@ public class UnionDaoImpl extends BaseDaoImpl<Union,Long> implements UnionDao{
         return super.findPage(criteriaQuery, pageable);
 
     }
-    public Page<Union> findPage(Union.Type type,String keyword, Pageable pageable) {
+    public Page<Union> findPage(String keyword, Pageable pageable) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Union> criteriaQuery = criteriaBuilder.createQuery(Union.class);
         Root<Union> root = criteriaQuery.from(Union.class);
         criteriaQuery.select(root);
         Predicate restrictions = criteriaBuilder.conjunction();
-        if(type!=null){
-            restrictions=criteriaBuilder.and(restrictions,criteriaBuilder.equal(root.get("type"),type));
-        }
         if(StringUtils.isNotBlank(keyword)){
             restrictions = criteriaBuilder.and(restrictions, criteriaBuilder.or(criteriaBuilder.like(root.<String>get("name"), "%" + keyword + "%")));
 

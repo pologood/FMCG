@@ -53,72 +53,74 @@
             });
           
 			$("#export_ss").click(function(){
-	          $.message("success","正在帮您导出，请稍后");
-	          $.ajax({
-	            url:"${base}/admin/profit/index_export.jhtml",
-	            type:"get",
-	            data:{
-	              beginDate:$("#beginDate").val(),
-	              endDate:$("#endDate").val(),
-	              rebate_status:$("#profit_status").val(),
-	              order_type:$("#orderType").val(),
-	              rebate_type:$("#rebate_type").val()
-	            },
-	            async:false,
-	            dataType:"json",
-	            success:function(data){
-	              var html='<table style="display:none;" class="table2excel">'+
-	                '<thead>'+
-	                  '<tr>'+
-	                    '<th>创建日期</th>'+
-	                    '<th>描述信息</th>'+
-	                    '<th>订单类型</th>'+
-	                    '<th>分润类型</th>'+
-	                    '<th>分润状态</th>'+
-	                    '<th>商家</th>'+
-	                    '<th>订单单号</th>'+
-	                    '<th>支付单号</th>'+
-	                    '<th>优惠码</th>'+
-	                    '<th>分配人</th>'+
-	                    '<th>佣金金额</th>'+
-	                    '<th>分配比例</th>'+
-	                    '<th>分配金额</th>'+
-	                  '</tr>'+
-	                '</thead>'+
-	              '<tbody>';
-	              $.each(data,function(i,obj){
-	                html+=
-	                  '<tr>'+
-	                    '<td>'+obj.create_date+'</td>'+
-	                    '<td>'+obj.description+'</td>'+
-	                    '<td>'+obj.order_type+'</td>'+
-	                    '<td>'+obj.rebate_type+'</td>'+
-	                    '<td>'+obj.rebate_status+'</td>'+
-	                    '<td>'+obj.tenant_name+'</td>'+
-	                    '<td>'+obj.order_sn+'</td>'+
-	                    '<td>'+obj.paybill_sn+'</td>'+
-	                    '<td>'+obj.coupon_code+'</td>'+
-	                    '<td>'+obj.name+'</td>'+
-	                    '<td>'+obj.amount+'</td>'+
-	                    '<td>'+obj.brokerage+'</td>'+
-	                    '<td>'+obj.percent+'</td>'+
-	                  '</tr>';
-	              });
-	              html+='</tbody>'+
-	              '</table>';
-	              $("#trade_wrap").html(html);
-	            }
-	          });
-	          //导出数据到excel
-	          $(".table2excel").table2excel({
-	            exclude: ".noExl",
-	            name: "分润报表",
-	            filename: "分润报表",
-	            fileext: ".xls",
-	            exclude_img: true,
-	            exclude_links: true,
-	            exclude_inputs: true
-	          });
+                if(confirm("导出是当前页面数据导出，如想导出多条数据，可选择每页显示数")){
+    	           $.message("success","正在帮您导出，请稍后");
+    	          // $.ajax({
+    	          //   url:"${base}/admin/profit/index_export.jhtml",
+    	          //   type:"get",
+    	          //   data:{
+    	          //     beginDate:$("#beginDate").val(),
+    	          //     endDate:$("#endDate").val(),
+    	          //     rebate_status:$("#profit_status").val(),
+    	          //     order_type:$("#orderType").val(),
+    	          //     rebate_type:$("#rebate_type").val()
+    	          //   },
+    	          //   async:false,
+    	          //   dataType:"json",
+    	          //   success:function(data){
+    	          //     var html='<table style="display:none;" class="table2excel">'+
+    	          //       '<thead>'+
+    	          //         '<tr>'+
+    	          //           '<th>创建日期</th>'+
+    	          //           '<th>描述信息</th>'+
+    	          //           '<th>订单类型</th>'+
+    	          //           '<th>分润类型</th>'+
+    	          //           '<th>分润状态</th>'+
+    	          //           '<th>商家</th>'+
+    	          //           '<th>订单单号</th>'+
+    	          //           '<th>支付单号</th>'+
+    	          //           '<th>优惠码</th>'+
+    	          //           '<th>分配人</th>'+
+    	          //           '<th>佣金金额</th>'+
+    	          //           '<th>分配比例</th>'+
+    	          //           '<th>分配金额</th>'+
+    	          //         '</tr>'+
+    	          //       '</thead>'+
+    	          //     '<tbody>';
+    	          //     $.each(data,function(i,obj){
+    	          //       html+=
+    	          //         '<tr>'+
+    	          //           '<td>'+obj.create_date+'</td>'+
+    	          //           '<td>'+obj.description+'</td>'+
+    	          //           '<td>'+obj.order_type+'</td>'+
+    	          //           '<td>'+obj.rebate_type+'</td>'+
+    	          //           '<td>'+obj.rebate_status+'</td>'+
+    	          //           '<td>'+obj.tenant_name+'</td>'+
+    	          //           '<td>'+obj.order_sn+'</td>'+
+    	          //           '<td>'+obj.paybill_sn+'</td>'+
+    	          //           '<td>'+obj.coupon_code+'</td>'+
+    	          //           '<td>'+obj.name+'</td>'+
+    	          //           '<td>'+obj.amount+'</td>'+
+    	          //           '<td>'+obj.brokerage+'</td>'+
+    	          //           '<td>'+obj.percent+'</td>'+
+    	          //         '</tr>';
+    	          //     });
+    	          //     html+='</tbody>'+
+    	          //     '</table>';
+    	          //     $("#trade_wrap").html(html);
+    	          //   }
+    	          // });
+    	          //导出数据到excel
+    	          $(".table2excel").table2excel({
+    	            exclude: ".noExl",
+    	            name: "分润报表",
+    	            filename: "分润报表",
+    	            fileext: ".xls",
+    	            exclude_img: true,
+    	            exclude_links: true,
+    	            exclude_inputs: true
+    	          });
+                }
 	        });
         });
         function getStatus(types,obj) {
@@ -145,7 +147,6 @@
     <input type="hidden" id="orderType" name="order_type" value="${order_type}">
     <div class="bar">
         <div class="buttonWrap">
-            <a href="javascript:;" id="export_ss" class="button">导出</a>
             <a href="javascript:;" id="refreshButton" class="iconButton">
                 <span class="refreshIcon">&nbsp;</span>${message("admin.common.refresh")}
             </a>
@@ -235,6 +236,12 @@
                         <li>
                             <a href="javascript:;"[#if page.pageSize == 100] class="current"[/#if] val="100">100</a>
                         </li>
+                        <li>
+                            <a href="javascript:;"[#if page.pageSize == 500] class="current"[/#if] val="500">500</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;"[#if page.pageSize == 1000] class="current"[/#if] val="1000">1000</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -252,10 +259,11 @@
             -&nbsp;<input type="text" id="endDate" name="endDate" class="text Wdate"
                     value="[#if endDate??]${endDate?string("yyyy-MM-dd")}[/#if]"
                     onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd', minDate: '#F{$dp.$D(\'beginDate\')}'});" placeholder="结束时间"/>
-            <input type="submit" class="button" value="查询时间">
+            <input type="button" class="button" value="查询" onclick="set_page_number()">
         </div>
+        <input type="button"id="export_ss" class="bar buttonWrap button" value="导出">
     </div>
-    <table id="listTable" class="list">
+    <table id="listTable" class="list table2excel">
         <tr>
             <th>
                 <span>创建日期</span>
@@ -322,9 +330,9 @@
                 [#elseif rebate.type=="extension"]
                 	推广佣金
                 [#elseif rebate.type=="rebate"]
-                	销售佣金
-                [#elseif rebate.type=="sale"]
                 	消费返利
+                [#elseif rebate.type=="sale"]
+                	销售佣金
                 [/#if]
             </td>
             <td>
@@ -374,5 +382,11 @@
 [/@pagination]
 </form>
 <div id="trade_wrap"></div>
+<script type="text/javascript">
+    function set_page_number(){
+        $("#pageNumber").val("1");
+        $("#listForm").submit();
+    }
+</script>
 </body>
 </html>

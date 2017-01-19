@@ -25,7 +25,7 @@ $().ready(function() {
 	<div class="path">
 		<a href="${base}/admin/common/index.jhtml">${message("admin.path.index")}</a> &raquo; 奖励补贴 <span>(${message("admin.page.total", page.total)})</span>
 	</div>
-	<form id="listForm" action="markedList.jhtml" method="get">
+	<form id="listForm" action="child_subsidy_list.jhtml" method="get">
 		<div class="bar">
 	        <div class="buttonWrap">
 	        	<a href="subsidy_list.jhtml" class="iconButton"><span class="moveIcon">&nbsp;</span>返回到列表</a>

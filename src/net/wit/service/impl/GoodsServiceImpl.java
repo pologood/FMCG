@@ -133,7 +133,8 @@ public class GoodsServiceImpl extends BaseServiceImpl<Goods, Long> implements Go
 	public void delete(Goods goods) {
 		if (goods != null && goods.getProducts() != null) {
 			for (Product product : goods.getProducts()) {
-				staticService.delete(product);
+
+				//staticService.delete(product);
 			}
 		}
 		super.delete(goods);

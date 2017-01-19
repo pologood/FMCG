@@ -75,7 +75,6 @@
 
             // 会员价
             $isMemberPrice.change(function () {
-                alert($(this).prop("checked"))
                 if ($(this).prop("checked")) {
                     $memberPriceTr.show();
                     $memberPrice.prop("disabled", false);

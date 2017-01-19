@@ -77,9 +77,13 @@ public class IndexController extends BaseController {
         //今日收入
         BigDecimal income = depositService.income(tenant.getMember(),null,begin_date,end_date, null);
         BigDecimal outcome = depositService.outcome(tenant.getMember(),null,begin_date,end_date, null);
+        BigDecimal woutcome = depositService.outcome(tenant.getMember(),Deposit.Type.withdraw,begin_date,end_date, null);
+        outcome = outcome.subtract(woutcome);
         //近30天收入
         BigDecimal thincome = depositService.income(tenant.getMember(),null,begin_date2,end_date, null);
         BigDecimal thoutcome = depositService.outcome(tenant.getMember(),null,begin_date2,end_date, null);
+        BigDecimal wthoutcome = depositService.outcome(tenant.getMember(),Deposit.Type.withdraw,begin_date2,end_date, null);
+        thoutcome = thoutcome.subtract(wthoutcome);
 
         AdPosition adPosition = adPositionService.find(176L, null,null, 1);
         SimpleDateFormat sdfMonth = new SimpleDateFormat("yyyyMM");

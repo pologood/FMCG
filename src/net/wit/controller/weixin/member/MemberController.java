@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -103,6 +104,23 @@ public class MemberController extends BaseController {
 
     @Resource(name = "qrcodeServiceImpl")
     private QrcodeService qrcodeService;
+    @Resource(name = "taskServiceImpl")
+    private TaskService taskService;
+
+    /**
+     * 钱包页面
+     */
+    @RequestMapping(value = "/purse/index", method = RequestMethod.GET)
+    public String purse(String extension,HttpServletRequest request){
+        if (extension != null) {
+            Member extensions = memberService.findByUsername(extension);
+            if (extensions != null) {
+                request.getSession().setAttribute(Member.EXTENSION_ATTRIBUTE_NAME, extensions.getUsername());
+            }
+        }
+        return "weixin/member/purse/index";
+    }
+
 
     /**
      * 会员中心首页
@@ -119,7 +137,7 @@ public class MemberController extends BaseController {
     }
 
     /**
-     * 会员中心首页
+     * 绑定手机页面
      */
     @RequestMapping(value = "/bindmobile", method = RequestMethod.GET)
     public String bindmobile(String extension,HttpServletRequest request){
@@ -222,6 +240,12 @@ public class MemberController extends BaseController {
             consumerService.save(consumer);
         }
         if(member.getMember()==null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+            Task task = taskService.findByMember(member,Long.parseLong(sdf.format(new Date())));
+            if(task!=null){
+                task.setDoInvite(task.getDoInvite()+1);
+                taskService.update(task);
+            }
             member.setMember(extensions);
             memberService.update(member);
         }
@@ -336,6 +360,7 @@ public class MemberController extends BaseController {
     /**
      * 修改用户信息
      * params name 姓名
+     * params nickName 昵称
      * params birth 生日 2015-05-01
      * params address 详细地址
      * params phone 电话
@@ -446,7 +471,7 @@ public class MemberController extends BaseController {
         if (member==null) {
             return DataBlock.error(DataBlock.SESSION_INVAILD);
         }
-        Idcard idcard = member.getIdcard();
+        Idcard card = member.getIdcard();
         if (pathFront == null || "".equals(pathFront)) {
             return DataBlock.error("无拍照图片");
         }
@@ -456,19 +481,19 @@ public class MemberController extends BaseController {
         if (name == null || "".equals(name)) {
             return DataBlock.error("请正确输入姓名");
         }
-        if (idcard == null) {
-            idcard = new Idcard();
+        if (card == null) {
+            card = new Idcard();
         }
-        idcard.setPathFront(pathFront);
-        idcard.setPathBack(pathBack);
-        idcard.setNo(idCard);
-        idcard.setAddress("#");
-        idcard.setBeginDate(new Date());
-        idcard.setEndDate(new Date());
-        idcard.setAuthStatus(Idcard.AuthStatus.wait);
-        idcard.setName(name);
-        idcardService.save(idcard);
-        member.setIdcard(idcard);
+        card.setPathFront(pathFront);
+        card.setPathBack(pathBack);
+        card.setNo(idCard);
+        card.setAddress("#");
+        card.setBeginDate(new Date());
+        card.setEndDate(new Date());
+        card.setAuthStatus(Idcard.AuthStatus.wait);
+        card.setName(name);
+        idcardService.save(card);
+        member.setIdcard(card);
         memberService.save(member);
         return DataBlock.success("success","提交成功");
     }

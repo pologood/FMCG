@@ -64,11 +64,12 @@ public class MessageController extends BaseController {
 			pageable.setFilters(filters);
 		}
 		Page<Message> page = messageService.findPage(member, pageable);
+		List<MessageModel> modelList = MessageModel.bindData(page.getContent());
 		for (Message message:page.getContent()) {
 			message.setReceiverRead(true);
 			messageService.update(message);
 		}
-		return DataBlock.success(MessageModel.bindData(page.getContent()), "执行成功");
+		return DataBlock.success(modelList,page, "执行成功");
 	}
 	/**
 	 * 订单列表
@@ -87,11 +88,12 @@ public class MessageController extends BaseController {
 			pageable.setFilters(filters);
 		}
 		Page<Message> page = messageService.findPage(member, pageable);
+		List<OrderMessageModel> modelList = OrderMessageModel.bindData(page.getContent());
 		for (Message message:page.getContent()) {
 			message.setReceiverRead(true);
 			messageService.update(message);
 		}
-		return DataBlock.success(OrderMessageModel.bindData(page.getContent()), "执行成功");
+		return DataBlock.success(modelList,page, "执行成功");
 	}
 	/**
 	 * 评价提醒列表
@@ -110,11 +112,12 @@ public class MessageController extends BaseController {
 			pageable.setFilters(filters);
 		}
 		Page<Message> page = messageService.findPage(member, pageable);
+		List<ReviewMessageModel> modelList = ReviewMessageModel.bindData(page.getContent());
 		for (Message message:page.getContent()) {
 			message.setReceiverRead(true);
 			messageService.update(message);
 		}
-		return DataBlock.success(ReviewMessageModel.bindData(page.getContent()), "执行成功");
+		return DataBlock.success(modelList,page, "执行成功");
 	}
 	/**
 	 * 我要赚钱列表
@@ -133,11 +136,12 @@ public class MessageController extends BaseController {
 			pageable.setFilters(filters);
 		}
 		Page<Message> page = messageService.findPage(member, pageable);
+		List<ActivityMessageModel> modelList = ActivityMessageModel.bindData(page.getContent());
 		for (Message message:page.getContent()) {
 			message.setReceiverRead(true);
 			messageService.update(message);
 		}
-		return DataBlock.success(ActivityMessageModel.bindData(page.getContent()), "执行成功");
+		return DataBlock.success(modelList,page, "执行成功");
 	}
 	/**
 	 * 通过用户获取头像
@@ -167,17 +171,20 @@ public class MessageController extends BaseController {
 
 		Object data;
 			Map<String, Object> map = new HashMap<>();
-			map.put("order", messageService.count(member, false, Message.Type.order));
-			map.put("account", messageService.count(member, false, Message.Type.account));
-			map.put("message", messageService.count(member, false, Message.Type.message));
-		    map.put("review",messageService.count(member, false, Message.Type.review));
-		    map.put("activity",messageService.count(member, false, Message.Type.activity));
+			List<Filter> filters=new ArrayList<>();
+			filters.add(new Filter("way", Operator.ne,Message.Way.member));
+
+			map.put("order", messageService.count(member, false, Message.Type.order,filters));
+			map.put("account", messageService.count(member, false, Message.Type.account,filters));
+			map.put("message", messageService.count(member, false, Message.Type.message,filters));
+		    map.put("review",messageService.count(member, false, Message.Type.review,filters));
+		    map.put("activity",messageService.count(member, false, Message.Type.activity,filters));
+
 			Pageable pageable=new Pageable(1,1);
 			Page<Message> page;
 
-			List<Filter> filters=new ArrayList<>();
 			filters.add(new Filter("type", Operator.eq, Message.Type.order));
-		    filters.add(new Filter("way", Operator.ne,Message.Way.member));
+
 			pageable.setFilters(filters);
 			page=messageService.findPage(member,pageable);
 			MessageModel model=new MessageModel();

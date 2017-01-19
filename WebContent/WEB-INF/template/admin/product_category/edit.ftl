@@ -20,7 +20,7 @@
         }
     </style>
     <script type="text/javascript">
-        var judge="true";
+        var judge = "true";
         $().ready(function () {
 
             var $inputForm = $("#inputForm");
@@ -91,83 +91,83 @@
                 }
             });
             $("#select_value").text("顶级分类");
-            
+
         });
-        function edit_cate(obj){
-            if($(obj).parent().css("display")!="hidden"){
-                judge="false";
+        function edit_cate(obj) {
+            if ($(obj).parent().css("display") != "hidden") {
+                judge = "false";
                 $(obj).parent().hide();
                 $("#edit_cate_se").show();
                 get_root_child($("#root_cate"))
             }
         }
-        function return_edit(obj){
-            judge="true";
-            if($("#edit_cate_se").css("display")!="hidden"){
+        function return_edit(obj) {
+            judge = "true";
+            if ($("#edit_cate_se").css("display") != "hidden") {
                 $("#edit_cate_se").hide();
                 var _parentid = "";
 
-                [#if productCategory.parent??&&productCategory.parent?has_content]
-                    _parentid = "${productCategory.parent.id}";
-                [/#if]
-                
-                $("#root_cate").attr("name","");
-                $("#second_cate").attr("name","");
-                $("#default_value").attr("name","parentId");
+            [#if productCategory.parent??&&productCategory.parent?has_content]
+                _parentid = "${productCategory.parent.id}";
+            [/#if]
+
+                $("#root_cate").attr("name", "");
+                $("#second_cate").attr("name", "");
+                $("#default_value").attr("name", "parentId");
                 $("[name='parentId']").val(_parentid);
                 $("#edit_warp").show();
                 $("#second_cate").hide();
             }
         }
-       
-		function get_root_child(obj){
-			$.ajax({
-                url:"${base}/common/child_category.jhtml",
-                type:"get",
-                data:{parentId:$(obj).val()},
-                dataType:"json",
-                success:function(map){
-                    var html="<option value=''>--请选择--</option>";
-                    $.each(map,function(id,name){
-                        html+="<option value="+id+">"+name+"</option>";
+
+        function get_root_child(obj) {
+            $.ajax({
+                url: "${base}/common/child_category.jhtml",
+                type: "get",
+                data: {parentId: $(obj).val()},
+                dataType: "json",
+                success: function (map) {
+                    var html = "<option value=''>--请选择--</option>";
+                    $.each(map, function (id, name) {
+                        html += "<option value=" + id + ">" + name + "</option>";
                     });
 
-                    if($(obj).attr("cate")=="one"){
-                        if($("#root_cate").val()==""){
-                            if(judge=="true"){
-                                $("#root_cate").attr("name","");
-                                $("#default_value").attr("name","parentId");
-                            }else{
-                                $("#root_cate").attr("name","parentId");
-                                $("#default_value").attr("name","");
+                    if ($(obj).attr("cate") == "one") {
+                        if ($("#root_cate").val() == "") {
+                            if (judge == "true") {
+                                $("#root_cate").attr("name", "");
+                                $("#default_value").attr("name", "parentId");
+                            } else {
+                                $("#root_cate").attr("name", "parentId");
+                                $("#default_value").attr("name", "");
                             }
-                            $("#second_cate").attr("name","");
-                        }else{
-                            $("#root_cate").attr("name","parentId");
-                            $("#second_cate").attr("name","");
-                            $("#default_value").attr("name","");
+                            $("#second_cate").attr("name", "");
+                        } else {
+                            $("#root_cate").attr("name", "parentId");
+                            $("#second_cate").attr("name", "");
+                            $("#default_value").attr("name", "");
                         }
                         $("#select_value").text($(obj).find("option:selected").text());
                         $("#second_cate").show();
                         $("#second_cate").html(html);
-                    }else if($(obj).attr("cate")=="two"){
-                        if($("#second_cate").val()==""){
+                    } else if ($(obj).attr("cate") == "two") {
+                        if ($("#second_cate").val() == "") {
                             $("#select_value").text($("#root_cate").find("option:selected").text());
                             $("#second_cate").val($("#root_cate").val());
-                            $("#root_cate").attr("name","parentId");
-                            $("#second_cate").attr("name","");
-                            $("#default_value").attr("name","");
-                        }else{
+                            $("#root_cate").attr("name", "parentId");
+                            $("#second_cate").attr("name", "");
+                            $("#default_value").attr("name", "");
+                        } else {
                             $("#select_value").text($(obj).find("option:selected").text());
-                            $("#root_cate").attr("name","");
-                            $("#second_cate").attr("name","parentId");
-                            $("#root_cate").attr("name","");
+                            $("#root_cate").attr("name", "");
+                            $("#second_cate").attr("name", "parentId");
+                            $("#root_cate").attr("name", "");
                         }
                         $("#second_cate").show();
                     }
                 }
             });
-		}
+        }
     </script>
 </head>
 <body>
@@ -219,13 +219,13 @@
                 <div style="display:none;" id="edit_cate_se">
                     <select name="" onchange="get_root_child(this)" id="root_cate" cate="one" flag="true">
                         <option value="">顶级分类</option>
-                    	[#list rootCategory as category]
-                    	<option value="${category.id}">${category.name}</option>
-                    	[/#list]
-                        
+                        [#list rootCategory as category]
+                            <option value="${category.id}">${category.name}</option>
+                        [/#list]
+
                     </select>
-                    <select name="" onchange="get_root_child(this)" id="second_cate" cate="two" 
-                                style="display:none;">	
+                    <select name="" onchange="get_root_child(this)" id="second_cate" cate="two"
+                            style="display:none;">
                     </select>
                     <div style="display:inline;">(已选中：<span id="select_value"></span>)</div>
                     [<a href="javascript:;" onclick="return_edit(this)">返回</a>]

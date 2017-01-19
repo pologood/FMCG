@@ -373,7 +373,7 @@ public class ReviewServiceImpl extends BaseServiceImpl<Review, Long> implements 
                 productDao.merge(product);
             }
             Message message= EntitySupport.createInitMessage(Message.Type.review,review.getContent(),orderItem.getOrder().getSn(),orderItem.getTrade().getTenant().getMember(),null);
-            message.setTrade(review.getMemberTrade());
+            message.setTrade(orderItem.getTrade());
             message.setWay(Message.Way.tenant);
             message.setTitle(member.getDisplayName() + "对你进行新的评价啦！");
             messageService.save(message);

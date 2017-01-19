@@ -109,7 +109,7 @@ public class OrderController extends BaseController {
         //更新购物屏key
         cartService.updateKey(padCart,token_key);
         //跳转微信确认订单
-        return "redirect:/wap/member/order/orderPay.jhtml?token_key="+token_key;
+        return "redirect:/weixin/member/order/orderPay.jhtml?token_key="+token_key;
     }
 
     /**

@@ -184,7 +184,7 @@ public class DeliveryCenterController extends BaseController {
 	 * 更新
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String update(DeliveryCenter deliveryCenter, Long areaId, String start_time,String end_time,String lat, String lng, RedirectAttributes redirectAttributes) {
+	public String update(DeliveryCenter deliveryCenter, Long areaId, Long communityId,String start_time,String end_time,String lat, String lng, RedirectAttributes redirectAttributes) {
 		if(StringUtils.isNotEmpty(lat) && StringUtils.isNotEmpty(lng)){
 			BigDecimal blat = new BigDecimal(lat);
 			BigDecimal blng = new BigDecimal(lng);
@@ -192,6 +192,7 @@ public class DeliveryCenterController extends BaseController {
 			deliveryCenter.setLocation(location);
 		}
 		deliveryCenter.setArea(areaService.find(areaId));
+		deliveryCenter.setCommunity(communityService.find(communityId));
 		if (!isValid(deliveryCenter)) {
 			return ERROR_VIEW;
 		}
@@ -217,9 +218,10 @@ public class DeliveryCenterController extends BaseController {
 		deliveryCenter.setScore(tmpDelivery.getScore());
 		deliveryCenter.setTotalScore(tmpDelivery.getTotalScore());
 		deliveryCenter.setScoreCount(tmpDelivery.getScoreCount());
+		deliveryCenter.setAreaName(deliveryCenter.getArea().getFullName());
 		
-		deliveryCenterService.update(deliveryCenter, "areaName");
-		
+//		deliveryCenterService.update(deliveryCenter, "areaName");
+		deliveryCenterService.update(deliveryCenter);
 	    
 	    DeliveryCenter def = deliveryCenter.getTenant().getDefaultDeliveryCenter();
 	    if (def!=null) {

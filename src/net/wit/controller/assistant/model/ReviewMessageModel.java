@@ -21,6 +21,8 @@ public class ReviewMessageModel extends BaseModel {
 	private Date create_date;
 	/*订单ID*/
 	private Long tradeId;
+	/*是否已读*/
+	private Boolean receiverRead;
 
 	public Long getId() {
 		return id;
@@ -71,6 +73,14 @@ public class ReviewMessageModel extends BaseModel {
 		this.tradeId = tradeId;
 	}
 
+	public Boolean getReceiverRead() {
+		return receiverRead;
+	}
+
+	public void setReceiverRead(Boolean receiverRead) {
+		this.receiverRead = receiverRead;
+	}
+
 	public void copyFrom(Message message) {
 		this.id = message.getId();
 		this.title = message.getTitle();
@@ -80,6 +90,7 @@ public class ReviewMessageModel extends BaseModel {
 			this.image=message.getTrade().getOrder().getMember().getHeadImg();
 			this.tradeId = message.getTrade().getId();
 		}
+		this.receiverRead = message.getReceiverRead();
 	}
 	
 	public static List<ReviewMessageModel> bindData(List<Message> messages) {

@@ -15,6 +15,8 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -31,6 +33,7 @@ import net.wit.weixin.util.WeiXinUtils;
 
 import org.apache.commons.lang.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import com.unionpay.acp.sdk.HttpClient;
@@ -107,6 +110,7 @@ public class CsiipayPlugin extends PaymentPlugin {
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		Map<String, Object> parameterMap2 = new HashMap<String, Object>();
 		StringBuffer plain=new StringBuffer();
+
         // 版本号你
 		parameterMap.put("transId", "ZF01");
 		// 商户号码，请改成自己的商户号,
@@ -114,7 +118,7 @@ public class CsiipayPlugin extends PaymentPlugin {
 		// 商户订单号，8-40位数字字母
 		parameterMap.put("orderId", sn);
 		// 交易金额
-		parameterMap.put("transAmt", payment.getAmount().multiply(new BigDecimal(100)).intValue());
+		parameterMap.put("transAmt", new DecimalFormat(",###.##").format(payment.getAmount()));
 		// 订单发送时间，取系统时间
 		parameterMap.put("transDateTime", new SimpleDateFormat("yyyyMMddHHmmss").format(payment.getCreateDate()));
 		// 交易币种
@@ -133,11 +137,16 @@ public class CsiipayPlugin extends PaymentPlugin {
 		String plains= generatePlain(parameterMap);
 		parameterMap2.put("Plain", plains);
 		parameterMap2.put("Signature",generateSign(plains));
+		parameterMap2.put("_locale","zh_CN");
+		parameterMap2.put("BankId","9999");
+		parameterMap2.put("LoginType","C");
 		System.out.println(plains);
 		System.out.println(generateSign(plains));
 		// 交易请求url 从配置文件读取
 		return parameterMap2;
 	}
+
+
 
 	public static Map<String, Object> getAllRequestParam(final HttpServletRequest request) {
 		Map<String, Object> res = new HashMap<String, Object>();
@@ -257,46 +266,46 @@ public class CsiipayPlugin extends PaymentPlugin {
 	 */
 	@Override
     public String queryOrder(Payment payment) {
-//		PluginConfig pluginConfig = getPluginConfig();
-//		SDKConfig.getConfig().loadPropertiesFromSrc();// 从classpath加载acp_sdk.properties文件
-//
-//		Map<String, Object> data = new HashMap<String, Object>();
-//		Map<String, Object> data2 = new HashMap<String, Object>();
-//
-//		// 版本号
-//		data.put("transId", "ZF15");
-//		// 商户号码，请改成自己的商户号
-//		data.put("merchantId",pluginConfig.getAttribute("partner"));
-//		// 商户订单号，8-40位数字字母
-//		data.put("originalorderId", payment.getSn());
-//		// 订单发送时间，取系统时间
-//		data.put("originalTransDateTime", new SimpleDateFormat("yyyyMMddHHmmss").format(payment.getCreateDate()));
-//		// 交易金额
-//		data.put("originalTransAmt", payment.getAmount().multiply(new BigDecimal(100)));
-//		String plain=generatePlain(data);
-//		data2.put("Plain",plain.toString());
-//		data2.put("Signature",generateSign(plain).toString());
-//
-//		String result = null;
-//		try {
-//			result = httpsPost("https://ebank.ahrcu.com:8443/eweb/backOnline.do", data2);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println(result);
-//		String[] array=result.split("~\\|~");
-//		Map<String,String> map=new HashMap<String,String>();
-//		for (String s:array){
-//			if(s.startsWith("transStatus")){
-//				String array2[]=s.split("=");
-//				map.put(array2[0].toString(),array2[1].toString());
-//				if(array2[0].toString().equals("transStatus")&&array2[1].toString().equals("00")){
-//					return "0000";
-//				}else{
-//					return "9999";
-//				}
-//			};
-//		}
+		PluginConfig pluginConfig = getPluginConfig();
+		SDKConfig.getConfig().loadPropertiesFromSrc();// 从classpath加载acp_sdk.properties文件
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		Map<String, Object> data2 = new HashMap<String, Object>();
+
+		// 版本号
+		data.put("transId", "ZF15");
+		// 商户号码，请改成自己的商户号
+		data.put("merchantId",pluginConfig.getAttribute("partner"));
+		// 商户订单号，8-40位数字字母
+		data.put("originalorderId", payment.getSn());
+		// 订单发送时间，取系统时间
+		data.put("originalTransDateTime", new SimpleDateFormat("yyyyMMddHHmmss").format(payment.getCreateDate()));
+		// 交易金额
+		data.put("originalTransAmt", new SimpleDateFormat("yyyyMMddHHmmss").format(payment.getCreateDate()));
+		String plain=generatePlain(data);
+		data2.put("Plain",plain.toString());
+		data2.put("Signature",generateSign(plain).toString());
+
+		String result = null;
+		try {
+			result = httpsPost("https://ebank.ahrcu.com:8443/eweb/backOnline.do", data2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(result);
+		String[] array=result.split("~\\|~");
+		Map<String,String> map=new HashMap<String,String>();
+		for (String s:array){
+			if(s.startsWith("transStatus")){
+				String array2[]=s.split("=");
+				map.put(array2[0].toString(),array2[1].toString());
+				if(array2[0].toString().equals("transStatus")&&array2[1].toString().equals("00")){
+					return "0000";
+				}else{
+					return "9999";
+				}
+			}
+		}
 		return "9999";
 		
 	}
@@ -372,4 +381,5 @@ public class CsiipayPlugin extends PaymentPlugin {
 		}
 		return sb.toString();
 	}
+
 }

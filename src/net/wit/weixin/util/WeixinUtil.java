@@ -185,7 +185,7 @@ public class WeixinUtil {
 				accessToken.setScope(jsonObject.getString("scope"));
 			} catch (JSONException e) {
 				accessToken = null;
-				log.error("获取token失败 errcode:{} errmsg:{}", jsonObject.getInt("errcode"), jsonObject.getString("errmsg"));
+				//log.error("获取token失败 errcode:{} errmsg:{}", jsonObject.getInt("errcode"), jsonObject.getString("errmsg"));
 			}
 		}
 		return accessToken;

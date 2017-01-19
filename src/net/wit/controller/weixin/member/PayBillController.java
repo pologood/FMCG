@@ -73,6 +73,10 @@ public class PayBillController extends BaseController {
             return DataBlock.error("无效店铺");
         }
 
+        if(tenant.getEnd()!=null&&tenant.getEnd()){
+            return DataBlock.error("商家已打烊");
+        }
+
         BigDecimal _noAmount = amount.subtract(noAmount);   //参与活动的金额
 
         BigDecimal tenantDiscount = BigDecimal.ZERO;

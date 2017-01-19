@@ -33,6 +33,8 @@ public class TenantViewModel extends BaseModel {
     private Integer cartCount;
     //店主用户名
     private String ownerUserName;
+    //是否打烊
+    private boolean closed;
 
     public Long getId() {
         return id;
@@ -138,6 +140,14 @@ public class TenantViewModel extends BaseModel {
         this.ownerUserName = ownerUserName;
     }
 
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
     public void copyFrom(Tenant tenant, Member member, Location location, Cart cart) {
         this.id = tenant.getId();
         this.name = tenant.getName();
@@ -152,6 +162,7 @@ public class TenantViewModel extends BaseModel {
         this.nearDeliveryCenter = deliveryCenterModel;
         this.cartCount = cart == null ? 0 : cart.getQuantity();
         this.ownerUserName = tenant.getMember().getUsername();
+        this.closed=tenant.getEnd()==null?false:tenant.getEnd();
     }
 
 }

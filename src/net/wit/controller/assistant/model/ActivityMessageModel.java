@@ -22,7 +22,8 @@ public class ActivityMessageModel extends BaseModel {
 	private Date create_date;
 	/*商家id*/
 	private Long tenantId;
-
+	/*是否已读*/
+	private Boolean receiverRead;
 	public Long getId() {
 		return id;
 	}
@@ -72,6 +73,14 @@ public class ActivityMessageModel extends BaseModel {
 		this.tenantId = tenantId;
 	}
 
+	public Boolean getReceiverRead() {
+		return receiverRead;
+	}
+
+	public void setReceiverRead(Boolean receiverRead) {
+		this.receiverRead = receiverRead;
+	}
+
 	public void copyFrom(Message message) {
 		this.id = message.getId();
 		this.title = message.getTitle();
@@ -81,6 +90,7 @@ public class ActivityMessageModel extends BaseModel {
 			this.image = message.getTrade().getTenant().getLogo();
 			this.tenantId = message.getTrade().getTenant().getId();
 		}
+		this.receiverRead = message.getReceiverRead();
 	}
 
 	public static List<ActivityMessageModel> bindData(List<Message> messages) {

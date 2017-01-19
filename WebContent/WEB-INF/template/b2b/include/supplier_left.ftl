@@ -12,8 +12,8 @@
     [#--</div>--]
     [#--[/#if]--]
         <div class="bus-title">
-            <p>(${member.tenant.name!})</p>
-            <p>最后登录：${member.loginDate?string("yyyy年MM月dd日 HH:mm:ss")}</p>
+            <p>(${(member.tenant.name)!})</p>
+            <p>最后登录：${(member.loginDate?string("yyyy年MM月dd日 HH:mm:ss"))!}</p>
         </div>
     </div>
     <div class="main_left">

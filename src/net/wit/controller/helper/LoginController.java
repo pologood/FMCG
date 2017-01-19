@@ -82,19 +82,19 @@ public class LoginController extends BaseController {
 	public String index(String redirectUrl, HttpServletRequest request, ModelMap model) {
 
 
-		return "redirect:/store/index.jhtml";
+		//return "redirect:/store/index.jhtml";
 
-//		Tenant tenant = tenantService.getCurrent();
-//		if (tenant!=null) {
-//			return "redirect:"+tenant.getId()+"/login.jhtml?redirectUrl="+redirectUrl;
-//		}
-//		Setting setting = SettingUtils.get();
-//		if (redirectUrl != null && !redirectUrl.equalsIgnoreCase(setting.getSiteUrl()) && !redirectUrl.startsWith(request.getContextPath() + "/") && !redirectUrl.startsWith(setting.getSiteUrl() + "/")) {
-//			redirectUrl = null;
-//		}
-//		model.addAttribute("redirectUrl", redirectUrl);
-//		model.addAttribute("captchaId", UUID.randomUUID().toString());
-//		return "/helper/login/index";
+		Tenant tenant = tenantService.getCurrent();
+		if (tenant!=null) {
+			return "redirect:"+tenant.getId()+"/login.jhtml?redirectUrl="+redirectUrl;
+		}
+		Setting setting = SettingUtils.get();
+		if (redirectUrl != null && !redirectUrl.equalsIgnoreCase(setting.getSiteUrl()) && !redirectUrl.startsWith(request.getContextPath() + "/") && !redirectUrl.startsWith(setting.getSiteUrl() + "/")) {
+			redirectUrl = null;
+		}
+		model.addAttribute("redirectUrl", redirectUrl);
+		model.addAttribute("captchaId", UUID.randomUUID().toString());
+		return "/helper/login/index";
 
 	}
 

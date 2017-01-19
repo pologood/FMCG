@@ -49,4 +49,15 @@ public class ProductCategoryController extends BaseController {
 		return DataBlock.success(ProductCategoryModel.bindAllData(productCategories),"执行成功");
 	}
 
+	/**
+	 * 获取推荐的商品分类所有数据
+	 */
+	@RequestMapping(value = "/tag/roots", method = RequestMethod.GET)
+	@ResponseBody
+	public DataBlock tagRoots() {
+		List<ProductCategory> productCategories;
+		productCategories = productCategoryService.findRoots(tagService.find(12L),4);
+		return DataBlock.success(ProductCategoryModel.bindAllData(productCategories),"执行成功");
+	}
+
 }
