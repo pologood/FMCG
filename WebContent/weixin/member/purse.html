@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>我的钱包</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<script type="text/html" id="tpl_purse-index">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+            <div class="weui-tab">
+                <!--BEGIN user_wallet-->
+                <div class="user_wallet">
+                    <div class="section1 f16">
+                        <p>当前余额</p>
+                        <p>￥<span id="balance">0.00</span></p>
+                    </div>
+
+                    <!--<div class="section2 f16">-->
+                        <!--<p>可提现</p>-->
+                        <!--<p>￥<span id="canget">0</span></p>-->
+                    <!--</div>-->
+                    <div class="section3">
+                        <ul class="weui-flex">
+                            <li class="weui-flex__item " >
+                                <a href="member-home.html#charge">
+                                    <div class="shop_img"><i class="icon iconfont icon-purse" style="color:#10aeff"></i><p class="f14">充值</p></div>
+                                </a>
+                            </li>
+                            <li class="weui-flex__item">
+                                <a href="javascript:;" id="gotocash">
+                                    <div class="shop_img"><i class="icon iconfont coupon-01" style="color: #ff6d06"></i><p class="f14">提现</p></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="section4">
+                        <div class="weui-cells weui-cells__access" >
+                            <a class="weui-cell gotomybank" href="javascript:;">
+                                <div class="weui__cell_hd">
+                                    <i class="icon iconfont icon-creditcard"></i>
+                                </div>
+                                <div class="weui-cell__bd  f14">
+                                    <p>银行卡</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <i class="icon iconfont"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="weui-cells weui-cells__access" >
+                            <a class="weui-cell" href="member-home.html#bill-list">
+                                <div class="weui__cell_hd">
+                                    <i class="icon iconfont icon-bill"></i>
+                                </div>
+                                <div class="weui-cell__bd  f14">
+                                    <p>账单</p>
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <i class="icon iconfont"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <!--END user_wallet-->
+            </div>
+         </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        document.title='我的钱包';
+        var balance=new member(function(data){
+            $('#balance').html(data.balance);
+            $("#canget").html(data.balance);
+        });
+        balance.balance();
+
+        //跳转银行卡页面，判断是否实名，实名后才能跳转
+        $('.gotomybank').click(function(){
+            var m=new member(function(data){
+                console.log(data);
+                if(data.authStatus=='success'){
+                    pageManager.go('bank');
+                }else{
+                    dialog.show("实名认证后才可使用此功能!")
+                }
+            });
+            m.index();
+        })
+        //跳转提现页面，判断是否实名，实名后才能跳转
+        $('#gotocash').click(function(){
+            var m=new member(function(data){
+                console.log(data);
+                if(data.authStatus=='success'){
+                    pageManager.go('cash');
+                }else{
+                    dialog.show("实名认证后才可使用此功能!")
+                }
+            });
+            m.index();
+        });
+
+    });
+
+</script>
+
+
+
+</script>
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("purse-index");
+    });
+</script>
+</body>
+</html>
+

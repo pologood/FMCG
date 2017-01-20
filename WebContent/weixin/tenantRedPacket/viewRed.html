@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>商家红包</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--查看红包-->
+<script type="text/html" id="tpl_viewRed">
+<div class="page">
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+                <!--BEGIN arrivalRedBag-->
+                <div class="arrivalRedBag">
+                    <div class="weui-msg">
+                        <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+                        <div class="weui-msg__text-area">
+                            <h2 class="weui-msg__title"><span class="orange"><span id="denomination"></span>元</span>红包已领取</h2>
+                            <p><a href="../member/redPacket.html">查看红包</a></p>
+                        </div>
+                        <div class="tit Ftitle">推荐好店</div>
+                    </div>
+                </div>
+                <!--END arrivalRedBag-->
+
+                <div class="weui-cells recommendTenant pageable" id="wrapper">
+                    <div class="recommend-tenant"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#denomination').text(pageManager.GetQueryString("amount"));
+        document.title='领取红包成功';
+        //底部滚动高度固定
+        $(function(){
+            var viewHeight = window.innerHeight
+                    || document.documentElement.clientHeight;
+            var topHeight = $(".weui-msg").height();
+            var bottomHeight = viewHeight-topHeight;
+            document.getElementById("wrapper").style.height = bottomHeight+"px";
+        });
+
+    });
+</script>
+
+</script>
+
+<!--模板-->
+<script type="text/html" id="tpl_recommend-tenant-list">
+<!-- BEGIN tenant-list -->
+{{#each this}}
+<a class="weui-cell weui-cell_access" id="{{id}}"  href="../tenant/tenant-home.html?id={{id}}" >
+    <div class="weui-cell__hd">
+        {{#compare thumbnail '!=' null}}
+        <img src="{{thumbnail}}" />
+        {{/compare}}
+        {{#compare thumbnail '==' null}}
+        <img src="../images/placeholder/product.png" />
+        {{/compare}}
+    </div>
+    <div class="weui-cell__bd">
+        <p class="Ftitle">{{name}}</p>
+        <p class="Fauxiliary">主营：{{tenantCategoryName}}<span class="distance">{{#ifcond distance -1}}{{distance}}km{{else}}{{/ifcond}}</span><i class="iconfont icon-go orange"></i></p>
+        <p>
+            {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+            {{/each}}
+        </p>
+    </div>
+</a>
+{{/each}}
+<!-- END tenant-list -->
+
+</script>
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("viewRed");
+
+        //定位，获取经纬度
+        weixin.location(function () {
+            console.log("lat:" + weixin.lat);
+            console.log("lng:" + weixin.lng);
+        });
+
+
+        //列表及分页
+        var pges = $(".pageable").pageable({
+            loadUpFn:function(me) {
+                var tu = new redPacket(function (data) {
+                    var h = render.fill($("#tpl_recommend-tenant-list"),data);
+                    $(".pageable .recommend-tenant").html(h);
+                    me.resetload();
+                });
+                tu.recommendTenant({pageNumber:1,lat: weixin.lat, lng: weixin.lng});
+            },
+            loadDownFn :function(me) {
+                var td = new redPacket(function (data) {
+                    me.pageNumber = me.pageNumber +1;
+                    var h = render.fill($("#tpl_recommend-tenant-list"),data);
+                    $(".pageable .recommend-tenant").append(h);
+                    if (data.length<20){
+                        me.lock();
+                        me.noData();
+                    }
+                    me.resetload();
+                });
+                td.recommendTenant({pageNumber:me.pageNumber,lat: weixin.lat, lng: weixin.lng});
+            }
+
+        });
+
+    });
+</script>
+
+</body>
+</html>
+

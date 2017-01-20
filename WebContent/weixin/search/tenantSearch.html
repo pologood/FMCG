@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>搜索商家产品</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--搜索商家结果页-->
+<script type="text/html" id="tpl_tenantSearch">
+<div class="page">
+    <div class="page__bd product_style" style="height: 100%;">
+        
+<!--BEGIN top-nav-->
+<div class="topNav topNav_shop" page="1">
+    <div class="weui-search-bar" id="searchBar">
+        <form class="weui-search-bar__form">
+            <div class="weui-search-bar__box">
+                <i class="weui-icon-search"></i>
+                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+                <a href="javascript:;" class="weui-icon-clear" id="searchClear"></a>
+            </div>
+            <label class="weui-search-bar__label" id="searchText">
+                <i class="weui-icon-search"></i>
+                <span>搜索</span>
+            </label>
+        </form>
+        <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+    </div>
+    <a class="scan" style="color:#fa0000;" href="../carts/cart.html">
+        <div class="weui-badges">
+            <i id="fly_cart_end" class="iconfont icon-carto">
+                <span class="weui-badge" style="display: none;"></span>
+            </i>
+        </div>
+    </a>
+</div>
+<!--END top-nav-->
+
+        <div class="dp">
+            <div class="dropmenu">
+                <div class="weui-navbar hd " id="navbar">
+                    <div class="weui-navbar__item active" data-type="weight" rel="synthetic">
+                        <span class="f14"><span class="navbar1">综合</span><i class="iconfont icon-shangjiantou"></i></span>
+                    </div>
+                    <div class="weui-navbar__item"  data-type="priceAsc" rel="price">
+                        <span class="f14"><span class="navbar2">价格</span><i class="iconfont icon-shangjiantou"></i></span>
+                    </div>
+                    <div class="weui-navbar__item"  data-type="salesDesc" rel="sales">
+                        <span class="f14"><span class="navbar3">销量</span><i class="iconfont icon-shangjiantou"></i></span>
+                    </div>
+                </div>
+                <div id="style">
+                    <i class="iconfont icon-details style col-1" id="goods_style"></i>
+                </div>
+            </div>
+        </div>
+        <div class="weui-tab pageable" style="padding-top:95px;">
+            <div class="product-list product_search hot_product weui-cells product" style="margin-top:0;">
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="orderType" name="orderType" value="">
+
+<script type="text/javascript">
+$(function () {
+    $('.weui-search-bar').addClass('weui-search-bar_focusing');
+    $("#searchInput").focus();
+
+    var keyword = $('#searchInput').val() ? $('#searchInput').val() : '11';
+    var orderType = $('#orderType').val() ? $('#orderType').val() : 'weight';
+    var jsons={
+        id:pageManager.GetQueryString("id"),
+        pageNumber:1,
+        keyword:keyword,
+        orderType:orderType
+    };
+    var loadUpFn=function () {
+        jsons.pageNumber=1;
+        var tu = new product(function (data) {
+            jsons.pageNumber += 1;
+            var h = render.fill($("#tpl_productList"), data);
+            $(".pageable .product-list").html(h);
+            pge.noData(false);
+            pge.resetload();
+        });
+        tu.listT(jsons);
+    };
+
+    //搜索商品列表
+    var pge = $(".pageable").pageable({
+        loadUpFn: function (me) {
+            loadUpFn();
+        },
+        loadDownFn: function (me) {
+            var td = new product(function (data) {
+                jsons.pageNumber += 1;
+                var h = render.fill($("#tpl_productList"), data);
+                $(".pageable .product-list").append(h);
+                if (data.length < 20) {
+                    me.lock();
+                    me.noData();
+                }
+                me.resetload();
+            });
+            td.listT(jsons);
+        }
+    });
+
+    //每次调用
+    var sd = function(){
+        $(".pageable .product-list").html('');
+        jsons.keyword=$('#searchInput').val() ? $('#searchInput').val() : '11';
+        jsons.orderType=$('#orderType').val() ? $('#orderType').val() : 'weight';
+        loadUpFn();
+    };
+
+    //点击加载排序
+    $('.weui-navbar__item').on('click', function () {
+        $(this).addClass('active').siblings('.weui-navbar__item').removeClass('active');
+        //上下箭头切换效果
+        if ($(this).find('i').hasClass('icon-shangjiantou')) {
+            $(this).find('i').addClass('icon-xiajiantou1').removeClass('icon-shangjiantou');
+        }
+        else {
+            $(this).find('i').addClass('icon-shangjiantou').removeClass('icon-xiajiantou1');
+        }
+
+        var datatype = $(this).attr('data-type');
+        var rel = $(this).attr('rel');
+
+        // 处理排序参
+        $('#orderType').val(datatype);
+
+        //默认加载
+        sd();
+
+        //设置排序
+        var reltype = '';
+        if (rel == 'synthetic') {
+            reltype = datatype == 'weight' ? 'topDesc' : 'weight' ;
+        } else if (rel == 'price') {
+            reltype = datatype == 'priceAsc' ? 'priceDesc' : 'priceAsc';
+        } else if (rel == 'sales') {
+            reltype = datatype == 'salesAsc' ? 'salesDesc' : 'salesAsc';
+        }
+        $(this).attr('data-type', reltype);
+    });
+
+    //搜索事件
+    $(document).keypress(function(e) {
+        // 回车键事件
+        var code = e.keyCode || e.which
+        if( code == 13) {
+            var keyword= $('#searchInput').val();
+            if ( keyword == null || keyword == '') {
+                toast.show('请先输入您想搜索的内容');
+                return;
+            }
+            sd();
+            return false;
+        }
+    });
+    
+
+    //即时搜索
+    var bind_name = 'input';
+    if (navigator.userAgent.indexOf("MSIE") != -1) {
+        bind_name = 'propertychange';
+    }
+    if(navigator.userAgent.match(/android/i) == "android")
+    {
+        bind_name = "keydown";
+    }
+
+    $("#searchInput").bind(bind_name, function (event) {
+        sd();
+        return false;
+    });
+
+
+
+    //搜索结果页点击切换商品样式
+    $('#goods_style').on('click', function () {
+        $(this).toggleClass('col-2');
+        if ($('#goods_style').hasClass('col-2')) {
+            $('.product').addClass('product-grid').removeClass('product-list');
+
+        }
+        else {
+            $('.product').addClass('product-list').removeClass('product-grid');
+        }
+    });
+
+});
+
+</script>
+</script>
+
+<!--模版-->
+<!--商家搜索结果模版页-->
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+{{#each this}}
+<div class="position">
+    <a class="weui-cell" href="../product/product-details.html?id={{id}}" data-id="{{id}}" >
+        <div class="weui-cell__hd fly_img">
+            {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/product.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{name}}</p>
+            <p class="tag_list">
+                {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}}
+                {{#compare price '==' marketPrice}}
+                {{/compare}}
+                {{#compare price '!=' marketPrice}}
+                    <i class="marketPrice">￥{{marketPrice}}</i></span>
+                {{/compare}}
+            </p>
+            <p class="Fauxiliary">库存 {{favoriteCount}} /月销量 {{monthSales}}</p>
+
+        </div>
+    </a>
+    <span class="cart fly_cart_start"  data-id="{{id}}" id="sheet_add_card" ><i class="icon iconfont icon-l-jia"></i></span>
+</div>
+{{/each}}
+<!-- product_list end -->
+</script>
+
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("tenantSearch");
+    });
+</script>
+</body>
+</html>

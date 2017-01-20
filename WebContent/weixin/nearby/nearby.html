@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>附近商家</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<!--频道页面-->
+<script type="text/html" id="tpl_nearby-tenant">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            
+<!--BEGIN dropmenu-->
+
+<div class="dropmenu">
+    <div class="weui-navbar hd " id="navbar">
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar2 over-flow_omit">全部类别</span> <i class="iconfont icon-xiajiantou"></i></span>
+        </div>
+        <div class="weui-navbar__item">
+            <span class="f14"><span class="navbar3 over-flow_omit">智能排序</span> <i class="iconfont icon-xiajiantou"></i></span>
+        </div>
+    </div>
+    <div id="style">
+        <i class="iconfont icon-details style col-1" id="goods_style"></i>
+    </div>
+    <div class="bd" id="nav_menu">
+        <div class="weui-flex menu categoryd" style="display:none">
+        </div>
+        <div class="weui-flex menu orderd" style="display:none;margin-top:0; text-align: center;">
+        </div>
+    </div>
+    <div id="mask" style=""></div>
+</div>
+<!--<div id="mask" style=""></div>-->
+<!--END dropmenu-->
+
+            <!--BEGIN location-->
+            <div class="location row f12">
+                <div class="col-23">当前：<span id="currentAreaName">合肥市瑶海区</span></div>
+                <div class="col-1">
+                    <i class="iconfont icon-shuaxin"></i>
+                </div>
+            </div>
+            <!--END location-->
+
+            <div class="weui-tab__panel pageable" style="padding-top: 69px;">
+                <div class="tenant weui-cells">
+                    <div class="tenant_list"></div>
+                </div>
+            </div>
+            
+
+    <div class="weui-tabbar foot_menu" style="position: fixed;">
+        <a href="../home/index.html" class="weui-tabbar__item weui-bar__item_on" id="nav1">
+            <i class="weui-tabbar__icon iconfont icon-l-home"></i>
+            <p class="weui-tabbar__label">首页</p>
+        </a>
+        <a href="../productCategory/category.html" class="weui-tabbar__item" id="nav2">
+            <i class="weui-tabbar__icon iconfont icon-l-classify"></i>
+            <p class="weui-tabbar__label">分类</p>
+        </a>
+        <!--<a href="../nearby/nearby.html" class="weui-tabbar__item" id="nav3">
+            <i class="weui-tabbar__icon iconfont icon-l-location"></i>
+            <p class="weui-tabbar__label">附近</p>
+        </a>-->
+        <a href="../carts/cart.html" class="weui-tabbar__item" id="nav4">
+            <i class="weui-tabbar__icon iconfont icon-cart"></i>
+            <p class="weui-tabbar__label">购物车</p>
+        </a>
+        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+            <i class="weui-tabbar__icon iconfont icon-l-me"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+    </div>
+    <script type="text/javascript" class="tabbar js_show">
+        $(function(){
+            var str = window.location.href;
+            var index = str .lastIndexOf("\/");
+            str  = str .substring(index + 1, str .length);
+            if(str=="index.html"){
+                $("#nav1").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="category.html"){
+                $("#nav2").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str.indexOf('nearby.html')!=-1){
+                $("#nav3").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="cart.html"){
+                $("#nav4").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+            else if(str=="member-home.html" || str=="redPacket.html"){
+                $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            }
+        });
+    </script>
+
+        </div>
+    </div>
+</div>
+</script>
+
+<!--模版-->
+<script type="text/html" id="tpl_hotArea">
+{{#each hotCommunity}}
+    <li class="weui-cell"><span areaid="" communityid="{{id}}">{{name}}</span></li>
+{{/each}}
+</script>
+<!--商家-->
+<script type="text/html" id="tpl_tenant-list">
+<!-- BEGIN tenant-list -->
+{{#each this}}
+<a href="../tenant/tenant-home.html?id={{id}}" tenantId="{{id}}" class="weui-cells weui-cell_access weui-cells_border union_tenant_list">
+    <div class="weui-cell">
+        <div class="weui-cell__hd tenant_img">
+            {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/tenant.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle tenant-name">{{name}}</p>
+            <p class="ico Fauxiliary">
+                    <span class="cf ft-bs starlevels"  data-starnum="{{grade}}" data-starlevelized="false">
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                    </span>
+                <span class="add Fauxiliary">{{grade}}分</span><span class="add Fauxiliary">月售{{monthSales}}单</span>
+            </p>
+            <div class="weui-flex Fauxiliary">
+                <div class="weui-flex__item">主营：{{tenantCategoryName}}</div>
+                <div class="weui-flex__item">{{#ifcond distance -1}}{{distance}}km{{else}}{{/ifcond}}</div>
+            </div>
+        </div>
+    </div>
+    {{#if promotions}}
+    <div class="border-top Fauxiliary  weui-cell">
+        <div class="weui-cell__hd"></div>
+        <div class="weui-cell__bd">
+            {{#each promotions}}
+            <div><i class="iconfont icon-{{type}} tenant_i"></i><p>{{name}}</p></div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</a>
+{{/each}}
+<!-- END tenant-list -->
+<!--获取星星-->
+<script>
+    $(".starlevels").starLevelize();
+</script>
+<!--获取星星结束-->
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("nearby-tenant");
+        var jsonsData = {
+            pageSize: 10,
+            pageNumber: 1,
+            tenantCategoryId:pageManager.GetQueryString("categoryId"),
+            lat: weixin.lat,
+            lng: weixin.lng
+        };
+        //列表及分页
+        var pge = null;
+        weixin.location(function () {
+            jsonsData.lat=weixin.lat;
+            jsonsData.lng=weixin.lng;
+
+            pge = $(".pageable").pageable({
+                loadUpFn: function () {
+                    var tu = new tenant(function (data) {
+                        jsonsData.pageNumber += 1;
+                        var h = render.fill($("#tpl_tenant-list"), data);
+                        $(".pageable .tenant_list").html(h);
+                        pge.resetload();
+                    });
+                    jsonsData.pageNumber = 1;
+                    tu.list(jsonsData);
+                },
+                loadDownFn: function (me) {
+                    weixin.location(function () {
+                        jsonsData.lat=weixin.lat;
+                        jsonsData.lng=weixin.lng;
+                        var td = new tenant(function (data) {
+                            jsonsData.pageNumber += 1;
+                            var h = render.fill($("#tpl_tenant-list"), data);
+                            $(".pageable .tenant_list").append(h);
+                            if (data.length < jsonsData.pageSize) {
+                                pge.lock();
+                                pge.noData();
+                            }
+                            pge.resetload();
+                            console.log(jsonsData);
+                        });
+                        td.list(jsonsData);
+                        var down=document.getElementsByClassName('pageable-down');
+                        for(var i=0;i<down.length;i++){
+                            if(i>0){
+                                down[i].remove();
+                            }
+                        };
+                        var load=document.getElementsByClassName('pageable-load');
+                        for(var i=0;i<down.length;i++){
+                            if(i>0){
+                                load[i].remove();
+                            }
+                        };
+                    });
+                }
+            });
+        });
+
+        weixin.share();//注册分享
+
+        var className1 = pageManager.GetQueryString("name");
+        if(className1==null || className1==''){
+            className1='全部分类';
+        }
+        dropmenu.init("全城",className1,"智能排序");
+        var ar=new area(function (data) {
+            dropmenu.bindCity(data,function (data) {
+                console.log(data);
+                jsonsData.areaId=data.areaId;
+                jsonsData.communityId=data.communityId;
+                pge.refresh();
+            });
+            //热门商圈
+            console.log('热门商圈：'+data);
+            var h = render.fill($("#tpl_hotArea"), data);
+            $(".hot").html(h);
+        });
+        ar.community();
+
+        $(document).on("click","#area_all",function (){
+            pge.refresh();
+        });
+
+        $(document).on("click","#class_all",function (){
+            pge.refresh();
+        });
+
+        var rp=new redPacket(function (data) {
+            dropmenu.bindCategory(data,function (data) {
+                console.log(data);
+                jsonsData.tenantCategoryId=data.categoryId;
+                pge.refresh();
+            });
+        });
+        rp.category();
+        dropmenu.bindOrder(["智能排序","点击最高","评价最高","距离优先"],function (data) {
+            console.log(data);
+            var orderType="";
+            if(data==0){
+                orderType="weight";
+            }
+            if(data==1){
+                orderType="hitsDesc";
+            }
+            if(data==2){
+                orderType="scoreDesc";
+            }
+            if(data==3){
+                orderType="distance";
+            }
+            jsonsData.orderType=orderType;
+            pge.refresh();
+        });
+
+        //获取当前城市
+        new lbs(function (data) {
+            $("#currentAreaName")[0].innerText = data.fullName;
+        }).current();
+        //定位
+        $('.location').click(function () {
+            var $this=$(this).find('.icon-shuaxin');
+            $this.addClass('refresh');
+            weixin.location(function (res) {
+                if(res){
+                    new lbs(function (data) {
+                        $("#currentAreaName")[0].innerText = data.fullName;
+                        pge.refresh();
+                        $this.removeClass('refresh');
+                    }).update({lat: weixin.lat, lng: weixin.lng});
+                }
+            });
+        });
+
+
+        var down=document.getElementsByClassName('pageable-down');
+        for(var i=0;i<down.length;i++){
+            if(i>0){
+                down[i].remove();
+            }
+        };
+    });
+</script>
+</body>
+</html>
+
+
+

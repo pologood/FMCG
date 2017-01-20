@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>领取优惠券</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--分享-->
+<script type="text/html" id="tpl_Bshare">
+<div class="page">
+    <div class="page__bd " style="height: 100%; ">
+        <div class="weui-tab Bshare" style="background: #fff">
+            <div class="share-user">
+                <p class="po" ><img id="headImg" src="" alt=""></p>
+                <div>
+                    <p class="f12" id="name"></p>
+                    <p id="zuan"></p>
+                </div>
+            </div>
+            <div class="share">
+                <img src="../images/static/coupons_11.png" alt="">
+                <div class="text">
+                    <p class="f30">￥<span class="aoumt"></span></p>
+                    <p class="f22">消费满 <span id="num"></span>元抵 <span class="aoumt"></span> 元</p>
+                    <p class="f14">剩余 <span id="number"></span> 张</p>
+                    <p class="f14" >有效期至：<span id="data"></span></p>
+                    <div class="bs">
+                        <p class="btn" id="btns"></p>
+                        <p class="btn" id="links"><a href="javascript:;">进店逛逛</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="over" style="display: none;">
+        <img src="../images/static/guide1.png">
+    </div>
+    <div class="weui-mask" id="iosMask2" style="display: none"></div>
+
+</div>
+
+
+
+<script>
+    $(function(){
+        new coupon(function (data) {
+            weixin.share({
+                title:data.title,
+                desc:data.desc,
+                link:data.link,
+                imgUrl:data.imgUrl
+            });
+        }).share({id:pageManager.GetQueryString('id')});
+
+        var Bshare = new coupon(function (data) {
+            if($("#headImg").attr('src',data.tenantThumbnail) == ''){
+                $("#headImg").attr('src','../images/placeholder/user.png');
+            }else{
+                $("#headImg").attr('src',data.tenantThumbnail);
+            }
+
+            $("#name").text(data.tenantName);
+            $(".aoumt").text(data.amount);
+            $("#num").text(data.minimumPrice);
+            $("#number").text(data.restCount);
+            $("#data").text(data.endDate);
+            var rpid;
+            rpid=data.CouponId;
+
+            //循环钻石
+            var zuan = data.tenantGrade;
+            var html ='';
+            for (var i = 0; i < zuan ; i++){
+                html+='<i class="icon iconfont icon-zuan01"></i>'
+            }
+            $('#zuan').append(html);
+
+
+            //跳转到商家首页
+            $('body').on('click','#links',function(){
+                window.location.href ='../tenant/tenant-home.html?id='+ data.tenantId;
+            });
+
+            //data.hasReceived 转换类型
+            if(data.hasReceived == undefined){
+                data.hasReceived == 0;
+
+            }else{
+                data.hasReceived == 1;
+            }
+            console.log(data);
+
+            if(data.hasReceived == 0){
+                $('#btns').text('领取优惠券');
+                //领取优惠券
+                $('#btns').on('click',function () {
+                    setTimeout(function () {
+                        var pick = new coupon(function (data) {
+                            window.location.href ='../member/Bshare.html?id='+ pageManager.GetQueryString("id") +'#receiveCoupon';
+                        });
+                        pick.pickup({id:pageManager.GetQueryString("id")});
+                    },200)
+
+                });
+            }else{
+                //已领取优惠券及弹出分享
+                $('#btns').text('告诉小伙伴');
+                $('.share').append('<div class="user"><img src="../images/static/coupons_00.png" alt=""></div>');
+
+                $('#btns').click(function(){
+                    $('#over').css('display','block');
+                    $('#iosMask2').css('display','block');
+                });
+
+                $('#iosMask2').click(function () {
+                    $('#over').css('display','none');
+                    $('#iosMask2').css('display','none');
+                });
+            }
+
+        });
+        Bshare.view({id: pageManager.GetQueryString("id")});
+
+    })
+</script>
+</script>
+<script type="text/html" id="tpl_receiveCoupon">
+<div class="page">
+    <div class="page__bd " style="height: 100%; ">
+        <div class="weui-tab Bshare">
+            <div class="share-userd">
+                <div class="s1">
+                    <p class="po" ><img id="imgx" src="" alt=""></p>
+                    <div>
+                        <p class="f14" id="names"></p>
+                        <p class="f12" id="adresss"></p>
+                    </div>
+
+                </div>
+                <div class="money f16"><span id="money"></span>元代金券</div>
+                <div class="data f12">有效期至 <span id="datad"></span></div>
+            </div>
+
+
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="date">
+                    <div class="weui-cell__bd f12">
+                        优惠券详细
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="../home/index.html">
+                    <div class="weui-cell__bd f12">
+                        公众号
+                    </div>
+                    <div class="weui-cell__ft">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var shares = new coupon(function (data) {
+
+            if($("#imgx").attr('src',data.tenantThumbnail) == ''){
+                $("#imgx").attr('src','../images/placeholder/user.png');
+            }else{
+                $("#imgx").attr('src',data.tenantThumbnail);
+            }
+
+            $("#names").text(data.tenantName);
+            $("#adresss").text(data.address);
+            $("#money").text(data.amount);
+            $("#datad").text(data.endDate);
+
+            $('#date').click(function(){
+                window.location.href='../member/Bshare.html?id='+ data.CouponId +'#Bdetail';
+            })
+        });
+        shares.view({id: pageManager.GetQueryString("id")});
+    })
+</script>
+</script>
+<script type="text/html" id="tpl_Bdetail">
+<div class="page">
+    <div class="page__bd " style="height: 100%; ">
+        <div class="weui-tab Bshare-detail">
+
+            <div class="weui-cells__title">优惠详情</div>
+
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f12">合肥限制:</div>
+                    <div class="weui-cell__bd f12">
+                        无
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f12">合肥范围:</div>
+                    <div class="weui-cell__bd f12">
+                        全店通用
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f12">有限期:</div>
+                    <div class="weui-cell__bd f12">
+                        <p id="datas"></p>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f12">至:</div>
+                    <div class="weui-cell__bd f12">
+                        <p id="enddata"></p>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd f12">退货规则:</div>
+                    <div class="weui-cell__bd f12">
+                        发生退货时，最多可退买家实际付款金额，优惠券不退。
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="weui-cells__title">使用须知</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd f12">
+                        请在订单提交时选中本券
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var Bshare = new coupon(function (data) {
+            $("#datas").html(data.startDate);
+            $("#enddata").html(data.endDate);
+        });
+        Bshare.view({id: pageManager.GetQueryString("id")});
+    })
+</script>
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("Bshare");
+    });
+</script>
+</body>
+</html>
+

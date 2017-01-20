@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>物流信息</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--物流信息-->
+<script type="text/html" id="tpl_logistics">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab logistics">
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        var td = new order(function (data) {
+            var h = render.fill($("#tpl_logistic"),data);
+            $(".logistics").append(h);
+        });
+        td.deliveryQuery({sn:pageManager.GetQueryString("sn")});
+    });
+</script>
+</script>
+
+<!--物流模版-->
+<script type="text/html" id="tpl_logistic">
+<div class="log-txt">
+    <ul>
+        <li class="f14">物流状态:<span class="orange" id="status">未签收</span></li>
+        <li class="f12">承运公司:<span id="company">中通快递</span></li>
+        <li class="f12">运单编号:<span id="waybill">422628844214</span></li>
+        <li class="f12">官方电话:<span id="phone">95211</span></li>
+    </ul>
+</div>
+<div class="express">
+    <div class="f14 log-lit"><p class="cri"><i class="icon iconfont icon-feiji"></i></p>本数据有快递100提供</div>
+    <div class="row">
+        {{#each this}}
+            <div class="logis-detail-d">
+                <div class="logis-detail-content">
+                    <p class="logis-detail f12">派件失败，等待重新派件！请联系派件员火速在为你派件!</p>
+                    <p class="logis-time f12">2016-12-18</p>
+                </div>
+            </div>
+
+            <div class="logis-detail-d">
+                <div class="logis-detail-content">
+                    <p class="logis-detail f12"> 合肥市【合肥大学城二部】，【唐州】正在派件 电话:18856913668 </p>
+                    <p class="logis-time f12">2016-12-18</p>
+                </div>
+            </div>
+
+            <div class="logis-detail-d">
+                <div class="logis-detail-content">
+                    <p class="logis-detail f12">您的订单待配货</p>
+                    <p class="logis-time f12">2016-12-18</p>
+                </div>
+            </div>
+
+            <div class="logis-detail-d">
+                <div class="logis-detail-content">
+                    <p class="logis-detail f12">您的订单待配货</p>
+                    <p class="logis-time f12">2016-12-18</p>
+                </div>
+            </div>
+        {{/each}}
+
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#status').text(data.tenantName);
+        $('#company').text();
+        $('#waybill').text();
+        $('#phone').text();
+    });
+</script>
+</script>
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("logistics");
+    });
+</script>
+</body>
+</html>
+

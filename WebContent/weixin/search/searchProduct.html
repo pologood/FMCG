@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>搜索好货</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--分类产品搜索-->
+<script type="text/html" id="tpl_searchProduct">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <!--searchBar-->
+            <div class="weui-cell__bd top_position">
+                <div class="weui-search-bar weui-search-bar_focusing" id="searchBar" style="padding:0; margin:3% 2%;">
+                    <form class="weui-search-bar__form"  action="">
+                        <div class="weui-search-bar__box boxs">
+                            <i class="weui-icon-search"></i>
+                            <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                            <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                        </div>
+                        <label class="weui-search-bar__label" id="searchText" style="border:1px solid #ccc">
+                            <i class="weui-icon-search"></i>
+                            <span>搜索</span>
+                        </label>
+                    </form>
+                    <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+                </div>
+            </div>
+
+            <!--searchBar end-->
+            <div class="weui-tab__panel" style="padding: 45px 0 0 0;">
+                <div class="hot_tit Ftitle history">历史搜索<i class="iconfont icon-delete-01 del"></i></div>
+                <div class="historySearch row"> </div>
+                <div class="hot_tit Ftitle">热门搜索</div>
+                <div class="hotSearch row"></div>
+                <div class="hot_tit Ftitle">热门好货</div>
+                <div class="product-list weui-cells_border hot_product"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    $(function () {
+        //历史搜索
+        var search_products_str = cookie.getCookie('search_products');
+        var search_products = [];
+        if (search_products_str != null && search_products_str != '') {
+            search_products = search_products_str.split(',');
+        }
+        if (search_products.length > 0) {
+            var html = '';
+            $.each(search_products, function (index, keyword) {
+                html += '<a href=' + escape(keyword) + '"/weixin/search/searchProductEnd.html?keyword=" class="col-11 Ftext">' + keyword + '</a>';
+            });
+            $('.historySearch').html(html);
+        }else{
+            $('.history').hide();
+            $('.historySearch').hide();
+        }
+
+        //删除历史记录
+        $('.del').on('click',function(){
+            dialog.query("确认删除全部历史记录？",function () {
+                cookie.delCookie('search_products');
+                $('.historySearch').remove('');
+                $('.history').remove('');
+            });
+        });
+
+
+//        var a = pageManager.GetQueryString("id");
+//        if(a==1){
+//            $('.changestyle').text("商家");
+//            $('.tenant_checked').addClass('checked');
+//            $('.product_checked').removeClass('checked');
+//
+//        }else{
+//            $('.changestyle').text("商品");
+//            $('.product_checked').addClass('checked');
+//            $('.tenant_checked').removeClass('checked');
+//        }
+
+        //热门搜索
+        var tt=new product(function (data) {
+            var s='';
+            $.each(data,function (i, v) {
+                s+='<a href=' + escape(v) + '"/weixin/search/searchProductEnd.html?keyword=" class="col-11 Ftext">'+v+'</a>';
+            });
+            $('.hotSearch').html(s);
+        });
+        tt.hot_search();
+
+
+
+        //产品搜索
+        $(document).on('keydown',function(e) {
+            // 回车键事件
+            var code = e.keyCode || e.which;
+            if( code == 13) {
+                var keyword = $("#searchInput").val();
+                if ( keyword == null || keyword == '') {
+                    toast.show('请先输入您想搜索的内容');
+                    return;
+                }
+                //添加进历史搜索
+                var exist = false;
+                for (var i = 0; i < search_products.length; i++) {
+                    if (search_products[i].trim()==keyword.trim()) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    var arr = [keyword.trim()];
+                    if (search_products.length > 0) {
+                        search_products = arr.concat(search_products);
+                    } else {
+                        search_products = arr;
+                    }
+                    if (search_products.length > 0) cookie.setCookie("search_products", search_products.join(","), 1);
+                }
+
+                window.location.href='../search/searchProductEnd.html?keyword='+ escape(keyword);
+                return false;
+            }
+        });
+
+
+        //热门好货列表
+        var tu = new product(function (data) {
+            var h = render.fill($("#tpl_productList"), data);
+            $(".product-list").html(h);
+        });
+        tu.list({pageSize:20,tagIds: 19});
+
+        pushHistory();
+        var bool=false;
+        setTimeout(function(){
+            bool=true;
+        },100);
+        window.addEventListener("popstate", function(e) {
+            if(bool)
+            {
+                location.href=location.origin+"/weixin/productCategory/category.html";
+            }
+            pushHistory();
+
+        }, false);
+        function pushHistory() {
+            var state = {
+                title: "title",
+                url: "#"
+            };
+            window.history.pushState(state,"title","#");
+        }
+    });
+</script>
+</script>
+
+
+<!--模版-->
+<!--搜索产品列表页模版页-->
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+{{#each this}}
+<div class="position">
+    <a class="weui-cell" href="../product/product-details.html?id={{id}}" data-id="{{id}}" >
+        <div class="weui-cell__hd fly_img">
+            {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/product.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{name}}</p>
+            <p class="tag_list">
+                {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}}
+                {{#compare price '==' marketPrice}}
+                {{/compare}}
+                {{#compare price '!=' marketPrice}}
+                    <i class="marketPrice">￥{{marketPrice}}</i></span>
+                {{/compare}}
+            </p>
+            <p class="Fauxiliary">库存 {{favoriteCount}} /月销量 {{monthSales}}</p>
+
+        </div>
+    </a>
+    <span class="cart fly_cart_start"  data-id="{{id}}" id="sheet_add_card" ><i class="icon iconfont icon-l-jia"></i></span>
+</div>
+{{/each}}
+<!-- product_list end -->
+</script>
+
+
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("searchProduct");
+    });
+</script>
+</body>
+</html>
+

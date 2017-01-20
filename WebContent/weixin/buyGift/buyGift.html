@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>买赠活动</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--买赠产品-->
+<script type="text/html" id="tpl_jd_buyGift">
+<!--买赠产品List-->
+<!--buy a gift开始-->
+<div class="page">
+    <div class="page__bd" style="height:100%">
+        <!--头部-->
+        <div class="buy_top">
+            <a class="jd_back">
+                <i class="iconfont icon-left"></i>
+            </a>
+            <div class="weui-cell__bd">
+                <p class="jd_buy_title f18">买赠搭配</p>
+            </div>
+         </div>
+        <div class="cells"></div>
+        <!--买赠搭配产品-->
+        
+
+<!--买赠产品List-->
+<div class="buyGift_list" id="buyGift_list" style="margin-top: 40px;">
+    <!--//<img src="../images/placeholder/blank640x389.png" alt="">-->
+    <!--静态的买赠产品列表-->
+    <div class="buyGift_pro weui-cell">
+        <div class="weui-cell__hd">
+            <img src="../images/static/mz.png"/>
+        </div>
+        <div class="weui-cell__hd">
+           <p class="Ftitle">蒙牛特仑苏纯牛奶（9月份生产）[250ml*12包/提]</p>
+            <p class="Fauxiliary jd_none"><span class="mz-tit">买赠</span>买两箱蒙牛特仑苏纯牛奶送1箱本品</p>
+           <span class="f18 price_mony">￥36</span>
+        </div>
+        <div class="weui-cell__hd">
+            <span class="detal" data-del-product="">
+                <i class="icon iconfont icon-gouwuche"></i>
+            </span>
+        </div>
+    </div>
+    <div class="buyGift_pro weui-cell">
+        <div class="weui-cell__hd">
+            <img src="../images/static/mz.png"/>
+        </div>
+        <div class="weui-cell__hd">
+            <p class="Ftitle">蒙牛特仑苏纯牛奶（9月份生产）[250ml*12包/提]</p>
+            <p class="Fauxiliary"><span class="mz-tit">买赠</span>买两箱蒙牛特仑苏纯牛奶送1箱本品</p>
+            <span class="f18 price_mony">￥36</span>
+        </div>
+        <div class="weui-cell__hd">
+            <span class="detal" data-del-product="">
+                <i class="icon iconfont icon-gouwuche"></i>
+            </span>
+        </div>
+    </div>
+    <div class="buyGift_pro weui-cell">
+        <div class="weui-cell__hd">
+            <img src="../images/static/mz.png"/>
+        </div>
+        <div class="weui-cell__hd">
+            <p class="Ftitle">蒙牛特仑苏纯牛奶（9月份生产）[250ml*12包/提]</p>
+            <p class="Fauxiliary"><span class="mz-tit">买赠</span>买两箱蒙牛特仑苏纯牛奶送1箱本品</p>
+            <span class="f18 price_mony">￥36</span>
+        </div>
+        <div class="weui-cell__hd">
+            <span class="detal" data-del-product="">
+                <i class="icon iconfont icon-gouwuche"></i>
+            </span>
+        </div>
+    </div>
+    <div class="buyGift_pro weui-cell">
+        <div class="weui-cell__hd">
+            <img src="../images/static/mz.png"/>
+        </div>
+        <div class="weui-cell__hd">
+            <p class="Ftitle">蒙牛特仑苏纯牛奶（9月份生产）[250ml*12包/提]</p>
+            <p class="Fauxiliary"><span class="mz-tit">买赠</span>买两箱蒙牛特仑苏纯牛奶送1箱本品</p>
+            <span class="f18 price_mony">￥36</span>
+        </div>
+        <div class="weui-cell__hd">
+            <span class="detal" data-del-product="">
+                <i class="icon iconfont icon-gouwuche"></i>
+            </span>
+        </div>
+    </div>
+    <div class="buyGift_pro weui-cell">
+        <div class="weui-cell__hd">
+            <img src="../images/static/mz.png"/>
+        </div>
+        <div class="weui-cell__hd">
+            <p class="Ftitle">蒙牛特仑苏纯牛奶（9月份生产）[250ml*12包/提]</p>
+            <p class="Fauxiliary"><span class="mz-tit">买赠</span>买两箱蒙牛特仑苏纯牛奶送1箱本品</p>
+            <span class="f18 price_mony">￥36</span>
+        </div>
+        <div class="weui-cell__hd">
+            <span class="detal" data-del-product="">
+                <i class="icon iconfont icon-gouwuche"></i>
+            </span>
+        </div>
+    </div>
+</div>
+<!--end-->
+
+    </div>
+</div>
+<!--end-->
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("jd_buyGift");
+    });
+</script>
+</body>
+</html>

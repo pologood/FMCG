@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>商家首页</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--联系商家-->
+<script type="text/html" id="tpl_tenant-contact">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <!--BEGIN tenant_contact-->
+            <div class="tenant_contact">
+                <div class="weui-cells weui-cells_border contact_top">
+
+                </div>
+                <div class="weui-cells weui-cells_border contact_bottom">
+                    <div class="hd">
+                        <i class="iconfont icon-zlliaotianshixin f16 clr-orange"></i>
+                        <span class="f14">联系导购</span>
+                    </div>
+                    <div id="wrapper" class="bd  pageable">
+                        <div id="scroller" class="items"></div>
+                    </div>
+                </div>
+            </div>
+            <!--END tenant_contact-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //商家信息
+        new deliveryCenter(function (data) {
+            var h = render.fill($("#tpl_storeDetail"), data);
+            $(".contact_top").html(h);
+
+            //底部高度问题
+            var viewHeight = window.innerHeight || document.documentElement.clientHeight;
+            var topHeight = $(".contact_top").height() + $(".contact_bottom .hd").height();
+            var bottomHeight = viewHeight - topHeight;
+            document.getElementById("wrapper").style.height = bottomHeight + "px";
+            console.log(viewHeight);
+            console.log(topHeight);
+            console.log(viewHeight - topHeight);
+
+            //iphone 不能滚动解决方案 使用iscroll.js插件 此处为页面调用
+//        var myScroll;
+//        function loaded() {
+//           myScroll = new iScroll('wrapper', {scrollbarClass: 'myScrollbar'});
+//        };
+//        document.addEventListener('touchmove', function (e) {
+//            e.preventDefault();
+//            console.log(e.preventDefault());
+//        }, false);
+//        document.addEventListener('DOMMouseScroll', loaded, false);
+////        console.log(viewHeight);
+            var myscroll;
+            function loaded(){
+                setTimeout(function(){
+                    myscroll=new IScroll("wrapper");
+                },100 );
+            }
+//        window.addEventListener("load",loaded,false);
+
+
+            //到这里去
+            $(document).on('click', '#goThere', function () {
+                var me = this;
+                weixin.openLocation({
+                    lat: data.location.lat,
+                    lng: data.location.lng,
+                    name: me.name,
+                    address: me.address
+                });
+            });
+        }).view({id: pageManager.GetQueryString("id")});
+
+        //导购列表
+        var gu = new employee(function (data) {
+            if (data.length > 0){
+                var pgeu = $(".pageable").pageable({
+                    loadDownFn: function (me) {
+                        var td = new employee(function (data) {
+                            me.pageNumber = me.pageNumber + 1;
+                            var h = render.fill($("#tpl_storeGuide"), data);
+                            $(".pageable #scroller").html(h);
+                            if (data.length < 20) {
+                                me.lock();
+                                me.noData();
+                            }
+                            me.resetload();
+                        });
+                        td.listDc({id: pageManager.GetQueryString("id"), pageNumber: me.pageNumber});
+                    }
+                });
+        }else{
+            $('#scroller').html('<div class="f14 data_none">暂无导购！</div>');
+        }
+        });
+    gu.listDc({id: pageManager.GetQueryString("id")});
+    });
+</script>
+</script>
+
+<!--联系商家-->
+<script type="text/html" id="tpl_storeDetail">
+<div class="weui-cell" style="padding: 15px 10px">
+    <div class="weui-cell__hd">
+        {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/tenant.png" alt=""/>
+        {{/compare}}
+        {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+        {{/compare}}
+    </div>
+    <div class="weui-cell__bd">
+        <p class="f12 clr-LightGray">{{areaName}}</p>
+        <h2 class="f14">{{name}}</h2>
+        <p class="f12 clr-LightGray">{{address}}</p>
+    </div>
+</div>
+<a class="weui-cell" href="javascript:;" id="goThere" name="{{name}}" address="{{address}}">
+    <i class="iconfont icon-go f14 clr-orange"></i>
+    <span class="f14">到这里去</span>
+</a>
+<div class="margin"></div>
+</script>
+<script type="text/html" id="tpl_storeGuide">
+{{#each this}}
+    <div class="item weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                {{#compare headImg '!=' null}}
+                <img src="{{headImg}}" />
+                {{/compare}}
+                {{#compare headImg '==' null}}
+                <img src="../images/placeholder/user.png" />
+                {{/compare}}
+                {{#compare headImg '==' ""}}
+                <img src="../images/placeholder/user.png" />
+                {{/compare}}
+            </div>
+            <div class="weui-cell__bd">
+                <h2 class="f14 clr-orange">{{name}}</h2>
+                <p class="f12 clr-orange">{{tenantName}}</p>
+                <p class="info f12 clr-LightGray">
+                    <span>销售出{{quertity}}件</span>
+                    <span>粉丝数{{fansCount}}</span>
+                </p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <p class="weui-cell__bd">
+                <a href="../product/product-details.html?id={{id}}#chat-guide">
+                    <i class="iconfont icon-l-news f14"></i>
+                    <span class="f12">发消息</span>
+                </a>
+            </p>
+            <p class="weui-cell__bd">
+                <a href="tel:{{phone}}">
+                    <i class="iconfont icon-phone-a f14"></i>
+                    <span class="f12">打电话</span>
+                </a>
+            </p>
+        </div>
+    </div>
+{{/each}}
+
+
+</script>
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("tenant-contact");
+    });
+</script>
+</body>
+</html>
+

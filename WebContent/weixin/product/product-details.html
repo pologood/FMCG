@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title></title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+    <script type='text/javascript' src='../js/webim.config.js'></script>
+    <script type='text/javascript' src='../js/strophe-1.2.8.min.js'></script>
+    <script type='text/javascript' src='../js/websdk-1.4.5.js'></script>
+    <script type='text/javascript' src='../js/emoji.js'></script>
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--产品详细-->
+<script type="text/html" id="tpl_product-details">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <!--BEGIN actionSheet-选择规格-->
+    <div id="actionSheet_choose_norms">
+
+        <div class="weui-mask_transparent actionsheet__mask" style="opacity: 0;display: none;"></div>
+            <div class="weui-actionsheet actionsheet">
+                <div style="background:#fff">
+                <div class="weui-cells shop">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd shop_logo">
+                            <img id="acn_thumbnail" src=""/>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <h2 class="f14 clr-red" id="acn_price">￥0</h2>
+                            <p class="f12">库存<span id="acn_stock"></span>件</p>
+                            <p class="f12" id="acn_choose">已选</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells address">
+                    <div class="weui-cell norms">
+                    </div>
+                    <div class="weui-cell buyNum">
+                        <div class="weui-cell__bd f14">购买数量：</div>
+                        <div class="weui-cell__ft">
+                            <i class="icon iconfont icon-l-reduce f20 vux-number-selector-sub"></i>
+                            <input class="f16 input-number-int" pattern="[1-100]*" name="listen" value="1" id="acn_quertity">
+                            <i class="icon iconfont icon-l-jia f20  vux-number-selector-plus"></i>
+                        </div>
+                    </div>
+                    <a class="weui-cell btn" href="javascript:;">
+                        <div class="weui-cell__bd f14" id="acn_confirm">确认</div>
+                    </a>
+                </div>
+                <div class="weui-actionsheet__action cancel">
+                    <i class="iconfont icon-remove-02"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--END actionSheet-选择规格-->
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel pageable" style="padding-bottom: 51px;">
+                
+<!--BEGIN productDetailsSlider-->
+<div id="product_album" class="mask">
+    <img src="../images/placeholder/blank640x640.png" alt="">
+    <span class="pagenum" style="position: absolute; z-index: 80; background: rgba(0,0,0,0.6); color:#fff; display:block; padding: .8em .5em; right: 5vw; bottom: 5vw; border-radius: 1em;"><span class="num"></span>/<span class="totalNum"></span></span>
+    <div class="mask-bg"></div>
+</div>
+<!--END productDetailsSlider-->
+
+                <div class="product_desc weui-cells"></div>
+
+                <!-- BEGIN specifications -->
+                <div id="sheet_choose_norms" class="specifications weui-cells weui-cells_border">
+                    <div class="weui-cell weui-cell_access" style="padding:15px 10px">
+                        <div class="weui-cell__bd f12" style="font-weight: bold">选择：颜色分类/尺码</div>
+                        <div class="weui-cell__ft"></div>
+                    </div>
+                </div>
+                <!-- END specifications -->
+
+
+                <!--<div class="product_evaluate weui-cells"></div>-->
+                <!--<div id="feature_detail"></div>-->
+                <!--<div class="product_hd weui-cells weui-cells_border" id="rec_tit">-->
+                    <!--<div class="title f14">-->
+                        <!--店主推荐-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="product-grid product-recommend weui-cells weui-cells_border"></div>-->
+                <!--<div class="product_hd weui-cells weui-cells_border" id="neighbor_tit">-->
+                    <!--<div class="title f14">-->
+                        <!--领家好货-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="product-grid product-neighbor weui-cells weui-cells_border"></div>-->
+            </div>
+
+            <!--底部导航-->
+            <div class="foot_menu ft weui-tabbar"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        new product(function (data) {
+            weixin.share({
+                title:data.title,
+                desc:data.desc,
+                link:data.link,
+                imgUrl:data.imgUrl
+            });
+        }).share({id:pageManager.GetQueryString('id')});
+        var productId;//选中商品Id
+        var tenantId;//商家Id
+        var specification;//当前商品规格
+        var specifications;//所有规格及对应的规格值
+        var productSpecifications;//所有商品规格
+        var $norms = $(".norms");
+        new product(function (data) {
+            //商品轮播图
+            if (data.productImages.length != 0) {
+                $("#product_album").silder(data, 1800, "", "false");
+
+            }
+
+            //商品信息
+            var h = render.fill($("#tpl_productDetailsDesc"), data);
+            $(".product_desc").html(h);
+            if(data.marketPrice == 0){
+                $('#marketPrice').html('');
+            }
+
+
+            //商家信息
+            h = render.fill($("#tpl_tenant-info"), data);
+            $(".tenant_info").html(h);
+
+            $(document).on('click','#tel',function() {
+                if (data.phone == null || data.phone == '') {
+                    toast.show('暂无电话！')
+                }
+            });
+            //商品属性及宝贝详情
+            h = render.fill($("#tpl_product_detail"), data);
+            $("#feature_detail").html(h);
+            //商品评价
+            h = render.fill($("#tpl_productEvaluate"), data);
+            $(".product_evaluate").html(h);
+            if(data.review){
+            $('.renickName').html($('.renickName').html().replace(/^(.).*/,"$1***"));
+            }
+
+            //填充底部悬浮内容
+            h = render.fill($("#tpl_productBottom"), data);
+            $(".foot_menu").html(h);
+            $('.proFavorite').html(data.hasFavorite);
+
+            //邻家好货
+            tenantId=data.tenantId;
+            var ner = new product(function (data) {
+                if(data.length>0){
+                    var pgeU = $(".pageable").pageable({
+                        loadDownFn: function (me) {
+                            var td = new product(function (data) {
+                                pgeU.pageNumber = me.pageNumber +1;
+                                var h = render.fill($("#tpl_productList"), data);
+                                $(".pageable .product-neighbor").append(h);
+                                if (data.length < 20) {
+                                    pgeU.lock();
+                                    pgeU.noData();
+                                }
+                                pgeU.resetload();
+                            });
+                            td.unions({pageNumber: me.pageNumber,id: tenantId});
+                        }
+                    });
+                }else{
+                    $('#neighbor_tit').hide();
+                }
+            });
+            ner.unions({id: tenantId});
+
+            //商品规格初始化
+            specification = data.specification;
+            specifications = data.specifications;
+            productSpecifications = data.productSpecifications;
+            if(specification.length==0) $norms.hide();
+            var html = '';
+            $.each(specifications, function (i, v) {
+                html += '<h2 class="f14">' + v.name + '：</h2>';
+                html += '<ul class="f14">';
+                $.each(v.specificationValues, function (i1, v1) {
+                    var flag = false;
+                    $.each(specification, function (i2, v2) {
+                        if (v2.id == v.id && v2.specificationValueId == v1.id) flag = true;
+                    });
+                    //默认选中当前商品规格
+                    html += '<li specificationId="' + v.id + '" specificationValueId="' + v1.id + '" class="' + (flag ? "active" : "") + '"><a href="javacript:;">' + v1.name + '</a></li>';
+                });
+                html += '</ul>';
+            });
+            $norms.html(html);
+            productId = data.id;
+            var spec = '';
+            $.each(specification, function (i, v) {
+                spec += i == 0 ? v.name : ' ' + v.name;
+            });
+            init_spec(data.thumbnail, data.price, data.availableStock, spec);
+            if (specification.length == 2){
+                matchSpec($norms.find('ul').eq(0).find('li.active'),$norms.find('ul').eq(1).find('li'));
+                matchSpec($norms.find('ul').eq(1).find('li.active'),$norms.find('ul').eq(0).find('li'));
+            }
+
+        }).view({id: pageManager.GetQueryString("id")});
+
+        //添加商品到收藏/取消收藏
+        $(document).on('click','#product_collect',function(){
+            var favorite = $('.proFavorite').text();
+            if(favorite=='true'){
+                new product(function(data){
+                    $('.proFavorite').text('false');
+                    $('#product_collect>i').addClass('icon-l-star').removeClass('icon-s-star');
+                }).delFavorite({id: pageManager.GetQueryString("id")});
+            }else{
+                new product(function(data){
+                    $('.proFavorite').text('true');
+                    $('#product_collect>i').addClass('icon-s-star').removeClass('icon-l-star');
+                }).favorite({id: pageManager.GetQueryString("id")});
+            }
+        });
+
+        //店主推荐
+        new product(function (data) {
+            var h = render.fill($("#tpl_productList"), data);
+            $(".pageable .product-recommend").append(h);
+        }).recommend({pageNum: 1, pageSize: 6, id: pageManager.GetQueryString("id")});
+
+
+        //下面演示用js
+        $('#product_collect').on('click', function () {
+            $("#product_collect i").toggleClass("icon-s-star");
+        });
+
+
+        //点击事件
+        $(document).on('click', '.norms ul li', function () {
+            var $this = $(this), spec1, spec2;
+            if ($this.hasClass('disabled')) return;//禁用项不可点击
+            $this.addClass('active').siblings('.active').removeClass('active');
+            var $activeLi = $norms.find('ul li.active');//选中的规格项
+            //只有一种规格
+            if (specification.length == 1) {
+                if ($activeLi.length == 0) {
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 1) {
+                    spec1 = {
+                        id: $activeLi.attr("specificationId"),
+                        valueId: $activeLi.attr("specificationValueId")
+                    };
+                    $.each(productSpecifications, function (i, v) {
+                        $.each(v.specifications, function (i1, v1) {
+                            if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) {
+                                productId = v.id;
+                                init_spec(v.thumbnail, v.price, v.availableStock, v1.name);
+                            }
+                        });
+                    });
+                }
+                //两种规格
+            } else if (specification.length == 2) {
+                console.log($activeLi.length);
+                if ($activeLi.length == 0) {//两个规格都没选中
+                    $norms.find('ul li').removeClass('disabled');//全部规格值启用
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 1) {//只有一个规格被选中
+                    $activeLi.parent().find('li').removeClass('disabled');//启用选中规格下的所有规格值
+                    matchSpec($activeLi, $activeLi.parent().siblings("ul").find("li"));
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 2) {//两个规格被选中
+                    matchSpec($this, $this.parent().siblings("ul").find("li"));
+                    spec1 = {//当前点击选中的规格
+                        id: $this.attr("specificationId"),
+                        valueId: $this.attr("specificationValueId")
+                    };
+                    var $anotherLi = $this.parent().siblings("ul").find(".active");//另一个被选中的li
+                    spec2 = {//另一个被选中的规格
+                        id: $anotherLi.attr("specificationId"),
+                        valueId: $anotherLi.attr("specificationValueId")
+                    };
+                    $.each(productSpecifications, function (i, v) {
+                        var flag1 = false, flag2 = false;
+                        var spec = '';
+                        $.each(v.specifications, function (i1, v1) {
+                            if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) flag1 = true;
+                            if (spec2.id == v1.id && spec2.valueId == v1.specificationValueId) flag2 = true;
+                            spec += i1 == 0 ? v1.name : ' ' + v1.name;
+                        });
+                        if (flag1 && flag2) {//区配到商品
+                            productId = v.id;
+                            init_spec(v.thumbnail, v.price, v.availableStock, spec);
+                        }
+                    });
+                }
+            }
+
+            var num = parseInt($('#acn_quertity').val());
+            var nums3 = parseInt($("#acn_stock").text());
+            if(num > nums3){
+                $('#acn_quertity').val(nums3);
+                toast.show('库存不足！')
+            }
+        });
+
+
+        function matchSpec($li, $lis) {
+            var spec1 = {
+                id: $li.attr("specificationId"),
+                valueId: $li.attr("specificationValueId")
+            };
+            $.each($lis, function () {
+                var $this = $(this);
+                $this.addClass('disabled');
+                var spec2 = {
+                    id: $this.attr("specificationId"),
+                    valueId: $this.attr("specificationValueId")
+                };
+                $.each(productSpecifications, function (i, v) {
+                    var flag1 = false, flag2 = false;
+                    $.each(v.specifications, function (i1, v1) {
+                        if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) flag1 = true;
+                        if (spec2.id == v1.id && spec2.valueId == v1.specificationValueId) flag2 = true;
+                    });
+                    if (flag1 && flag2) $this.removeClass('disabled');
+                });
+            });
+        }
+
+
+// 基类
+        var cartobj = {
+            init: function(){
+                this.cart_calc();
+            },
+            // 加减
+
+
+
+
+
+
+            cart_calc: function(){
+
+                var obj = this;
+
+
+
+                // 加
+                $('.vux-number-selector-plus').on('click', function(){
+                    var valm=$(this).prev('.input-number-int').val();
+                    valm =parseFloat(valm)+ 1;
+                    var num = $("#acn_stock").text();
+                        if(valm >num){
+                            valm = num;
+                            toast.show('超出库存量！')
+                        }
+
+                    $(this).prev('.input-number-int').val(valm);
+                });
+                // 减
+                $('.vux-number-selector-sub').on('click', function(){
+                    var valm= $(this).next('.input-number-int').val();
+                    valm = parseInt(valm) - 1;
+                    if ( valm < 1) {
+                        valm = 1;
+                    }
+                    $(this).next('.input-number-int').val(valm);
+                });
+            }
+        };
+        cartobj.init();
+
+
+
+        var init_spec = function (thumbnail, price, stock, spec) {
+
+            if(thumbnail) $("#acn_thumbnail")[0].src = thumbnail;
+            $("#acn_price").text('￥' + (price ? price : 0));
+            $("#acn_stock").text((stock ? stock : 0));
+            $("#acn_choose").html(spec ? '已选 <font color="#ff6d06">' + spec + '</font>' : '请选择商品规格');
+
+
+
+
+        };
+
+
+
+
+
+
+
+        //选择商品规格
+        $('#sheet_choose_norms').on('click', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                $("#actionSheet_choose_norms").actionsheetClose();
+            });
+        });
+
+        //购物车数量
+        var cartNum = new product(function(data){
+            if(data.cartCount != 0){
+                $('.weui-badge').css('display','inline-block');
+                $('.weui-badge').html(data.cartCount);
+            }else{
+                $('.weui-badge').hide();
+            }
+
+
+
+
+
+
+
+
+        });
+        cartNum.view({id:pageManager.GetQueryString("id")});
+
+
+
+        //加入购物车
+        $(document).on('click', '#sheet_add_card', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                if(!productId){
+                    toast.show('请选择商品规格');
+                    return;
+                }
+                new cart(function (data) {
+                    setTimeout(function () {
+                        toast.show('加入购物车成功');
+                    },200);
+                    $("#actionSheet_choose_norms").actionsheetClose();
+
+                    //购物车数量
+                    if(data.cartCount != 0){
+                        $('.weui-badge').css('display','inline-block');
+                        $('.weui-badge').html(data.cartCount);
+                    }else{
+                        $('.weui-badge').hide();
+                    }
+                }).add({
+                    id:productId,
+                    quantity:$("#acn_quertity").val()
+                });
+            });
+        });
+
+        //立即购买
+        $(document).on('click', '#sheet_buy_now', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                if(!productId){
+                    toast.show('请选择商品规格');
+                    return;
+                }
+                new cart(function (data) {
+                    location.href='/weixin/carts/cart.html#orderPay';
+                }).add({
+                    id:productId,
+                    quantity:$("#acn_quertity").val(),
+                    type:'buy'
+                });
+            });
+        });
+
+        //添加增加访问记录
+        new visitRecord(function () {
+        }).add({
+            productId: pageManager.GetQueryString("id"),
+            visitType: 'weixin',
+            machineType: 'mobile'
+        });
+
+    });
+</script>
+
+</script>
+<!--商家导购-->
+<script type="text/html" id="tpl_shop-guide">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab pageable">
+            <div class="shop-guide weui-cells"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        //导购列表及分页
+        var emp = new employee(function (data) {
+        if(data.length > 0){
+            var pge = $(".pageable").pageable({
+                loadUpFn:function(me) {
+                    var tu = new employee(function (data) {
+                        var h = render.fill($("#tpl_shopGuide"),data);
+                        $(".pageable .shop-guide").html(h);
+                        pge.resetload();
+                    });
+                    tu.list({pageNumber:1,id: pageManager.GetQueryString('id')});
+                },
+                loadDownFn :function(me) {
+                    var td = new employee(function (data) {
+                        pge.pageNumber = me.pageNumber +1;
+                        var h = render.fill($("#tpl_shopGuide"),data);
+                        $(".pageable .shop-guide").append(h);
+
+                        if (data.length<20){
+                            pge.lock();
+                            pge.noData();
+                        }
+                        pge.resetload();
+                    });
+                    td.list({id: pageManager.GetQueryString('id'),pageNumber:me.pageNumber});
+                }
+            });
+        }else{
+            $('.shop-guide').html('<div class="f14 data_none">暂无导购！</div>');
+        }
+        });
+        emp.list({id: pageManager.GetQueryString('id')});
+
+        //收藏导购/取消收藏
+        $(document).on('click','.coll',function(){
+            var  employeeId = $(this).attr('data-id');
+            var a = $(this).parent().attr('id');
+            var favorite = $('#'+a).find('.collect').text();
+            if(favorite=='true'){
+                var s = new employee(function(data){
+                    $('#'+a).find('.collect').text('false');
+                    //$('.collect').text('false');
+                    $('#'+a).find('.coll').removeClass('active');
+                    $('#'+a).find('.coll').removeClass('icon-s-heart-01');
+                    $('#'+a).find('.coll').addClass('icon-l-heart-01');
+                });
+                s.delFavorite({id: employeeId});
+            }else{
+                var s = new employee(function(data){
+                    $('#'+a).find('.collect').text('true');
+                    $('#'+a).find('.coll').addClass('active');
+                    $('#'+a).find('.coll').addClass('icon-s-heart-01');
+                    $('#'+a).find('.coll').removeClass('icon-l-heart-01');
+                });
+                s.favorite({id: employeeId});
+            }
+        });
+    });
+</script>
+</script>
+<!--产品评价-->
+<script type="text/html" id="tpl_product-evaluate">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab pageable">
+            <div class="evaluate">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //列表及分页
+        var pgep = $(".pageable").pageable({
+            loadUpFn:function(me) {
+                var tu = new review(function (data) {
+                    var h = render.fill($("#tpl_proEvaluate"),data);
+                    $(".pageable .evaluate").html(h);
+                     me.resetload();
+                    var reg = /^(.).+(.)$/g;
+                    $('.nickname_user').html().replace(reg, "$1*$2");
+                });
+                tu.list({id:pageManager.GetQueryString("id"),pageNumber:1});
+            },
+            loadDownFn :function(me) {
+                var td = new review(function (data) {
+                    me.pageNumber = me.pageNumber +1;
+                    var h = render.fill($("#tpl_proEvaluate"),data);
+                    $(".pageable .evaluate").append(h);
+                    if (data.length<20){
+                        me.lock();
+                        me.noData();
+                    }
+
+                    $('.nickname_user').each(function () {
+                       $(this).html($(this).html().replace(/^(.).*/,"$1***"));
+
+                    });
+                    me.resetload();
+                });
+                td.list({id:pageManager.GetQueryString("id"),pageNumber:me.pageNumber});
+            }
+        });
+
+
+    });
+</script>
+
+
+</script>
+<!--导购聊天-->
+<script type="text/html" id="tpl_chat-guide">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+                
+<div class="chattoguide">
+    <div id="content">
+        <ul id="inHtml"></ul>
+        <div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg"></span>
+            <div class="weui-gallery__opr">
+                <a href="javascript:" class="weui-gallery__del">
+                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <ul id="smilebag">
+        <li key="[):]" class="webim-emoji-item"><img src="../images/faces/ee_1.png"></li>
+        <li key="[:D]" class="webim-emoji-item"><img src="../images/faces/ee_2.png"></li>
+        <li key="[;)]" class="webim-emoji-item"><img src="../images/faces/ee_3.png"></li>
+        <li key="[:-o]" class="webim-emoji-item"><img src="../images/faces/ee_4.png"></li>
+        <li key="[:p]" class="webim-emoji-item"><img src="../images/faces/ee_5.png"></li>
+        <li key="[(H)]" class="webim-emoji-item"><img src="../images/faces/ee_6.png"></li>
+        <li key="[:@]" class="webim-emoji-item"><img src="../images/faces/ee_7.png"></li>
+        <li key="[:s]" class="webim-emoji-item"><img src="../images/faces/ee_8.png"></li>
+        <li key="[:$]" class="webim-emoji-item"><img src="../images/faces/ee_9.png"></li>
+        <li key="[:(]" class="webim-emoji-item"><img src="../images/faces/ee_10.png"></li>
+        <li key="[:'(]" class="webim-emoji-item"><img src="../images/faces/ee_11.png"></li>
+        <li key="[:|]" class="webim-emoji-item"><img src="../images/faces/ee_12.png"></li>
+        <li key="[(a)]" class="webim-emoji-item"><img src="../images/faces/ee_13.png"></li>
+        <li key="[8o|]" class="webim-emoji-item"><img src="../images/faces/ee_14.png"></li>
+        <li key="[8-|]" class="webim-emoji-item"><img src="../images/faces/ee_15.png"></li>
+        <li key="[+o(]" class="webim-emoji-item"><img src="../images/faces/ee_16.png"></li>
+        <li key="[<o)]" class="webim-emoji-item"><img src="../images/faces/ee_17.png"></li>
+        <li key="[|-)]" class="webim-emoji-item"><img src="../images/faces/ee_18.png"></li>
+        <li key="[*-)]" class="webim-emoji-item"><img src="../images/faces/ee_19.png"></li>
+        <li key="[:-#]" class="webim-emoji-item"><img src="../images/faces/ee_20.png"></li>
+        <li key="[:-*]" class="webim-emoji-item"><img src="../images/faces/ee_21.png"></li>
+        <li key="[^o)]" class="webim-emoji-item"><img src="../images/faces/ee_22.png"></li>
+        <li key="[8-)]" class="webim-emoji-item"><img src="../images/faces/ee_23.png"></li>
+        <li key="[(|)]" class="webim-emoji-item"><img src="../images/faces/ee_24.png"></li>
+        <li key="[(u)]" class="webim-emoji-item"><img src="../images/faces/ee_25.png"></li>
+        <li key="[(S)]" class="webim-emoji-item"><img src="../images/faces/ee_26.png"></li>
+        <li key="[(*)]" class="webim-emoji-item"><img src="../images/faces/ee_27.png"></li>
+        <li key="[(#)]" class="webim-emoji-item"><img src="../images/faces/ee_28.png"></li>
+        <li key="[(R)]" class="webim-emoji-item"><img src="../images/faces/ee_29.png"></li>
+        <li key="[({)]" class="webim-emoji-item"><img src="../images/faces/ee_30.png"></li>
+        <li key="[(})]" class="webim-emoji-item"><img src="../images/faces/ee_31.png"></li>
+        <li key="[(k)]" class="webim-emoji-item"><img src="../images/faces/ee_32.png"></li>
+        <li key="[(F)]" class="webim-emoji-item"><img src="../images/faces/ee_33.png"></li>
+        <li key="[(W)]" class="webim-emoji-item"><img src="../images/faces/ee_34.png"></li>
+        <li key="[(D)]" class="webim-emoji-item"><img src="../images/faces/ee_35.png"></li>
+        <div class="webim-emoji-item" id="deletemo"><i class="icon iconfont icon-del"></i></div>
+        <div class="webim-emoji-item" id="sendmo"><a href="javascript:;" >发送</a></div>
+
+    </ul>
+
+</div>
+
+            </div>
+            <div class="chattoguide">
+                <div class="weui-cell YM-inputsR">
+                    <div  class="weui-cell__bd ">
+
+                        <form action="#">
+                            <textarea name="" rows="1" id="inputme" jhk="inputtxt" placeholder="发送消息" ></textarea>
+                        </form>
+                        <div class="smail">
+                            <div id="showsmile">
+                                <img src="../images/static/chat-ico1.png" alt="">
+                            </div>
+                            <div class="weui-cell__ft imgs" >
+                                <img src="../images/static/chat-ico2.png" alt="">
+                                <form id="sendpic" enctype ="multipart/form-data" >
+                                    <input type="file" class="upload_img" name="file" id="picture" style="position:
+absolute;top:9px;left:0;width:30px;opacity: 0;">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+
+    $('input[type="text"],textarea').on('click', function () {
+        var target = this;
+        setTimeout(function(){
+            target.scrollIntoViewIfNeeded();
+            console.log('scrollIntoViewIfNeeded');
+        },1);
+
+    });
+
+
+
+//    $('#inputme').focus(function(){
+//        $("#content").css({'height': '38vh', 'padding-top': '52vh'})
+//    })
+//
+//    $('#inputme').blur(function() {
+//        $("#content").css({'height': '86vh', 'padding-top': '10px'})
+//    })
+
+
+    //标题设置为导购昵称
+    var m = new member(function (data) {
+        document.title = data.nickName;
+        //用于刷新浏览器标题
+        var $body = $('body');
+        var $iframe = $('<iframe  src="" style="display: none;"></iframe>').on('load', function () {
+            setTimeout(function () {
+                $iframe.off('load').remove();
+            }, 0)
+        }).appendTo($body)
+    });
+
+
+    m.view({id: pageManager.GetQueryString('id')});
+    $(function () {
+
+
+        //显示数据库中所有该导购的聊天记录
+        showAllTheData(10);
+        var guideId = pageManager.GetQueryString('id');
+        var userimg;  //登录者头像
+        var guideimg; //导购头像
+
+        var oGet = document.getElementById('inputme');  //得到输入内容
+        var oWrite = document.getElementById('inHtml');  //显示输入内容
+//        oGet.focus();               //默认输入框显示光标
+        var sbag = document.getElementById('smilebag');  //表情列表
+        var pic = document.getElementById('picture');    //图片
+        var show = document.getElementById('showsmile'); //显示表情按钮
+        var gallery = document.getElementsByClassName('gallery');
+        var dele=document.getElementById('deletemo');
+        var send=document.getElementById('sendmo');
+        var stcont=document.getElementById('content');
+
+
+        //点击显示或者关闭标情框
+        show.onclick = function () {
+            if (sbag.style.display == "block") {
+                sbag.style.display = "none";
+            } else {
+                sbag.style.display = "block";
+            }
+        };
+
+        //表情框的删除按钮功能
+        dele.onclick=function () {
+            var str=oGet.value;
+            var newstr=str.substring(0,str.length-5);
+            oGet.value=newstr;
+        };
+
+
+        //初始化数据库
+        initDatabase();
+        //发送事件
+        send.onclick=function () {
+            var content = oGet.value;
+            if (content == '') {
+                dialog.show("请输入内容");
+                return;
+            }
+            sendPrivateText(content, guideId, function () {
+                getTime();
+                sendMsg(parseEmoji(content));
+                browseimg();
+                sbag.style.display = "none";
+                stcont.scrollTop=stcont.scrollHeight-stcont.offsetHeight;
+                getTime();
+                var idGuide =pageManager.GetQueryString('id');
+                var mType = 'sendmes';
+                var mCount = content;
+                var mTime = time;
+                var dYear=mTime.substring(0, 4);
+                var dMonth=mTime.substring(4,6);
+                var dDate=mTime.substring(6,8);
+                var dHour=mTime.substring(8,10);
+                var dMinute=mTime.substring(10,12);
+                var dSecond=mTime.substring(12,14);
+                var nchatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+
+                var tType='txt';
+                var db = getCurrentDb();
+                //执行sql脚本，插入数据
+                db.transaction(function (trans) {
+                    trans.executeSql("insert into chatGuide(gid,mestype,mescont,mestime,txttype) values(?,?,?,?,?) ", [idGuide, mType, mCount,mTime,tType], function (ts, data) {
+
+                    }, function (ts, message) {
+//                        alert(message);
+                    });
+                });
+            });
+            oGet.value = '';
+            oGet.focus();
+        };
+        document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // enter 键
+                //要做的事情
+                e.preventDefault();
+                send.onclick();
+            }
+        };
+
+        //点击表情图
+        $('#smilebag li').click(function () {
+            var key = $(this).attr('key');
+            oGet.value += key;
+        });
+
+        WebIM.Emoji = emoji;//导入表情包
+
+        //创建连接
+        var conn = new WebIM.connection({
+            https: WebIM.config.https,
+            url: WebIM.config.xmppURL,
+            isAutoLogin: WebIM.config.isAutoLogin,
+            isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+        });
+
+        //添加回调函数
+        conn.listen({
+            //连接成功回调
+            onOpened: function (message) {
+                // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
+                // 手动上线指的是调用conn.setPresence(); 如果conn初始化时已将isAutoLogin设置为true
+                // 则无需调用conn.setPresence();
+                console.log('连接成功并自动上线');
+            },
+            //连接关闭回调
+            onClosed: function (message) {
+                console.log('连接关闭');
+                dialog.show('连接关闭，您已在其它地方登录！');
+            },
+
+            //收到文本消息
+            onTextMessage: function (message) {
+                console.log('收到文本消息：');
+                console.log(message);
+
+                getTime();
+                var idGuide =pageManager.GetQueryString('id');
+                var mType = 'getmes';
+                var mCount = message.data;
+                var mTime = time;
+                var tType='txt';
+                var db = getCurrentDb();
+                //执行sql脚本，插入数据
+                db.transaction(function (trans) {
+                    trans.executeSql("insert into chatGuide(gid,mestype,mescont,mestime,txttype) values(?,?,?,?,?) ", [idGuide, mType, mCount,mTime,tType], function (ts, data) {
+                    }, function (ts, message) {
+//                            alert(message);
+                    });
+                });
+                if (message.from == guideId) {
+                    receiveMsg(message.data);
+                }
+            },
+            //收到表情消息
+            onEmojiMessage: function (message) {
+                getTime();
+                console.log('收到表情消息：');
+                console.log(message);
+                var msg='';
+                var data = message.data;
+                for(var i = 0 , l = data.length ; i < l ; i++){
+                    if(data[i].type=='txt'){
+                        msg+=data[i].data;
+                    }
+                    if(data[i].type=='emoji'){
+                        msg+='<img src="' + data[i].data + '"/>';
+                    }
+                }
+                getTime();
+                var idGuide =pageManager.GetQueryString('id');
+                var mType = 'getmes';
+                var mCount = msg;
+                var mTime = time;
+                var tType='temojo';
+                var db = getCurrentDb();
+                //执行sql脚本，插入数据
+                db.transaction(function (trans) {
+                    trans.executeSql("insert into chatGuide(gid,mestype,mescont,mestime,txttype) values(?,?,?,?,?) ", [idGuide, mType, mCount,mTime,tType], function (ts, data) {
+                    }, function (ts, message) {
+//                            alert(message);
+                    });
+                });
+                if (message.from == guideId) {
+                    receiveMsg(msg);
+                }
+            },
+            //收到图片消息
+            onPictureMessage: function (message) {
+                console.log('收到图片消息：');
+                console.log(message);
+                var options = {url: message.url};
+                options.onFileDownloadComplete = function (blob) {
+                    // 图片下载成功
+                    console.log('图片下载完成!');
+                    var url=window.URL.createObjectURL(blob);
+                    console.log(url);
+                    receiveImg('<img src="' + url + '" class="sendimg">');
+                    stcont.scrollTop=stcont.scrollHeight-stcont.offsetHeight;
+                    getTime();
+                    var idGuide =pageManager.GetQueryString('id');
+                    var mType = 'getmes';
+                    var mCount = message.url;
+                    var mTime = time;
+                    var tType='img';
+                    var db = getCurrentDb();
+                    //执行sql脚本，插入数据
+                    db.transaction(function (trans) {
+                        trans.executeSql("insert into chatGuide(gid,mestype,mescont,mestime,txttype) values(?,?,?,?,?) ", [idGuide, mType,
+                            mCount,mTime,tType], function (ts, data) {
+                        }, function (ts, message) {
+                            alert(message);
+                        });
+                    });
+                };
+                options.onFileDownloadError = function () {
+                    // 图片下载失败
+                    console.log('Image download failed!');
+                };
+                WebIM.utils.download.call(conn, options);
+                if (message.from == guideId) {
+                    receiveImg('<img src="' + url + '" class="sendimg">');
+                }
+            },
+            //收到命令消息
+            onCmdMessage: function (message) {
+                console.log('收到命令消息：');
+                console.log(message);
+            },
+            //收到音频消息
+            onAudioMessage: function (message) {
+            },
+            //收到位置消息
+            onLocationMessage: function (message) {
+            },
+            //收到文件消息
+            onFileMessage: function (message) {
+            },
+            //收到视频消息
+            onVideoMessage: function (message) {
+                var node = document.getElementById('privateVideo');
+                var option = {
+                    url: message.url,
+                    headers: {
+                        'Accept': 'audio/mp4'
+                    },
+                    onFileDownloadComplete: function (response) {
+                        var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
+                        node.src = objectURL;
+                    },
+                    onFileDownloadError: function () {
+                        console.log('File down load error.')
+                    }
+                };
+                WebIM.utils.download.call(conn, option);
+            },
+            //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+            onPresence: function (message) {
+            },
+            //处理好友申请
+            onRoster: function (message) {
+            },
+            //处理群组邀请
+            onInviteMessage: function (message) {
+            },
+            //本机网络连接成功
+            onOnline: function () {
+                console.log('本机网络连接成功');
+            },
+            //本机网络掉线
+            onOffline: function () {
+                console.log('本机网络掉线');
+                dialog.show('网络掉线！');
+            },
+            //失败回调
+            onError: function (message) {
+                console.log('接收消息失败');
+            },
+            //黑名单变动
+            onBlacklistUpdate: function (list) {
+                // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+                console.log(list);
+            }
+        });
+
+        //登录者资料
+        new member(function (data) {
+            console.log('当前登录人：');
+            console.log(data);
+            userimg = data.headImg;
+
+            //登录环信账号
+            var options = {
+                apiUrl: WebIM.config.apiURL,
+                user: data.id,
+                pwd: 'rzico@2015',
+                appKey: WebIM.config.appkey
+            };
+            conn.open(options);
+        }).view();
+
+        //导购资料
+        new member(function (data) {
+            guideimg = data.headImg;
+        }).view({
+            id: guideId
+        });
+
+
+        // 单聊发送文本消息
+        var sendPrivateText = function (content, username, fn) {
+            var id = conn.getUniqueId();                 // 生成本地消息id
+            var msg = new WebIM.message('txt', id);      // 创建文本消息
+            msg.set({
+                msg: content,                  // 消息内容
+                to: username,                          // 接收消息对象（用户id）
+                roomType: false,
+                success: function (id, serverMsgId) {
+                    console.log('send private text Success');
+                    if (fn) fn();
+                }
+            });
+            msg.body.chatType = 'singleChat';
+            conn.send(msg.body);
+        };
+
+        // 单聊贴图发送（放到消息模块里）
+        document.addEventListener('paste', function (e) {
+            if (e.clipboardData && e.clipboardData.types) {
+                if (e.clipboardData.items.length > 0) {
+                    if (/^image\/\w+$/.test(e.clipboardData.items[0].type)) {
+                        var blob = e.clipboardData.items[0].getAsFile();
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+
+                        var id = conn.getUniqueId();             // 生成本地消息id
+                        var msg = new WebIM.message('img', id);  // 创建图片消息
+                        msg.set({
+                            apiUrl: WebIM.config.apiURL,
+                            file: {data: blob, url: url},
+                            to: guideId,                      // 接收消息对象
+                            roomType: false,
+                            chatType: 'singleChat',
+                            onFileUploadError: function (error) {
+                                console.log('Error');
+                            },
+                            onFileUploadComplete: function (data) {
+                                console.log('Complete');
+                            },
+                            success: function (id) {
+                                console.log('贴图消息发送成功！');
+                                console.log(id);
+                                sendMsg('<img src="' + url + '" class="sendimg">');
+                            }
+                        });
+                        conn.send(msg.body);
+                    }
+                }
+            }
+        });
+
+        // 单聊发送图片消息
+        pic.onchange = function () {
+            var sendPrivateImg = function () {
+                var id = conn.getUniqueId();                   // 生成本地消息id
+                var msg = new WebIM.message('img', id);        // 创建图片消息
+                var input = document.getElementById('picture');  // 选择图片的input
+                var file = WebIM.utils.getFileUrl(input);      // 将图片转化为二进制文件
+                var imgsrc;
+                var allowType = {
+                    'jpg': true,
+                    'gif': true,
+                    'png': true,
+                    'bmp': true
+                };
+                if (file.filetype.toLowerCase() in allowType) {
+                    var option = {
+                        apiUrl: WebIM.config.apiURL,
+                        file: file,
+                        to: guideId,                       // 接收消息对象
+                        roomType: false,
+                        chatType: 'singleChat',
+                        onFileUploadError: function () {      // 消息上传失败
+                            console.log('onFileUploadError');
+                        },
+
+                        onFileUploadComplete: function (e) {   // 消息上传成功
+                            console.log('onFileUploadComplete');
+                            imgsrc=e.uri+'/'+e.entities[0].uuid;
+                        },
+                        success: function (e) {// 消息发送成功
+                            console.log('图片消息发送成功');
+                            console.log(imgsrc);
+                            sendImg('<img src="' + file.url + '" class="sendimg">');
+                            stcont.scrollTop=stcont.scrollHeight-stcont.offsetHeight;
+                            getTime();
+                            var idGuide =pageManager.GetQueryString('id');
+                            var mType = 'sendmes';
+                            var mCount = imgsrc;
+                            var mTime = time;
+                            var tType='img';
+
+                            var db = getCurrentDb();
+                            //执行sql脚本，插入数据
+                            db.transaction(function (trans) {
+                                trans.executeSql("insert into chatGuide(gid,mestype,mescont,mestime,txttype) values(?,?,?,?,?) ", [idGuide, mType,
+                                    mCount,mTime,tType], function (ts, data) {
+                                }, function (ts, message) {
+                                    alert(message);
+                                });
+                            });
+                            browseimg();
+                        },
+                        flashUpload: WebIM.flashUpload
+                    };
+                    msg.set(option);
+                    conn.send(msg.body);
+                }
+            };
+            sendPrivateImg();
+        };
+
+        function sendMsg(msg) {
+            getTime();
+            var nTime = time;
+            var dYear=nTime.substring(0, 4);
+            var dMonth=nTime.substring(4,6);
+            var dDate=nTime.substring(6,8);
+            var dHour=nTime.substring(8,10);
+            var dMinute=nTime.substring(10,12);
+            var dSecond=nTime.substring(12,14);
+            var nchatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+            var html = '<li class="th">';
+            html += '<img class="headImg" src=' + userimg + '>';
+            html+='<div>';
+            html+='<h7>'+nchatTime+'</h7>';
+            html += '<p>' + msg + '<span class="sent1"></span></p>';
+            html+='</div>';
+            html += '</li>';
+            oWrite.innerHTML += html;
+        }
+
+        function sendImg(msg) {
+            getTime();
+            var nTime = time;
+            var dYear=nTime.substring(0, 4);
+            var dMonth=nTime.substring(4,6);
+            var dDate=nTime.substring(6,8);
+            var dHour=nTime.substring(8,10);
+            var dMinute=nTime.substring(10,12);
+            var dSecond=nTime.substring(12,14);
+            var nchatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+            var html = '<li class="th">';
+            html += '<img class="headImg" src=' + userimg + '>';
+            html+='<div>';
+            html+='<h7>'+nchatTime+'</h7>';
+            html += '<p>' + msg + '<span class="sent1"></span></p>';
+            html+='</div>';
+            html += '</li>';
+            oWrite.innerHTML += html;
+            browseimg();
+
+        }
+
+        function receiveMsg(msg) {
+            getTime();
+            var nTime = time;
+            var dYear=nTime.substring(0, 4);
+            var dMonth=nTime.substring(4,6);
+            var dDate=nTime.substring(6,8);
+            var dHour=nTime.substring(8,10);
+            var dMinute=nTime.substring(10,12);
+            var dSecond=nTime.substring(12,14);
+            var nchatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+
+            var html = '<li class="ds">';
+            html += '<img class="headImg" src=' + guideimg + '>';
+            html+='<div>';
+            html+='<h7>'+nchatTime+'</h7>';
+            html += '<p>' + msg + '<span class="sent2"></span></p>';
+            html+='</div>';
+            html += '</li>';
+            oWrite.innerHTML += html;
+            stcont.scrollTop=stcont.scrollHeight-stcont.offsetHeight;
+            browseimg();
+        }
+
+        function receiveImg(msg) {
+            getTime();
+            var nTime = time;
+            var dYear=nTime.substring(0, 4);
+            var dMonth=nTime.substring(4,6);
+            var dDate=nTime.substring(6,8);
+            var dHour=nTime.substring(8,10);
+            var dMinute=nTime.substring(10,12);
+            var dSecond=nTime.substring(12,14);
+            var nchatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+            var html = '<li class="ds">';
+            html += '<img class="headImg" src=' + guideimg + '>';
+            html+='<div>';
+            html+='<h7>'+nchatTime+'</h7>';
+            html += '<p>' + msg + '<span class="sent2"></span></p>';
+            html+='</div>';
+            html += '</li>';
+            oWrite.innerHTML += html;
+            stcont.scrollTop=stcont.scrollHeight-stcont.offsetHeight;
+        }
+
+        //Emoji表情消息解析
+        var parseEmoji = function (msg) {
+            if (typeof WebIM.Emoji === 'undefined' || typeof WebIM.Emoji.map === 'undefined') {
+                return msg;
+            } else {
+                var emoji = WebIM.Emoji;
+                for (var face in emoji.map) {
+                    if (emoji.map.hasOwnProperty(face)) {
+                        while (msg.indexOf(face) > -1) {
+                            msg = msg.replace(face, '<img src="' + emoji.path + emoji.map[face] + '"/>');
+                        }
+                    }
+                }
+                return msg;
+            }
+        };
+
+        //浏览图片
+        var browseimg=function () {
+            var imgsObj = $('.sendimg');
+            var imgs = new Array();
+            for(var i = 0; i < imgsObj.size(); i++){
+                imgs.push(imgsObj.eq(i).attr('src'));
+            };
+            $('.sendimg').on('click',function(){
+                WeixinJSBridge.invoke('imagePreview', {
+                    'current': $(this).attr('src'),
+                    'urls': imgs
+                });
+            });
+        };
+
+        //获取当前时间
+        function getTime(){
+            var oDate = new Date(); //实例一个时间对象；
+            var year=oDate.getFullYear().toString();   //获取系统的年；
+            var month=oDate.getMonth()+1;   //获取系统月份，由于月份是从0开始计算，所以要加1
+            if(month<10){
+                month='0'+month;
+            }else{
+                month=month;
+            }
+            var date=oDate.getDate().toString(); // 获取系统日，
+            if(date<10){
+                date='0'+date;
+            }else{
+                date=date;
+            }
+            var hour=oDate.getHours(); //获取系统时，
+            if(hour<10){
+                hour='0'+hour;
+            }else{
+                hour=hour;
+            }
+            var minute=oDate.getMinutes(); //分
+            if(minute<10){
+                minute='0'+minute;
+            }else{
+                minute=minute;
+            }
+            var second=oDate.getSeconds(); //秒
+            if(second<10){
+                second='0'+second;
+            }else{
+                second=second;
+            }
+            var weiseconds = oDate.getMilliseconds();//毫秒
+            if(weiseconds<10){
+                weiseconds='00'+weiseconds;
+            }else if(weiseconds>10&&weiseconds<100){
+                weiseconds='0'+weiseconds;
+            }else{
+                weiseconds=weiseconds;
+            }
+            time=year+month+date+hour+minute+second+weiseconds;
+            return time;
+        }
+
+        function initDatabase() {
+            var db = getCurrentDb();//初始化数据库
+            if(!db) {
+//            alert("您的浏览器不支持HTML5本地数据库");
+                return;}
+
+
+            db.transaction(function (trans) {//启动一个事务，并设置回调函数
+                //执行创建表的Sql脚本  gid导购id  mestype消息类型(sendms发送的消息,getmes收到的消息,mescont消息内容,mestime消息时间)
+                trans.executeSql("create table if not exists chatGuide(gid text null,mestype text null,mescont text null,mestime text null,txttype text null)", [], function (trans, result) {
+                }, function (trans, message) {//消息的回调函数alert(message);});
+                }, function (trans, result) {
+                }, function (trans, message) {
+                });
+            })
+        }
+
+        function getCurrentDb() {
+            //打开数据库，或者直接连接数据库参数：数据库名称，版本，概述，大小
+            //如果数据库不存在那么创建之
+            var db = openDatabase("ch515at", "1.0", "it's to save chatGuide data!", 1024 * 1024); ;
+            return db;
+        }
+
+        //显示所有数据库中的数据到页面上去
+        function showAllTheData(lineCount) {
+            $("#inHtml").empty();
+            var db = getCurrentDb();
+            db.transaction(function (trans) {
+                var nowGuideid=pageManager.GetQueryString('id');
+                //查询当前id的导购表的聊天内容
+                trans.executeSql("select * from chatGuide where gid="+nowGuideid+' order by mestime desc limit '+lineCount+' offset 0', [], function (ts, data) {
+                    if (data) {
+                        console.log(data);
+                        for (var i = 0; i < data.rows.length; i++) {
+                            appendDataToTable(data.rows.item(i));//获取某行数据的json对象
+                        }
+                    }
+                }, function (ts, message) {
+//                alert(message);
+                    var tst = message;});
+            });
+        }
+
+        var count=10;
+        $('#content').scroll(function(){
+            if(stcont.scrollTop==0){
+                count+=10;
+                showAllTheData(count);
+            }
+        });
+
+
+        function appendDataToTable(data) {//将数据展示到表格里
+            //idGuide,mType,mCount,mTime
+            var idGuide=data.gid;
+            var mType = data.mestype;
+            var mCount = data.mescont;
+            var mTime = data.mestime;
+            var tType=data.txttype;
+            var dYear=mTime.substring(0, 4);
+            var dMonth=mTime.substring(4,6);
+            var dDate=mTime.substring(6,8);
+            var dHour=mTime.substring(8,10);
+            var dMinute=mTime.substring(10,12);
+            var dSecond=mTime.substring(12,14);
+            var chatTime=dYear+'-'+dMonth+'-'+dDate+'  '+dHour+':'+dMinute+':'+dSecond;
+
+            if(mType=='sendmes'&&tType=='txt'){//发送的消息
+                var html = '<li class="th">';
+                html += '<img class="headImg" src=' + userimg + '>';
+                html+='<div>';
+                html+='<h7>'+chatTime+'</h7>';
+                html += '<p>' + parseEmoji(mCount) + '<span class="sent1"></span></p>';
+                html+='</div>';
+                html += '</li>';
+                $("#inHtml").prepend(html);
+            } else if(mType=='sendmes'&&tType=='img'){     //发送的图片
+                var html = '<li class="th">';
+                html += '<img class="headImg" src=' + userimg + '>';
+                html+='<div>';
+                html+='<h7>'+chatTime+'</h7>';
+                html += '<p>' + '<img src="' + mCount + '" class="sendimg">' + '<span class="sent1"></span></p>';
+                html+='</div>';
+                html += '</li>';
+                $("#inHtml").prepend(html);
+                browseimg();
+            } else if(mType=='getmes'&&tType=='txt'){       //收到的消息
+                var html = '<li class="ds">';
+                html += '<img class="headImg" src=' + guideimg + '>';
+                html+='<div>';
+                html+='<h7>'+chatTime+'</h7>';
+                html += '<p>' + mCount + '<span class="sent2"></span></p>';
+                html+='</div>';
+                html += '</li>';
+                $("#inHtml").prepend(html);
+                browseimg();
+            }else if(mType=='getmes'&&tType=='img'){        //收到的图片
+                var html = '<li class="ds">';
+                html += '<img class="headImg" src=' + guideimg + '>';
+                html+='<div>';
+                html+='<h7>'+chatTime+'</h7>';
+                html += '<p>' + '<img src="' + mCount + '" class="sendimg">' + '<span class="sent2"></span></p>';
+                html+='</div>';
+                html += '</li>';
+                $("#inHtml").prepend(html);
+                browseimg();
+            }else if(mType=='getmes'&&tType=='temojo'){        //收到表情
+                var html = '<li class="ds">';
+                html += '<img class="headImg" src=' + guideimg + '>';
+                html+='<div>';
+                html+='<h7>'+chatTime+'</h7>';
+                html += '<p>' + mCount+ '<span class="sent2"></span></p>';
+                html+='</div>';
+                html += '</li>';
+                $("#inHtml").prepend(html);
+                browseimg();
+            }
+
+        }
+    });
+</script>
+</script>
+
+
+<!--模版-->
+<script type="text/html" id="tpl_productDetailsDesc">
+<!--BEGIN productDetailsDesc-->
+    <div class="hd f14">{{name}}</div>
+    <div class="weui-cell bd">
+        <div class="weui-cell__bd">
+            <span class="f14">￥{{price}}</span>
+            {{#compare price '==' marketPrice}}
+            {{/compare}}
+            {{#compare price '!=' marketPrice}}
+                <span class="f12" id="marketPrice">￥{{marketPrice}}</span>
+            {{/compare}}
+        </div>
+        <div class="weui-cell__ft f12">
+            <span>{{hits}}人访问 </span>
+            <span> 月销{{monthSales}}件</span>
+        </div>
+    </div>
+    <div class="other">
+        {{#compare mailPromotion '!=' null}}
+            <span class="f12">{{mailPromotion.name}}</span>
+        {{/compare}}
+        {{#compare mailPromotion '==' null}}
+        {{/compare}}
+        {{#each promotions}}
+            <i class="iconfont icon-{{type}}"></i>
+        {{/each}}
+    </div>
+<!--END productDetailsDesc-->
+</script>
+<script type="text/html" id="tpl_tenant-info">
+<!--BEGIN tenant_info-->
+    <a class="weui-cell weui-cell_access" data-id="{{tenantId}}" href="../tenant/tenant-home.html?id={{tenantId}}">
+        <div class="weui-cell__bd f14">{{tenantName}}</div>
+        <div class="weui-cell__ft"></div>
+    </a>
+    <div class="weui-cell">
+        <div class="weui-cell__hd">
+            <img src="{{tenantThumbnail}}" alt="">
+        </div>
+        <div class="weui-cell__bd weui-cell_primary">
+            <div class="address">
+                <i class="iconfont icon-l-location f14"></i>
+                <span class="f14">{{address}}</span>
+            </div>
+            <div class="info f12">
+                <span>全部好货{{productCount}}</span>
+                <span>收藏人数{{tenantFavoriteCount}}</span>
+                <div class="stars starlevels"  data-starnum="{{tenantGrade}}" data-starlevelized="false">
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                </div>
+            </div>
+            <div class="other f12">
+                {{#compare noReason '==' true}}
+                <span>
+                    <i class="iconfont icon-seven f14"></i>
+                    七天退货
+                </span>
+                {{/compare}}
+                {{#compare noReason '==' false}}
+                {{/compare}}
+
+                {{#compare tamPo '==' true}}
+                <span>
+                    <i class="iconfont icon-assure f14"></i>
+                    担保交易
+                </span>
+                {{/compare}}
+                {{#compare tamPo '==' false}}
+                {{/compare}}
+            </div>
+        </div>
+        <div class="weui-cell__ft">
+            <a href="tel:{{phone}}" id="tel">
+                <i class="iconfont icon-phone-a"></i>
+            </a>
+        </div>
+    </div>
+<script>
+    $(function(){
+        //循环星星
+        $(".starlevels").starLevelize();
+    });
+</script>
+<!--END tenant_info-->
+</script><!--产品详细里面的商家联系方式等-->
+<script type="text/html" id="tpl_productList">
+<!-- product_list -->
+{{#each this}}
+<div class="position">
+    <a class="weui-cell" href="../product/product-details.html?id={{id}}" data-id="{{id}}" >
+        <div class="weui-cell__hd fly_img">
+            {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/product.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle">{{name}}</p>
+            <p class="tag_list">
+                {{#each promotions}}
+                <i class="iconfont icon-{{type}}"></i>
+                {{/each}}
+            </p>
+            <p class="price f14"><span>￥{{price}}
+                {{#compare price '==' marketPrice}}
+                {{/compare}}
+                {{#compare price '!=' marketPrice}}
+                    <i class="marketPrice">￥{{marketPrice}}</i></span>
+                {{/compare}}
+            </p>
+            <p class="Fauxiliary">库存 {{favoriteCount}} /月销量 {{monthSales}}</p>
+
+        </div>
+    </a>
+    <span class="cart fly_cart_start"  data-id="{{id}}" id="sheet_add_card" ><i class="icon iconfont icon-l-jia"></i></span>
+</div>
+{{/each}}
+<!-- product_list end -->
+</script>
+<script type="text/html" id="tpl_productEvaluate">
+<!--BEGIN product_evaluate-->
+    <a class="weui-cell weui-cell_access hd">
+        <div class="weui-cell__hd f14">评价</div>
+        <div class="weui-cell__bd f12">
+            {{#if review}}
+            <span>暂无评价，购买后快来发表评价</span>
+            <span>好评{{positivePercent}}%</span>
+            {{/if}}
+        </div>
+        <div class="weui-cell__ft"></div>
+    </a>
+    <div class="weui-cells bd">
+        {{#compare review '!=' null}}
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <img src="{{review.headImg}}" alt="icon">
+            </div>
+            <div class="weui-cell__bd f12 renickName">{{review.nickName}}</div>
+            <div class="weui-cell__ft f12">{{review.createDate}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd f12"><span>{{review.content}}</span></div>
+        </div>
+        {{/compare}}
+        {{#compare review '==' null}}
+        <span class="not f12">暂无评价，购买后快来发表评价</span>
+        {{/compare}}
+    </div>
+{{#if review}}
+    <a class="weui-cell weui-cell_access ft" id="evaluate">
+        <div class="weui-cell__bd f12">查看全部评价</div>
+    </a>
+{{/if}}
+
+
+<!--END product_evaluate-->
+<script>
+    $(function () {
+        //跳转全部评价
+        $('#evaluate').on('click', function () {
+            window.location.href = "../product/product-details.html?id=" + pageManager.GetQueryString("id")+'#product-evaluate';
+            location.reload();//自动刷新
+        });
+    });
+</script>
+
+</script>
+<script type="text/html" id="tpl_product_detail">
+<!-- BEGIN product_feature -->
+{{#if attributes}}
+<div class="product_feature product_hd weui-cells weui-cells_border">
+    <div class="title f14">
+        产品属性
+    </div>
+    {{#with attributes}}
+    {{#each this}}
+    <div class="weui-cell">
+        <div class="weui-cell__bd f12" id="product_attributes">
+            <span>{{name}}</span>
+            <span style="margin-left: 20px;">{{value}}</span>
+        </div>
+    </div>
+    {{/each}}
+    {{/with}}
+</div>
+{{/if}}
+<!-- END product_feature -->
+<!--BEGIN details-->
+{{#if introduction}}
+<div class="details product_hd weui-cells weui-cells_border">
+    <div class="title f14">
+        宝贝详情
+    </div>
+    <div class="weui-cell f12" id="details">
+        <span>{{{introduction}}}</span>
+    </div>
+</div>
+{{/if}}
+<!--END details-->
+</script>
+<script type="text/html" id="tpl_productBottom">
+<!--<a  id="guide" data-id="{{tenantId}}" class="weui-tabbar__item Ftext">-->
+    <!--<i class="icon iconfont icon-daogou"></i>-->
+    <!--<p class="weui-tabbar__label f12">导购</p>-->
+<!--</a>-->
+<a id="product_collect" href="javascript:;" class="weui-tabbar__item Ftext">
+    {{#compare hasFavorite '==' true}}
+        <i class="iconfont icon-s-star"></i>
+    {{/compare}}
+    {{#compare hasFavorite '==' false}}
+        <i class="iconfont icon-l-star"></i>
+    {{/compare}}
+    <p class="weui-tabbar__label f12">收藏</p>
+    <span class="proFavorite none"></span>
+</a>
+<a href="../carts/cart.html" class="weui-tabbar__item Ftext">
+    <span class="weui-badges">
+       <i class="icon iconfont icon-gouwuche"></i>
+        <span class="weui-badge f12" style="display: none;"></span>
+    </span>
+    <p class="weui-tabbar__label f12">购物车</p>
+</a>
+<a href="javascript:;" class="weui-tabbar__item f14 add_btn" id="sheet_add_card">加入购物车</a>
+<a href="javascript:;" class="weui-tabbar__item f14 buy_btn" id="sheet_buy_now">立即购买</a>
+<!--<script>-->
+    <!--//获取商家导购-->
+    <!--$('body').on('click','#guide',function(){-->
+        <!--var guide = $(this).attr('data-id');-->
+        <!--location.href=location.origin+'/weixin/product/product-details.html?id='+guide+'#shop-guide';-->
+    <!--});-->
+<!--</script>-->
+</script>
+
+<!--商家导购-->
+<script type="text/html" id="tpl_shopGuide">
+<!--BEGIN shop_guide-->
+    {{#each this}}
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                {{#compare headImg '!=' null}}
+                    <img src="{{headImg}}" />
+                {{/compare}}
+                {{#compare headImg '==' null}}
+                    <img src="../images/placeholder/user.png" />
+                {{/compare}}
+                {{#compare headImg '==' ""}}
+                <img src="../images/placeholder/user.png" />
+                {{/compare}}
+            </div>
+            <div class="weui-cell__bd">
+                <p class="f16">{{name}}</p>
+                <p class="f14">{{tenantName}}</p>
+                <div class="info f12">
+                    <span>销售出{{quertity}}件</span>
+                    <span>粉丝数{{fansCount}}</span>
+                </div>
+            </div>
+            <div class="weui-cell__ft" id="guid{{employeeId}}" style="padding-top: 10px;">
+                <a class="orange" id="chats" data-id="{{id}}" href="product-details.html?id={{id}}#chat-guide"><i class="iconfont icon-chat f26"></i></a>
+                <span class="none collect">{{hasFavorited}}</span>
+                {{#compare hasFavorited '==' true}}
+                    <i class="iconfont icon-s-heart-01 f20 active coll" style="padding-right: 2px; " data-id="{{employeeId}}"></i>
+                {{/compare}}
+                {{#compare hasFavorited '==' false}}
+                    <i class="iconfont icon-l-heart-01 f20 coll" style="padding-right: 2px;" data-id="{{employeeId}}"></i>
+                {{/compare}}
+            </div>
+        </div>
+    {{/each}}
+<!--END shop_guide-->
+
+
+</script>
+<!--产品评价-->
+<script type="text/html" id="tpl_proEvaluate">
+<!--BEGIN evaluate-->
+{{#each this}}
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd">
+                <img src="{{headImg}}" alt="icon">
+            </div>
+            <div class="weui-cell__bd f12 nickname_user">{{name}}</div>
+            <div class="weui-cell__ft f12">{{createDate}}</div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__bd f14">
+                <p>{{content}}</p>
+                {{#with images}}
+                <ul class="weui-uploader__files uploaderFiles">
+                    {{#each this}}
+                    <img class="weui-uploader__file" src="{{source}}" alt=""/>
+                    {{/each}}
+                </ul>
+                {{/with}}
+                <div class="weui-gallery" id="gallery">
+                    <img class="weui-gallery__img evluate_img" id="galleryImg">
+                </div>
+            </div>
+        </div>
+                <div class="stars starlevels"  data-starnum="{{score}}" data-starlevelized="false">
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                    <i class="iconfont icon-s-star f12"></i>
+                </div>
+                <!---->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+    </div>
+{{/each}}
+<script>
+    $(function(){
+        //循环星星
+        $(".starlevels").starLevelize();
+
+        //预览卖家上传的图片
+//        $('.uploaderFiles img').click(function(){
+//            var $gallery =$(this).parent().next('div');
+//            var $galleryImg =$(this).parent().next('div').find('#galleryImg');
+//            $galleryImg.attr("src", this.getAttribute("src"));
+//            $gallery.fadeIn(100);
+//            $gallery.on("click", function(){
+//                $(this).fadeOut(100);
+//            });
+//        });
+
+        var imgsObj = $('.weui-uploader__file');
+        var imgs = new Array();
+        for(var i = 0; i < imgsObj.size(); i++){
+            imgs.push(imgsObj.eq(i).attr('src'));
+        };
+        $('.weui-uploader__file').on('click',function(){
+            WeixinJSBridge.invoke('imagePreview', {
+                'current': $(this).attr('src'),
+                'urls': imgs
+            });
+        });
+
+    });
+</script>
+<!--END evaluate-->
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+
+    var p=new product(function (data) {
+        console.log(data);
+        document.title=data.name;
+        //用于刷新浏览器标题
+        var $body = $('body');
+        var $iframe = $('<iframe  src="/favicon.ico" style="display:none;"></iframe>').on('load', function() {
+            setTimeout(function() {
+                $iframe.off('load').remove();
+            }, 0)
+        }).appendTo($body)
+    });
+    p.view({id:pageManager.GetQueryString('id')});
+
+    $(function () {
+        pageManager.show("product-details");
+    });
+</script>
+</body>
+</html>
+

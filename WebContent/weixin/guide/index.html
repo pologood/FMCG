@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>首页</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container"></div>
+
+<!--首页-->
+<script type="text/html" id="tpl_main">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel pageable" style="padding-bottom: 0;">
+                <div class="guide_ind_nav">
+                    <ul>
+                        <li class="active">
+                            <a class="f14" href="javascript:;">
+                                数码
+                            </a>
+                        </li>
+                        <li>
+                            <a class="f14" href="javascript:;">
+                                服装
+                            </a>
+                        </li>
+                        <li>
+                            <a class="f14" href="javascript:;">
+                                零食
+                            </a>
+                        </li>
+                        <li>
+                            <a class="f14" href="javascript:;">
+                                母婴
+                            </a>
+                        </li>
+                        <li>
+                            <a class="f14" href="javascript:;">
+                                娱乐
+                            </a>
+                        </li>
+                        <li>
+                            <a class="f14" href="javascript:;">
+                                女装
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- BEGIN 导购展示 -->
+                
+<!--BEGIN guide_pic-->
+<div id="guide_pic" class="guide_pic">
+    <ul>
+        <li>
+            <a id="img" class="" href="javascript:;">
+                <img src="http://cdn.tiaohuo.com/upload/image/201607/138be1d9-c052-4b25-bf73-30165ea866a2-source.jpg@960w_960h_1e_1c_100Q" />
+                <div class="title weui-cell">
+                    <div class="weui-cell__bd">
+                        <p class="f14">陶丽<span class="f12 clr-LightGray">（双鱼座）</span></p>
+                        <p>
+                            <i class="iconfont icon-you f14"></i>
+                            <i class="iconfont icon-zhe f14"></i>
+                            <i class="iconfont icon-new f14"></i>
+                            <i class="iconfont icon-zeng f14"></i>
+                        </p>
+                        <p class="f12 clr-LightGray">
+                            <span>粉丝：<em class="clr-drakGray">1236</em></span>
+                            <span>商品：<em class="clr-drakGray">64</em></span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+<!--END guide_pic-->
+
+                <!--BEGIN 收藏/加粉-->
+                <div class="attention">
+                    <a href="javascript:;">
+                        <i class="iconfont icon-s-heart-01 f16"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".guide_ind_nav ul li").click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+    });
+</script>
+
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("main");
+        var obj = document.getElementById('img');
+        var pic = document.getElementById("guide_pic");
+        var swidth = window.screen.width;
+        var imgwidth = swidth - (swidth*0.1);
+        var wt = swidth-imgwidth;
+        obj.style.width = imgwidth + 'px';
+        pic.style.height = (imgwidth + $("#img .title").height()) + 'px';
+        obj.addEventListener('touchmove', function(event) {
+            /**
+             * 如果这个元素的位置内只有一个手指的话
+             */
+            if (event.targetTouches.length == 1) {
+                event.preventDefault();// 阻止浏览器默认事件，重要
+                obj.style.position = 'absolute';
+                var touch = event.targetTouches[0];
+                // 把元素放在手指所在的位置
+                obj.style.left = touch.clientX + 'px';
+                obj.style.top = touch.clientY + 'px';
+//                console.log("touch: "+touch.clientX+" , "+touch.clientY);
+                if (touch.clientX <= -(wt/2)) {
+                    obj.style.left = -(wt/2)+ 'px';
+                }
+                if (touch.clientX >= (wt/2)) {
+                    obj.style.left = (wt/2) + 'px';
+                }
+                if (touch.clientY <= -((wt/2)+45)) {
+                    obj.style.top = -((wt/2)+45) +'px';
+                }
+            }
+        }, false);
+        obj.addEventListener('touchend', function(event) {
+            event.preventDefault();// 阻止浏览器默认事件，重要
+            var touch = event.targetTouches[0];
+            // 把元素放在手指所在的位置
+            obj.style.left = 0;
+            obj.style.top = 0;
+            obj.style.position = '';
+        });
+    });
+</script>
+
+</body>
+</html>
+
+
+

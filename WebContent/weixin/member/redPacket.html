@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>我的红包</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+
+<!--红包-->
+<script type="text/html" id="tpl_redpacket">
+<div class="page">
+    <div class="page__bd tabBer" style="height: 100%;">
+        <div class="vux-tab">
+            <div class="vux-tab-item vux-center f14 myRedPacket"><a href="../member/redPacket.html">我的红包</a></div>
+            <div class="vux-tab-item vux-center f14  vux-tab-selected myCoupon"><a href="coupon.html">我的优惠券</a></div>
+            <div class="vux-tab-ink-bar vux-tab-ink-bar-transition-forward" id="bor" style=" right: 50%; left: 0;"></div>
+        </div>
+
+            <div class="weui-tab pageable" style="clear:both;background:#f8f8f8">
+                <!--加载红包-->
+                <div class="vux-swiper-item active">
+                    <div class="tenant-redP-list myRed"></div>
+                </div>
+
+            </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        //使用红包
+        $(document).on("click", "#user", function () {
+            var code = $(this).attr("code");
+            var red = new redPacket(function (data) {
+                location.href=location.origin+'/weixin/member/redPacket.html?code='+code+'&tenantName='+escape(data.tenantName)+'#useRedPacket';
+            });
+            red.use({code: code});
+        });
+
+
+    //加载我的红包模板
+    var pge = $(".pageable").pageable({
+        loadUpFn:function(me) {
+            var tu = new redPacket(function (data) {
+                var h = render.fill($("#tpl_myRedPackets"),data);
+                $(".pageable .myRed").html(h);
+//                me.unlock();
+                me.noData(false);
+                me.resetload();
+
+            });
+            tu.list({pageNumber: 1});
+        },
+        loadDownFn :function(me) {
+            var td = new redPacket(function (data) {
+                me.pageNumber = me.pageNumber +1;
+                var h = render.fill($("#tpl_myRedPackets"),data);
+                $(".pageable .myRed").append(h);
+
+                if (data.length<20){
+                    pge.lock();
+                    pge.noData();
+                }
+                pge.resetload();
+            });
+            td.list({pageNumber: me.pageNumber});
+        }
+    });
+
+        pushHistory();
+        var bool=false;
+        setTimeout(function(){
+            bool=true;
+        },100);
+        window.addEventListener("popstate", function(e) {
+            if(bool)
+            {
+                $('.pageable-down').remove();
+                location.href=location.origin+"/weixin/member/member-home.html";
+            }
+            pushHistory();
+
+        }, false);
+        function pushHistory() {
+            var state = {
+                title: "title",
+                url: "#"
+            };
+            window.history.pushState(state,"title","#");
+        }
+    });
+</script>
+</script>
+<script type="text/html" id="tpl_useRedPacket">
+<div class="page">
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <div class="weui-tab__panel">
+
+                <!--BEGIN useRedBag-->
+                <div class="useRedBag" page="1">
+                    <div class="ewm">
+                        <div class="ewm_img" ><img class="imgs" src=""/></div>
+                        <p><i class="weui-icon-warn"></i>请向导购出示</p>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd">发放店铺</div>
+                        <div class="weui-cell__bd" id="tenantName">王妃家的年糕火锅</div>
+                    </div>
+                </div>
+                <!--END useRedBag-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        document.title='红包';
+        $('.imgs').attr("src",base+"weixin/member/redPacket/qrcode.jhtml?code="+pageManager.GetQueryString("code"));
+        $('#tenantName').text(pageManager.GetQueryString('tenantName'));
+    });
+</script>
+
+</script>
+
+<script type="text/html" id="tpl_myRedPackets">
+<!--myredpacket-->
+{{#each this}}
+<div class="row">
+    <a  id="user" code="{{code}}" href="javascript:" >
+        <div class="col-7">
+            {{#if used}}<img src="../images/static/hbbg-2.png" alt=""><span class="denomination f16">￥{{amount}}</span><img src="../images/static/ysy.png" alt="">{{else}}<img src="../images/static/hbbg.png" alt=""><span class="denomination f16">￥{{amount}}</span>{{/if}}
+        </div>
+        <div class="col-15">
+            <p class="Ftitle">{{tenantName}} <span class="Fauxiliary">{{#ifcond distance -1}}{{distance}}km{{else}}{{/ifcond}}</span></p>
+            <p class="Fauxiliary">{{address}}</p>
+            <p class="Ftext">{{receiveCount}}</p>
+            <p class="Fauxiliary">结束时间:{{endDate}}</p>
+        </div>
+    </a>
+</div>
+{{/each}}
+<!--myredpacket end-->
+
+
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("redpacket");
+    });
+</script>
+</body>
+</html>
+

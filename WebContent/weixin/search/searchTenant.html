@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>搜索好店</title>
+    
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<link rel="stylesheet" href="/weixin/style/wap.min.css"/>
+<script src="/weixin/js/zepto.min.js"></script>
+<script src="/weixin/js/callbacks.js"></script>
+<script src="/weixin/js/deferred.js"></script>
+<script src="/weixin/js/handlebars.min.js"></script>
+<script src="/weixin/js/lazyload.min.js"></script>
+<script src="/weixin/js/iSlider.min.js"></script>
+<script src="/weixin/js/iSlider.animate.min.js"></script>
+<script src="/weixin/js/fly.min.js"></script>
+<script src="/weixin/js/requestAnimationFrame.js"></script>
+<script src="/weixin/js/iscroll.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+
+  
+
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<script type="text/html" id="tpl_toast">
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+</script>
+<script type="text/html" id="tpl_dialog">
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+</script>
+<div class="container" id="container"></div>
+
+<!--搜索商家页-->
+<script type="text/html" id="tpl_searchTenant">
+<div class="page">
+    
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+    
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
+
+
+    <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+            <!--searchBar-->
+            <div class="weui-cell__bd top_position">
+                <div class="weui-search-bar weui-search-bar_focusing" id="searchBar" style="padding:0; margin:2%;">
+                    <form class="weui-search-bar__form"  action="">
+                        <div class="weui-search-bar__box boxs">
+                            <i class="weui-icon-search"></i>
+                            <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required/>
+                            <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                        </div>
+                        <label class="weui-search-bar__label" id="searchText" style="border:1px solid #ccc" >
+                            <i class="weui-icon-search"></i>
+                            <span>搜索</span>
+                        </label>
+                    </form>
+                    <a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>
+                </div>
+            </div>
+
+            <!--searchBar end-->
+
+            <div class="weui-tab__panel " style="padding:46px 0 0 0;">
+                <div class="hot_tit Ftitle history">历史搜索<i class="iconfont icon-delete-01 del"></i></div>
+                <div class="historySearch row"></div>
+                <div class="hot_tit Ftitle">热门搜索</div>
+                <div class="hotSearch row"></div>
+                <div class="hot_tit Ftitle">热门商品</div>
+                <div class="tenant weui-cells">
+                    <div class="tenant_list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        //历史搜索
+        var search_tenants_str = cookie.getCookie('search_tenants');
+        var search_tenants = [];
+        if (search_tenants_str != null && search_tenants_str != '') {
+            search_tenants = search_tenants_str.split(',');
+        }
+        if (search_tenants.length > 0) {
+            var html = '';
+            $.each(search_tenants, function (index, keyword) {
+                html += '<a href=' + escape(keyword) + '"/weixin/search/searchTenantEnd.html?keyword=" class="col-11 Ftext">' + keyword + '</a>';
+            });
+            $('.historySearch').html(html);
+        }else{
+            $('.history').hide();
+            $('.historySearch').hide();
+
+        }
+
+        //删除历史记录
+        $('.del').on('click',function(){
+            dialog.query("确认删除全部历史记录？",function () {
+                cookie.delCookie('search_tenants');
+                $('.historySearch').remove('');
+                $('.history').remove('');
+            });
+        });
+
+        var a = pageManager.GetQueryString("id");
+        if(a==1){
+            $('.changestyle').text("商家");
+            $('.tenant_checked').addClass('checked');
+            $('.product_checked').removeClass('checked');
+
+        }else{
+            $('.changestyle').text("商品");
+            $('.product_checked').addClass('checked');
+            $('.tenant_checked').removeClass('checked');
+        }
+
+        //热门搜索
+        var tt=new tenant(function (data) {
+            var s='';
+            $.each(data,function (i, v) {
+                s+='<a href=' + escape(v) + '"/weixin/search/searchTenantEnd.html?keyword=" class="col-11 Ftext">'+v+'</a>';
+            });
+            $('.hotSearch').html(s);
+        });
+        tt.hot_search();
+
+
+        //商家搜索
+        $(document).keypress(function(e) {
+            var code = e.keyCode || e.which;
+            if( code == 13) {
+                var keyword = $("#searchInput").val();
+                if ( keyword == null || keyword == '') {
+                    toast.show('请先输入您想搜索的内容');
+                    return;
+                }
+                //添加进历史搜索
+                var exist = false;
+                for (var i = 0; i < search_tenants.length; i++) {
+                    if (search_tenants[i].trim()==keyword.trim()) {
+                        exist = true;
+                        break;
+                    }
+                }
+                if (!exist) {
+                    var arr = [keyword.trim()];
+                    if (search_tenants.length > 0) {
+                        search_tenants = arr.concat(search_tenants);
+                    } else {
+                        search_tenants = arr;
+                    }
+                    if (search_tenants.length > 0) cookie.setCookie("search_tenants", search_tenants.join(","), 1);
+                }
+
+                window.location.href='../search/searchTenantEnd.html?keyword='+ escape(keyword);
+                return false;
+            }
+        });
+
+
+        //定位，获取经纬度
+        weixin.location(function () {
+            console.log("lat:" + weixin.lat);
+            console.log("lng:" + weixin.lng);
+            //推荐好店列表
+            var tu = new tenant(function (data) {
+                var h = render.fill($("#tpl_tenant-list"), data);
+                $(".tenant_list").html(h);
+            });
+            tu.list({pageSize:20,tagIds: 32,lat: weixin.lat, lng: weixin.lng});
+        });
+
+
+        pushHistory();
+        var bool=false;
+        setTimeout(function(){
+            bool=true;
+        },100);
+        window.addEventListener("popstate", function(e) {
+            if(bool)
+            {
+                location.href=location.origin+"/weixin/home/index.html";
+            }
+            pushHistory();
+
+        }, false);
+        function pushHistory() {
+            var state = {
+                title: "title",
+                url: "#"
+            };
+            window.history.pushState(state,"title","#");
+        }
+    });
+</script>
+</script>
+
+<!--模版-->
+<!--商家搜索模版页-->
+<script type="text/html" id="tpl_tenant-list">
+<!-- BEGIN tenant-list -->
+{{#each this}}
+<a href="../tenant/tenant-home.html?id={{id}}" tenantId="{{id}}" class="weui-cells weui-cell_access weui-cells_border union_tenant_list">
+    <div class="weui-cell">
+        <div class="weui-cell__hd tenant_img">
+            {{#compare thumbnail '!=' null}}
+            <img src="{{thumbnail}}" />
+            {{/compare}}
+            {{#compare thumbnail '==' null}}
+            <img src="../images/placeholder/tenant.png" />
+            {{/compare}}
+        </div>
+        <div class="weui-cell__bd">
+            <p class="Ftitle tenant-name">{{name}}</p>
+            <p class="ico Fauxiliary">
+                    <span class="cf ft-bs starlevels"  data-starnum="{{grade}}" data-starlevelized="false">
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                        <i class="iconfont icon-s-star"></i>
+                    </span>
+                <span class="add Fauxiliary">{{grade}}分</span><span class="add Fauxiliary">月售{{monthSales}}单</span>
+            </p>
+            <div class="weui-flex Fauxiliary">
+                <div class="weui-flex__item">主营：{{tenantCategoryName}}</div>
+                <div class="weui-flex__item">{{#ifcond distance -1}}{{distance}}km{{else}}{{/ifcond}}</div>
+            </div>
+        </div>
+    </div>
+    {{#if promotions}}
+    <div class="border-top Fauxiliary  weui-cell">
+        <div class="weui-cell__hd"></div>
+        <div class="weui-cell__bd">
+            {{#each promotions}}
+            <div><i class="iconfont icon-{{type}} tenant_i"></i><p>{{name}}</p></div>
+            {{/each}}
+        </div>
+    </div>
+    {{/if}}
+</a>
+{{/each}}
+<!-- END tenant-list -->
+<!--获取星星-->
+<script>
+    $(".starlevels").starLevelize();
+</script>
+<!--获取星星结束-->
+</script>
+
+
+
+<script src="/weixin/js/wap.min.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+        pageManager.show("searchTenant");
+    });
+</script>
+</body>
+</html>
+

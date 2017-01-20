@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--手机端h5页面-->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title></title>
+    <!--<link rel="stylesheet" href="../style/wap.min.css">-->
+    <link rel="stylesheet" href="video.css">
+</head>
+<body>
+
+<!-- logo -->
+<div class="video-logo">
+    <img src="video-logo.png" />
+</div>
+<!-- video -->
+<!--/* src="此处填写购买获取到的m3u8地址" 必填 */-->
+<!--/* poster="此处填写封面图片地址" 选填 */-->
+<video id="video" class="video" src="http://alhlscdn.lechange.cn/LCO/1C018D6PAYOC47S/1/0/20161105103434/dev_20161105103434_xm8mgz9q7kp477eb.m3u8" poster="video-source-default.png" controls="controls" autoplay="autoplay" loop="loop" width="100%" height="auto"></video>
+<!-- intro -->
+<div class="video-intro">
+    <p class="title" id="brief">
+        我的直播简介
+    </p>
+</div>
+<!-- js -->
+<script type="text/javascript">
+    var screenW;
+    window.document.title = '我的直播标题';
+    total = document.documentElement.clientHeight;
+    document.body.style.height=total+"px";
+</script>
+</body>
+</html>
+
+
+
