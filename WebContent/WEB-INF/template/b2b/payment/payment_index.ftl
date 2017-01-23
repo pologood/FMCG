@@ -25,13 +25,11 @@
     <script type="text/javascript" src="${base}/resources/common/js/jsbn.js"></script>
     <script type="text/javascript" src="${base}/resources/common/js/prng4.js"></script>
     <script type="text/javascript" src="${base}/resources/common/js/rng.js"></script>
-    <script type="text/javascript" src="${base}/resources/wap/2.0/js/rsa.js"></script>
-    <script type="text/javascript" src="${base}/resources/wap/2.0/js/base64.js"></script>
-    
+
     <script type="text/javascript" src="${base}/resources/b2b/js/common.js"></script>
     <script type="text/javascript">
         var paymentSn;
-        var flag="true"
+        var flag="true";
         var h=23;
         var m=59;
         var s=60;

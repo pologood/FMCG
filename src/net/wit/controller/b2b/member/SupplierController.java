@@ -66,6 +66,7 @@ public class SupplierController extends BaseController {
     private MemberBankService memberBankService;
     @Resource(name = "snServiceImpl")
     private SnService snService;
+
     /**
      * 销售统计
      *
@@ -133,16 +134,16 @@ public class SupplierController extends BaseController {
         model.addAttribute("menu", "sales_statistics");
         return "b2b/member/supplier/sales_statistics";
     }
-    
+
     /**
-	 * 销售统计（针对导出功能）
-	 */
-	@RequestMapping(value = "/sale_total", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Map<String, Object>> saleTotal(Long sellerId, String begin_date, String end_date, String keyWords) { 
+     * 销售统计（针对导出功能）
+     */
+    @RequestMapping(value = "/sale_total", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String, Object>> saleTotal(Long sellerId, String begin_date, String end_date, String keyWords) {
         Member member = memberService.getCurrent();
         Tenant tenant = member.getTenant();
-        
+
         Date beginDate = null;
         Date endDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -152,7 +153,7 @@ public class SupplierController extends BaseController {
         if (StringUtils.isNotBlank(end_date)) {
             endDate = sdf.parse(end_date, new ParsePosition(0));
         }
-        
+
         List<Filter> filters = new ArrayList<Filter>();
         filters.add(new Filter("parent", Filter.Operator.eq, tenant));
         filters.add(new Filter("status", Filter.Operator.eq, TenantRelation.Status.success));
@@ -167,8 +168,9 @@ public class SupplierController extends BaseController {
             }
             trade = supplierService.saleTotal(tenant, seller, beginDate, endDate, keyWords);
         }
-		return trade;
-	}
+        return trade;
+    }
+
     /**
      * 销售明细
      *
@@ -223,6 +225,7 @@ public class SupplierController extends BaseController {
         model.addAttribute("menu", "sale_detail");
         return "b2b/member/supplier/sale_detail";
     }
+
     /**
      * 销售明细（针对导出功能）
      *
@@ -247,7 +250,7 @@ public class SupplierController extends BaseController {
         filters.add(new Filter("parent", Filter.Operator.eq, tenant));
         filters.add(new Filter("status", Filter.Operator.eq, TenantRelation.Status.success));
         List<TenantRelation> list = tenantRelationService.findList(null, filters, null);
-       
+
         Tenant seller = null;
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
         if (list.size() > 0) {
@@ -258,8 +261,8 @@ public class SupplierController extends BaseController {
             }
             maps = supplierService.saleDetail(tenant, seller, beginDate, endDate, keyWords);
         }
-        for(int i=0;i<maps.size();i++){
-        	maps.get(i).put("create_date",sdf.format(maps.get(i).get("create_date")));
+        for (int i = 0; i < maps.size(); i++) {
+            maps.get(i).put("create_date", sdf.format(maps.get(i).get("create_date")));
         }
         return maps;
     }
@@ -271,20 +274,20 @@ public class SupplierController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String order(String dateRange, Long sellerId, String begin_date, String end_date,String keyWords, Model model, Pageable pageable){
+    public String order(String dateRange, Long sellerId, String begin_date, String end_date, String keyWords, Model model, Pageable pageable) {
         pageable.setPageSize(10);
         Member member = memberService.getCurrent();
 
-        if(member==null){
+        if (member == null) {
             return "redirect:/b2c/supplier/login.jhtml";
         }
         Tenant tenant = member.getTenant();
 
-        if(tenant==null){
+        if (tenant == null) {
             return "redirect:/b2b/supplier/login.jhtml";
         }
 
-        if(tenant.getTenantType()!= Tenant.TenantType.suppier){
+        if (tenant.getTenantType() != Tenant.TenantType.suppier) {
             return "redirect:/b2b/supplier/login.jhtml";
         }
 
@@ -310,7 +313,7 @@ public class SupplierController extends BaseController {
                 seller = tenantService.find(sellerId);
             }
         }
-        Page<Trade> page=tradeService.order(tenant,seller,beginDate,endDate,keyWords,pageable);
+        Page<Trade> page = tradeService.order(tenant, seller, beginDate, endDate, keyWords, pageable);
         BigDecimal total_sale_amount = supplierService.totalSaleAmount(tenant, seller, beginDate, endDate, null);
         BigDecimal total_settlement_amount = supplierService.totalSettlementAmount(tenant, seller, beginDate, endDate, null);
         BigDecimal sale_gross_profit = total_sale_amount.subtract(total_settlement_amount);
@@ -326,17 +329,15 @@ public class SupplierController extends BaseController {
         return "b2b/member/supplier/order";
     }
 
-   
 
     /**
      * 查看账单
      *
-     * @param date
      * @param model
      * @return
      */
     @RequestMapping(value = "/bill", method = RequestMethod.GET)
-    public String bill(String start_date,String end_date, ModelMap model, Pageable pageable) {
+    public String bill(String start_date, String end_date, ModelMap model, Pageable pageable) {
         pageable.setPageSize(15);
         Member member = memberService.getCurrent();
         Tenant tenant = member.getTenant();
@@ -350,34 +351,33 @@ public class SupplierController extends BaseController {
         if (StringUtils.isNotBlank(end_date)) {
             endDate = sdf.parse(end_date, new ParsePosition(0));
         }
-        Page<Deposit> page = depositService.findPage(owner, beginDate, endDate, pageable,null);
-        model.addAttribute("start_time",start_date);
-        model.addAttribute("end_time",end_date);
+        Page<Deposit> page = depositService.findPage(owner, beginDate, endDate, pageable, null);
+        model.addAttribute("start_time", start_date);
+        model.addAttribute("end_time", end_date);
         model.addAttribute("page", page);
-        model.addAttribute("recharge", depositService.income(owner, Deposit.Type.recharge, beginDate, endDate,null));
-        model.addAttribute("payment", depositService.outcome(owner, Deposit.Type.payment, beginDate, endDate,null));
-        model.addAttribute("withdraw", depositService.outcome(owner, Deposit.Type.withdraw, beginDate, endDate,null));
-        model.addAttribute("receipts", depositService.income(owner, Deposit.Type.receipts, beginDate, endDate,null));
-        model.addAttribute("profit", depositService.income(owner, Deposit.Type.profit, beginDate, endDate,null));
-        model.addAttribute("rebate", depositService.outcome(owner, Deposit.Type.rebate, beginDate, endDate,null));
-        model.addAttribute("income", depositService.income(owner, Deposit.Type.income, beginDate, endDate,null));
-        model.addAttribute("outcome", depositService.outcome(owner, Deposit.Type.outcome, beginDate, endDate,null));
-        model.addAttribute("cashier", depositService.income(owner, Deposit.Type.cashier, beginDate, endDate,null));
-        model.addAttribute("total_income", depositService.income(owner, null, beginDate, endDate,null));
-        model.addAttribute("total_outcome", depositService.outcome(owner, null, beginDate, endDate,null));
+        model.addAttribute("recharge", depositService.income(owner, Deposit.Type.recharge, beginDate, endDate, null));
+        model.addAttribute("payment", depositService.outcome(owner, Deposit.Type.payment, beginDate, endDate, null));
+        model.addAttribute("withdraw", depositService.outcome(owner, Deposit.Type.withdraw, beginDate, endDate, null));
+        model.addAttribute("receipts", depositService.income(owner, Deposit.Type.receipts, beginDate, endDate, null));
+        model.addAttribute("profit", depositService.income(owner, Deposit.Type.profit, beginDate, endDate, null));
+        model.addAttribute("rebate", depositService.outcome(owner, Deposit.Type.rebate, beginDate, endDate, null));
+        model.addAttribute("income", depositService.income(owner, Deposit.Type.income, beginDate, endDate, null));
+        model.addAttribute("outcome", depositService.outcome(owner, Deposit.Type.outcome, beginDate, endDate, null));
+        model.addAttribute("cashier", depositService.income(owner, Deposit.Type.cashier, beginDate, endDate, null));
+        model.addAttribute("total_income", depositService.income(owner, null, beginDate, endDate, null));
+        model.addAttribute("total_outcome", depositService.outcome(owner, null, beginDate, endDate, null));
         return "b2b/member/supplier/bill";
     }
-    
+
     /**
      * 查看账单
      *
-     * @param date
      * @param model
      * @return
      */
     @RequestMapping(value = "/bill_detail", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> billDetail(String start_date,String end_date, ModelMap model, Pageable pageable) {
+    public List<Map<String, Object>> billDetail(String start_date, String end_date, ModelMap model, Pageable pageable) {
         Member member = memberService.getCurrent();
         Tenant tenant = member.getTenant();
         Member owner = tenant.getMember();
@@ -390,60 +390,60 @@ public class SupplierController extends BaseController {
         if (StringUtils.isNotBlank(end_date)) {
             endDate = sdf.parse(end_date, new ParsePosition(0));
         }
-        List<Deposit> deposits=depositService.findList(owner, beginDate, endDate,null);
+        List<Deposit> deposits = depositService.findList(owner, beginDate, endDate, null);
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-        for(Deposit deposit:deposits){
-        	Map<String, Object> map=new HashMap<String, Object>();
-        	map.put("date", sdf.format(deposit.getCreateDate()));
-        	if(deposit.getType()==Deposit.Type.cashier){
-        		map.put("type","收款");
-        	}else if(deposit.getType()==Deposit.Type.coupon){
-        		map.put("type","红包");
-        	}else if(deposit.getType()==Deposit.Type.couponuse){
-        		map.put("type","红包");
-        	}else if(deposit.getType()==Deposit.Type.income){
-        		map.put("type","其他");
-        	}else if(deposit.getType()==Deposit.Type.outcome){
-        		map.put("type","其他");
-        	}else if(deposit.getType()==Deposit.Type.payment){
-        		map.put("type","购物");
-        	}else if(deposit.getType()==Deposit.Type.profit){
-        		map.put("type","分润");
-        	}else if(deposit.getType()==Deposit.Type.rebate){
-        		map.put("type","佣金");
-        	}else if(deposit.getType()==Deposit.Type.recharge){
-        		map.put("type","充值");
-        	}else if(deposit.getType()==Deposit.Type.withdraw){
-        		map.put("type","提现");
-        	}else if(deposit.getType()==Deposit.Type.receipts){
-        		map.put("type","货款");
-        	}
-        	map.put("memo", deposit.getMemo());
-        	if(deposit.getType()==Deposit.Type.cashier||deposit.getType()==Deposit.Type.receipts
-        			||deposit.getType()==Deposit.Type.recharge||deposit.getType()==Deposit.Type.profit
-        			||deposit.getType()==Deposit.Type.income||deposit.getType()==Deposit.Type.coupon){
-        		if(deposit.getCredit().compareTo(BigDecimal.ZERO)<0){
-        			map.put("money", deposit.getCredit());
-        		}else{
-        			map.put("money", "+"+deposit.getCredit());
-        		}
-        	}else{
-        		if(deposit.getDebit().compareTo(BigDecimal.ZERO)<0){
-        			map.put("money", "+"+deposit.getDebit());
-        		}else{
-        			map.put("money", "-"+deposit.getDebit());
-        		}
-        	}
-        	if(deposit.getStatus()!=null){
-        		if(deposit.getStatus()==Deposit.Status.none){
-	        		map.put("status", "处理中");
-	        	}else{
-	        		map.put("status", "已完成");
-	        	}
-        	}else{
-        		map.put("status", "");
-        	}
-        	maps.add(map);
+        for (Deposit deposit : deposits) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("date", sdf.format(deposit.getCreateDate()));
+            if (deposit.getType() == Deposit.Type.cashier) {
+                map.put("type", "收款");
+            } else if (deposit.getType() == Deposit.Type.coupon) {
+                map.put("type", "红包");
+            } else if (deposit.getType() == Deposit.Type.couponuse) {
+                map.put("type", "红包");
+            } else if (deposit.getType() == Deposit.Type.income) {
+                map.put("type", "其他");
+            } else if (deposit.getType() == Deposit.Type.outcome) {
+                map.put("type", "其他");
+            } else if (deposit.getType() == Deposit.Type.payment) {
+                map.put("type", "购物");
+            } else if (deposit.getType() == Deposit.Type.profit) {
+                map.put("type", "分润");
+            } else if (deposit.getType() == Deposit.Type.rebate) {
+                map.put("type", "佣金");
+            } else if (deposit.getType() == Deposit.Type.recharge) {
+                map.put("type", "充值");
+            } else if (deposit.getType() == Deposit.Type.withdraw) {
+                map.put("type", "提现");
+            } else if (deposit.getType() == Deposit.Type.receipts) {
+                map.put("type", "货款");
+            }
+            map.put("memo", deposit.getMemo());
+            if (deposit.getType() == Deposit.Type.cashier || deposit.getType() == Deposit.Type.receipts
+                    || deposit.getType() == Deposit.Type.recharge || deposit.getType() == Deposit.Type.profit
+                    || deposit.getType() == Deposit.Type.income || deposit.getType() == Deposit.Type.coupon) {
+                if (deposit.getCredit().compareTo(BigDecimal.ZERO) < 0) {
+                    map.put("money", deposit.getCredit());
+                } else {
+                    map.put("money", "+" + deposit.getCredit());
+                }
+            } else {
+                if (deposit.getDebit().compareTo(BigDecimal.ZERO) < 0) {
+                    map.put("money", "+" + deposit.getDebit());
+                } else {
+                    map.put("money", "-" + deposit.getDebit());
+                }
+            }
+            if (deposit.getStatus() != null) {
+                if (deposit.getStatus() == Deposit.Status.none) {
+                    map.put("status", "处理中");
+                } else {
+                    map.put("status", "已完成");
+                }
+            } else {
+                map.put("status", "");
+            }
+            maps.add(map);
         }
         return maps;
     }
@@ -508,7 +508,7 @@ public class SupplierController extends BaseController {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        } 
+        }
         if (StringUtils.isNotBlank(end_date)) {
             try {
                 end_time = simpleDateFormat.parse(end_date);
@@ -594,17 +594,17 @@ public class SupplierController extends BaseController {
      */
     @RequestMapping(value = "/management_analyse", method = RequestMethod.GET)
     public String analyse(ModelMap model, String start_date, String end_date, Long sellerId, String search_content, String date_range, String menu, Pageable pageable) throws ParseException {
-    	pageable.setPageSize(10);
-    	Member member = memberService.getCurrent();
+        pageable.setPageSize(10);
+        Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
         Date end_time = null;
 
         if (StringUtils.isNotBlank(start_date)) {
-            start_time = simpleDateFormat.parse(start_date,new ParsePosition(0));
+            start_time = simpleDateFormat.parse(start_date, new ParsePosition(0));
         }
         if (StringUtils.isNotBlank(end_date)) {
-            end_time = simpleDateFormat.parse(end_date,new ParsePosition(0));
+            end_time = simpleDateFormat.parse(end_date, new ParsePosition(0));
         }
         if (menu == null || menu.equals("")) {
             menu = "management_analyse";
@@ -640,27 +640,26 @@ public class SupplierController extends BaseController {
         model.addAttribute("total_settlement_amount", total_settlement_amount);
         return "b2b/member/supplier/management_analyse";
     }
+
     /**
      * 经营分析(导出功能)
      *
-     * @param model
-     * @param pageable
      * @return
      * @throws ParseException
      */
     @RequestMapping(value = "/management_analyse_export", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> analyseManagement(String start_date, String end_date, Long sellerId, String keywords,  String menu) throws ParseException {
-    	Member member = memberService.getCurrent();
+    public List<Map<String, Object>> analyseManagement(String start_date, String end_date, Long sellerId, String keywords, String menu) throws ParseException {
+        Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
         Date end_time = null;
 
         if (StringUtils.isNotBlank(start_date)) {
-            start_time = simpleDateFormat.parse(start_date,new ParsePosition(0));
+            start_time = simpleDateFormat.parse(start_date, new ParsePosition(0));
         }
         if (StringUtils.isNotBlank(end_date)) {
-            end_time = simpleDateFormat.parse(end_date,new ParsePosition(0));
+            end_time = simpleDateFormat.parse(end_date, new ParsePosition(0));
         }
         if (menu == null || menu.equals("")) {
             menu = "management_analyse";
@@ -678,8 +677,8 @@ public class SupplierController extends BaseController {
                 seller = tenantService.find(sellerId);
             }
             maps = supplierService.managementAnalyse(member.getTenant(), start_time, end_time, seller, keywords);
-         }
-       
+        }
+
         return maps;
     }
 
@@ -813,19 +812,15 @@ public class SupplierController extends BaseController {
         }
         model.addAttribute("page", orderItemService.findPage(status, start_time, end_time, member.getTenant(), pageable));
         model.addAttribute("member", member);
-        model.addAttribute("start_time",start_date);
+        model.addAttribute("start_time", start_date);
         model.addAttribute("end_time", end_date);
         model.addAttribute("date_range", date_range);
-        if(status==null){
-            model.addAttribute("status", "结算状态");
-        }else {
-            model.addAttribute("status", status?"已结算":"未结算");
-        }
-
+        model.addAttribute("status", status!=null&&!status?"false":status);
         model.addAttribute("menu", menu);
         model.addAttribute("pageActive", 2);
         return "/b2b/member/supplier/order_settle_account";
     }
+
     /**
      * 订单结算列表(导出)
      *
@@ -833,8 +828,8 @@ public class SupplierController extends BaseController {
      */
     @RequestMapping(value = "/order_settle_account_export", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> settleAccount(Long sellerId, String start_date, String end_date, String status, String menu, 
-                                 RedirectAttributes redirectAttributes) {
+    public List<Map<String, Object>> settleAccount(Long sellerId, String start_date, String end_date, Boolean status, String menu,
+                                                   RedirectAttributes redirectAttributes) {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
@@ -856,38 +851,38 @@ public class SupplierController extends BaseController {
                 e.printStackTrace();
             }
         }
-        Boolean b_status = null;
-        if ("已结算".equals(status) || status == "已结算") {
-            b_status = true;
-        } else if ("未结算".equals(status) || status == "未结算") {
-            b_status = false;
-        } else {
-            b_status = null;
+//        Boolean b_status = null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//            b_status = true;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//            b_status = false;
+//        } else {
+//            b_status = null;
+//        }
+        List<OrderItem> orderItems = orderItemService.orderSettle(status, start_time, end_time, member.getTenant());
+        List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
+        for (OrderItem orderItem : orderItems) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("sn", orderItem.getTrade().getOrder().getSn());
+            map.put("date", simpleDateFormat.format(orderItem.getTrade().getCreateDate()));
+            map.put("amount", orderItem.getTrade().getAmount());
+            map.put("cost", orderItem.getTrade().getSettle());
+            if (orderItem.getTrade().getSupplierDate() != null) {
+                map.put("time", simpleDateFormat.format(orderItem.getTrade().getSupplierDate()));
+            } else {
+                map.put("time", "");
+            }
+            if (orderItem.getTrade().getSuppliered() != null) {
+                if (orderItem.getTrade().getSuppliered()) {
+                    map.put("status", "已结算");
+                } else {
+                    map.put("status", "未结算");
+                }
+            } else {
+                map.put("status", "");
+            }
+            maps.add(map);
         }
-         List<OrderItem> orderItems=orderItemService.orderSettle(b_status, start_time, end_time, member.getTenant());
-         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-         for(OrderItem orderItem:orderItems){
-        	 Map<String, Object> map=new HashMap<String, Object>();
-        	 map.put("sn", orderItem.getTrade().getOrder().getSn());
-        	 map.put("date",simpleDateFormat.format(orderItem.getTrade().getCreateDate()));
-        	 map.put("amount", orderItem.getTrade().getAmount());
-        	 map.put("cost", orderItem.getTrade().getSettle());
-        	 if(orderItem.getTrade().getSupplierDate()!=null){
-        		 map.put("time",simpleDateFormat.format(orderItem.getTrade().getSupplierDate()));
-        	 }else{
-        		 map.put("time","");
-        	 }
-        	 if(orderItem.getTrade().getSuppliered()!=null){
-        		 if(true==orderItem.getTrade().getSuppliered()){
-	        		 map.put("status","已结算");
-	        	 }else{
-	        		 map.put("status","未结算");
-	        	 }
-        	 }else{
-        		 map.put("status","");
-        	 }
-        	 maps.add(map);
-         }
         return maps;
     }
 
@@ -931,18 +926,15 @@ public class SupplierController extends BaseController {
         pageable.setFilters(filters);
         model.addAttribute("page", spReturnsService.findBySupplier(start_time, end_time, member.getTenant(), null, pageable));
         model.addAttribute("member", member);
-        model.addAttribute("start_time",start_date);
+        model.addAttribute("start_time", start_date);
         model.addAttribute("end_time", end_date);
         model.addAttribute("date_range", date_range);
-        if(status==null){
-            model.addAttribute("status", "结算状态");
-        }else {
-            model.addAttribute("status", status?"已结算":"未结算");
-        }
+        model.addAttribute("status", status!=null&&!status?"false":status);
         model.addAttribute("menu", menu);
         model.addAttribute("pageActive", 2);
         return "/b2b/member/supplier/return_settle_account";
     }
+
     /**
      * 退货结算列表（导出）
      *
@@ -950,7 +942,7 @@ public class SupplierController extends BaseController {
      */
     @RequestMapping(value = "/return_settle_account_export", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> settleAccoun(String start_date, String end_date, String status,String menu ) throws ParseException {
+    public List<Map<String, Object>> settleAccoun(String start_date, String end_date, Boolean status, String menu) throws ParseException {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
@@ -961,63 +953,63 @@ public class SupplierController extends BaseController {
         if (StringUtils.isNotBlank(end_date)) {
             end_time = simpleDateFormat.parse(end_date);
         }
-        Boolean b_status = null;
-        if ("已结算".equals(status) || status == "已结算") {
-            b_status = true;
-        } else if ("未结算".equals(status) || status == "未结算") {
-            b_status = false;
-        } else {
-            b_status = null;
-        }
-        
-        List<SpReturns> spReturns=spReturnsService.returnSettle(start_time, end_time, member.getTenant(), b_status);
+//        Boolean b_status = null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//            b_status = true;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//            b_status = false;
+//        } else {
+//            b_status = null;
+//        }
+
+        List<SpReturns> spReturns = spReturnsService.returnSettle(start_time, end_time, member.getTenant(), status);
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-        for(SpReturns s:spReturns){
-       	 Map<String, Object> map=new HashMap<String, Object>();
-       	 map.put("sn", s.getSn());
-       	 map.put("date",simpleDateFormat.format(s.getCreateDate()));
-       	 map.put("amount", s.getAmount());
-       	 map.put("cost", s.getSettle());
-       	 if(s.getSupplierDate()!=null){
-       		 map.put("time",simpleDateFormat.format(s.getSupplierDate()));
-       	 }else{
-       		 map.put("time","");
-       	 }
-       	 if(s.getSuppliered()!=null){
-       		 if(true==s.getSuppliered()){
-        		 map.put("status","已结算");
-        	 }else{
-        		 map.put("status","未结算");
-        	 }
-       	 }else{
-       		 map.put("status","");
-       	 }
-       	 maps.add(map);
+        for (SpReturns s : spReturns) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("sn", s.getSn());
+            map.put("date", simpleDateFormat.format(s.getCreateDate()));
+            map.put("amount", s.getAmount());
+            map.put("cost", s.getSettle());
+            if (s.getSupplierDate() != null) {
+                map.put("time", simpleDateFormat.format(s.getSupplierDate()));
+            } else {
+                map.put("time", "");
+            }
+            if (s.getSuppliered() != null) {
+                if (s.getSuppliered()) {
+                    map.put("status", "已结算");
+                } else {
+                    map.put("status", "未结算");
+                }
+            } else {
+                map.put("status", "");
+            }
+            maps.add(map);
         }
-       return maps;
+        return maps;
     }
 
     /**
      * 供应商的提现
      */
     @RequestMapping(value = "/withdraw/index", method = RequestMethod.GET)
-    public String index(ModelMap model,RedirectAttributes redirectAttributes,Pageable pageable) {
+    public String index(ModelMap model, RedirectAttributes redirectAttributes, Pageable pageable) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return "redirect:/b2b/supplier/login.jhtml";
         }
-        Page<TenantRelation> tenantRelations=tenantRelationService.findPage(member.getTenant(), net.wit.entity.TenantRelation.Status.success, pageable);
-        if(tenantRelations!=null&&tenantRelations.getContent().size()>0){
-            TenantRelation tenantRelation=tenantRelations.getContent().get(0);
-            model.addAttribute("tenant",tenantRelation.getTenant());
-        }else{
+        Page<TenantRelation> tenantRelations = tenantRelationService.findPage(member.getTenant(), net.wit.entity.TenantRelation.Status.success, pageable);
+        if (tenantRelations != null && tenantRelations.getContent().size() > 0) {
+            TenantRelation tenantRelation = tenantRelations.getContent().get(0);
+            model.addAttribute("tenant", tenantRelation.getTenant());
+        } else {
             addFlashMessage(redirectAttributes, Message.error("您还没有合作伙伴，暂时不能提现"));
             return "redirect:/b2b/member/supplier/index.jhtml";
         }
 
         Tenant tenant = member.getTenant();
         Member owner = tenant.getMember();
-        if(member.getId()!= owner.getId()){
+        if (member.getId() != owner.getId()) {
             addFlashMessage(redirectAttributes, Message.warn("不好意思，您不能提现！"));
             return "redirect:withdraw_index.jhtml";
         }
@@ -1035,29 +1027,30 @@ public class SupplierController extends BaseController {
 
     /**
      * 供应商提现
+     *
      * @param amount
      * @param pageable
      * @return
      */
     @RequestMapping(value = "/submit_withdraw", method = RequestMethod.POST)
     @ResponseBody
-    public Message submit_withdraw(BigDecimal amount,Pageable pageable) {
-        Member member=memberService.getCurrent();
-        if(member==null){
+    public Message submit_withdraw(BigDecimal amount, Pageable pageable) {
+        Member member = memberService.getCurrent();
+        if (member == null) {
             return Message.error("没有找到用户");
         }
-        if(amount==null){
+        if (amount == null) {
             return Message.error("请输入金额");
         }
-        Account account =new Account();
-        Page<TenantRelation> tenantRelations=tenantRelationService.findPage(member.getTenant(), null, pageable);
-        if(tenantRelations!=null&&tenantRelations.getContent().size()>0){
-            TenantRelation tenantRelation=tenantRelations.getContent().get(0);
+        Account account = new Account();
+        Page<TenantRelation> tenantRelations = tenantRelationService.findPage(member.getTenant(), null, pageable);
+        if (tenantRelations != null && tenantRelations.getContent().size() > 0) {
+            TenantRelation tenantRelation = tenantRelations.getContent().get(0);
             account.setTenant(tenantRelation.getTenant());
-        }else{
+        } else {
             return Message.error("您还没有服务商，暂时不能体现");
         }
-        if(member.getTenant().getBalance().compareTo(amount)==-1){
+        if (member.getTenant().getBalance().compareTo(amount) == -1) {
             return Message.error("账户余额不足，不能体现");
         }
         member.getTenant().setBalance(member.getTenant().getBalance().subtract(amount));
@@ -1067,7 +1060,7 @@ public class SupplierController extends BaseController {
         account.setSn(snService.generate(Sn.Type.account));
         account.setCreateDate(new Date());
         account.setModifyDate(new Date());
-        if(member.getTenant()!=null){
+        if (member.getTenant() != null) {
             account.setSupplier(member.getTenant());
         }
         accountService.save(account);
@@ -1081,7 +1074,7 @@ public class SupplierController extends BaseController {
      */
     @RequestMapping(value = "/withdraw_cash_settle_account", method = RequestMethod.GET)
     public String withdraw_cash_settle_account(Pageable pageable, Long sellerId, String start_date, String end_date, Account.Status status, String date_range, String menu, ModelMap model,
-                                 RedirectAttributes redirectAttributes) {
+                                               RedirectAttributes redirectAttributes) {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
@@ -1118,10 +1111,10 @@ public class SupplierController extends BaseController {
         if (menu == null) {
             menu = "withdraw_cash_settle_account";
         }
-        List<Filter> filters=new ArrayList<Filter>();
-        filters.add(new Filter("status", Filter.Operator.eq,status));
-    	pageable.setFilters(filters);
-        model.addAttribute("page",accountService.findByTenant(member.getTenant(), start_time, end_time, null, pageable));
+        List<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Filter("status", Filter.Operator.eq, status));
+        pageable.setFilters(filters);
+        model.addAttribute("page", accountService.findByTenant(member.getTenant(), start_time, end_time, null, pageable));
         model.addAttribute("member", member);
         model.addAttribute("start_time", start_date);
         model.addAttribute("end_time", end_date);
@@ -1131,6 +1124,7 @@ public class SupplierController extends BaseController {
         model.addAttribute("pageActive", 2);
         return "/b2b/member/supplier/withdraw_cash_settle_account";
     }
+
     /**
      * 提现结算列表(导出)
      *
@@ -1138,8 +1132,8 @@ public class SupplierController extends BaseController {
      */
     @RequestMapping(value = "/withdraw_cash_settle_account_export", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> withdrawSettle(Pageable pageable, Long sellerId, String start_date, String end_date, String status, String date_range, String menu, ModelMap model,
-                                 RedirectAttributes redirectAttributes) {
+    public List<Map<String, Object>> withdrawSettle(Pageable pageable, Long sellerId, String start_date, String end_date, Account.Status status, String date_range, String menu, ModelMap model,
+                                                    RedirectAttributes redirectAttributes) {
         Member member = memberService.getCurrent();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date start_time = null;
@@ -1162,46 +1156,46 @@ public class SupplierController extends BaseController {
                 e.printStackTrace();
             }
         }
-        if (status == null || status.equals("")) {
-            status = "结算状态";
-        }
-        Account.Status b_status=null;
-        if ("已结算".equals(status) || status == "已结算") {
-        	b_status=Account.Status.success;
-        } else if ("未结算".equals(status) || status == "未结算") {
-        	b_status=Account.Status.none;
-        } else {
-            b_status = null;
-        }
-       
-        List<Account> accounts=accountService.withdrawSettle(member.getTenant(), start_time, end_time,b_status);
+//        if (status == null || status.equals("")) {
+//            status = "结算状态";
+//        }
+//        Account.Status b_status = null;
+//        if ("已结算".equals(status) || status == "已结算") {
+//            b_status = Account.Status.success;
+//        } else if ("未结算".equals(status) || status == "未结算") {
+//            b_status = Account.Status.none;
+//        } else {
+//            b_status = null;
+//        }
+
+        List<Account> accounts = accountService.withdrawSettle(member.getTenant(), start_time, end_time, status);
         List<Map<String, Object>> maps = new ArrayList<Map<String, Object>>();
-        for(Account s:accounts){
-       	 Map<String, Object> map=new HashMap<String, Object>();
-       	 if(s.getSn()==null){
-       		 map.put("sn","");
-       	 }else{
-       		map.put("sn", s.getSn());
-       	 }
-       	 map.put("date",simpleDateFormat.format(s.getCreateDate()));
-       	 map.put("amount", s.getAmount());
-       	 if(s.getStatus()!=null){
-       		 if(Account.Status.success==s.getStatus()){
-        		 map.put("status","已结算");
-        	 }else{
-        		 map.put("status","未结算");
-        	 }
-       	 }else{
-       		 map.put("status","");
-       	 }
-       	 if(s.getTenant()==null){
-       		map.put("tenant", "");
-       	 }else{
-       		 map.put("tenant", s.getTenant().getName());
-       	 }
-       	 maps.add(map);
+        for (Account s : accounts) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            if (s.getSn() == null) {
+                map.put("sn", "");
+            } else {
+                map.put("sn", s.getSn());
+            }
+            map.put("date", simpleDateFormat.format(s.getCreateDate()));
+            map.put("amount", s.getAmount());
+            if (s.getStatus() != null) {
+                if (Account.Status.success.equals(s.getStatus())) {
+                    map.put("status", "已结算");
+                } else {
+                    map.put("status", "未结算");
+                }
+            } else {
+                map.put("status", "");
+            }
+            if (s.getTenant() == null) {
+                map.put("tenant", "");
+            } else {
+                map.put("tenant", s.getTenant().getName());
+            }
+            maps.add(map);
         }
-       return maps;
+        return maps;
     }
 
     /**
@@ -1210,13 +1204,13 @@ public class SupplierController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/purchase/list", method = RequestMethod.GET)
-    public String purchase(Pageable pageable, String start_date, String end_date,String dateRange,String keyWords, ModelMap model) {
+    public String purchase(Pageable pageable, String start_date, String end_date, String dateRange, String keyWords, ModelMap model) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return "redirect:/common/error.jhtml";
         }
-        getSupplierDetails(start_date,end_date,"purchase",dateRange,keyWords,model);
-        Page<Purchase> purchases = purchaseService.openPage(pageable, null,member.getTenant(), null, null,keyWords);
+        getSupplierDetails(start_date, end_date, "purchase", dateRange, keyWords, model);
+        Page<Purchase> purchases = purchaseService.openPage(pageable, null, member.getTenant(), null, null, keyWords);
         model.addAttribute("page", purchases);
         return "b2b/member/supplier/purchase/list";
     }
@@ -1235,15 +1229,15 @@ public class SupplierController extends BaseController {
     }
 
     @RequestMapping(value = "/purchase/print", method = RequestMethod.GET)
-    public String purchasePrint(Long id,ModelMap model) {
+    public String purchasePrint(Long id, ModelMap model) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return "redirect:/common/error.jhtml";
         }
 
         Purchase purchase = purchaseService.find(id);
-        model.addAttribute("purchase",purchase);
-        model.addAttribute("member",member);
+        model.addAttribute("purchase", purchase);
+        model.addAttribute("member", member);
         return "/b2b/member/supplier/purchase/print_purchase";
     }
 
@@ -1253,14 +1247,14 @@ public class SupplierController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/purchase/returns/list", method = RequestMethod.GET)
-    public String purchaseReturns(Pageable pageable, String start_date, String end_date,String dateRange,String keyword, ModelMap model) {
+    public String purchaseReturns(Pageable pageable, String start_date, String end_date, String dateRange, String keyword, ModelMap model) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return "redirect:/common/error.jhtml";
         }
-        getSupplierDetails(start_date,end_date,"purchase_returns",dateRange,keyword,model);
+        getSupplierDetails(start_date, end_date, "purchase_returns", dateRange, keyword, model);
 
-        Page<PurchaseReturns> purchases = purchaseReturnsService.openPage(pageable, null, member.getTenant(), null, null,keyword);
+        Page<PurchaseReturns> purchases = purchaseReturnsService.openPage(pageable, null, member.getTenant(), null, null, keyword);
         model.addAttribute("page", purchases);
         return "b2b/member/supplier/purchase_returns/list";
     }
@@ -1287,19 +1281,19 @@ public class SupplierController extends BaseController {
     }
 
     @RequestMapping(value = "/purchase/returns/print", method = RequestMethod.GET)
-    public String purchaseReturnsPrint(Long id,ModelMap model) {
+    public String purchaseReturnsPrint(Long id, ModelMap model) {
         Member member = memberService.getCurrent();
         if (member == null) {
             return "redirect:/common/error.jhtml";
         }
 
         PurchaseReturns purchase = purchaseReturnsService.find(id);
-        model.addAttribute("purchase",purchase);
-        model.addAttribute("member",member);
+        model.addAttribute("purchase", purchase);
+        model.addAttribute("member", member);
         return "/b2b/member/supplier/purchase_returns/print_purchase";
     }
 
-    public void getSupplierDetails(String start_date, String end_date, String menu,String dateRange, String keyWords, ModelMap model) {
+    public void getSupplierDetails(String start_date, String end_date, String menu, String dateRange, String keyWords, ModelMap model) {
         if (dateRange == null || dateRange.equals("")) {
             dateRange = "昨天";
         }
@@ -1327,7 +1321,7 @@ public class SupplierController extends BaseController {
         }
 
         model.addAttribute("begin_date", start_time);
-        model.addAttribute("end_date",end_time);
+        model.addAttribute("end_date", end_time);
         model.addAttribute("menu", menu);
         model.addAttribute("keyWords", keyWords);
         model.addAttribute("dateRange", dateRange);

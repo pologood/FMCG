@@ -311,7 +311,7 @@
         });
         //导出数据到excel
         $("#export_ss").click(function(){
-            $.message("success","正在帮您导出，请稍后")
+            $.message("success","正在帮您导出，请稍后");
             $.ajax({
                 url:"${base}/b2b/member/supplier/bill_detail.jhtml",
                 type:"get",
@@ -332,7 +332,7 @@
                             '<th>账单状态</th>'+
                         '</tr>'+
                     '</thead>'+
-                    '<tbody>;'
+                    '<tbody>;';
                     $.each(data,function(i,obj){
                         html+='<tr>'+
                                     '<td>'+obj.date+'</td>'+

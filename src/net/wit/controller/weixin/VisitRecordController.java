@@ -1,9 +1,6 @@
 package net.wit.controller.weixin;
 
 import net.wit.controller.weixin.model.DataBlock;
-import net.wit.entity.Member;
-import net.wit.entity.Product;
-import net.wit.entity.Tenant;
 import net.wit.entity.VisitRecord;
 import net.wit.service.MemberService;
 import net.wit.service.ProductService;

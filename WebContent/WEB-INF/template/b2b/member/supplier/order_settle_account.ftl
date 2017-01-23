@@ -51,7 +51,7 @@
         <div style="display: inline;float: left;margin-top: 20px;margin-right:2%;font-size: 20px;color:white;">至</div>
         <input type="text" value="${end_time}" id="dpd2" class="ls-input" onchange="get_end_date(this)">
         <div class="select">
-            <p data-value="${status}" id="current_account">${status}</p>
+            <p data-value="${status}" id="current_account">${message("b2b.status."+status)}</p>
             <ul>
                 <li data-value="true" onclick="getAccountId(this)">
                     已结算
@@ -71,7 +71,7 @@
     <form id="listForm" action="${base}/b2b/member/supplier/order_settle_account.jhtml" method="get">
     <input type="hidden" name="start_date" value="${start_time}" id="start_date">
     <input type="hidden" name="end_date" value="${end_time}" id="end_date">
-    <input type="hidden" name="status" value="${status}" id="status">
+    <input type="hidden" name="status" value="${(status)!}" id="status">
     <input type="hidden" name="date_range" value="${date_range}" id="date_range_mark">
     <input type="hidden" name="menu" value="order_settle_account">
     <div class="tb-container">
@@ -219,7 +219,7 @@
                     exclude: ".noExl",
                     name: "订单结算",
                     filename: "订单结算",
-                    fileext: ".xlsx",
+                    fileext: ".xls",
                     exclude_img: true,
                     exclude_links: false,
                     exclude_inputs: true 

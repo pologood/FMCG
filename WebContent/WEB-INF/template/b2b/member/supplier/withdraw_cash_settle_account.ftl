@@ -51,7 +51,7 @@
         <div style="display: inline;float: left;margin-top: 20px;margin-right:2%;font-size: 20px;color:white;">至</div>
         <input type="text" value="${end_time}" id="dpd2" class="ls-input" onchange="get_end_date(this)">
         <div class="select">
-            <p data-value="${status}" id="current_account">${status}</p>
+            <p data-value="${status}" id="current_account">${message("b2b.status."+status)}</p>
             <ul>
                 <li data-value="success" onclick="getAccountId(this)">
                     已结算
@@ -195,7 +195,7 @@
                                 '<th>我的客户</th>'+
                             '</tr>'+
                         '</thead>'+
-                        '<tbody>;'
+                        '<tbody>;';
                         $.each(data,function(i,obj){
                             html+='<tr>'+
                                         '<td>'+obj.sn+'</td>'+
@@ -214,7 +214,7 @@
                     exclude: ".noExl",
                     name: "提现结算",
                     filename: "提现结算",
-                    fileext: ".xlsx",
+                    fileext: ".xls",
                     exclude_img: true,
                     exclude_links: false,
                     exclude_inputs: true 

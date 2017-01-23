@@ -23,7 +23,6 @@ import net.wit.entity.Tenant.TenantType;
 import net.wit.service.*;
 import net.wit.support.EntitySupport;
 import net.wit.support.PushMessage;
-import net.wit.uic.api.UICService;
 import net.wit.util.SettingUtils;
 import net.wit.util.SpringUtils;
 import net.wit.util.WebUtils;
@@ -32,7 +31,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.lucene.store.Lock.With;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,9 +58,6 @@ public class LoginController extends BaseController {
 
     @Resource(name = "smsSendServiceImpl")
     private SmsSendService smsSendService;
-
-    @Resource(name = "uicService")
-    private UICService uicService;
 
     @Resource(name = "memberRankServiceImpl")
     private MemberRankService memberRankService;
@@ -120,7 +115,7 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public
     @ResponseBody
-    Message submit(String captchaId, String captcha, String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    Message submit(String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 //		if (!captchaService.isValid(CaptchaType.memberLogin, captchaId, captcha)) {
 //			return Message.error("shop.captcha.invalid");
 //		}
