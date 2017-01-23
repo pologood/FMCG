@@ -1,14 +1,11 @@
 package net.wit.controller.app.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import net.wit.entity.MemberRank;
-import net.wit.entity.Parameter;
 
 public class MemberPriceModel extends BaseModel {
 	/*等级*/
