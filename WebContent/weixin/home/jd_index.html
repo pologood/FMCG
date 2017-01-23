@@ -235,6 +235,7 @@
             }
             else if(str=="member-home.html" || str=="redPacket.html"){
                 $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
             }
         });
     </script>
@@ -275,35 +276,40 @@
             var adNew=new product(
                     function(data){
                         $('#product_slider').silderProductPic(data,3);
-                    }
-            );
-            //adNew.do(70);
-            //adNew.recommend(jsonsData);
-            adNew.recommend({pageNum: 1, pageSize: 6, id: pageManager.GetQueryString("id")});
+                     }
+             );
+            adNew.list({pageSize:9,tagIds: 9});
+            //adNew.list(70);
+            //热门好货列表
+//            var tu = new product(function (data) {
+//                var h = render.fill($("#tpl_productList"), data);
+//                $(".product_slider").html(h);
+//            });
+//            tu.list({pageSize:20,tagIds: 19});
             //频道轮播
-            var pc = new productChannel(
-                    function (data) {
-                        $("#channel_pic").silderProductChannel(data,0,8,0);
-                    }
-            );
-            pc.list();
+//            var pc = new productChannel(
+//                    function (data) {
+//                        $("#channel_pic").silderProductChannel(data,0,8,0);
+//                    }
+//            );
+//            pc.list();
             //产品轮播
 
-            //活动广告位
-            var nb = new ad(function(data){
-                if(data != '' ){
-                    var obj = data[0];
-                    if(obj.linkType=="unionActivity"){
-                        $("#activity_ad").attr("href","../activity/index.html?linkId="+obj.linkId);
-                    }else{
-                        $("#activity_ad").css('display','none');
-                    }
-                    $("#activity_ad").find("img").attr("src",obj.image);
-                }else{
-                    $('.act_ad').addClass('none');
-                }
-            });
-            nb.do(131);
+//            //活动广告位
+//            var nb = new ad(function(data){
+//                if(data != '' ){
+//                    var obj = data[0];
+//                    if(obj.linkType=="unionActivity"){
+//                        $("#activity_ad").attr("href","../activity/index.html?linkId="+obj.linkId);
+//                    }else{
+//                        $("#activity_ad").css('display','none');
+//                    }
+//                    $("#activity_ad").find("img").attr("src",obj.image);
+//                }else{
+//                    $('.act_ad').addClass('none');
+//                }
+//            });
+//            nb.do(131);
 
             //四个广告位-限时折扣
             var ad1 = new ad(function(data){

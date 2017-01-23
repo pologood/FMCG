@@ -181,7 +181,7 @@
         if (search_products.length > 0) {
             var html = '';
             $.each(search_products, function (index, keyword) {
-                html += '<a href=' + escape(keyword) + '"/weixin/search/searchProductEnd.html?keyword=" class="col-11 Ftext">' + keyword + '</a>';
+                html += '<a href="/weixin/search/searchProductEnd.html?keyword=' + escape(keyword) + '" class="col-11 Ftext">' + keyword + '</a>';
             });
             $('.historySearch').html(html);
         }else{
@@ -215,7 +215,7 @@
         var tt=new product(function (data) {
             var s='';
             $.each(data,function (i, v) {
-                s+='<a href=' + escape(v) + '"/weixin/search/searchProductEnd.html?keyword=" class="col-11 Ftext">'+v+'</a>';
+                s+='<a href="/weixin/search/searchProductEnd.html?keyword=' + escape(v) + '" class="col-11 Ftext">'+v+'</a>';
             });
             $('.hotSearch').html(s);
         });

@@ -13,18 +13,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
 import net.wit.*;
-import net.wit.Order;
 import net.wit.entity.*;
 import net.wit.entity.Coupon.Type;
 import net.wit.entity.Product.OrderType;
-import net.wit.helper.HttpClientHelper;
 import net.wit.service.*;
-import net.wit.util.Constants;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -55,20 +49,11 @@ public class TenantController extends BaseController {
 	@Resource(name = "tenantCategoryServiceImpl")
 	private TenantCategoryService tenantCategoryService;
 
-	@Resource(name = "productChannelServiceImpl")
-	private ProductChannelService productChannelService;
-
 	@Resource(name = "communityServiceImpl")
 	private CommunityService communityService;
 
 	@Resource(name = "memberServiceImpl")
 	private MemberService memberService;
-
-	@Resource(name = "productCategoryServiceImpl")
-	private ProductCategoryService productCategoryService;
-
-	@Resource(name = "brandServiceImpl")
-	private BrandService brandService;
 	
 	@Resource(name = "couponCodeServiceImpl")
 	private CouponCodeService couponCodeService;
@@ -206,50 +191,50 @@ public class TenantController extends BaseController {
 	 */
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
 	public String detail(@PathVariable Long id, Long productCategoryTenantId, Model model, Long[] tagIds, OrderType orderType, BigDecimal startPrice, BigDecimal endPrice, Pageable pageable) {
-		Tenant tenant = tenantService.find(id);
-		if (tenant == null) {
-			return ERROR_VIEW;
-		}
-		Area area = areaService.getCurrent();
-		ProductCategoryTenant productCategoryTenant = productCategoryTenantService.find(productCategoryTenantId);
-		List<Tag> tags = tagService.findList(tagIds);
-
-		try {
-			// 判断是否在平台拥有视频帐号（1.没帐号，2有帐号，没节点。3正常）
-			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-			String url = Constants.Video.existUserAndNote;
-			Map<String, String> params = new HashMap<String, String>();
-			// params.put("username", member.getUsername());
-			// ////为了演示正常，采用0592000198帐号下的华庄酒业有限公司做演示/////
-			if ("happywine".equals(tenant.getMember().getUsername())) {
-				params.put("username", "0592000198");
-			} else {
-				params.put("username", tenant.getMember().getUsername());
-			}
-			// params.put("username", "waf03");
-			String responseText = HttpClientHelper.get(httpClient, url, params);
-			JSONObject jsonObject = JSONObject.fromObject(responseText);
-			// 1.成功 -1 用户名不存在 -2 节点不存在 -3摄像头不存在
-			model.addAttribute("result", jsonObject.getString("result"));
-			model.addAttribute("descr", jsonObject.getString("descr"));
-
-		} catch (Exception e) {
-
-			model.addAttribute("result", "0");
-			model.addAttribute("descr", "连接平台服务器异常！");
-		}
-		model.addAttribute("page", productService.findMyPage(tenant,null, null, productCategoryTenant, null, null, tags, null, startPrice, startPrice, true, true, null, null, null, null, orderType, pageable));
-		model.addAttribute("tenant", tenant);
-		model.addAttribute("tenantCategory", tenant.getTenantCategory());
-		model.addAttribute("productCategoryTenant", productCategoryTenant);
-		if (productCategoryTenant == null) {
-			model.addAttribute("rootProductCategoryTenants", productCategoryTenantService.findRoots(tenant));
-		}
-		model.addAttribute("articles", tenant.getArticles());
-		model.addAttribute("area", area);
-		model.addAttribute("tags", tags);
-		model.addAttribute("orderType", orderType);
-		model.addAttribute("orderTypes", OrderType.values());
+//		Tenant tenant = tenantService.find(id);
+//		if (tenant == null) {
+//			return ERROR_VIEW;
+//		}
+//		Area area = areaService.getCurrent();
+//		ProductCategoryTenant productCategoryTenant = productCategoryTenantService.find(productCategoryTenantId);
+//		List<Tag> tags = tagService.findList(tagIds);
+//
+//		try {
+//			// 判断是否在平台拥有视频帐号（1.没帐号，2有帐号，没节点。3正常）
+//			CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+//			String url = Constants.Video.existUserAndNote;
+//			Map<String, String> params = new HashMap<String, String>();
+//			// params.put("username", member.getUsername());
+//			// ////为了演示正常，采用0592000198帐号下的华庄酒业有限公司做演示/////
+//			if ("happywine".equals(tenant.getMember().getUsername())) {
+//				params.put("username", "0592000198");
+//			} else {
+//				params.put("username", tenant.getMember().getUsername());
+//			}
+//			// params.put("username", "waf03");
+//			String responseText = HttpClientHelper.get(httpClient, url, params);
+//			JSONObject jsonObject = JSONObject.fromObject(responseText);
+//			// 1.成功 -1 用户名不存在 -2 节点不存在 -3摄像头不存在
+//			model.addAttribute("result", jsonObject.getString("result"));
+//			model.addAttribute("descr", jsonObject.getString("descr"));
+//
+//		} catch (Exception e) {
+//
+//			model.addAttribute("result", "0");
+//			model.addAttribute("descr", "连接平台服务器异常！");
+//		}
+//		model.addAttribute("page", productService.findMyPage(tenant,null, null, productCategoryTenant, null, null, tags, null, startPrice, startPrice, true, true, null, null, null, null, orderType, pageable));
+//		model.addAttribute("tenant", tenant);
+//		model.addAttribute("tenantCategory", tenant.getTenantCategory());
+//		model.addAttribute("productCategoryTenant", productCategoryTenant);
+//		if (productCategoryTenant == null) {
+//			model.addAttribute("rootProductCategoryTenants", productCategoryTenantService.findRoots(tenant));
+//		}
+//		model.addAttribute("articles", tenant.getArticles());
+//		model.addAttribute("area", area);
+//		model.addAttribute("tags", tags);
+//		model.addAttribute("orderType", orderType);
+//		model.addAttribute("orderTypes", OrderType.values());
 		return "/b2c/tenant/detail";
 	}
 

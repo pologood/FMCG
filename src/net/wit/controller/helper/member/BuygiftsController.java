@@ -10,8 +10,8 @@ import net.wit.Filter.Operator;
 import net.wit.Message;
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.controller.app.model.DataBlock;
 import net.wit.controller.app.model.PromotionBuyfreeModel;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Ad.LinkType;
 import net.wit.entity.*;
 import net.wit.entity.Product.OrderType;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;

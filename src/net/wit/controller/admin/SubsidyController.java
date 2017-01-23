@@ -1,34 +1,16 @@
 package net.wit.controller.admin;
 
-
-
-
-
 import net.wit.*;
-import net.wit.controller.store.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.*;
-import net.wit.entity.Message;
 import net.wit.service.*;
-import net.wit.support.EntitySupport;
-import net.wit.util.SettingUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
@@ -37,15 +19,6 @@ import java.util.*;
 @Controller("adminSubsidyController")
 @RequestMapping("/admin/subsidy")
 public class SubsidyController extends BaseController {
-
-    @Resource(name = "fileServiceImpl")
-    private FileService fileService;
-
-    @Resource(name = "memberServiceImpl")
-    private MemberService memberService;
-
-    @Resource(name = "messageServiceImpl")
-    private MessageService messageService;
 
     @Resource(name = "subsidiesServiceImpl")
     private SubsidiesService subsidiesService;
@@ -155,11 +128,5 @@ public class SubsidyController extends BaseController {
         model.addAttribute("page", page);
         return "/admin/subsidy/child_subsidy_list";
     }
-
-
-
-
-
-
 
 }

@@ -1,11 +1,9 @@
 package net.wit.controller.weixin;
 
-import net.wit.controller.app.model.DataBlock;
-import net.wit.controller.wap.BaseController;
-import net.wit.controller.wap.model.CouponModel;
+import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.model.CouponModel;
 import net.wit.entity.*;
 import net.wit.service.*;
-import net.wit.weixin.main.MenuManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +11,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -113,7 +110,7 @@ public class PayBillController extends BaseController {
                 if ((amount.subtract(noAmount)).compareTo(coupon.getAmount()) >= 0 && (amount.subtract(noAmount)).compareTo(coupon.getMinimumPrice()) >= 0) {
                     promotionAmount = coupon.getAmount();
                     couponModel = new CouponModel();
-                    couponModel.copyFrom(coupon);
+                    couponModel.copyFrom(coupon,null);
                     payBill.setType(PayBill.Type.coupon);
                     break;
                 }

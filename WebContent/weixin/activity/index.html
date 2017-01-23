@@ -259,38 +259,38 @@
          */
         var timer = null;
         timer = setInterval(function () {
-            [].slice.call(document.querySelectorAll('a')).forEach(function(el){
-                el.addEventListener('click', function(){
-                    var target = document.querySelector('div[data-id=' + this.getAttribute('data-id')+ ']' );
+            [].slice.call(document.querySelectorAll('a')).forEach(function (el) {
+                el.addEventListener('click', function () {
+                    var target = document.querySelector('div[data-id=' + this.getAttribute('data-id') + ']');
                     target.scrollIntoView(true);
                 });
             });
-            if(window.onclick){
+            if (window.onclick) {
                 clearInterval(timer);
             }
-        },30);
+        }, 30);
 
         /**
          * 导航栏自动跟随滚动页面内容变化
          */
         var pgea = $(".pageable").pageable({
-                    scrollFn:function (me) {
+                    scrollFn: function (me) {
                         $(window).scroll(scrolls);
                         scroll:scrolls();
-                        function scrolls(el){
-                            var fNum,actNum,scoll,$this,navHeight;
+                        function scrolls(el) {
+                            var fNum, actNum, scoll, $this, navHeight;
                             $this = $('#act_nav ul li');
                             navHeight = $("#act_nav").height();
-                            for (var i = 0;i < $this.length; i++) {
-                                fNum = 'f' + (i+1);
-                                actNum = '#act-' + (i+1);
+                            for (var i = 0; i < $this.length; i++) {
+                                fNum = 'f' + (i + 1);
+                                actNum = '#act-' + (i + 1);
                                 fNum = $(actNum).offset().top;
                                 scoll = 0 - $("#scroll_top").offset().top;
                                 //console.log('f' + (i+1) +': ' + (scoll + fNum));
                                 //console.log("scoll: "+scoll);
-                                if (scoll >= (scoll + fNum) - navHeight){
+                                if (scoll >= (scoll + fNum) - navHeight) {
                                     $this.eq(i).addClass('active').siblings().removeClass('active');
-                                }else {
+                                } else {
                                     $this.eq(i).removeClass('active');
                                 }
                             }
@@ -298,15 +298,15 @@
                              *  导航栏及返回顶部显示/隐藏
                              */
                             var top = $("#act_banner").height() + navHeight;
-                            if(scoll >= top){
+                            if (scoll >= top) {
                                 $("#act_nav").addClass("on");
-                                $(".act_goTop").css("display","block");
-                            }else {
+                                $(".act_goTop").css("display", "block");
+                            } else {
                                 $("#act_nav").removeClass("on");
-                                $(".act_goTop").css("display","none");
+                                $(".act_goTop").css("display", "none");
                             }
-                        };
-                    },loadDownFn: function (me) {
+                        }
+                    }, loadDownFn: function (me) {
                         $(".pageable .pageable-down").html("").hide();
                     }
                 }

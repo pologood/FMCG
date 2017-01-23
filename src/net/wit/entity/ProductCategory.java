@@ -71,6 +71,10 @@ public class ProductCategory extends OrderEntity {
 	@JsonProperty
 	private String image;
 
+	/** 缩略图 */
+	@JsonProperty
+	private String thumbnail;
+
 	/** 页面标题 */
 	@Length(max = 200)
 	private String seoTitle;
@@ -255,6 +259,14 @@ public class ProductCategory extends OrderEntity {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	/**

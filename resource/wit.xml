@@ -122,59 +122,26 @@
 	<logConfig operation="店铺审核" urlPattern="/admin/tenant/save.jhtml" />
 	
 	<template id="data" type="page" name="data" templatePath="/data/data.ftl" staticPath="/resources/data/data.js" />
-	<template id="category" type="page" name="category" templatePath="/data/category.ftl" staticPath="/resources/data/category.js" />
-	<template id="categoryJson" type="page" name="categoryJson" templatePath="/data/categoryJson.ftl" staticPath="/resources/data/category.json" />
-	<template id="tenantCategory" type="page" name="tenantCategory" templatePath="/data/tenantCategory.ftl" staticPath="/resources/data/tenantCategory.js" />
-	<template id="tenantCategoryJson" type="page" name="tenantCategoryJson" templatePath="/data/tenantCategoryJson.ftl" staticPath="/resources/data/tenantCategory.json" />
 	<template id="area" type="page" name="area" templatePath="/data/area.ftl" staticPath="/resources/data/area.js" />
-	<template id="areaJson" type="page" name="areaJson" templatePath="/data/areaJson.ftl" staticPath="/resources/data/area.json" />
 	<template id="city" type="page" name="city" templatePath="/data/city.ftl" staticPath="/resources/data/city.js" />
-	<template id="appdata" type="page" name="appdata" templatePath="/data/appdata.ftl" staticPath="/resources/data/appdata.js" />
-	<template id="wapCommonJs" type="page" name="wap_common_js" templatePath="/wap/js/common.ftl" staticPath="/resources/wap/js/common.js" />
-	<!--<template id="weixinCommonJs" type="page" name="weixin_common_js" templatePath="/weixin/js/common.ftl" staticPath="/resources/weixin/js/common.js" />-->
-	<!--<template id="boxCommonJs" type="page" name="box_common_js" templatePath="/box/js/common.ftl" staticPath="/resources/box/js/common.js" />-->
-	<template id="mobileCommonJs" type="page" name="mobile_common_js" templatePath="/mobile/js/common.ftl" staticPath="/resources/mobile/js/common.js" />
 	<template id="b2bCommonJs" type="page" name="b2b_common_js" templatePath="/b2b/js/common.ftl" staticPath="/resources/b2b/js/common.js" />
 	<template id="b2cCommonJs" type="page" name="b2c_common_js" templatePath="/b2c/js/common.ftl" staticPath="/resources/b2c/js/common.js" />
-	<template id="shopCommonJs" type="page" name="shop_common_js" templatePath="/shop/js/common.ftl" staticPath="/resources/shop/js/common.js" />
+	<!--<template id="helperCommonJs" type="page" name="helper_common_js" templatePath="/helper/js/common.ftl" staticPath="/resources/helper/js/common.js" />-->
 	<template id="adminCommonJs" type="page" name="admin_common_js" templatePath="/admin/js/common.ftl" staticPath="/resources/admin/js/common.js" />
-	<template id="sitemapIndex" type="page" name="sitemap索引" templatePath="/shop/xml/sitemap_index.ftl" staticPath="/sitemap/index.xml" />
-	<template id="sitemap" type="page" name="sitemap" templatePath="/shop/xml/sitemap.ftl" staticPath="/sitemap/${index}.xml" />
-	<template id="index" type="page" name="商城首页" templatePath="/b2b/index.ftl" staticPath="/b2b/index.html" />
-	<template id="articleContent" type="page" name="文章内容" templatePath="/shop/article/content.ftl" staticPath="/article/content/${createDate?string('yyyyMM')}/${id}/${pageNumber!1}.html" />
-	<template id="productContent" type="page" name="商品内容" templatePath="/shop/product/content.ftl" staticPath="/product/content/${createDate?string('yyyyMM')}/${id}.html" />
-	<template id="articleList" type="page" name="文章列表" templatePath="/shop/article/list.ftl" />
-	<template id="productList" type="page" name="商品列表" templatePath="/shop/product/list.ftl" />
-	<template id="brandList" type="page" name="品牌列表" templatePath="/shop/brand/list.ftl" />
-	<template id="brandContent" type="page" name="品牌内容" templatePath="/shop/brand/content.ftl" />
-	<template id="promotionContent" type="page" name="促销内容" templatePath="/shop/promotion/content.ftl" />
-	<template id="productCategory" type="page" name="商品分类" templatePath="/shop/product_category/index.ftl" />
-	<template id="friendLink" type="page" name="友情链接" templatePath="/shop/friend_link/index.ftl" />
+	<!--<template id="index" type="page" name="商城首页" templatePath="/b2b/index.ftl" staticPath="/b2b/index.html" />-->
 	<template id="testMail" type="mail" name="邮件测试" templatePath="/admin/setting/mail.ftl" />
-	<template id="productNotifyMail" type="mail" name="到货通知" templatePath="/shop/product_notify/mail.ftl" />
-	<template id="findPasswordMail" type="mail" name="找回密码" templatePath="/shop/password/mail.ftl" />
-	<template id="findPasswordCheckCodeMail" type="mail" name="找回密码" templatePath="/shop/password/checkCodeEmail.ftl" />
 	<template id="findPasswordCheckCodeMailCommon" type="mail" name="找回密码" templatePath="/common/password/checkCodeEmail.ftl" />
-	<template id="findPaymentPasswordMail" type="mail" name="找回密码" templatePath="/shop/password/mail_payment.ftl" />
 	<template id="b2cFindPaymentPasswordMail" type="mail" name="找回支付密码" templatePath="/b2c/password/mail_payment.ftl" />
-	<template id="bindMail" type="print" name="绑定账号" templatePath="/shop/password/mail_bind.ftl" />
 	<template id="b2cBindMail" type="print" name="绑定账号" templatePath="/b2c/password/mail_bind.ftl" />
-	<template id="registerMail" type="print" name="邮箱验证码" templatePath="/uic/mail.ftl" />
-	<template id="registerSuccessMail" type="print" name="邮箱注册成功" templatePath="/shop/register/mail_registerSuccess.ftl" />
 	<template id="orderPrint" type="print" name="订单打印" templatePath="/admin/print/order.ftl" />
 	<template id="productPrint" type="print" name="购物单打印" templatePath="/admin/print/product.ftl" />
 	<template id="shippingPrint" type="print" name="配送单打印" templatePath="/admin/print/shipping.ftl" />
 	<template id="memberF2FNotice" type="mail" name="会员验证码通知" templatePath="/admin/notice/member_payment_f2f.ftl" />
 	<template id="memberTPLNotice" type="mail" name="会员物流通知" templatePath="/admin/notice/member_payment_tpl.ftl" />
 	<template id="tenantF2FNotice" type="mail" name="商家验证码通知" templatePath="/admin/notice/tenant_payment_f2f.ftl" />
-	<template id="channel1" type="channel" name="频道1" templatePath="/admin/channel/channel1.ftl" />
-	<template id="channel2" type="channel" name="频道2" templatePath="/admin/channel/channel2.ftl" />
-	<template id="channel3" type="channel" name="频道3" templatePath="/admin/channel/channel3.ftl" />
 	<template id="channel4" type="channel" name="频道3" templatePath="/admin/channel/channel4.ftl" />
 	<template id="channel5" type="channel" name="频道3" templatePath="/admin/channel/channel5.ftl" />
-	<template id="bindMail4box" type="print" name="绑定账号" templatePath="/box/password/mail_bind.ftl" />
-	<template id="findPasswordMail4box" type="mail" name="找回密码" templatePath="/box/password/mail.ftl" />
-	<template id="findPaymentPasswordMail4box" type="mail" name="找回密码" templatePath="/box/password/mail_payment.ftl" />
-	<template id="apiBindMail" type="print" name="绑定账号" templatePath="/uic/password/apiMail_bind.ftl" />
+	<template id="articleContent" type="page" name="文章内容" templatePath="/helper/article/content.ftl" staticPath="/article/content/${createDate?string('yyyyMM')}/${id}/${pageNumber!1}.html" />
+	<template id="productContent" type="page" name="商品内容" templatePath="/helper/product/content.ftl" staticPath="/product/content/${createDate?string('yyyyMM')}/${id}.html" />
 
 </wit>

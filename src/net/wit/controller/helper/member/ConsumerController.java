@@ -11,9 +11,7 @@
 package net.wit.controller.helper.member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -31,8 +29,8 @@ import net.wit.Message;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.controller.app.model.MemberModel;
-import net.wit.controller.app.model.MemberRankModel;
-import net.wit.controller.app.model.TradeListModel;
+import net.wit.controller.weixin.model.MemberRankModel;
+import net.wit.controller.weixin.model.TradeListModel;
 import net.wit.controller.helper.model.MemberListModel;
 import net.wit.entity.Consumer;
 import net.wit.entity.Consumer.Status;

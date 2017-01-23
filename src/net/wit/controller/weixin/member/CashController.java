@@ -11,8 +11,8 @@
 package net.wit.controller.weixin.member;
 
 import net.wit.Setting;
-import net.wit.controller.app.BaseController;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.BaseController;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.*;
 import net.wit.entity.Credit.Method;
 import net.wit.entity.Credit.Status;

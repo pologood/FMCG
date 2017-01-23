@@ -27,7 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.wit.Message;
 import net.wit.Setting;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.helper.BaseController;
 import net.wit.entity.Credit.Method;
 import net.wit.entity.Idcard;

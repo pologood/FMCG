@@ -1,7 +1,7 @@
 package net.wit.controller.weixin.member;
 
-import net.wit.controller.app.model.DataBlock;
-import net.wit.controller.wap.BaseController;
+import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.BaseController;
 import net.wit.entity.*;
 import net.wit.entity.PayBill.Type;
 import net.wit.service.*;

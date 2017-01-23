@@ -1,19 +1,17 @@
 package net.wit.controller.weixin;
 
 import net.wit.*;
-import net.wit.controller.wap.BaseController;
+import net.wit.controller.weixin.BaseController;
 import net.wit.controller.weixin.model.CouponModel;
 import net.wit.controller.weixin.model.CouponNumberModel;
 import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.*;
-import net.wit.entity.Message;
 import net.wit.service.*;
 import net.wit.support.EntitySupport;
 import net.wit.util.SpringUtils;
 import net.wit.weixin.main.MenuManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

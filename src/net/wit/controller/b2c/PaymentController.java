@@ -7,7 +7,6 @@ package net.wit.controller.b2c;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -26,10 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONObject;
 import net.wit.Setting;
-import net.wit.controller.api.HttpClientProxy;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Order.PaymentStatus;
 import net.wit.entity.Payment.Method;
 import net.wit.entity.Payment.Status;

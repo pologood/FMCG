@@ -5,8 +5,8 @@
  */
 package net.wit.controller.weixin;
 
-import net.wit.controller.app.model.DataBlock;
-import net.wit.controller.wap.BaseController;
+import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.BaseController;
 import net.wit.domain.AuthenticodeStrategy;
 import net.wit.entity.Member;
 import net.wit.entity.Payment;
@@ -35,8 +35,6 @@ import java.util.Map;
 @Controller("weixinPaymentController")
 @RequestMapping("/weixin/payment")
 public class PaymentController extends BaseController {
-    @Resource(name = "orderServiceImpl")
-    private OrderService orderService;
 
     @Resource(name = "memberServiceImpl")
     private MemberService memberService;
@@ -47,20 +45,8 @@ public class PaymentController extends BaseController {
     @Resource(name = "paymentServiceImpl")
     private PaymentService paymentService;
 
-    @Resource(name = "snServiceImpl")
-    private SnService snService;
-
-    @Resource(name = "tenantRelationServiceImpl")
-    private TenantRelationService tenantRelationService;
-
     @Resource(name = "rsaServiceImpl")
     private RSAService rsaService;
-
-    @Resource
-    private AuthenticodeStrategy authenticodeStrategy;
-
-    @Resource(name = "activityPlanningServiceImpl")
-    private ActivityPlanningService activityPlanningService;
 
     /**
      * 提交

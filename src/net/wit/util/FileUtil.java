@@ -70,7 +70,7 @@ public class FileUtil {
 	/**
 	 * 解压缩文件
 	 * @author Ryan.xu
-	 * @param args
+	 * @param
 	 */
 	public static List<String> Extract(String sZipPathFile, String sDestPath) {
 		// int iCompressLevel; // 压缩比 取值范围为0~9
@@ -162,7 +162,7 @@ public class FileUtil {
 
 	/**
 	 * 上传单个图片至服务器（并生成一张缩略图）
-	 * @param MultipartFile multifile 文件 String basePath 服务器的基路径
+	 * @param file multifile 文件 String basePath 服务器的基路径
 	 * @return TupleTwo<String, String> null表无上传文件或者上传失败 TupleTwo<String, String> 参数1表结果文件路径 参数2表原始文件名
 	 */
 	public TupleTwo<String, String> uploadImage(MultipartFile file, String basePath) {

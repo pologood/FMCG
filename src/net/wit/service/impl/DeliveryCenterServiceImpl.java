@@ -8,14 +8,11 @@ package net.wit.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONObject;
 import net.wit.Filter;
 import net.wit.Order;
 import net.wit.Page;
@@ -34,11 +31,8 @@ import net.wit.entity.Tenant.OrderType;
 import net.wit.entity.TenantCategory;
 import net.wit.service.DeliveryCenterService;
 import net.wit.support.DeliveryComparatorByDistance;
-import net.wit.util.Constants;
-import net.wit.util.HttpRequestProxy;
 import net.wit.util.MapUtils;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,12 +47,6 @@ public class DeliveryCenterServiceImpl extends BaseServiceImpl<DeliveryCenter, L
 
 	@Resource(name = "deliveryCenterDaoImpl")
 	private DeliveryCenterDao deliveryCenterDao;
-
-	@Resource(name = "deviceDaoImpl")
-	private DeviceDao deviceDao;
-
-	@Resource(name = "memberDaoImpl")
-	private MemberDao memberDao;
 
 	@Resource(name = "deliveryCenterDaoImpl")
 	public void setBaseDao(DeliveryCenterDao DeliveryCenterDao) {
@@ -119,20 +107,20 @@ public class DeliveryCenterServiceImpl extends BaseServiceImpl<DeliveryCenter, L
 	 * @return
 	 */
 	private boolean dspLogin(String username, String password) {
-		final String url = Constants.Video.loginUrl;
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("userName", username);
-		map.put("clubLoginPwd", password);
-		map.put("productType", "V");
-		String json_result = HttpRequestProxy.doGet(url, map);
-		if (StringUtils.isNotEmpty(json_result)) {
-			JSONObject jsonObject = JSONObject.fromObject(json_result);
-			String result = jsonObject.getString("result");
-			if ("1".equals(result)) {
-				return true;
-			}
-		}
-
+//		final String url = Constants.Video.loginUrl;
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("userName", username);
+//		map.put("clubLoginPwd", password);
+//		map.put("productType", "V");
+//		String json_result = HttpRequestProxy.doGet(url, map);
+//		if (StringUtils.isNotEmpty(json_result)) {
+//			JSONObject jsonObject = JSONObject.fromObject(json_result);
+//			String result = jsonObject.getString("result");
+//			if ("1".equals(result)) {
+//				return true;
+//			}
+//		}
+//
 		return false;
 	}
 

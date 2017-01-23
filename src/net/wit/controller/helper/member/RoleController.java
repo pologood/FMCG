@@ -2,7 +2,7 @@ package net.wit.controller.helper.member;
 
 import net.wit.*;
 import net.wit.Message;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.helper.model.BarcodeModel;
 import net.wit.controller.helper.model.TenantRulesModel;
 import net.wit.controller.helper.model.TenantRulesRoleModel;

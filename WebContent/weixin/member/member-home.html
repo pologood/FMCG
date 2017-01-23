@@ -162,7 +162,7 @@
                     <div class="section1">
                         <ul class="weui-flex" >
                             <li class="weui-flex__item">
-                                <a href="coupon.html">
+                                <a href="../member/coupon.html">
                                     <div class="shop_img"><i class="icon iconfont icon-coupon-01 f22"></i><p class="Ftext">优惠券</p></div>
                                 </a>
                             </li>
@@ -172,7 +172,7 @@
                                 </a>
                             </li>
                             <li class="weui-flex__item">
-                                <a href="favorite-tenant.html">
+                                <a href="../member/favorite-tenant.html">
                                     <div class="shop_img"><i class="icon iconfont icon-s-heart-01 f22"></i><p class="Ftext">收藏</p></div>
                                 </a>
                             </li>
@@ -340,6 +340,7 @@
             }
             else if(str=="member-home.html" || str=="redPacket.html"){
                 $("#nav5").addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
             }
         });
     </script>
@@ -385,7 +386,8 @@
                 }else{
                     $('#authStatus').html("未认证");
                 };
-
+                //个人中心判断
+                console.log($('#username').html()+111)
                 //订单列表角标如果是0的话就不显示
                 if(data.unpaid==0){
                     $("#unpaid").css("display",'none');

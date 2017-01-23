@@ -6,8 +6,8 @@
 package net.wit.controller.weixin.member;
 
 import net.wit.Setting;
-import net.wit.controller.app.BaseController;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.BaseController;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Member;
 import net.wit.entity.Payment;
 import net.wit.entity.Payment.Method;
@@ -40,9 +40,6 @@ import java.util.Map;
 @RequestMapping("/weixin/member/cashier")
 public class CashierController extends BaseController {
 
-    @Resource(name = "orderServiceImpl")
-    private OrderService orderService;
-
     @Resource(name = "memberServiceImpl")
     private MemberService memberService;
 
@@ -54,9 +51,6 @@ public class CashierController extends BaseController {
 
     @Resource(name = "snServiceImpl")
     private SnService snService;
-
-    @Resource(name = "creditServiceImpl")
-    private CreditService creditService;
 
     /**
      * 微信扫码支付提交

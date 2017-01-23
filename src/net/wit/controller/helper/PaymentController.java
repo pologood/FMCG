@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.wit.Message;
 import net.wit.Setting;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Member;
 import net.wit.entity.Order;
 import net.wit.entity.Order.PaymentStatus;

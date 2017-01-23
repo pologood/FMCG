@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.wit.Setting;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Member;
 import net.wit.entity.Order;
 import net.wit.entity.Order.OrderStatus;
@@ -76,9 +76,6 @@ public class PaymentController extends BaseController {
 
 	@Resource(name = "snServiceImpl")
 	private SnService snService;
-
-	@Resource(name = "buyAppServiceImpl")
-	private BuyAppService buyAppService;
 
 	@Value("${vbox.dspServer}")
 	private String dspServer;

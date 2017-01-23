@@ -7,7 +7,7 @@ package net.wit.controller.weixin.member;
 
 import net.wit.Filter;
 import net.wit.Order;
-import net.wit.controller.wap.BaseController;
+import net.wit.controller.weixin.BaseController;
 import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.weixin.model.ReceiverModel;
 import net.wit.entity.Area;

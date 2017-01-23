@@ -3,11 +3,9 @@ package net.wit.controller.app.model;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import net.wit.entity.Idcard.AuthStatus;
 import net.wit.entity.Consumer;
-//import net.wit.entity.Employee.Role;
 import net.wit.entity.Member;
 import net.wit.entity.Member.BindStatus;
 import net.wit.entity.Member.Gender;

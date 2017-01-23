@@ -1,12 +1,11 @@
 package net.wit.controller.weixin.model;
 
-import net.wit.controller.app.model.BaseModel;
+import net.wit.controller.weixin.model.BaseModel;
 import net.wit.entity.*;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 

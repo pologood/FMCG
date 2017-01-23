@@ -273,13 +273,13 @@
             ads.do(70);
 
            //新品上市轮播
-            var adNew=new ad(
+            var adNew=new product(
                     function(data){
                         $('#product_slider').silderProductPic(data,3);
                      }
              );
-            //adNew.list({pageSize:9,tagIds: 9});
-            adNew.do(70);
+            adNew.list({pageSize:9,tagIds: 9});
+            //adNew.list(70);
             //热门好货列表
 //            var tu = new product(function (data) {
 //                var h = render.fill($("#tpl_productList"), data);
@@ -315,14 +315,13 @@
             var ad1 = new ad(function(data){
                 var obj = data[0];
                 $("#jd_single_ad1").find('div').show();
-                $("#jd_single_ad1").attr("href","../flashSale/flashSale.html?id="+obj.linkId);
-//                if(obj.linkType=="tenant"){
-//                    $("#jd_single_ad1").attr("href","../flashSale/flashSale.html?id="+obj.linkId);
-//                }else if(obj.linkType=="product"){
-//                    $("#jd_single_ad1").attr("href","../jdCoupon/jdCoupon.html?id="+obj.linkId);
-//                }else if(obj.linkType=="none"){
-//                    $("#jd_single_ad1").attr("href","javascript:;");
-//                }
+                if(obj.linkType=="tenant"){
+                    $("#jd_single_ad1").attr("href","../flashSale/flashSale.html?id="+obj.linkId);
+                }else if(obj.linkType=="product"){
+                    $("#jd_single_ad1").attr("href","../jdCoupon/jdCoupon.html?id="+obj.linkId);
+                }else if(obj.linkType=="none"){
+                    $("#jd_single_ad1").attr("href","javascript:;");
+                }
 
                 $("#jd_single_ad1").find("img").attr("src",obj.image);
             });
@@ -330,28 +329,26 @@
             //四个广告位-优惠券
             var ad2 = new ad(function(data){
                 var obj = data[0];
-                $("#jd_single_ad2").attr("href","../jdCoupon/jdCoupon.html?id="+obj.linkId);
-//                if(obj.linkType=="tenant"){
-//                    $("#jd_single_ad2").attr("href","../flashSale/jdCoupon.html?id"+obj.linkId);
-//                }else if(obj.linkType=="product"){
-//                    $("#jd_single_ad2").attr("href","../jdCoupon/flashSale.html?id="+obj.linkId);
-//                }else if(obj.linkType=="none"){
-//                    $("#jd_single_ad2").attr("href","javascript:;");
-//                }
+                if(obj.linkType=="tenant"){
+                    $("#jd_single_ad2").attr("href","../flashSale/jdCoupon.html?id"+obj.linkId);
+                }else if(obj.linkType=="product"){
+                    $("#jd_single_ad2").attr("href","../jdCoupon/flashSale.html?id="+obj.linkId);
+                }else if(obj.linkType=="none"){
+                    $("#jd_single_ad2").attr("href","javascript:;");
+                }
                 $("#jd_single_ad2").find("img").attr("src",obj.image);
             });
             ad2.do(76);
             //四个广告位-买赠搭配
             var ad3 = new ad(function(data){
                 var obj = data[0];
-                $("#jd_single_ad3").attr("href","../buyGift/buyGift.html?id="+obj.linkId);
-//                if(obj.linkType=="tenant"){
-//                    $("#jd_single_ad3").attr("href","../buyGift/bufGift.html?id="+obj.linkId);
-//                }else if(obj.linkType=="product"){
-//                    $("#jd_single_ad3").attr("href","../product/product-details.html?id="+obj.linkId);
-//                }else if(obj.linkType=="none"){
-//                    $("#jd_single_ad3").attr("href","javascript:;");
-//                }
+                if(obj.linkType=="tenant"){
+                    $("#jd_single_ad3").attr("href","../buyGift/bufGift.html?id="+obj.linkId);
+                }else if(obj.linkType=="product"){
+                    $("#jd_single_ad3").attr("href","../product/product-details.html?id="+obj.linkId);
+                }else if(obj.linkType=="none"){
+                    $("#jd_single_ad3").attr("href","javascript:;");
+                }
                 $("#jd_single_ad3").find("img").attr("src",obj.image);
             });
             ad3.do(75);
@@ -629,22 +626,22 @@ $(document).keypress(function(e) {
                     },10);
                 }
                 //推荐商家及顶部搜索背景渐变
-//                    var pged = $(".pageable").pageable({
-//                                scrollFn:function (me) {
-//                                    var top = $("#channel_pic").offset().top;
-//                                    //console.log(top);
-//                                    var height = $("#iSlider-wrapper").height();
-//                                    //console.log('高度'+height);
-//                                    var scoll = height-top;
-//                                    //获取当前滑动位置与指定位置的百分比
-//                                    var opa = (scoll / height)*100;
-//                                    //滑动到该位置时执行代码
-//                                    if(scoll <= height){
-//                                        startrun(opa);
-//                                    }else{
-//                                        startrun(100);
-//                                    }
-//                                },
+                var pged = $(".pageable").pageable({
+                            scrollFn:function (me) {
+                               var top = $("#channel_pic").offset().top;
+                                //console.log(top);
+                                var height = $("#iSlider-wrapper").height();
+                                //console.log('高度'+height);
+                                var scoll = height-top;
+                                //获取当前滑动位置与指定位置的百分比
+                                var opa = (scoll / height)*100;
+                                //滑动到该位置时执行代码
+                                if(scoll <= height){
+                                    startrun(opa);
+                                }else{
+                                    startrun(100);
+                                }
+                            },
 //                            loadDownFn: function (me) {
 //                                var td = new tenant(function (data) {
 //                                    me.pageNumber = me.pageNumber +1;
@@ -659,8 +656,8 @@ $(document).keypress(function(e) {
 //                                });
 //                                td.list({pageNumber: me.pageNumber,lat: weixin.lat, lng: weixin.lng});
 //                            }
-//                        }
-//                );
+                        }
+                );
 
             });
 

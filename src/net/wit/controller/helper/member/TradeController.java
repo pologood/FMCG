@@ -36,7 +36,7 @@ import net.wit.Filter;
 import net.wit.Message;
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.dao.AdminDao;
 import net.wit.entity.Order.OrderStatus;
 import net.wit.entity.Order.PaymentStatus;

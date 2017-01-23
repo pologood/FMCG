@@ -1,7 +1,7 @@
 package net.wit.controller.weixin.model;
 
-import net.wit.controller.app.model.BaseModel;
-import net.wit.controller.app.model.TagModel;
+import net.wit.controller.weixin.model.BaseModel;
+import net.wit.controller.weixin.model.TagModel;
 import net.wit.entity.ProductCategoryTenant;
 
 import java.util.ArrayList;

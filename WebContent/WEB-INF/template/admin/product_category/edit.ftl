@@ -25,7 +25,7 @@
 
             var $inputForm = $("#inputForm");
             var $browserButton = $("#browserButton");
-
+            var $browserButton1 = $("#browserButton1");
             var $selectedbrandvalue = $("#selectedbrandvalue");
             var $selectedbrand = $("#selectedbrand");
             var $selectedAllbrand = $("#selectedAllbrand");
@@ -33,7 +33,7 @@
 
         [@flash_message /]
             $browserButton.browser();
-
+            $browserButton1.browser();
             function queryLoadBrand(brandName, checked) {
                 $.ajax({
                     url: "${base}/admin/brand/search.jhtml",
@@ -195,22 +195,22 @@
                        value="[#if productCategory.parent??]${productCategory.parent.id}[/#if]"/>
             ${(productCategory.parent.name)!}
             [#else]
-                <!-- <select name="parentId">
-                    <option value="">${message("admin.productCategory.root")}</option>
-                    [#list productCategoryTree as category]
-                        [#if category != productCategory && !children?seq_contains(category)]
-                            <option value="${category.id}"[#if category == productCategory.parent]
-                                    selected="selected"[/#if]>
-                                [#if category.grade != 0]
-                                    [#list 1..category.grade as i]
-                                        &nbsp;&nbsp;
-                                    [/#list]
-                                [/#if]
-                            ${category.name}
-                            </option>
-                        [/#if]
-                    [/#list]
-                </select> -->
+            [#-- <select name="parentId">--]
+            [#--<option value="">${message("admin.productCategory.root")}</option>--]
+            [#--[#list productCategoryTree as category]--]
+            [#--[#if category != productCategory && !children?seq_contains(category)]--]
+            [#--<option value="${category.id}"[#if category == productCategory.parent]--]
+            [#--selected="selected"[/#if]>--]
+            [#--[#if category.grade != 0]--]
+            [#--[#list 1..category.grade as i]--]
+            [#--&nbsp;&nbsp;--]
+            [#--[/#list]--]
+            [#--[/#if]--]
+            [#--${category.name}--]
+            [#--</option>--]
+            [#--[/#if]--]
+            [#--[/#list]--]
+            [#--</select> --]
                 <div style="display:inline-block;" id="edit_warp">${(productCategory.parent.name)!}
                     <input type="hidden" id="default_value" name="parentId" value="${(productCategory.parent.id)!}">
                     [<a href="javascript:;" onclick="edit_cate(this)">修改</a>]
@@ -260,7 +260,7 @@
         </tr>
         <tr>
             <th>
-                缩例图<120*120>:
+                图标:
             </th>
             <td>
 					<span class="fieldSet">
@@ -270,6 +270,23 @@
                                value="${message("admin.browser.select")}"/>
                     [#if productCategory.image??]
                         <a href="${productCategory.image}" target="_blank">${message("admin.common.view")}</a>
+                    [/#if]
+					</span>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                缩例图:
+            </th>
+            <td>
+					<span class="fieldSet">
+						<input type="text" name="thumbnail" class="text" value="${productCategory.thumbnail}"
+                               maxlength="200"
+                               title="${message("admin.product.imageTitle")}"/>
+						<input type="button" id="browserButton1" class="button"
+                               value="${message("admin.browser.select")}"/>
+                    [#if productCategory.thumbnail??]
+                        <a href="${productCategory.thumbnail}" target="_blank">${message("admin.common.view")}</a>
                     [/#if]
 					</span>
             </td>

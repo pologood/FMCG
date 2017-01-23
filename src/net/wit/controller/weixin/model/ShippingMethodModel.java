@@ -1,6 +1,5 @@
 package net.wit.controller.weixin.model;
 
-import net.wit.controller.app.model.BaseModel;
 import net.wit.entity.ShippingMethod;
 import net.wit.entity.ShippingMethod.Method;
 

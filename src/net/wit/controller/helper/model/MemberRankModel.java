@@ -1,6 +1,6 @@
 package net.wit.controller.helper.model;
 
-import net.wit.controller.app.model.BaseModel;
+import net.wit.controller.weixin.model.BaseModel;
 import net.wit.entity.MemberRank;
 
 import java.util.ArrayList;

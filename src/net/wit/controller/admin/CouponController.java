@@ -25,13 +25,12 @@ import com.sun.image.codec.jpeg.JPEGImageDecoder;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.wit.*;
 import net.wit.Message;
-import net.wit.controller.app.model.DataBlock;
+import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.*;
 import net.wit.service.*;
 import net.wit.util.FreemarkerUtils;
 
 import net.wit.util.QRBarCodeUtil;
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
