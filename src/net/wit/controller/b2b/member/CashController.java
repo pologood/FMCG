@@ -28,7 +28,6 @@ import net.wit.Message;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.Setting;
-import net.wit.controller.app.model.DataBlock;
 import net.wit.controller.b2b.BaseController;
 import net.wit.entity.Account;
 import net.wit.entity.Area;
@@ -54,7 +53,6 @@ import net.wit.service.SmsSendService;
 import net.wit.service.SnService;
 import net.wit.service.TenantRelationService;
 import net.wit.service.TenantService;
-import net.wit.uic.api.UICService;
 import net.wit.util.SettingUtils;
 
 /**
@@ -83,8 +81,6 @@ public class CashController extends BaseController {
 	
 	@Resource(name = "memberBankServiceImpl")
 	private MemberBankService memberBankService;
-	@Resource(name = "uicService")
-	private UICService uicService;
 	@Resource(name = "areaServiceImpl")
 	private AreaService areaService;
 	@Resource(name = "accountServiceImpl")
@@ -453,12 +449,12 @@ public class CashController extends BaseController {
 		 		smsSendService.smsSend(smsSend);
 	    	}
 	    		
-	    	if (credit.getStatus()==Credit.Status.success) { 	
+	    	if (credit.getStatus()==Credit.Status.success) {
 	    		model.addAttribute("status",SUCCESS_MESSAGE);
 	    	} else {
 	    		if (msg!=null) {
 	    		    model.addAttribute("status",msg);
-	    		} else if (credit.getStatus()==Credit.Status.wait) { 	
+	    		} else if (credit.getStatus()==Credit.Status.wait) {
 		    		model.addAttribute("status",SUCCESS_MESSAGE);
 		    	} else {
 	    			return ERROR_VIEW;

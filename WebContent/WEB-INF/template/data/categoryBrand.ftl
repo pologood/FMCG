@@ -1,38 +1,31 @@
 var categoryBrands;
 function initCategoryBrand() {
 categoryBrands = [
-   [@product_category_root_list]
-			[#list productCategories as productCategory]
-			    [#if productCategory_index=0] 
-					    {id:"${productCategory.id}",name:"${productCategory.name}",tag:"0",image:"${productCategory.image}",childrens:[
-					[#else]
-					   ,{id:"${productCategory.id}",name:"${productCategory.name}",tag:"0",image:"${productCategory.image}",childrens:[
-					[/#if]
-			             [#list productCategory.children as children1]
-			               [#if children1_index=0] 
-			                  {id:"${children1.id}",name:"${children1.name}",tag:"0",image:"${children1.image}",childrens:[
-			               [#else]
-			                 ,{id:"${children1.id}",name:"${children1.name}",tag:"0",image:"${children1.image}",childrens:[
-			               [/#if]
-			                    [#list children1.children as children2]
-			                      [#if children2_index=0] 
-			                         {id:"${children2.id}",name:"${children2.name}",tag:"0",image:"${children2.image}"}
-			                      [#else]
-			                        ,{id:"${children2.id}",name:"${children2.name}",tag:"0",image:"${children2.image}"}
-			                      [/#if]
-			                    [/#list]
-			               ]}
-			             [/#list]
-					   ]}
-			[/#list]
-	 [/@product_category_root_list]   
-	]
+[@product_brand_root_list]
+    [#list productBrands as productBrand]
+        [#if productBrand_index=0]
+        {id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[
+        [#else]
+        ,{id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[
+        [/#if]
+        [#list productBrand.brands as brand]
+            [#if brand_index=0]
+            {id:"${brand.id}",name:"${brand.name}",tag:"0",image:"${brand.logo}",childrens:[
+            [#else]
+            ,{id:"${brand.id}",name:"${brand.name}",tag:"0",image:"${brand.logo}",childrens:[
+            [/#if]
+        ]}
+        [/#list]
+    ]}
+    [/#list]
+[/@product_brand_root_list]
+]}
+function getBrandChildRens(id) {
+for(var i=0;i<categoryBrands.length;i++)
+{
+if (categoryBrands[i].id==id) {
+return categoryBrands[i].childrens;
 }
-function getCategoryChildRens(id) {
-	for(var i=0;i<categoryBrands.length;i++)
-	{
-	  if (categorys[i].id==id) {
-	     return categorys[i].childrens;
-	  }
-	}	
 }
+}
+

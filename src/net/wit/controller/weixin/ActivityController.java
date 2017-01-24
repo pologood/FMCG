@@ -7,7 +7,6 @@ import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.weixin.model.TenantListModel;
 import net.wit.entity.*;
 import net.wit.service.*;
-import net.wit.weixin.main.MenuManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -41,9 +39,6 @@ public class ActivityController {
 
     @Resource(name = "adServiceImpl")
     private AdService adService;
-
-    @Resource(name = "singleProductPositionServiceImpl")
-    private SingleProductPositionService singleProductPositionService;
 
     /**
      * 活动页

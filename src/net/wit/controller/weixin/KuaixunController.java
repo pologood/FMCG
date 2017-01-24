@@ -6,9 +6,6 @@ import net.wit.controller.weixin.model.ArticleModel;
 import net.wit.controller.weixin.model.DataBlock;
 import net.wit.entity.Article;
 import net.wit.service.ArticleService;
-import net.wit.service.EmployeeService;
-import net.wit.service.MemberService;
-import net.wit.service.TagService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,12 +20,6 @@ import javax.annotation.Resource;
 @Controller("weixinKuaixunController")
 @RequestMapping("/weixin/kuaixun")
 public class KuaixunController {
-    @Resource(name = "employeeServiceImpl")
-    private EmployeeService employeeService;
-    @Resource(name = "tagServiceImpl")
-    private TagService tagService;
-    @Resource(name = "memberServiceImpl")
-    private MemberService memberService;
     @Resource(name = "articleServiceImpl")
     private ArticleService articleService;
 

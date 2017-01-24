@@ -3,13 +3,10 @@ package net.wit.service.impl;
 import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
-import net.wit.controller.assistant.model.DataBlock;
 import net.wit.dao.TenantDao;
 import net.wit.dao.UnionDao;
 import net.wit.dao.PaymentDao;
-import net.wit.dao.SnDao;
 import net.wit.dao.UnionTenantDao;
-import net.wit.dao.impl.BaseDaoImpl;
 import net.wit.entity.*;
 import net.wit.service.UnionTenantService;
 import org.springframework.stereotype.Service;
@@ -29,8 +26,6 @@ import java.util.Map;
 public class UnionTenantServiceImpl extends BaseServiceImpl<UnionTenant,Long> implements UnionTenantService{
     @Resource(name = "unionTenantDaoImpl")
     private UnionTenantDao unionTenantDao;
-    @Resource(name = "snDaoImpl")
-    private SnDao snDao;
     @Resource(name = "paymentDaoImpl")
     private PaymentDao paymentDao;
     @Resource(name = "tenantDaoImpl")

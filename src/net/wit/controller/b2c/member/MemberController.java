@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.wit.controller.app.model.DataBlock;
 import net.wit.controller.b2c.BaseController;
 import net.wit.util.SettingUtils;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

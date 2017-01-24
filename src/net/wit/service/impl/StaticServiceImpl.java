@@ -267,11 +267,13 @@ public class StaticServiceImpl implements StaticService, ServletContextAware {
         Template dataTemplate = templateService.get("data");
         Template areaTemplate = templateService.get("area");
         Template cityTemplate = templateService.get("city");
+        Template brandTemplate = templateService.get("brand");
         buildCount += build(dataTemplate.getTemplatePath(), dataTemplate.getStaticPath(), model);
         buildCount += build(areaTemplate.getTemplatePath(), areaTemplate.getStaticPath(), model);
         buildCount += build(cityTemplate.getTemplatePath(), cityTemplate.getStaticPath(), model);
         buildCount += build(adminCommonJsTemplate.getTemplatePath(), adminCommonJsTemplate.getStaticPath());
         buildCount += build(b2bCommonJsTemplate.getTemplatePath(), b2bCommonJsTemplate.getStaticPath());
+        buildCount += build(brandTemplate.getTemplatePath(), brandTemplate.getStaticPath());
         return buildCount;
     }
 

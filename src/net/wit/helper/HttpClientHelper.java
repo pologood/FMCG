@@ -220,7 +220,7 @@ public class HttpClientHelper {
 		params.put("password", "123456");
 		params.put("securityCode", securityCode);
 		responseText = HttpClientHelper.post(httpClient, url, params);
-		//System.out.println(responseText);
+		System.out.println(responseText);
 	}
 
 }

@@ -140,6 +140,7 @@
 				<entry key="tenant_category_children_list" value-ref="tenantCategoryChildrenListDirective" />
 				<entry key="product_list" value-ref="productListDirective" />
 				<entry key="product_category_root_list" value-ref="productCategoryRootListDirective" />
+				<entry key="product_brand_root_list" value-ref="productBrandRootListDirective" />
 				<entry key="product_category_parent_list" value-ref="productCategoryParentListDirective" />
 				<entry key="product_category_children_list" value-ref="productCategoryChildrenListDirective" />
 				<entry key="favorite_category_root_list" value-ref="favoriteCategoryListDirective" />

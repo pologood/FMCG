@@ -27,6 +27,8 @@
     <script type="text/javascript" src="${base}/resources/common/js/rng.js"></script>
 
     <script type="text/javascript" src="${base}/resources/b2b/js/common.js"></script>
+    <script type="text/javascript" src="${base}/resources/b2b/js/rsa.js"></script>
+    <script type="text/javascript" src="${base}/resources/b2b/js/base64.js"></script>
     <script type="text/javascript">
         var paymentSn;
         var flag="true";
@@ -62,7 +64,7 @@
                 if($("#pay-tab-main-balance").css("display")=="block"){
                     $("#confirm_pay").hide();
                 }
-            })
+            });
             /*平台支付*/
             $("#confirm_pay").click(function(){
                 if (paymentMthodName == "offline") {
@@ -176,17 +178,17 @@
                 // 计算时间差
                 var time_distance = time_end - time_start;
                 // 天
-                var int_day = Math.floor(time_distance / 86400000)
+                var int_day = Math.floor(time_distance / 86400000);
                 time_distance -= int_day * 86400000;
                 // 时
-                var int_hour = Math.floor(time_distance / 3600000)
+                var int_hour = Math.floor(time_distance / 3600000);
                 time_distance -= int_hour * 3600000;
                 // 分
-                var int_minute = Math.floor(time_distance / 60000)
+                var int_minute = Math.floor(time_distance / 60000);
                 time_distance -= int_minute * 60000;
                 // 秒
-                var int_second = Math.floor(time_distance / 1000)
-                // 时分秒为单数时、前面加零
+                var int_second = Math.floor(time_distance / 1000);
+                // 时分秒为单数时、前面加零;
                 if (int_day < 10) {
                     if (int_day < 0) {
                         int_day = "00";

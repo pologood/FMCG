@@ -124,6 +124,7 @@
 	<template id="data" type="page" name="data" templatePath="/data/data.ftl" staticPath="/resources/data/data.js" />
 	<template id="area" type="page" name="area" templatePath="/data/area.ftl" staticPath="/resources/data/area.js" />
 	<template id="city" type="page" name="city" templatePath="/data/city.ftl" staticPath="/resources/data/city.js" />
+	<template id="brand" type="page" name="brand" templatePath="/data/categoryBrand.ftl" staticPath="/resources/data/categoryBrand.js" />
 	<template id="b2bCommonJs" type="page" name="b2b_common_js" templatePath="/b2b/js/common.ftl" staticPath="/resources/b2b/js/common.js" />
 	<template id="b2cCommonJs" type="page" name="b2c_common_js" templatePath="/b2c/js/common.ftl" staticPath="/resources/b2c/js/common.js" />
 	<!--<template id="helperCommonJs" type="page" name="helper_common_js" templatePath="/helper/js/common.ftl" staticPath="/resources/helper/js/common.js" />-->

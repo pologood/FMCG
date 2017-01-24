@@ -9,16 +9,12 @@ import net.wit.FileInfo.FileType;
 import net.wit.Message;
 import net.wit.Setting;
 import net.wit.controller.b2c.BaseController;
-import net.wit.controller.uic.UserController;
 import net.wit.entity.*;
 import net.wit.entity.Idcard.AuthStatus;
-import net.wit.entity.SmsSend.Type;
 import net.wit.service.*;
 import net.wit.uic.api.UICService;
 import net.wit.util.SettingUtils;
-import net.wit.util.SpringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -32,15 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.awt.image.BufferedImage;
 import java.util.Date;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
 /**
@@ -54,12 +43,6 @@ public class SafeController extends BaseController {
 
 	@Resource(name = "memberServiceImpl")
 	private MemberService memberService;
-
-	@Resource(name = "imageCaptchaService")
-	private com.octo.captcha.service.CaptchaService imageCaptchaService;
-
-	@Resource(name = "smsSendServiceImpl")
-	private SmsSendService smsSendService;
 
 	@Resource(name = "mailServiceImpl")
 	private MailService mailService;
