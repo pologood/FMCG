@@ -4,9 +4,9 @@ categoryBrands = [
 [@product_brand_root_list]
     [#list productBrands as productBrand]
         [#if productBrand_index=0]
-        {id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[
+        {id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[{childrens:[
         [#else]
-        ,{id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[
+        ,{id:"${productBrand.id}",name:"${productBrand.name}",tag:"0",image:"${productBrand.image}",childrens:[{childrens:[
         [/#if]
         [#list productBrand.brands as brand]
             [#if brand_index=0]
@@ -16,7 +16,7 @@ categoryBrands = [
             [/#if]
         ]}
         [/#list]
-    ]}
+    ]}]}
     [/#list]
 [/@product_brand_root_list]
 ]}
