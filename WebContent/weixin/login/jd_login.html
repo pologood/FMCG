@@ -91,7 +91,7 @@
                 
 <!--login表单开始-->
 <div class="form__bd">
-    <form action="../home/jd_index.html" id="form-table">
+    <form action="" id="form-table">
     <div class="form-cells disFlex">
           <span class="form-title weui-tabbar__items "><i class="iconfont weui-tabbar__icon icon-phone f16"></i></span>
           <input class="input-size f16 disFlex1" id="userIphone" type="text" placeholder="请输入已注册的手机号"/>
@@ -100,11 +100,8 @@
           <span class="form-title weui-tabbar__items"><i class="iconfont weui-tabbar__icon icon-l-me f16"></i></span>
           <input class="input-size f16 disFlex1" id="userPass" type="password" placeholder="请输入登录密码"/>
     </div>
-        <div class="form-cells al">
-            <span class="rePass"></span><span class="f14">记住密码</span>
-        </div>
     <div class="form-cells ">
-            <button class="submit-btn f18">登录</button>
+            <button class="submit-btn f18" id="sub-btn">登录</button>
     </div>
     </form>
 </div>
@@ -123,6 +120,7 @@
         $(document).on('click','#zc',function(){
             window.location.href="register_login.html";
         })
+
     })
 </script>
 </script>
@@ -131,19 +129,31 @@
 
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         pageManager.show("main");
 
-        $('.rePass').on('click',function(){
-            $(this).css({"background":'#000'})
+        $('.rePass').on('click', function () {
+            $(this).css({"background": '#000'})
+        });
+        //登录验证
+        $('#sub-btn').on('click',function(){
+            var username=$('#userIphone').val();
+            var password=$('#userPass').val();
+            alert(1111)
+            var logins=new login(function(data){
+                 if(username==""){
+                    toast.show("用户名错误！")
+                }if(password==""){
+                    toast.show("密码错误！")
+                }else{
+                    $('#form-table').attr('action','../home/index.html');
+                }
+            });
+            toast.show("密码错误！");
+            logins.submit({username:username,enPassword:password});
+            alert(2222)
         })
-        $('.submit-btn').on('click',function(){
-            if($('#userIphone').val()==''){
-                $('#dialog2').css({"display":"block"}),html("用户名不能为空！");
-            }
-        })
-
-    })
+ })
 </script>
 </body>
 </html>

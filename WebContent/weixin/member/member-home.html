@@ -144,18 +144,17 @@
                                     <img src="" style="margin-right:5px;display:block;border-radius:50%;" id="headImg">
                                 </div>
                                 <div class="weui-cell_bd">
-                                    <p id="username">用户名</p>
+                                    <p id="username">用户名111111</p>
                                     <!--<p><span id="memberRank">vip0</span><span id="authStatus">未认证</span></p>-->
                                 </div>
                             </a>
-
                             <span class="weui-cell__ft"></span>
                         </div>
                         <a href="javascript:pageManager.go('message');">
-                           <div class="wrapmes">
-                               <i class="icon iconfont icon-chat1"></i>
-                               <span class="mesCount"></span>
-                           </div>
+                            <div class="wrapmes">
+                                <i class="icon iconfont icon-chat1"></i>
+                                <span class="mesCount"></span>
+                            </div>
                         </a>
                     </div>
 
@@ -178,73 +177,71 @@
                             </li>
                         </ul>
                     </div>
-                        <div class="section2">
-                            <div class="weui-cells" id="all">
+                    <div class="section2">
+                        <div class="weui-cells" id="all">
 
-                                <a class="weui-cell weui-cell_access" data-type="all" href="member-home.html?type=all#order-list">
-                                    <div class="weui-cell__bd ">
-                                        <p class="Ftitle ml5" style="margin-left: 5px">我的订单</p>
-                                    </div>
-                                    <div class="weui-cell__ft f10">
-                                        查看全部订单
-                                    </div>
+                            <a class="weui-cell weui-cell_access" data-type="all" href="member-home.html?type=all#order-list">
+                                <div class="weui-cell__bd ">
+                                    <p class="Ftitle ml5" style="margin-left: 5px">我的订单</p>
+                                </div>
+                                <div class="weui-cell__ft f10">
+                                    查看全部订单
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="section3" id="order">
+                        <ul class="weui-flex">
+                            <li class="weui-flex__item">
+                                <a  data-type="unpaid" href="member-home.html?type=unpaid#order-list">
+                                    <div class="shop_img"><i class="icon iconfont icon-wallet"><span  id="unpaid"></span></i><p class="f10">待付款</p></div>
                                 </a>
-
-
-                            </div>
-                        </div>
-
-                        <div class="section3" id="order">
-                            <ul class="weui-flex">
-                                <li class="weui-flex__item">
-                                    <a  data-type="unpaid" href="member-home.html?type=unpaid#order-list">
-                                        <div class="shop_img"><i class="icon iconfont icon-wallet"><span  id="unpaid"></span></i><p class="f10">待付款</p></div>
-                                    </a>
-                                </li>
-                                <li class="weui-flex__item" style="margin-top:-4px">
-                                    <a  data-type="unshipped" href="member-home.html?type=unshipped#order-list">
-                                        <div class="shop_img"><i class="icon iconfont icon-MIGO" style="font-size:25px;"><span style="right: -12px;top: -5px;" id="unshipped"></span></i><p class="f10" style="margin-top:-5px">待发货</p></div>
-                                    </a>
-                                </li>
-                                <li class="weui-flex__item">
-                                    <a  data-type="unreciver" href="member-home.html?type=unreciver#order-list">
-                                        <div class="shop_img"><i class="icon iconfont icon-deliver"><span  id="unreciver"></span></i><p class="f10">待收货</p></div>
-                                    </a>
-                                </li>
-                                <li class="weui-flex__item">
-                                    <a data-type="unreview" href="member-home.html?type=unreview#order-list">
-                                        <div class="shop_img"><i class="icon iconfont icon-comment"><span  id="unreview"></span></i><p class="f10">待评价</p></div>
-                                    </a>
-                                </li>
-                                <li class="weui-flex__item" id="showIOSDialog2">
-                                    <a href="javascript:;" class="noopen">
-                                        <div class="shop_img" style="margin-top:-2px;"><i class="icon iconfont icon-refund" style="font-size: 22px"></i><p class="f10" style="margin-top: -1px">退货维修</p></div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                            </li>
+                            <li class="weui-flex__item" style="margin-top:-4px">
+                                <a  data-type="unshipped" href="member-home.html?type=unshipped#order-list">
+                                    <div class="shop_img"><i class="icon iconfont icon-MIGO" style="font-size:25px;"><span style="right: -12px;top: -5px;" id="unshipped"></span></i><p class="f10" style="margin-top:-5px">待发货</p></div>
+                                </a>
+                            </li>
+                            <li class="weui-flex__item">
+                                <a  data-type="unreciver" href="member-home.html?type=unreciver#order-list">
+                                    <div class="shop_img"><i class="icon iconfont icon-deliver"><span  id="unreciver"></span></i><p class="f10">待收货</p></div>
+                                </a>
+                            </li>
+                            <li class="weui-flex__item">
+                                <a data-type="unreview" href="member-home.html?type=unreview#order-list">
+                                    <div class="shop_img"><i class="icon iconfont icon-comment"><span  id="unreview"></span></i><p class="f10">待评价</p></div>
+                                </a>
+                            </li>
+                            <li class="weui-flex__item" id="showIOSDialog2">
+                                <a href="javascript:;" class="noopen">
+                                    <div class="shop_img" style="margin-top:-2px;"><i class="icon iconfont icon-refund" style="font-size: 22px"></i><p class="f10" style="margin-top: -1px">退货维修</p></div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="section4">
                         <div class="weui-cells">
                             <!--<a class="weui-cell weui-cell_access" href="javascript:pageManager.go('bound-phone');">-->
-                                <!--<div class="weui-cell__hd">-->
-                                    <!--<i class="icon iconfont icon-phone f24"></i>-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__bd f14">-->
-                                    <!--绑定手机-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__ft f10" id="bindmobile">-->
+                            <!--<div class="weui-cell__hd">-->
+                            <!--<i class="icon iconfont icon-phone f24"></i>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd f14">-->
+                            <!--绑定手机-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__ft f10" id="bindmobile">-->
 
-                                <!--</div>-->
+                            <!--</div>-->
                             <!--</a>-->
                             <!--<a class="weui-cell weui-cell_access" href="javascript:pageManager.go('promoting-index');">-->
-                                <!--<div class="weui-cell__hd">-->
-                                    <!--<i class="icon iconfont icon-tuiguang1 f26"></i>-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__bd f14">-->
-                                    <!--我的推广-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__ft">-->
-                                <!--</div>-->
+                            <!--<div class="weui-cell__hd">-->
+                            <!--<i class="icon iconfont icon-tuiguang1 f26"></i>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd f14">-->
+                            <!--我的推广-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__ft">-->
+                            <!--</div>-->
                             <!--</a>-->
                             <a class="weui-cell weui-cell_access" href="javascript:pageManager.go('address-list');">
                                 <div class="weui-cell__hd">
@@ -260,14 +257,14 @@
 
                         <div class="weui-cells">
                             <!--<a class="weui-cell weui-cell_access" href="javascript:pageManager.go('openshop');">-->
-                                <!--<div class="weui-cell__hd">-->
-                                    <!--<i class="icon iconfont icon-dian f22"></i>-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__bd f14">-->
-                                    <!--我要开店-->
-                                <!--</div>-->
-                                <!--<div class="weui-cell__ft">-->
-                                <!--</div>-->
+                            <!--<div class="weui-cell__hd">-->
+                            <!--<i class="icon iconfont icon-dian f22"></i>-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__bd f14">-->
+                            <!--我要开店-->
+                            <!--</div>-->
+                            <!--<div class="weui-cell__ft">-->
+                            <!--</div>-->
                             <!--</a>-->
                             <a class="weui-cell weui-cell_access" href="javascript:pageManager.go('feedback');">
                                 <div class="weui-cell__hd">
@@ -316,7 +313,7 @@
             <i class="weui-tabbar__icon iconfont icon-cart"></i>
             <p class="weui-tabbar__label">购物车</p>
         </a>
-        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+        <a href="../index/check/login.jhtml" class="weui-tabbar__item " id="nav5">
             <i class="weui-tabbar__icon iconfont icon-l-me"></i>
             <p class="weui-tabbar__label">我的</p>
         </a>
@@ -351,88 +348,94 @@
 <script>
     $(function(){
 
-        //注册分享
-        new member(function (data) {
-            weixin.share({
-                link:data.link
-            })
-        }).share();
+        new login(function (data) {
 
-        //退货维修功能操作提
-        $('body').on("click", "#order .weui-flex__item .noopen", function () {
-            dialog.show("该功能目前暂未开通！")
-        });
+            if (data == true) {
+                //注册分享
+                new member(function (data) {
+                    weixin.share({
+                        link: data.link
+                    })
+                }).share();
+
+                //退货维修功能操作提
+                $('body').on("click", "#order .weui-flex__item .noopen", function () {
+                    dialog.show("该功能目前暂未开通！")
+                });
 
 
-        //判断右上角是否有未读消息
-        var co=new message(function (data) {
-            console.log(data);
-            if(data.order+data.account+data.message!=0){
-                $('.mesCount').html('·');
-            };
+                //判断右上角是否有未读消息
+                var co = new message(function (data) {
+                    if (data.order + data.account + data.message != 0) {
+                        $('.mesCount').html('·');
+                    }
 
-        });
-        co.count();
+                });
+                co.count();
 
-       //数据处理
-            //会员中心头像、用户名、等级、认证状态
-            var mem = new member(function (data) {
-                $("#username").html(data.username);
-                $("#headImg").attr('src',data.headImg);
-                $('#memberRank').html(data.memberRank);
-                if(data.authStatus=='success'){
-                    $('#authStatus').html("已认证");
-                    $('#authStatus').css("background","red")
-                }else{
-                    $('#authStatus').html("未认证");
-                };
-                //个人中心判断
-                console.log($('#username').html()+111)
-                //订单列表角标如果是0的话就不显示
-                if(data.unpaid==0){
-                    $("#unpaid").css("display",'none');
-                }else{
-                    $("#unpaid").css("display",'block');
-                    $("#unpaid").html(data.unpaid);
-                    $("#unpaid").addClass('badge');
+                //数据处理
+                //会员中心头像、用户名、等级、认证状态
+                var mem = new member(function (data) {
+                    $("#username").html(data.username);
+                    $("#headImg").attr('src', data.headImg);
+                    $('#memberRank').html(data.memberRank);
+                    if (data.authStatus == 'success') {
+                        $('#authStatus').html("已认证");
+                        $('#authStatus').css("background", "red")
+                    } else {
+                        $('#authStatus').html("未认证");
+                    }
+                    //个人中心判断
+                    //订单列表角标如果是0的话就不显示
+                    if (data.unpaid == 0) {
+                        $("#unpaid").css("display", 'none');
+                    } else {
+                        $("#unpaid").css("display", 'block');
+                        $("#unpaid").html(data.unpaid);
+                        $("#unpaid").addClass('badge');
 
-                }
-                if(data.unshipped==0){
-                    $("#unshipped").css("display",'none');
-                }else{
-                    $("#unshipped").css("display",'block');
-                    $("#unshipped").html(data.unshipped);
-                    $("#unshipped").addClass('badge');
-                }
-                if(data.unreciver==0){
-                    $("#unreciver").css("display",'none');
-                }else{
-                    $("#unreciver").css("display",'block');
-                    $("#unreciver").html(data.unreciver);
-                    $("#unreciver").addClass('badge');
+                    }
+                    if (data.unshipped == 0) {
+                        $("#unshipped").css("display", 'none');
+                    } else {
+                        $("#unshipped").css("display", 'block');
+                        $("#unshipped").html(data.unshipped);
+                        $("#unshipped").addClass('badge');
+                    }
+                    if (data.unreciver == 0) {
+                        $("#unreciver").css("display", 'none');
+                    } else {
+                        $("#unreciver").css("display", 'block');
+                        $("#unreciver").html(data.unreciver);
+                        $("#unreciver").addClass('badge');
 
-                }
-                if(data.unreview==0){
-                    $("#unreview").css("display",'none');
-                }else{
-                    $("#unreview").css("display",'block');
-                    $("#unreview").html(data.unreview);
-                    $("#unreview").addClass('badge');
+                    }
+                    if (data.unreview == 0) {
+                        $("#unreview").css("display", 'none');
+                    } else {
+                        $("#unreview").css("display", 'block');
+                        $("#unreview").html(data.unreview);
+                        $("#unreview").addClass('badge');
 
-                }
-            });
-            mem.index();
+                    }
+                });
+                mem.index();
 
-            var mm=new member(function (data) {
-                console.log(data.bindMobile);
-                if(data.bindMobile=='binded'){
-                    $('#bindmobile').html('已绑定');
-                }else{
-                    $('#bindmobile').html('未绑定');
-                }
-            });
-            mm.view();
+                var mm = new member(function (data) {
+                    console.log(data.bindMobile);
+                    if (data.bindMobile == 'binded') {
+                        $('#bindmobile').html('已绑定');
+                    } else {
+                        $('#bindmobile').html('未绑定');
+                    }
+                });
+                mm.view();
+            } else {
+                location.href=location.origin+'/weixin/login/jd_login.html';
+            }
+        }).check();
     })
+
 </script>
 </script>
 
@@ -5874,6 +5877,9 @@
 <script type="text/javascript">
     $(function () {
         pageManager.show("member-index");
+        if($('#username').html()=="用户名"){
+            console.log(1111);
+        }
     });
 </script>
 

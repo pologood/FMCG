@@ -1,6 +1,5 @@
 package net.wit.controller.weixin;
 
-import net.wit.Message;
 import net.wit.Principal;
 import net.wit.Setting;
 import net.wit.controller.weixin.model.DataBlock;
@@ -80,10 +79,14 @@ public class IndexController {
     /**
      * 检测登录
      */
-    @RequestMapping(value = "/check_login", method = RequestMethod.GET)
-    @ResponseBody
-    public DataBlock checkLogin() {
-        return DataBlock.success(memberService.getCurrent() != null, "执行成功");
+    @RequestMapping(value = "/check/login", method = RequestMethod.GET)
+    public String checkLogin() {
+
+        if(memberService.getCurrent() != null){
+            return "redirect:weixin/member/index";
+        }
+
+        return "weixin/login_admin";
     }
 
 
@@ -93,14 +96,14 @@ public class IndexController {
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
     public
     @ResponseBody
-    Message submit(String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    DataBlock submit(String username, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 //		if (!captchaService.isValid(CaptchaType.memberLogin, captchaId, captcha)) {
 //			return Message.error("shop.captcha.invalid");
 //		}
         String password = rsaService.decryptParameter("enPassword", request);
         rsaService.removePrivateKey(request);
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return Message.error("shop.common.invalid");
+            return DataBlock.error("shop.common.invalid");
         }
         Cart cart = cartService.getCurrent();
         Member member = memberService.findByUsername(username);
@@ -108,36 +111,36 @@ public class IndexController {
             member = memberService.findByBindTel(username);
         }
         if (member == null) {
-            return Message.error("helper.login.unknownAccount");
+            return DataBlock.error("helper.login.unknownAccount");
         }
 
         if (!member.getIsEnabled()) {
-            return Message.error("helper.login.disabledAccount");
+            return DataBlock.error("helper.login.disabledAccount");
         }
 
         if (member.getTenant()!=null) {
             if(member.getTenant().getTenantType()== Tenant.TenantType.retailer){
                 if(member.getTenant().getStatus()== Tenant.Status.none){
-                    return Message.warn("您的店铺正在审核中...");
+                    return DataBlock.warn("您的店铺正在审核中...");
                 }else if(member.getTenant().getStatus()== Tenant.Status.fail){
-                    return Message.warn("您的店铺已被关闭·");
+                    return DataBlock.warn("您的店铺已被关闭·");
                 }
             }else{
-                return Message.warn("您不是零售商，无法登陆！");
+                return DataBlock.warn("您不是零售商，无法登陆！");
             }
         }else{
-            return Message.warn("您还没有自己的店铺，请先申请");
+            return DataBlock.warn("您还没有自己的店铺，请先申请");
         }
 
         Setting setting = SettingUtils.get();
         if (!member.getIsLocked().equals(Member.LockType.none)) {
             if (ArrayUtils.contains(setting.getAccountLockTypes(), Setting.AccountLockType.member)) {
                 if (member.getIsLocked().equals(Member.LockType.freezed)) {
-                    return Message.error("你的账户被封禁15天。");
+                    return DataBlock.error("你的账户被封禁15天。");
                 }
                 int loginFailureLockTime = setting.getAccountLockTime();
                 if (loginFailureLockTime == 0) {
-                    return Message.error("用户已锁定，请稍候再重试");
+                    return DataBlock.error("用户已锁定，请稍候再重试");
                 }
                 Date lockedDate = member.getLockedDate();
                 Date unlockDate = DateUtils.addMinutes(lockedDate, loginFailureLockTime);
@@ -147,7 +150,7 @@ public class IndexController {
                     member.setLockedDate(null);
                     memberService.update(member);
                 } else {
-                    return Message.error("用户已锁定，请稍候再重试");
+                    return DataBlock.error("用户已锁定，请稍候再重试");
                 }
             } else {
                 member.setLoginFailureCount(0);
@@ -173,15 +176,15 @@ public class IndexController {
                     smsSend.setType(net.wit.entity.SmsSend.Type.captcha);
                     smsSendService.smsSend(smsSend);
                 }
-                return Message.error("登录密码无效");
+                return DataBlock.error("登录密码无效");
             }
 
             member.setLoginFailureCount(loginFailureCount);
             memberService.update(member);
             if (ArrayUtils.contains(setting.getAccountLockTypes(), Setting.AccountLockType.member)) {
-                return Message.error("b2b.login.accountLockCount", setting.getAccountLockCount());
+                return DataBlock.error("b2b.login.accountLockCount", setting.getAccountLockCount());
             } else {
-                return Message.error("b2b.login.incorrectCredentials");
+                return DataBlock.error("b2b.login.incorrectCredentials");
             }
         }
 
@@ -208,7 +211,7 @@ public class IndexController {
         WebUtils.addCookie(request, response, Member.USERNAME_COOKIE_NAME, member.getUsername());
         member.setLoginCount(member.getLoginCount()!=null?member.getLoginCount()+1:0);
         memberService.update(member);
-        return Message.success("登录成功");
+        return DataBlock.success("登录成功","success");
     }
 
 }

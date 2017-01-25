@@ -189,7 +189,7 @@
             <i class="weui-tabbar__icon iconfont icon-cart"></i>
             <p class="weui-tabbar__label">购物车</p>
         </a>
-        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+        <a href="../index/check/login.jhtml" class="weui-tabbar__item " id="nav5">
             <i class="weui-tabbar__icon iconfont icon-l-me"></i>
             <p class="weui-tabbar__label">我的</p>
         </a>
@@ -234,11 +234,11 @@
             <li>
                 <a href="javascript:;" class="aproductReasult" data-id="{{id}}">
                     <p>
-                        {{#compare image '!=' null}}
-                        <img src="{{image}}" />
+                        {{#compare image '!=' ""}}
+                        <img src="{{image}}" class="22"/>
                         {{/compare}}
-                        {{#compare image '==' null}}
-                        <img src="../images/placeholder/category.png" />
+                        {{#compare image '==' ""}}
+                        <img src="../images/placeholder/pic_article.png" class="11"/>
                         {{/compare}}
                     </p>
                     <p class="f12">{{name}}</p>
@@ -348,7 +348,8 @@
                         <div class="weui-cell__bd f14">购买数量：</div>
                         <div class="weui-cell__ft">
                             <i class="icon iconfont icon-l-reduce f20 vux-number-selector-sub"></i>
-                            <input class="f16 input-number-int" pattern="[1-100]*" name="listen" value="1" id="acn_quertity">
+                            <input class="f16 input-number-int" pattern="[1-100]*" name="listen" value="1"
+                                   id="acn_quertity">
                             <i class="icon iconfont icon-l-jia f20  vux-number-selector-plus"></i>
                         </div>
                     </div>
@@ -396,7 +397,8 @@
         <div class="go-carts">
             <a href="../carts/cart.html" class="weui-tabbar__item Ftext">
               <span class="weui-badges">
-                  <i class="icon iconfont icon-cart"></i>
+                <i class="icon iconfont icon-gouwuche" style="font-size:20px;"></i>
+              <span class="weui-badge f12" style="display: inline-block;top:-5px;">1</span>
               </span>
             </a>
         </div>
@@ -405,55 +407,51 @@
 
 <script type="text/javascript">
     $(function () {
-        var jsonsData={
-            pageSize:20,
-            pageNumber:1
+        var jsonsData = {
+            pageSize: 20,
+            pageNumber: 1
         };
-        jsonsData.productCategoryId= pageManager.GetQueryString("cateId");
-        dropmenu.init("全城",pageManager.GetQueryString("categoryName"),"智能排序");
-        var ar=new area(function (data) {
-            dropmenu.bindCity(data,function (data) {
-                console.log(data);
-                jsonsData.areaId=data.areaId;
-                jsonsData.communityId=data.communityId;
+        jsonsData.brandId = pageManager.GetQueryString("cateId");
+        dropmenu.init("全城", pageManager.GetQueryString("categoryName"), "智能排序");
+        var ar = new area(function (data) {
+            dropmenu.bindCity(data, function (data) {
+                jsonsData.areaId = data.areaId;
+                jsonsData.communityId = data.communityId;
                 loadUpFn();
             });
             //热门商圈
-            console.log('热门商圈：'+data);
             var h = render.fill($("#tpl_hotArea"), data);
             $(".hot").html(h);
         });
-
         ar.community();
-        initCategory();
-        dropmenu.bindCategory(getCategoryChildRens(pageManager.GetQueryString("categoryId")),function (data) {
-            console.log(data);
-            jsonsData.productCategoryId=data.categoryId;
+        //initCategory();
+        initCategoryBrand();
+        dropmenu.bindCategory(getBrandChildRens(pageManager.GetQueryString("categoryId")), function (data) {
+            jsonsData.brandId = data.categoryId;
             loadUpFn();
         });
-        dropmenu.bindOrder(["智能排序","价格由低到高","价格由高到低","销量优先","评论最高"],function (data) {
-            console.log(data);
-            var orderType="";
-            if(data==0){
-                orderType="weight";
+        dropmenu.bindOrder(["智能排序", "价格由低到高", "价格由高到低", "销量优先", "评论最高"], function (data) {
+            var orderType = "";
+            if (data == 0) {
+                orderType = "weight";
             }
-            if(data==1){
-                orderType="priceAsc";
+            if (data == 1) {
+                orderType = "priceAsc";
             }
-            if(data==2){
-                orderType="priceDesc";
+            if (data == 2) {
+                orderType = "priceDesc";
             }
-            if(data==3){
-                orderType="salesDesc";
+            if (data == 3) {
+                orderType = "salesDesc";
             }
-            if(data==4){
-                orderType="scoreDesc";
+            if (data == 4) {
+                orderType = "scoreDesc";
             }
-            jsonsData.orderType=orderType;
+            jsonsData.orderType = orderType;
             loadUpFn();
         });
 
-        var loadUpFn=function () {
+        var loadUpFn = function () {
             var tu = new product(function (data) {
                 jsonsData.pageNumber += 1;
                 var h = render.fill($("#tpl_productList"), data);
@@ -475,7 +473,7 @@
                             jsonsData.pageNumber += 1;
                             var h = render.fill($("#tpl_productList"), data);
                             $(".pageable .product-list").append(h);
-                            if (data.length<jsonsData.pageSize) {
+                            if (data.length < jsonsData.pageSize) {
                                 me.lock();
                                 me.noData();
                             }
@@ -485,7 +483,6 @@
                     }
                 }
         );
-
 
 
         //搜索结果页点击切换商品样式
@@ -501,47 +498,42 @@
 
     });
     $(function () {
+
+        var init_spec = function (thumbnail, price, stock, spec) {
+            if (thumbnail) $("#acn_thumbnail")[0].src = thumbnail;
+            $("#acn_price").text('￥' + (price ? price : 0));
+            $("#acn_stock").text((stock ? stock : 0));
+            $("#acn_choose").html(spec ? '已选 <font color="#ff6d06">' + spec + '</font>' : '请选择商品规格');
+        };
+
         new product(function (data) {
             weixin.share({
-                title:data.title,
-                desc:data.desc,
-                link:data.link,
-                imgUrl:data.imgUrl
+                title: data.title,
+                desc: data.desc,
+                link: data.link,
+                imgUrl: data.imgUrl
             });
-        }).share({id:pageManager.GetQueryString('id')});
+        }).share({id: pageManager.GetQueryString('id')});
         var productId;//选中商品Id
-        var tenantId;//商家Id
         var specification;//当前商品规格
         var specifications;//所有规格及对应的规格值
         var productSpecifications;//所有商品规格
         var $norms = $(".norms");
+        var jd_id;
         new product(function (data) {
-            //商品轮播图
-            if (data.productImages.length != 0) {
-                $("#product_album").silder(data, 1800, "", "false");
-
-            }
-
             //商品信息
             var h = render.fill($("#tpl_productDetailsDesc"), data);
             $(".product_desc").html(h);
-            if(data.marketPrice == 0){
+            if (data.marketPrice == 0) {
                 $('#marketPrice').html('');
             }
-
-
-            //填充底部悬浮内容
-            h = render.fill($("#tpl_productBottom"), data);
-            $(".foot_menu").html(h);
-            $('.proFavorite').html(data.hasFavorite);
-
-
 
             //商品规格初始化
             specification = data.specification;
             specifications = data.specifications;
             productSpecifications = data.productSpecifications;
-            if(specification.length==0) $norms.hide();
+
+            if (specification.length == 0) $norms.show();
             var html = '';
             $.each(specifications, function (i, v) {
                 html += '<h2 class="f14">' + v.name + '：</h2>';
@@ -563,34 +555,28 @@
                 spec += i == 0 ? v.name : ' ' + v.name;
             });
             init_spec(data.thumbnail, data.price, data.availableStock, spec);
-            if (specification.length == 2){
-                matchSpec($norms.find('ul').eq(0).find('li.active'),$norms.find('ul').eq(1).find('li'));
-                matchSpec($norms.find('ul').eq(1).find('li.active'),$norms.find('ul').eq(0).find('li'));
+            if (specification.length == 2) {
+                matchSpec($norms.find('ul').eq(0).find('li.active'), $norms.find('ul').eq(1).find('li'));
+                matchSpec($norms.find('ul').eq(1).find('li.active'), $norms.find('ul').eq(0).find('li'));
             }
 
         }).view({id: pageManager.GetQueryString("id")});
 
         //添加商品到收藏/取消收藏
-        $(document).on('click','#product_collect',function(){
+        $(document).on('click', '#product_collect', function () {
             var favorite = $('.proFavorite').text();
-            if(favorite=='true'){
-                new product(function(data){
+            if (favorite == 'true') {
+                new product(function (data) {
                     $('.proFavorite').text('false');
                     $('#product_collect>i').addClass('icon-l-star').removeClass('icon-s-star');
                 }).delFavorite({id: pageManager.GetQueryString("id")});
-            }else{
-                new product(function(data){
+            } else {
+                new product(function (data) {
                     $('.proFavorite').text('true');
                     $('#product_collect>i').addClass('icon-s-star').removeClass('icon-l-star');
                 }).favorite({id: pageManager.GetQueryString("id")});
             }
         });
-
-        //店主推荐
-        new product(function (data) {
-            var h = render.fill($("#tpl_productList"), data);
-            $(".pageable .product-recommend").append(h);
-        }).recommend({pageNum: 1, pageSize: 6, id: pageManager.GetQueryString("id")});
 
 
         //下面演示用js
@@ -626,7 +612,6 @@
                 }
                 //两种规格
             } else if (specification.length == 2) {
-                console.log($activeLi.length);
                 if ($activeLi.length == 0) {//两个规格都没选中
                     $norms.find('ul li').removeClass('disabled');//全部规格值启用
                     productId = '';
@@ -665,7 +650,7 @@
 
             var num = parseInt($('#acn_quertity').val());
             var nums3 = parseInt($("#acn_stock").text());
-            if(num > nums3){
+            if (num > nums3) {
                 $('#acn_quertity').val(nums3);
                 toast.show('库存不足！')
             }
@@ -698,23 +683,22 @@
 
 // 基类
         var cartobj = {
-            init: function(){
+            init: function () {
                 this.cart_calc();
             },
             // 加减
-            cart_calc: function(){
+            cart_calc: function () {
 
                 var obj = this;
 
 
-
                 // 加
-                $('.vux-number-selector-plus').on('click', function(){
+                $('.vux-number-selector-plus').on('click', function () {
 
-                    var valm=$(this).prev('.input-number-int').val();
-                    valm =parseFloat(valm)+ 1;
+                    var valm = $(this).prev('.input-number-int').val();
+                    valm = parseFloat(valm) + 1;
                     var num = $("#acn_stock").text();
-                    if(valm >num){
+                    if (valm > num) {
                         valm = num;
                         toast.show('超出库存量！')
                     }
@@ -722,10 +706,10 @@
                     $(this).prev('.input-number-int').val(valm);
                 });
                 // 减
-                $('.vux-number-selector-sub').on('click', function(){
-                    var valm= $(this).next('.input-number-int').val();
+                $('.vux-number-selector-sub').on('click', function () {
+                    var valm = $(this).next('.input-number-int').val();
                     valm = parseInt(valm) - 1;
-                    if ( valm < 1) {
+                    if (valm < 1) {
                         valm = 1;
                     }
                     $(this).next('.input-number-int').val(valm);
@@ -736,77 +720,52 @@
 
 
 
-        var init_spec = function (thumbnail, price, stock, spec) {
-
-            if(thumbnail) $("#acn_thumbnail")[0].src = thumbnail;
-            $("#acn_price").text('￥' + (price ? price : 0));
-            $("#acn_stock").text((stock ? stock : 0));
-            $("#acn_choose").html(spec ? '已选 <font color="#ff6d06">' + spec + '</font>' : '请选择商品规格');
-
-
-
-
-        };
-
-
-
-
-
-
-
         //选择商品规格
-//        $('#sheet_choose_norms').on('click', function () {
-//            $("#actionSheet_choose_norms").actionsheet();
-//            $("#acn_confirm").unbind('click').click(function () {
-//                $("#actionSheet_choose_norms").actionsheetClose();
-//            });
-//        });
+        $('#sheet_choose_norms').on('click', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                $("#actionSheet_choose_norms").actionsheetClose();
+            });
+        });
 
         //购物车数量
-        var cartNum = new product(function(data){
-            if(data.cartCount != 0){
-                $('.weui-badge').css('display','inline-block');
+        var cartNum = new product(function (data) {
+            if (data.cartCount != 0) {
+                $('.weui-badge').css('display', 'inline-block');
                 $('.weui-badge').html(data.cartCount);
-            }else{
+            } else {
                 $('.weui-badge').hide();
             }
-
-
-
-
-
-
-
-
         });
-        cartNum.view({id:pageManager.GetQueryString("id")});
-
+        cartNum.view({id: pageManager.GetQueryString("id")});
 
 
         //加入购物车
         $(document).on('click', '#sheet_add_card', function () {
+            console.log($(this).attr('data-id'));
+            jd_id = $(this).attr('data-id');
             $("#actionSheet_choose_norms").actionsheet();
             $("#acn_confirm").unbind('click').click(function () {
-                if(!productId){
+                if (!productId) {
                     toast.show('请选择商品规格');
                     return;
                 }
                 new cart(function (data) {
                     setTimeout(function () {
                         toast.show('加入购物车成功');
-                    },200);
+                    }, 200);
                     $("#actionSheet_choose_norms").actionsheetClose();
 
                     //购物车数量
-                    if(data.cartCount != 0){
-                        $('.weui-badge').css('display','inline-block');
+                    if (data.cartCount != 0) {
+                        $('.weui-badge').css('display', 'inline-block');
                         $('.weui-badge').html(data.cartCount);
-                    }else{
+                    } else {
                         $('.weui-badge').hide();
                     }
                 }).add({
-                    id:productId,
-                    quantity:$("#acn_quertity").val()
+                    id: productId,
+                    quantity: $("#acn_quertity").val()
                 });
             });
         });
@@ -872,7 +831,6 @@
 
 
 
-
 <script src="/weixin/js/wap.min.js"></script>
 
 
@@ -885,14 +843,14 @@
 
         //点击搜索框跳转页面
         $("#searchBar").on('click', function () {
-            window.location.href="../search/searchProduct.html?id=2";
+            window.location.href = "../search/searchProduct.html?id=2";
         });
 
-        initCategory();
-
+        //initCategory();
+        initCategoryBrand();
         //填充左边导航内容
         var cageList = Handlebars.compile($("#Categorys").html());
-        $("#silder-left").html(cageList(categorys));
+        $("#silder-left").html(cageList(categoryBrands));
 
         //获取第一个点击事件然后默认加载第一个
         function getcage(id) {
@@ -900,41 +858,41 @@
             $(obj).addClass("active").siblings().removeClass("active");
             var rootId = $(obj).attr("data-id");
             var compiler = Handlebars.compile($("#wap-list-item").html());
-            $("#subProductCategory").html(compiler(getCategoryChildRens(rootId)));
+            $("#subProductCategory").html(compiler(getBrandChildRens(rootId)));
         }
 
         //调取第一次加载
         getcage();
 
         //监听左边导航菜单获取右边分类
-            $(".class-items .cage").on("click",function () {
-                $(this).addClass("active").siblings().removeClass("active");
-                var rootId = $(this).attr("data-id");
-                //android机子需要延迟才能正常加载
-                 setTimeout(function(){
-                    var compiler = Handlebars.compile($("#wap-list-item").html());
-                    $("#subProductCategory").html(compiler(getCategoryChildRens(rootId)));
-                     $('.am-list>li').each(function () {
-                         var $this=$(this);
-                         if($this.find('ul').length == 0){
-                             $this.hide();
-                         }
-                     });
+        $(".class-items .cage").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+            var rootId = $(this).attr("data-id");
+            //android机子需要延迟才能正常加载
+            setTimeout(function () {
+                var compiler = Handlebars.compile($("#wap-list-item").html());
+                $("#subProductCategory").html(compiler(getBrandChildRens(rootId)));
+                $('.am-list>li').each(function () {
+                    var $this = $(this);
+                    if ($this.find('ul').length == 0) {
+                        $this.hide();
+                    }
+                });
 
-                },10);
-            });
+            }, 10);
+        });
 
         $('.am-list>li').each(function () {
-            var $this=$(this);
-            if($this.find('ul').length == 0){
+            var $this = $(this);
+            if ($this.find('ul').length == 0) {
                 $this.hide();
             }
         });
 
-        $(document).on("click",".aproductReasult",function () {
-           var first=$(this).parents(".category-ctn-right").prev().find("li.active");
+        $(document).on("click", ".aproductReasult", function () {
+            var first = $(this).parents(".category-ctn-right").prev().find("li.active");
             var cate = $(this).attr('data-id');
-            location.href='category.html?categoryId='+first.attr("data-id")+'&categoryName='+escape($(this).find(".f12").text())+'&cateId='+ cate +'#productReasult';
+            location.href = 'category.html?categoryId=' + first.attr("data-id") + '&categoryName=' + escape($(this).find(".f12").text()) + '&cateId=' + cate + '#productReasult';
         });
 
         //滚动高度固定
@@ -943,7 +901,7 @@
         var bottomHeight = viewHeight - topHeight - 51;
         document.getElementById("silder-left").style.height = bottomHeight + "px";
         document.getElementById("silder-right").style.height = bottomHeight + "px";
-   });
+    });
 </script>
 </body>
 </html>

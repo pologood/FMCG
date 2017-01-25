@@ -86,22 +86,99 @@
 <!--buy a gift开始-->
 <div class="page">
     <div class="page__bd" style="height:100%">
-        <!--头部-->
-        <div class="buy_top">
-            <a class="jd_back">
-                <i class="iconfont icon-left"></i>
-            </a>
-            <div class="weui-cell__bd">
-                <p class="jd_buy_title f18">限时抢购</p>
+        
+
+    <!--BEGIN toast-->
+    <div id="toast" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-info-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">已完成</p>
+        </div>
+    </div>
+    <!--end toast-->
+
+    <!-- loading toast -->
+    <div id="loadingToast" style="display:none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <!--<i class="weui-loading weui-icon_toast"></i>-->
+            <p class="weui-toast__content">努力加载</p>
+        </div>
+    </div>
+
+
+        
+
+    <!--BEGIN dialog1-->
+    <div id="dialog1" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">操作提示</strong></div>
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">否</a>
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">是</a>
             </div>
         </div>
-        <div class="cells">
+    </div>
+    <!--END dialog1-->
+    <!--BEGIN dialog2-->
+    <div id="dialog2" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!--END dialog2-->
 
+
+        <!--BEGIN actionSheet-选择规格-->
+        <div id="actionSheet_choose_norms">
+
+            <div class="weui-mask_transparent actionsheet__mask" style="opacity: 0;display: none;"></div>
+            <div class="weui-actionsheet actionsheet">
+                <div style="background:#fff">
+                    <div class="weui-cells shop">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd shop_logo">
+                                <img id="acn_thumbnail" src=""/>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <h2 class="f14 clr-red" id="acn_price">￥0</h2>
+                                <p class="f12">库存<span id="acn_stock"></span>件</p>
+                                <p class="f12" id="acn_choose">已选</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-cells address">
+                        <div class="weui-cell norms">
+                        </div>
+                        <div class="weui-cell buyNum">
+                            <div class="weui-cell__bd f14">购买数量：</div>
+                            <div class="weui-cell__ft">
+                                <i class="icon iconfont icon-l-reduce f20 vux-number-selector-sub"></i>
+                                <input class="f16 input-number-int" pattern="[1-100]*" name="listen" value="1" id="acn_quertity">
+                                <i class="icon iconfont icon-l-jia f20  vux-number-selector-plus"></i>
+                            </div>
+                        </div>
+                        <a class="weui-cell btn" href="javascript:;">
+                            <div class="weui-cell__bd f14" id="acn_confirm">确认</div>
+                        </a>
+                    </div>
+                    <div class="weui-actionsheet__action cancel">
+                        <i class="iconfont icon-remove-02"></i>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--买赠搭配产品-->
         
 <!--限时抢购List-->
-<div class="flashSale_list" id="buyGift_list" style="margin-top: 40px">
+<div class="flashSale_list" id="buyGift_list">
     <!--//<img src="../images/placeholder/blank640x389.png" alt="">-->
     <!--静态的抢购产品列表-->
     <div class="flashSale_pro weui-cell">
@@ -113,7 +190,7 @@
             <span class="f18 price_mony weui-cell">￥36<p class="f10 jd_ckj">参考价</p><p class="f10">￥38</p></span>
         </div>
         <div class="go-buy">
-            <a href="javascript:;" class="goBuy f12" data-del-product="">马上抢</a>
+            <a href="javascript:;" class="goBuy f12" id="sheet_add_card" data-del-product="">马上抢</a>
         </div>
     </div>
     <div class="flashSale_pro weui-cell">
@@ -125,7 +202,7 @@
             <span class="f18 price_mony weui-cell">￥36<p class="f10 jd_ckj">参考价</p><p class="f10">￥38</p></span>
         </div>
         <div class="go-buy">
-            <a href="javascript:;" class="goBuy f12" data-del-product="">马上抢</a>
+            <a href="javascript:;" class="goBuy f12" id="sheet_add_card" data-del-product="">马上抢</a>
         </div>
     </div>
     <div class="flashSale_pro weui-cell">
@@ -137,7 +214,7 @@
             <span class="f18 price_mony weui-cell">￥36<p class="f10 jd_ckj">参考价</p><p class="f10">￥38</p></span>
         </div>
         <div class="go-buy">
-            <a href="javascript:;" class="goBuy f12" data-del-product="">马上抢</a>
+            <a href="javascript:;" class="goBuy f12" id="sheet_add_card" data-del-product="">马上抢</a>
         </div>
     </div>
     <div class="flashSale_pro weui-cell">
@@ -149,7 +226,7 @@
             <span class="f18 price_mony weui-cell">￥36<p class="f10 jd_ckj">参考价</p><p class="f10">￥38</p></span>
         </div>
         <div class="go-buy">
-            <a href="javascript:;" class="goBuy f12" data-del-product="">马上抢</a>
+            <a href="javascript:;" class="goBuy f12" id="sheet_add_card" data-del-product="">马上抢</a>
         </div>
     </div>
     <div class="flashSale_pro weui-cell">
@@ -161,13 +238,30 @@
             <span class="f18 price_mony weui-cell">￥36<p class="f10 jd_ckj">参考价</p><p class="f10">￥38</p></span>
         </div>
         <div class="go-buy">
-            <a href="javascript:;" class="goBuy f12" data-del-product="">马上抢</a>
+            <a href="javascript:;" class="goBuy f12" id="sheet_add_card" data-del-product="">马上抢</a>
         </div>
     </div>
+</div>
+<div class="go-carts">
+    <a href="../carts/cart.html" class="weui-tabbar__item Ftext">
+              <span class="weui-badges">
+                <i class="icon iconfont icon-gouwuche" style="font-size:20px;"></i>
+              <span class="weui-badge f12" style="display: inline-block;top:-5px;">1</span>
+              </span>
+    </a>
 </div>
 <!--end-->
 <!--end-->
 
+        <!--购物车-->
+        <div class="go-carts">
+            <a href="../carts/cart.html" class="weui-tabbar__item Ftext">
+              <span class="weui-badges">
+                <i class="icon iconfont icon-gouwuche" style="font-size:20px;"></i>
+              <span class="weui-badge f12" style="display: inline-block;top:-5px;">1</span>
+              </span>
+            </a>
+        </div>
     </div>
 </div>
 <!--end-->
@@ -182,6 +276,288 @@
 <script type="text/javascript">
     $(function () {
         pageManager.show("flashSale");
+    });
+    $(function () {
+        new product(function (data) {
+            weixin.share({
+                title:data.title,
+                desc:data.desc,
+                link:data.link,
+                imgUrl:data.imgUrl
+            });
+        }).share({id:pageManager.GetQueryString('id')});
+        var productId;//选中商品Id
+        var tenantId;//商家Id
+        var specification;//当前商品规格
+        var specifications;//所有规格及对应的规格值
+        var productSpecifications;//所有商品规格
+        var $norms = $(".norms");
+        new product(function (data) {
+            //商品轮播图
+            if (data.productImages.length != 0) {
+                $("#product_album").silder(data, 1800, "", "false");
+
+            }
+
+            //商品信息
+            var h = render.fill($("#tpl_productDetailsDesc"), data);
+            $(".product_desc").html(h);
+            if(data.marketPrice == 0){
+                $('#marketPrice').html('');
+            }
+
+
+            //填充底部悬浮内容
+            h = render.fill($("#tpl_productBottom"), data);
+            $(".foot_menu").html(h);
+            $('.proFavorite').html(data.hasFavorite);
+
+
+
+            //商品规格初始化
+            specification = data.specification;
+            specifications = data.specifications;
+            productSpecifications = data.productSpecifications;
+            if(specification.length==0) $norms.hide();
+            var html = '';
+            $.each(specifications, function (i, v) {
+                html += '<h2 class="f14">' + v.name + '：</h2>';
+                html += '<ul class="f14">';
+                $.each(v.specificationValues, function (i1, v1) {
+                    var flag = false;
+                    $.each(specification, function (i2, v2) {
+                        if (v2.id == v.id && v2.specificationValueId == v1.id) flag = true;
+                    });
+                    //默认选中当前商品规格
+                    html += '<li specificationId="' + v.id + '" specificationValueId="' + v1.id + '" class="' + (flag ? "active" : "") + '"><a href="javacript:;">' + v1.name + '</a></li>';
+                });
+                html += '</ul>';
+            });
+            console.log(html);
+            $norms.html(html);
+
+            productId = data.id;
+
+            var spec = '';
+            $.each(specification, function (i, v) {
+                spec += i == 0 ? v.name : ' ' + v.name;
+            });
+            init_spec(data.thumbnail, data.price, data.availableStock, spec);
+            if (specification.length == 2){
+                matchSpec($norms.find('ul').eq(0).find('li.active'),$norms.find('ul').eq(1).find('li'));
+                matchSpec($norms.find('ul').eq(1).find('li.active'),$norms.find('ul').eq(0).find('li'));
+            }
+
+        }).view({id: pageManager.GetQueryString("id")});
+
+
+        //下面演示用js
+        $('#product_collect').on('click', function () {
+            $("#product_collect i").toggleClass("icon-s-star");
+        });
+
+
+        //点击事件
+        $(document).on('click', '.norms ul li', function () {
+            var $this = $(this), spec1, spec2;
+            if ($this.hasClass('disabled')) return;//禁用项不可点击
+            $this.addClass('active').siblings('.active').removeClass('active');
+            var $activeLi = $norms.find('ul li.active');//选中的规格项
+            //只有一种规格
+            if (specification.length == 1) {
+                if ($activeLi.length == 0) {
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 1) {
+                    spec1 = {
+                        id: $activeLi.attr("specificationId"),
+                        valueId: $activeLi.attr("specificationValueId")
+                    };
+                    $.each(productSpecifications, function (i, v) {
+                        $.each(v.specifications, function (i1, v1) {
+                            if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) {
+                                productId = v.id;
+                                init_spec(v.thumbnail, v.price, v.availableStock, v1.name);
+                            }
+                        });
+                    });
+                }
+                //两种规格
+            } else if (specification.length == 2) {
+                console.log($activeLi.length);
+                if ($activeLi.length == 0) {//两个规格都没选中
+                    $norms.find('ul li').removeClass('disabled');//全部规格值启用
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 1) {//只有一个规格被选中
+                    $activeLi.parent().find('li').removeClass('disabled');//启用选中规格下的所有规格值
+                    matchSpec($activeLi, $activeLi.parent().siblings("ul").find("li"));
+                    productId = '';
+                    init_spec();
+                } else if ($activeLi.length == 2) {//两个规格被选中
+                    matchSpec($this, $this.parent().siblings("ul").find("li"));
+                    spec1 = {//当前点击选中的规格
+                        id: $this.attr("specificationId"),
+                        valueId: $this.attr("specificationValueId")
+                    };
+                    var $anotherLi = $this.parent().siblings("ul").find(".active");//另一个被选中的li
+                    spec2 = {//另一个被选中的规格
+                        id: $anotherLi.attr("specificationId"),
+                        valueId: $anotherLi.attr("specificationValueId")
+                    };
+                    $.each(productSpecifications, function (i, v) {
+                        var flag1 = false, flag2 = false;
+                        var spec = '';
+                        $.each(v.specifications, function (i1, v1) {
+                            if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) flag1 = true;
+                            if (spec2.id == v1.id && spec2.valueId == v1.specificationValueId) flag2 = true;
+                            spec += i1 == 0 ? v1.name : ' ' + v1.name;
+                        });
+                        if (flag1 && flag2) {//区配到商品
+                            productId = v.id;
+                            init_spec(v.thumbnail, v.price, v.availableStock, spec);
+                        }
+                    });
+                }
+            }
+
+            var num = parseInt($('#acn_quertity').val());
+            var nums3 = parseInt($("#acn_stock").text());
+            if(num > nums3){
+                $('#acn_quertity').val(nums3);
+                toast.show('库存不足！')
+            }
+        });
+
+
+        function matchSpec($li, $lis) {
+            var spec1 = {
+                id: $li.attr("specificationId"),
+                valueId: $li.attr("specificationValueId")
+            };
+            $.each($lis, function () {
+                var $this = $(this);
+                $this.addClass('disabled');
+                var spec2 = {
+                    id: $this.attr("specificationId"),
+                    valueId: $this.attr("specificationValueId")
+                };
+                $.each(productSpecifications, function (i, v) {
+                    var flag1 = false, flag2 = false;
+                    $.each(v.specifications, function (i1, v1) {
+                        if (spec1.id == v1.id && spec1.valueId == v1.specificationValueId) flag1 = true;
+                        if (spec2.id == v1.id && spec2.valueId == v1.specificationValueId) flag2 = true;
+                    });
+                    if (flag1 && flag2) $this.removeClass('disabled');
+                });
+            });
+        }
+
+
+// 基类
+        var cartobj = {
+            init: function(){
+                this.cart_calc();
+            },
+            // 加减
+            cart_calc: function(){
+
+                var obj = this;
+
+
+
+                // 加
+                $('.vux-number-selector-plus').on('click', function(){
+
+                    var valm=$(this).prev('.input-number-int').val();
+                    valm =parseFloat(valm)+ 1;
+                    var num = $("#acn_stock").text();
+                    if(valm >num){
+                        valm = num;
+                        toast.show('超出库存量！')
+                    }
+
+                    $(this).prev('.input-number-int').val(valm);
+                });
+                // 减
+                $('.vux-number-selector-sub').on('click', function(){
+                    var valm= $(this).next('.input-number-int').val();
+                    valm = parseInt(valm) - 1;
+                    if ( valm < 1) {
+                        valm = 1;
+                    }
+                    $(this).next('.input-number-int').val(valm);
+                });
+            }
+        };
+        cartobj.init();
+
+
+
+        var init_spec = function (thumbnail, price, stock, spec) {
+
+            if(thumbnail) $("#acn_thumbnail")[0].src = thumbnail;
+            $("#acn_price").text('￥' + (price ? price : 0));
+            $("#acn_stock").text((stock ? stock : 0));
+            $("#acn_choose").html(spec ? '已选 <font color="#ff6d06">' + spec + '</font>' : '请选择商品规格');
+        };
+        //选择商品规格
+        $('#sheet_choose_norms').on('click', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                $("#actionSheet_choose_norms").actionsheetClose();
+            });
+        });
+
+        //购物车数量
+        var cartNum = new product(function(data){
+            if(data.cartCount != 0){
+                $('.weui-badge').css('display','inline-block');
+                $('.weui-badge').html(data.cartCount);
+            }else{
+                $('.weui-badge').hide();
+            }
+        });
+        cartNum.view({id:pageManager.GetQueryString("id")});
+
+
+
+        //加入购物车
+        $(document).on('click', '#sheet_add_card', function () {
+            $("#actionSheet_choose_norms").actionsheet();
+            $("#acn_confirm").unbind('click').click(function () {
+                if(!productId){
+                    toast.show('请选择商品规格');
+                    return;
+                }
+                new cart(function (data) {
+                    setTimeout(function () {
+                        toast.show('加入购物车成功');
+                    },200);
+                    $("#actionSheet_choose_norms").actionsheetClose();
+
+                    //购物车数量
+                    if(data.cartCount != 0){
+                        $('.weui-badge').css('display','inline-block');
+                        $('.weui-badge').html(data.cartCount);
+                    }else{
+                        $('.weui-badge').hide();
+                    }
+                }).add({
+                    id:productId,
+                    quantity:$("#acn_quertity").val()
+                });
+            });
+        });
+
+        //添加增加访问记录
+        new visitRecord(function () {
+        }).add({
+            productId: pageManager.GetQueryString("id"),
+            visitType: 'weixin',
+            machineType: 'mobile'
+        });
+
     });
 </script>
 </body>

@@ -281,7 +281,7 @@
             <i class="weui-tabbar__icon iconfont icon-cart"></i>
             <p class="weui-tabbar__label">购物车</p>
         </a>
-        <a href="../member/member-home.html" class="weui-tabbar__item " id="nav5">
+        <a href="../index/check/login.jhtml" class="weui-tabbar__item " id="nav5">
             <i class="weui-tabbar__icon iconfont icon-l-me"></i>
             <p class="weui-tabbar__label">我的</p>
         </a>
@@ -321,8 +321,6 @@
         if (location.href.indexOf("#") == -1) {
 
             new lbs(function (data) {
-                console.log("当前城市：");
-                console.log(data);
                 var area = document.getElementById("area");
                 area.innerText=data.name;
             }).current();
