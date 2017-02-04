@@ -174,7 +174,7 @@
         [/#list]
         </table>
     [#if !page.content?has_content]
-       <p class="nothing">${message("box.member.noResult")}</p>
+       <p class="nothing">${message("helper.member.noResult")}</p>
     [/#if]
     [@pagination pageNumber = page.pageNumber totalPages = page.totalPages]
         [#include "/helper/include/pagination.ftl"]

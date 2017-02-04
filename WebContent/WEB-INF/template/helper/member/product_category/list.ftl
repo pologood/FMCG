@@ -150,7 +150,7 @@
 						[/#list]
 					</table>
 					[#if !productCategoryTree?if_exists]
-					<p style="text-align:center;border-bottom:solid 1px #c6c9ca;line-height:30px;">${message("box.member.noResult")}</p>
+					<p style="text-align:center;border-bottom:solid 1px #c6c9ca;line-height:30px;">${message("helper.member.noResult")}</p>
 					[/#if]
 				</form>
 			</div>

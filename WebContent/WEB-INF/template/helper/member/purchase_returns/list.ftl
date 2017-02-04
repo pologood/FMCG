@@ -239,7 +239,7 @@
                         </tbody>
                     </table>
                 [#if !page.content?has_content]
-                    <p>${message("shop.member.noResult")}</p>
+                    <p>${message("helper.member.noResult")}</p>
                 [/#if]
                 </div>
             [@pagination pageNumber = page.pageNumber totalPages = page.totalPages pattern = "?pageNumber={pageNumber}"]

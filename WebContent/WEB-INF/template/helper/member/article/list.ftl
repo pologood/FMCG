@@ -189,7 +189,7 @@
                     [/#list]
                     </table>
                 [#if !page.content?has_content]
-                    <p class="nothing">${message("shop.member.noResult")}</p>
+                    <p class="nothing">${message("helper.member.noResult")}</p>
                 [/#if]
                 </div>
             [@pagination pageNumber = page.pageNumber totalPages = page.totalPages]

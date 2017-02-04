@@ -22,7 +22,7 @@
                         [#--<a href="${base}/helper/member/safe/password.jhtml" id="chagePassword">[修改密码]</a>--]
                     [#--</li>--]
                     <li>
-                        <a href="${base}/helper/member/logout.jhtml">[${message("shop.header.logout")}]</a>
+                        <a href="${base}/helper/member/logout.jhtml">[退出]</a>
                     </li>
                 </ul>
             </div>

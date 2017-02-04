@@ -189,7 +189,7 @@
                     [/#list]
                     </table>
                 [#if !page?has_content]
-                    <p>${message("shop.member.noResult")}</p>
+                    <p>${message("helper.member.noResult")}</p>
                 [/#if]
                 </div>
             </form>

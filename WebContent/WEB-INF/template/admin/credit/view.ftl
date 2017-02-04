@@ -614,7 +614,7 @@
         [/#list]
         </table>
     [#if !depositList?has_content]
-        <p>${message("shop.member.noResult")}</p>
+        <p>${message("helper.member.noResult")}</p>
     [/#if]
     </div>
 </div>
