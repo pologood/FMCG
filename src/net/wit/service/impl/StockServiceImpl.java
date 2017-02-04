@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.dao.StockDao;
-import net.wit.domain.TenantDomain;
 import net.wit.entity.DeliveryCenter;
 import net.wit.entity.Product;
 import net.wit.entity.Stock;
@@ -26,9 +25,6 @@ public class StockServiceImpl extends BaseServiceImpl<Stock, Long> implements St
 
 	@Resource(name = "deliveryCenterServiceImpl")
 	private DeliveryCenterService deliveryCenterService;
-
-	@Resource
-	private TenantDomain tenantDomain;
 
 	@Resource(name = "stockDaoImpl")
 	public void setBaseDao(StockDao stockDao) {

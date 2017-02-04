@@ -17,16 +17,13 @@ import javax.persistence.LockModeType;
 
 import net.wit.dao.DeliveryCenterDao;
 import net.wit.dao.ProductDao;
-import net.wit.dao.StockDao;
 import net.wit.domain.StockStrategy;
-import net.wit.domain.TenantDomain;
 import net.wit.entity.DeliveryCenter;
 import net.wit.entity.Order;
 import net.wit.entity.OrderItem;
 import net.wit.entity.Product;
 import net.wit.entity.ShippingItem;
 import net.wit.entity.Trade;
-import net.wit.service.DeliveryCenterService;
 
 import org.springframework.stereotype.Service;
 
@@ -42,17 +39,8 @@ public class ToholaStockStrategy implements StockStrategy {
 	@Resource(name = "deliveryCenterDaoImpl")
 	private DeliveryCenterDao deliveryCenterDao;
 
-	@Resource(name = "stockDaoImpl")
-	private StockDao stockDao;
-
 	@Resource(name = "productDaoImpl")
 	private ProductDao productDao;
-
-	@Resource(name = "deliveryCenterServiceImpl")
-	private DeliveryCenterService deliveryCenterService;
-
-	@Resource
-	private TenantDomain tenantDomain;
 
 	public void lockAllocatedOrder(Order order) {
 		for (OrderItem orderItem : order.getOrderItems()) {

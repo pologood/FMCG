@@ -7,7 +7,6 @@ package net.wit.entity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +17,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import net.wit.Setting;
-import net.wit.domain.impl.TenantDomainImpl;
 import net.wit.util.SettingUtils;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

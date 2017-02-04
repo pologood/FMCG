@@ -12,10 +12,7 @@ import net.wit.Setting;
 import net.wit.Setting.StockAllocationTime;
 import net.wit.constant.SettingConstant;
 import net.wit.dao.*;
-import net.wit.domain.AuthenticodeStrategy;
-import net.wit.domain.DistributionStrategy;
 import net.wit.domain.StockStrategy;
-import net.wit.domain.TradeStrategy;
 import net.wit.entity.*;
 import net.wit.entity.Order.*;
 import net.wit.entity.OrderLog.Type;
@@ -123,9 +120,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
     @Resource(name = "snServiceImpl")
     private SnService snService;
 
-    @Resource(name = "profitServiceImpl")
-    private ProfitService profitService;
-
     @Resource(name = "appointmentServiceImpl")
     private AppointmentService appointmentService;
 
@@ -147,17 +141,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
     @Resource(name = "extendCatalogDaoImpl")
     private ExtendCatalogDao extendCatalogDao;
 
-    @Resource
-    private TradeStrategy tradeStrategy;
-
-    @Resource
+    @Resource(name="stockStrategy")
     private StockStrategy stockStrategy;
-
-    @Resource
-    private DistributionStrategy distributionStrategy;
-
-    @Resource
-    private AuthenticodeStrategy authenticodeStrategy;
 
     @Resource(name = "orderDaoImpl")
     public void setBaseDao(OrderDao orderDao) {
@@ -222,14 +207,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             if (cartItem != null && cartItem.getProduct() != null && cartItem.getSelected()) {
                 Product product = cartItem.getProduct();
                 OrderItem orderItem = new OrderItem();
-                Trade trade = null;
-                Tenant tenant = null;
-                if (receiver != null) {
-                    tenant = tradeStrategy.distribution(cart.getMember(), receiver.getArea(), product, cartItem.calculateQuantityIntValue(), product.getTenant());
-                } else {
-                    tenant = product.getTenant();
-                }
-                trade = order.getTrade(tenant);
+                Tenant tenant = product.getTenant();
+                Trade trade = order.getTrade(tenant);
                 if (trade == null) {
                     trade = EntitySupport.createInitTrade();
                     trade.setTenant(tenant);
@@ -292,14 +271,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
             if (giftItem != null && giftItem.getGift() != null) {
                 Product gift = giftItem.getGift();
                 OrderItem orderItem = new OrderItem();
-                Trade trade = null;
-                Tenant tenant = null;
-                if (receiver != null) {
-                    tenant = tradeStrategy.distribution(cart.getMember(), receiver.getArea(), gift, giftItem.getQuantity(), gift.getTenant());
-                } else {
-                    tenant = gift.getTenant();
-                }
-                trade = order.getTrade(tenant);
+                Tenant tenant = gift.getTenant();
+                Trade trade = order.getTrade(tenant);
                 if (trade == null) {
                     trade = EntitySupport.createInitTrade();
                     int challege = SpringUtils.getIdentifyingCode();
@@ -665,7 +638,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order, Long> implements Or
         }
         cart.setCouponCode(null);
         cartDao.merge(cart);
-        tradeStrategy.smsOrder(order);
         return order;
     }
 

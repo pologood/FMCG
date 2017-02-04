@@ -12,8 +12,6 @@ package net.wit.util;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Test;
-
 /**
  * @ClassName：BrowseUtil
  * @Description：

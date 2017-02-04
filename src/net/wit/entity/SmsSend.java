@@ -10,8 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * 实体类 - 短信发送 ============================================================================ 版权所有 2008-2010 rsico.com,并保留所有权利。
  * ---------------------------------------------------------------------------- 提示：在未取得rsico商业授权之前,您不能将本软件应用于商业用途,否则rsico将保留追究的权力。

@@ -6,8 +6,6 @@
 package net.wit.controller.weixin;
 
 import net.wit.controller.weixin.model.DataBlock;
-import net.wit.controller.weixin.BaseController;
-import net.wit.domain.AuthenticodeStrategy;
 import net.wit.entity.Member;
 import net.wit.entity.Payment;
 import net.wit.entity.Payment.Method;

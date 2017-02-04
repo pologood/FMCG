@@ -40,7 +40,6 @@ import net.wit.Setting;
 import net.wit.controller.weixin.model.CouponCodeModel;
 import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.b2c.BaseController;
-import net.wit.domain.AuthenticodeStrategy;
 import net.wit.entity.Order.OrderSource;
 import net.wit.entity.Order.OrderStatus;
 import net.wit.entity.Order.PaymentStatus;
@@ -103,9 +102,6 @@ public class OrderController extends BaseController {
 	@Resource(name = "tradeServiceImpl")
 	private TradeService tradeService;
 	
-	@Resource(name = "couponServiceImpl")
-	private CouponService couponService;
-	
 	@Resource(name = "spReturnsServiceImpl")
 	private SpReturnsService spReturnsService;
 	
@@ -120,9 +116,6 @@ public class OrderController extends BaseController {
 
 	@Resource(name = "activityPlanningServiceImpl")
 	private ActivityPlanningService activityPlanningService;
-
-	@Resource
-    private AuthenticodeStrategy authenticodeStrategy;
 
 	@Resource(name = "monthlyServiceImpl")
 	private MonthlyService monthlyService;
@@ -426,7 +419,6 @@ public class OrderController extends BaseController {
 	        WebUtils.addCookie(request, response, Cart.CART_COUNT, cart.getQuantity() + "", Cart.TIMEOUT);
 //            if (order.getPaymentStatus().equals(PaymentStatus.paid)
 //                    || order.getPaymentMethod().getMethod().equals(PaymentMethod.Method.offline)) {
-//                authenticodeStrategy.sendNotify(order);
 //                orderService.pushTo(order);
 //            }
 			return Message.success(order.getSn());

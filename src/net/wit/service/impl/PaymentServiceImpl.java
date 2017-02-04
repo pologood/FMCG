@@ -6,7 +6,6 @@
 package net.wit.service.impl;
 
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,9 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.dao.PaymentDao;
-import net.wit.domain.AuthenticodeStrategy;
 import net.wit.entity.Order.PaymentStatus;
-import net.wit.entity.Payment.Method;
 import net.wit.entity.Payment.Status;
 import net.wit.entity.Payment.Type;
 import net.wit.service.ApplicationService;
@@ -72,10 +69,6 @@ public class PaymentServiceImpl extends BaseServiceImpl<Payment, Long> implement
 
 	@Resource(name = "unionTenantServiceImpl")
 	private UnionTenantService unionTenantService;
-
-	@Resource
-	private AuthenticodeStrategy authenticodeStrategy;
-	
 
 	@Resource(name = "paymentDaoImpl")
 	public void setBaseDao(PaymentDao paymentDao) {
