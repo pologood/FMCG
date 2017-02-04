@@ -168,7 +168,7 @@ public class CartController extends BaseController {
 			WebUtils.addCookie(request, response, Cart.ID_COOKIE_NAME, cart.getId().toString(), Cart.TIMEOUT);
 			WebUtils.addCookie(request, response, Cart.KEY_COOKIE_NAME, cart.getKey(), Cart.TIMEOUT);
 		}
-		return Message.success("shop.cart.addSuccess", cart.getQuantity(), currency(cart.getEffectivePrice(), true, false));
+		return Message.success("b2c.cart.addSuccess", cart.getQuantity(), currency(cart.getEffectivePrice(), true, false));
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class CartController extends BaseController {
 				}
 			}
 		}
-		return Message.success("shop.cart.addSuccess", cart.getQuantity(), currency(cart.getEffectivePrice(), true, false));
+		return Message.success("b2c.cart.addSuccess", cart.getQuantity(), currency(cart.getEffectivePrice(), true, false));
 	}
 
 }

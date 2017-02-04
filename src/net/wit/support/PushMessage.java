@@ -21,7 +21,6 @@ import cn.jpush.api.push.model.notification.Notification;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.aliyuncs.push.model.v20150827.PushRequest;
@@ -438,7 +437,7 @@ public class PushMessage {
         model.setMsg("通知推送测试");
         model.setType(net.wit.entity.Message.Type.account);
 
-//        aliPush(model, "13335553232", "all", 3);
+        //aliPush(model, "13335553232", "all", 3);
 
     }
 
