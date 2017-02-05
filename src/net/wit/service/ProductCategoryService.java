@@ -125,4 +125,6 @@ public interface ProductCategoryService extends BaseService<ProductCategory, Lon
 	List<ProductCategory> findRootsByChannel(ProductChannel productChannel, Tag tags, Integer count);
 
 	List<ProductCategory> findListByTag(List<Tag> tags, Integer count, List<Order> orders);
+
+	List<ProductCategory> findTagRoots(List<Tag> tags);
 }

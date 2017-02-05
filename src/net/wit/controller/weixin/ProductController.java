@@ -4,6 +4,7 @@ import net.wit.Filter;
 import net.wit.Page;
 import net.wit.Pageable;
 import net.wit.Setting;
+import net.wit.controller.app.model.PromotionBuyfreeModel;
 import net.wit.controller.weixin.model.DataBlock;
 import net.wit.controller.weixin.model.ProductListModel;
 import net.wit.controller.weixin.model.ProductReviewModel;
@@ -14,6 +15,7 @@ import net.wit.util.SettingUtils;
 import net.wit.weixin.main.MenuManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,11 +67,11 @@ public class ProductController {
     @Resource(name = "cartServiceImpl")
     private CartService cartService;
 
-    @Resource(name = "visitRecordServiceImpl")
-    private VisitRecordService visitRecordService;
-
     @Resource(name = "unionTenantServiceImpl")
     private UnionTenantService unionTenantService;
+
+    @Resource(name = "promotionServiceImpl")
+    private PromotionService promotionService;
 
     /**
      * 商品详情页
@@ -199,6 +201,59 @@ public class ProductController {
             return DataBlock.error("/weixin/product/list接口异常：");
         }
         return DataBlock.success(models, page, "执行成功");
+    }
+
+    /**
+     * 限时抢购
+     * @return
+     */
+    @RequestMapping(value = "/flash/sale", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock flashSale() {
+        List<ProductListModel> models=new ArrayList<>();
+        List<Promotion> page=promotionService.findList(Promotion.Type.seckill, true, false, null, null, null, null);
+        if(page!=null&&page.size()>0){
+            for (Promotion promotion:page){
+                ProductListModel model = new ProductListModel();
+                model.copyFrom(promotion.getPromotionProducts().get(0).getProduct(), null);
+                models.add(model);
+            }
+        }
+        return DataBlock.success(models, "执行成功");
+    }
+
+    /**
+     * 买赠搭配
+     * @return
+     */
+    @RequestMapping(value = "/buygift", method = RequestMethod.GET)
+    @ResponseBody
+    public DataBlock listBuygift(Pageable pageable) {
+        List<Promotion> promotionList = promotionService.findList(Promotion.Type.buyfree,null,null);
+
+        for(Promotion promotion:promotionList){
+            if(promotion.getProducts().size()>0){
+
+            }else {
+                promotionService.delete(promotion);
+            }
+
+            if(promotion.hasEnded()){
+                promotionService.delete(promotion);
+            }
+        }
+
+        List<Filter> filters = new ArrayList<Filter>();
+        filters.add(new Filter("type", Filter.Operator.eq, Promotion.Type.buyfree));
+        pageable.setFilters(filters);
+        Page<Promotion> page = promotionService.findPage(pageable);
+
+        List<PromotionBuyfreeModel> promotions = null;
+        if (page.getContent().size() > 0) {
+            promotions = PromotionBuyfreeModel.bindData(page.getContent());
+        }
+
+        return DataBlock.success(promotions, "执行成功");
     }
 
     /**

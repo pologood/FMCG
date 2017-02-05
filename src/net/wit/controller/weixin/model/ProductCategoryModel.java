@@ -12,14 +12,6 @@ public class ProductCategoryModel extends BaseModel {
     private String name;
     /*分类图标*/
     private String image;
-    /*分类等级*/
-    private Integer grade;
-    /*分类标签*/
-    private List<TagModel> tags;
-    /*是否有下级*/
-    private Boolean hasChildren;
-    /*下级分类*/
-    private List<ProductCategoryModel> childrens;
 
     public Long getId() {
         return id;
@@ -45,45 +37,10 @@ public class ProductCategoryModel extends BaseModel {
         this.image = image;
     }
 
-    public List<TagModel> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<TagModel> tags) {
-        this.tags = tags;
-    }
-
-    public Boolean getHasChildren() {
-        return hasChildren;
-    }
-
-    public void setHasChildren(Boolean hasChildren) {
-        this.hasChildren = hasChildren;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    public List<ProductCategoryModel> getChildrens() {
-        return childrens;
-    }
-
-    public void setChildrens(List<ProductCategoryModel> childrens) {
-        this.childrens = childrens;
-    }
-
     public void copyFrom(ProductCategory productCategory) {
         this.id = productCategory.getId();
         this.name = productCategory.getName();
-        this.image = productCategory.getImage();
-        this.grade = productCategory.getGrade();
-        this.tags = TagModel.bindData(new ArrayList<>(productCategory.getTags()));
-        this.hasChildren = productCategory.getChildren().size() > 0;
+        this.image = productCategory.getThumbnail();
     }
 
     public static List<ProductCategoryModel> bindAllData(List<ProductCategory> productCategories) {
@@ -91,9 +48,6 @@ public class ProductCategoryModel extends BaseModel {
         for (ProductCategory productCategory : productCategories) {
             ProductCategoryModel model = new ProductCategoryModel();
             model.copyFrom(productCategory);
-            if(productCategory.getChildren().size()>0){
-                model.setChildrens(ProductCategoryModel.bindAllData(new ArrayList<>(productCategory.getChildren())));
-            }
             models.add(model);
         }
         return models;

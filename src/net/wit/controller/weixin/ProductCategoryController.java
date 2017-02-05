@@ -6,9 +6,10 @@
 package net.wit.controller.weixin;
 
 import net.wit.controller.weixin.model.DataBlock;
+import net.wit.controller.weixin.model.ProductCategoryListModel;
 import net.wit.controller.weixin.model.ProductCategoryModel;
 import net.wit.entity.ProductCategory;
-import net.wit.service.BrandService;
+import net.wit.entity.Tag;
 import net.wit.service.ProductCategoryService;
 import net.wit.service.TagService;
 import org.springframework.stereotype.Controller;
@@ -31,9 +32,6 @@ public class ProductCategoryController extends BaseController {
 	@Resource(name = "productCategoryServiceImpl")
 	private ProductCategoryService productCategoryService;
 
-	@Resource(name = "brandServiceImpl")
-	private BrandService brandService;
-
 	@Resource(name = "tagServiceImpl")
 	private TagService tagService;
 	
@@ -46,7 +44,7 @@ public class ProductCategoryController extends BaseController {
 	public DataBlock roots() {
 		List<ProductCategory> productCategories;
 		productCategories = productCategoryService.findRoots();
-		return DataBlock.success(ProductCategoryModel.bindAllData(productCategories),"执行成功");
+		return DataBlock.success(ProductCategoryListModel.bindAllData(productCategories),"执行成功");
 	}
 
 	/**
@@ -56,7 +54,9 @@ public class ProductCategoryController extends BaseController {
 	@ResponseBody
 	public DataBlock tagRoots() {
 		List<ProductCategory> productCategories;
-		productCategories = productCategoryService.findRoots(tagService.find(12L),4);
+		List<Tag> tags=new ArrayList<>();
+		tags.add(tagService.find(12L));
+		productCategories = productCategoryService.findTagRoots(tags);
 		return DataBlock.success(ProductCategoryModel.bindAllData(productCategories),"执行成功");
 	}
 

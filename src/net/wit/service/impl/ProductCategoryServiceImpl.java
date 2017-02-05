@@ -181,4 +181,9 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory,
 	public List<ProductCategory> findListByTag(List<Tag> tags, Integer count, List<Order> orders) {
 		return productCategoryDao.findListByTag(tags, count, orders);
 	}
+
+	@Transactional(readOnly = true)
+	public List<ProductCategory> findTagRoots(List<Tag> tags){
+		return productCategoryDao.findTagRoots(tags);
+	}
 }

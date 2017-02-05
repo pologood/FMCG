@@ -114,19 +114,19 @@ public class CouponController extends BaseController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public DataBlock list(Long tenantId, Pageable pageable) {
-        Member member = memberService.getCurrent();
-        Tenant tenant = tenantService.find(tenantId);
-        if (tenant == null) {
-            return DataBlock.error(DataBlock.TENANT_INVAILD);
-        }
-        couponService.refreshStatus(tenant);
+    public DataBlock list(Pageable pageable) {
+//        Member member = memberService.getCurrent();
+//        Tenant tenant = tenantService.find(tenantId);
+//        if (tenant == null) {
+//            return DataBlock.error(DataBlock.TENANT_INVAILD);
+//        }
+        couponService.refreshStatus(null);
         List<Filter> filters = new ArrayList<>();
         filters.add(new Filter("type", Filter.Operator.eq, Coupon.Type.tenantCoupon));
-        filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
+        //filters.add(new Filter("tenant", Filter.Operator.eq, tenant));
         pageable.setFilters(filters);
         Page<Coupon> page = couponService.findPage("canUse", pageable);
-        return DataBlock.success(CouponModel.bindData(page.getContent(), member), "执行成功");
+        return DataBlock.success(CouponModel.bindData(page.getContent(), null), "执行成功");
     }
 
     /**

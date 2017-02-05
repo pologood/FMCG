@@ -42,6 +42,8 @@ public interface ProductCategoryDao extends BaseDao<ProductCategory, Long> {
 	 */
 	List<ProductCategory> findChildren(ProductCategory productCategory, Integer count, List<Tag> tags);
 
+	List<ProductCategory> findTagRoots(List<Tag> tags);
+
 	/**
 	 * 查找顶级商品分类
 	 * @param count 数量
