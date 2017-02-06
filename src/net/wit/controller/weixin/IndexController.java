@@ -83,7 +83,7 @@ public class IndexController {
     public String checkLogin() {
 
         if(memberService.getCurrent() != null){
-            return "redirect:weixin/member/index";
+            return "weixin/member/index";
         }
 
         return "weixin/login_admin";

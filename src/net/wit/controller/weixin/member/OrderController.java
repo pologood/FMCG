@@ -583,16 +583,25 @@ public class OrderController extends BaseController {
         payment.setMemo("订单支付");
         payment.setSn(snService.generate(Sn.Type.payment));
         payment.setType(Payment.Type.payment);
-        payment.setMethod(Payment.Method.online);
+        if(PaymentMethod.Method.online.equals(order.getPaymentMethod().getMethod())){
+            payment.setMethod(Payment.Method.online);
+        }else if(PaymentMethod.Method.offline.equals(order.getPaymentMethod().getMethod())){
+            payment.setMethod(Payment.Method.offline);
+        }else {
+            payment.setMethod(Payment.Method.deposit);
+        }
         payment.setStatus(Payment.Status.wait);
-        payment.setPaymentMethod("");
+        payment.setPaymentMethod(order.getPaymentMethod().getName());
         payment.setFee(BigDecimal.ZERO);
         payment.setAmount(order.getAmountPayable());
         payment.setPaymentPluginId("");
         payment.setExpire(DateUtils.addMinutes(new Date(), 3600));
         payment.setOrder(order);
         paymentService.save(payment);
-        return DataBlock.success(payment.getSn(), "执行成功");
+        Map<String,Object> map=new HashMap<>();
+        map.put("sn",payment.getSn());
+        map.put("method",payment.getMethod());
+        return DataBlock.success(map, "执行成功");
     }
 
     /**
